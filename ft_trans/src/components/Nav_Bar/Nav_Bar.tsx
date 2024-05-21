@@ -6,9 +6,12 @@ function Nav_Bar() {
     <>
       <div className="main_div">
         <div className="box_left">
-          <img id="logo" src='/logo.png' alt="" />
+          <img id="logo" src='Home_page/logo.png' alt="logo" />
         </div>
         <div className="box_right">
+          <div className="menu">
+            <img id="img_menu" src="Home_page/lines.svg" alt="logo" />
+          </div>
         <ul className="nav_list">
             <li>Home</li>
             <li>Discover</li>

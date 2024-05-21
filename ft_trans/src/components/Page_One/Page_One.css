@@ -1,0 +1,56 @@
+* {
+  margin: 0;
+}
+
+
+
+.main_p_1 {
+  color: white;
+
+  display: flex;
+  height: 100vh;
+  background-image: url("/Home_page/b_g_1.jpeg");
+  background-size: cover;
+}
+
+.main_p_1 {
+  align-items: end;
+}
+.dev_text {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20%;
+  margin-left: 10%;
+}
+.text_1 {
+  font-family: "Chau Philomene One", sans-serif;
+  font-weight: 400;
+  font-size: 63px;
+}
+.text_2 {
+
+    margin-top: 10px ;
+    text-align: center;
+  font-weight: 700;
+  font-size: 27px;
+  font-family: "manjari", sans-serif;
+}
+
+#btn_play_now {
+  font-family: "manjari", sans-serif;
+  color: white;
+  border: white 2px solid;
+  padding: 10px 10px;
+
+  font-weight: bolder;
+  border-radius: 50px;
+  cursor: pointer;
+  background-color: transparent;
+  letter-spacing: 1.5px;
+  font-size: 30px;
+}
+
+/* .ft_p1
+{
+    width: 100wv;
+} */
