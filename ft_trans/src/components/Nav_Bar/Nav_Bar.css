@@ -1,0 +1,64 @@
+* {
+  font-family: "Manjari", sans-serif;
+  /* border: 1px solid red; */
+  font-weight: 700;
+  font-size: 27px;
+}
+.main_div {
+  display: flex;
+  flex-direction: row;
+  width: 100vw;
+  height: 10vh;
+}
+.box_left {
+  display: flex;
+  flex-direction: row;
+  flex: 2;
+  align-items: center;
+}
+.box_right {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+}
+
+.nav_list {
+  display: flex;
+  list-style-type: none; /* Remove default bullets */
+  padding: 0;
+  margin: 0;
+  gap: 5vh;
+  align-items: center;
+}
+#logo {
+  margin-left: 20%;
+  width: 85px;
+  height: 53px;
+}
+
+@media only screen and (max-width: 1440px) {
+  * {
+    font-size: 18px;
+  }
+}
+
+@media only screen and (max-width: 1024px) {
+  * {
+    font-size: 15px;
+  }
+  .nav_list {
+    gap: 2vh;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  * {
+    font-size: 15px;
+  }
+  .nav_list {
+    gap: 2vh;
+  }
+  .box_left {
+    flex: 1;
+  }
+}
