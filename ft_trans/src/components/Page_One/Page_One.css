@@ -2,11 +2,10 @@
   margin: 0;
 }
 
-
-
 .main_p_1 {
   color: white;
 
+  position: relative;
   display: flex;
   height: 100vh;
   background-image: url("/Home_page/b_g_1.jpeg");
@@ -18,9 +17,11 @@
 }
 .dev_text {
   display: flex;
+  justify-content: center;
+  align-items: center;
   flex-direction: column;
-  margin-bottom: 20%;
-  margin-left: 10%;
+  margin-bottom: 13%;
+  margin-left: 8%;
 }
 .text_1 {
   font-family: "Chau Philomene One", sans-serif;
@@ -28,9 +29,9 @@
   font-size: 63px;
 }
 .text_2 {
-
-    margin-top: 10px ;
-    text-align: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  text-align: center;
   font-weight: 700;
   font-size: 27px;
   font-family: "manjari", sans-serif;
@@ -40,17 +41,41 @@
   font-family: "manjari", sans-serif;
   color: white;
   border: white 2px solid;
-  padding: 10px 10px;
-
+  padding: 12px 12px;
   font-weight: bolder;
   border-radius: 50px;
   cursor: pointer;
   background-color: transparent;
   letter-spacing: 1.5px;
-  font-size: 30px;
+  font-size: 27px;
+  vertical-align: middle;
+  text-align: center;
 }
 
-/* .ft_p1
-{
-    width: 100wv;
+p {
+  font-size: 63px;
+}
+/* .ft_p1 {
+  width: 100wv;
+  position: absolute;
+  bottom: 0;
+  left: 0;
 } */
+
+@media only screen and (max-width: 1024px) {
+  .main_p_1 {
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+@media only screen and (max-width: 425px) {
+  .dev_text {
+    color: white;
+  }
+
+  p {
+    text-align: center;
+    font-size: 34px;
+  }
+}
