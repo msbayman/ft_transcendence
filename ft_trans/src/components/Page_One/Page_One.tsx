@@ -11,11 +11,11 @@ function Page_One() {
           <div className="text_1">
             <p>Welcome to the </p> <p>World of Ping Pong</p>
           </div>
-          <div className="text_2">Best Game of 2024</div>
+          <div className="text_2"><img src="Home_page/Best_Game.svg" alt="best game" /></div>
             <button id="btn_play_now">Play Now !</button>
         </div>
         <div className="div_svg"></div>
-        {/* <div className="ft_p1"><img src="Home_page/wave.png" alt="wave" /></div> */}
+        <div className="ft_p1"><img id="wave" src="Home_page/wave.png" alt="wave" /></div>
       </div>
     </>
   );
