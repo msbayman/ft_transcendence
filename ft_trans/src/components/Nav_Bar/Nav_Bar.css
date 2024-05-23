@@ -2,10 +2,14 @@
   font-family: "Manjari", sans-serif;
   /* border: 1px solid red; */
   color: aliceblue;
-  font-weight: 700;
-  font-size: 27px;
+  /* margin: 0;
+  padding: 0; */
+  scroll-behavior: smooth;
 }
 .main_div {
+  z-index: 10;
+  font-weight: 700;
+  /* font-size: 27px; */
   display: flex;
   flex-direction: row;
   width: 100vw;
@@ -82,7 +86,7 @@
 
 @media only screen and (max-width: 425px) {
   * {
-    color: black;
+    /* color: black; */
     font-size: 15px;
   }
   .nav_list {

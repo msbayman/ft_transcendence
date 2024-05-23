@@ -14,7 +14,7 @@ function App() {
     <>
     {/* <Nav_Bar/> */}
     <Page_One/>
-    {/* <Page_Two/> */}
+    <Page_Two/>
     </>
   )
 }

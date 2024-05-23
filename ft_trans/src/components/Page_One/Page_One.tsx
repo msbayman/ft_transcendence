@@ -15,7 +15,9 @@ function Page_One() {
             <button id="btn_play_now">Play Now !</button>
         </div>
         <div className="div_svg"></div>
-        <div className="ft_p1"><img id="wave" src="Home_page/wave.png" alt="wave" /></div>
+        <div className="ft_p1">
+          <img id="wave" src="Home_page/wave.png" alt="wave" />
+          </div>
       </div>
     </>
   );

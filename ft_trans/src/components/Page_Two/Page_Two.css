@@ -1,12 +1,7 @@
-*
-{
-    margin: 0;
-   
-
-}
-
 .main_p_2
 {
+    margin: 0;
     height: 100vh;
-    background-color: rgb(42, 165, 56);
+    background-image: url("/Home_page/page_2_background.svg");
+    background-size: cover;
 }
