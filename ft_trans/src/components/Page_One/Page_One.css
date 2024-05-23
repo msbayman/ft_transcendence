@@ -5,6 +5,9 @@
 }
 
 .main_p_1 {
+  font-size: 27;
+  font-weight: 700;
+
   color: white;
   position: relative;
   display: flex;
@@ -24,6 +27,11 @@
 .text_1 {
   font-family: "Chau Philomene One", sans-serif;
   font-weight: 400;
+  width: fit-content;
+  margin-bottom: 2rem;
+}
+.parag {
+  display: inline-block;
   font-size: 63px;
 }
 .text_2 {
@@ -50,34 +58,27 @@
   text-align: center;
 }
 
-
-#btn_play_now:hover
-{
-  color: #3A0ca3;
+#btn_play_now:hover {
+  color: #3a0ca3;
   background-color: white;
-
 }
-
 
 p {
   font-size: 63px;
 }
 
-#wave
-{
+#wave {
   position: absolute;
   left: 0;
   bottom: 0;
   width: 100%;
 }
 
-.ft_p1
-{
+.ft_p1 {
   left: 0;
   bottom: 0;
   width: 100%;
-  position:static;
-  
+  position: static;
 }
 
 @media only screen and (max-width: 1024px) {
@@ -85,17 +86,21 @@ p {
     justify-content: center;
     align-items: center;
   }
+  .dev_text {
+    margin: 0 10%;
+  }
 }
 
 @media only screen and (max-width: 425px) {
-
-  p {
-    text-align: center;
-    /* color: white; */
-    font-size: 34px;
+  .main_p_1 {
+    justify-content: center;
+    align-items: center;
   }
-  .text_2 
+  .dev_text {
+    margin-left: 10%;
+  }
+  .parag
   {
-    /* color: white; */
+    font-size: 35px;
   }
 }

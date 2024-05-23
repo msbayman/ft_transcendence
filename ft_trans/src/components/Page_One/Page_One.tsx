@@ -9,7 +9,8 @@ function Page_One() {
         <Nav_Bar   />
         <div className="dev_text">
           <div className="text_1">
-            <p>Welcome to the </p> <p>World of Ping Pong</p>
+            <div className="parag">Welcome to the </div>
+            <div className="parag">World of Ping Pong</div>
           </div>
           <div className="text_2"><img src="Home_page/Best_Game.svg" alt="best game" /></div>
             <button id="btn_play_now">Play Now !</button>
