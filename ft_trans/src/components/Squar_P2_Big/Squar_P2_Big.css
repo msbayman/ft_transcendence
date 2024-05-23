@@ -1,0 +1,52 @@
+.big_squar {
+    background-image: url("./Home_page/squar.svg");
+    width: 466px;
+    height: 428px;
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .big_top_icon {
+      display: flex;
+      justify-content: center;
+      align-items: end;
+      flex: 1.5;
+  }
+  .big_title_and_text {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+  .big_title {
+      font-family:'Manjari''Courier New', Courier, monospace;
+      font-weight: bold;
+      color: #3A0CA3;
+      font-size: 40px;
+      justify-content: center;
+      align-items: center;
+      flex: 1;
+    }
+    .big_text_icon {
+      justify-content: center;
+      align-items: center;
+      flex: 1;
+      flex-direction: row;
+    }
+    .big_text {
+      align-items: start;
+      text-align: center;
+    color: #3A0CA3;
+    font-weight: bold;
+    font-size: 25px;
+  }
+  .big_icon {
+  }
+  
+  #big_icon_p2_small_top
+  {
+      width: 200px;
+  }

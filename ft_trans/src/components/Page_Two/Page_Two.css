@@ -1,7 +1,40 @@
+*{
+    overflow-x: hidden;
+}
 .main_p_2
 {
+
     margin: 0;
     height: 100vh;
     background-image: url("/Home_page/page_2_background.svg");
     background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }
+.top_p2
+{
+    display: flex;
+    justify-content:space-evenly;
+    align-items: center;
+    width: 100vw;
+    flex: 6;
+}
+
+.bottom_p2
+{
+    display: flex;
+    width: 100vw;
+    justify-content: center;
+    align-items: center;
+    flex: 4;
+}
+
+
+@media only screen and (max-width: 1024px) {
+   .top_p2{
+    flex-direction: column;
+   }
+  }
+  
