@@ -3,24 +3,33 @@ import "./Nav_Bar.css";
 
 function Nav_Bar() {
   return (
-    <>
-      <div className="main_div">
-        <div className="box_left">
-          <img id="logo" src="Home_page/logo.png" alt="logo" />
-        </div>
-        <div className="box_right">
-          <div className="menu">
-            <img id="img_menu" src="Home_page/lines.svg" alt="logo" />
+    // <div className="box  bg-[#300488]">
+
+    <nav
+      className="sticky top-0 z-10 bg-[#300488] text-white border-b  border-gray-200"
+      style={{
+        backdropFilter: "blur(20px)",
+        backgroundColor: "rgba(13, 9, 10, 0.4)",
+      }}
+    >
+      <div className="max-w-8xl mx-auto px-4 ">
+        <div className="flex items-center justify-between h-16 lg:pl-40 lg:pr-40">
+          <span className="text-2xl font-semibold">
+            <img className="w-20 m-10" src="./Home_page/logo.png" alt="" />
+          </span>
+          <div className=" lg:flex hidden space-x-4 ">
+            <a href="#">Dashboard</a>
+            <a href="#">About</a>
+            <a href="#">Projects</a>
+            <a href="#">Contact</a>
           </div>
-          <ul className="nav_list">
-            <li>Home</li>
-            <li>Discover</li>
-            <li>About</li>
-            <li>Login</li>
-          </ul>
+          <div className="lg:hidden  pr-10  ">
+            <img className="w-10" src="./Home_page/lines.svg" alt="" />
+          </div>
         </div>
       </div>
-    </>
+    </nav>
+    // </div>
   );
 }
 

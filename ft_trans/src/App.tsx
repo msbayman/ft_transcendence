@@ -14,9 +14,12 @@ function App() {
   return (
     <>
     {/* <Squar_P2_Small/> */}
+    <div className='bg-[#300488]'>
     <Nav_Bar/>
     <Page_One/>
     <Page_Two/>
+
+    </div>
     </>
   )
 }
