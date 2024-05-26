@@ -1,16 +1,27 @@
 import React from "react";
 import "./Squar_P2_Small.css";
-function Squar_P2_Small() {
+
+interface Props{
+  main_icon: string;
+  small_icon: string;
+  title: string;
+  txt: string;  
+}
+
+
+
+
+function Squar_P2_Small({main_icon,small_icon,title,txt}:Props) {
   return (
     <>
       <div className="main_div_s">
         <div className="icon_div_s">
-          <img src="./Home_page/Icon_multi.svg" alt="" />
+          <img src={main_icon} alt="" />
         </div>
-        <div className="title_div_s">Multiplayer</div>
+        <div className="title_div_s">{title}</div>
         <div className="text_icon_div_s">
-          <div className="text_s">1v1 - 2v2 - Ai </div>
-          <div className="icon_s"></div>
+          <div className="text_s">{txt} </div>
+          <div className="icon_s"><img src = {small_icon}></img></div>
         </div>
       </div>
     </>

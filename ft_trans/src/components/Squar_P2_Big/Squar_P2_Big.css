@@ -39,7 +39,7 @@
     font-size: 25px;
     
   }
-  @media screen and (max-width: 425px) {
+  /* @media screen and (max-width: 425px) {
     .main_div_b {
       width: 382px;
       height: 350px;
@@ -55,4 +55,32 @@
   {
     font-size: 19px;
   }
+  } */
+
+  @media screen and (max-width: 450px) {
+    .main_div_b {
+      width: 20%;
+      height: 15%;
+    }
+    .title_div_b {
+      font-size: 20%;
+    }
+    .text_b
+    {
+      font-size: 10%;
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    .main_div_b {
+      width: 20%;
+      height: 15%;
+    }
+    .title_div_b {
+      font-size: 20%;
+    }
+    .text_b
+    {
+      font-size: 10%;
+    }
   }

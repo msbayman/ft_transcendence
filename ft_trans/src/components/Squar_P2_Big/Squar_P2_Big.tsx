@@ -1,16 +1,24 @@
 import React from "react";
 import'./Squar_P2_Big.css'
-function Squar_P2_Big() {
+
+interface Props{
+  main_icon: string;
+  title: string;
+  txt: string;  
+}
+
+
+function Squar_P2_Big({main_icon,title,txt}:Props) {
   return (
     <>
       <div className="main_div_b">
         <div className="icon_div_b">
-          <img src="./Home_page/Icon_multi.svg" alt="" />
+          <img src={main_icon} alt="" />
         </div>
-        <div className="title_div_b">Challenges</div>
+        <div className="title_div_b">{title}</div>
         <div className="text_icon_div_b">
           <div className="text_b">
-            Challenge Your Friends and Have Fun With More Game Modes{" "}
+           {txt}
           </div>
         </div>
       </div>
