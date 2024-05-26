@@ -1,52 +1,58 @@
-.big_squar {
-    background-image: url("./Home_page/squar.svg");
+.main_div_b {
+    display: flex;
+    text-align: center;
+    border-radius: 30px;
     width: 466px;
     height: 428px;
-    background-size: cover;
-    display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-  .big_top_icon {
-      display: flex;
-      justify-content: center;
-      align-items: end;
-      flex: 1.5;
-  }
-  .big_title_and_text {
-    justify-content: center;
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-  }
-  .big_title {
-      font-family:'Manjari''Courier New', Courier, monospace;
-      font-weight: bold;
-      color: #3A0CA3;
-      font-size: 40px;
-      justify-content: center;
-      align-items: center;
-      flex: 1;
-    }
-    .big_text_icon {
-      justify-content: center;
-      align-items: center;
-      flex: 1;
-      flex-direction: row;
-    }
-    .big_text {
-      align-items: start;
-      text-align: center;
-    color: #3A0CA3;
-    font-weight: bold;
-    font-size: 25px;
-  }
-  .big_icon {
+    background-image: url("/Home_page/card_bg.png"); /* Adjust the path as necessary */
   }
   
-  #big_icon_p2_small_top
+  .icon_div_b {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex: 3;
+  }
+  
+  .title_div_b {
+    flex: 1;
+    font-weight: bold;
+  font-size: 40px;
+  color: #3a0ca3;
+  }
+  
+  .text_icon_div_b {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    align-items: start;
+  }
+  .text_b
   {
-      width: 200px;
+    color: #3a0ca3;
+    padding-left: 40px;
+    padding-right:40px ;
+    padding-bottom:30px ;
+    display: flex;
+    font-weight: bold;
+    font-size: 25px;
+    
+  }
+  @media screen and (max-width: 425px) {
+    .main_div_b {
+      width: 382px;
+      height: 350px;
+    }
+  }
+
+  @media screen and (max-width: 375px) {
+    .main_div_b {
+      width: 310px;
+      height: 300px;
+    }
+    .text_b
+  {
+    font-size: 19px;
+  }
   }

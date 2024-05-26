@@ -6,7 +6,7 @@ function Nav_Bar() {
     // <div className="box  bg-[#300488]">
 
     <nav
-      className="sticky top-0 z-10 bg-[#300488] text-white border-b  border-gray-200"
+      className="sticky top-0 z-10 bg-[#300488] text-white  border-gray-200"
       style={{
         backdropFilter: "blur(20px)",
         backgroundColor: "rgba(13, 9, 10, 0.4)",

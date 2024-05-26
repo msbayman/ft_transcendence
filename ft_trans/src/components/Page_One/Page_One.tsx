@@ -13,7 +13,7 @@ function Page_One() {
           id="main_box"
           className=" flex justify-center items-center flex-col lg:ml-20 lg:mb-12 sm:ml-0"
         >
-          <div className=" lm:ml-20 mb-10 text-center sm:ml-0">
+          <div className=" text_Chau lm:ml-20 mb-10 text-center sm:ml-0">
             <div className="  lg:text-7xl md:text-4xl sm:-2xl">
               Welcome to the
             </div>

@@ -1,5 +1,7 @@
 * {
   scroll-behavior: smooth;
+  padding: 0;
+  margin: 0;
 }
 .main_div {
   font-family: "Manjari", sans-serif;

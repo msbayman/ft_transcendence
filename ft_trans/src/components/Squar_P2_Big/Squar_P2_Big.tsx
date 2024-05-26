@@ -1,17 +1,16 @@
 import React from "react";
-import "./Squar_P2_Big.css"
+import'./Squar_P2_Big.css'
 function Squar_P2_Big() {
   return (
     <>
-      <div className="big_squar">
-        <div className="big_top_icon">
-          <img id="big_icon_p2_small_top" src="/Home_page/Icon_multi.svg" alt="" />
+      <div className="main_div_b">
+        <div className="icon_div_b">
+          <img src="./Home_page/Icon_multi.svg" alt="" />
         </div>
-        <div className="big_title_and_text">
-          <div className="big_title">Challenges</div>
-          <div className="big_text_icon">
-            <div className="big_text">Challenge Your Friends and Have Fun With More Game Modes</div>
-            <div className="big_icon"></div>
+        <div className="title_div_b">Challenges</div>
+        <div className="text_icon_div_b">
+          <div className="text_b">
+            Challenge Your Friends and Have Fun With More Game Modes{" "}
           </div>
         </div>
       </div>
