@@ -72,15 +72,32 @@
   }
 
   @media screen and (max-width: 768px) {
-    .main_div_b {
-      width: 20%;
-      height: 15%;
-    }
-    .title_div_b {
-      font-size: 20%;
-    }
-    .text_b
-    {
-      font-size: 10%;
-    }
+  .main_div_s {
+    width: 20%;
+    height: 15%;
   }
+  .title_div_s {
+    font-size: 20%;
+  }
+  .text_s
+  {
+    font-size: 10%;
+  }
+}
+@media screen and (max-width: 425px) {
+  .main_div_b {
+    width:40%;
+    height: min-content;
+    border-radius: 0.5rem;
+  }
+  .title_div_b {
+    color: white;
+    font-size: 12px;
+  }
+  .icon_div_b {
+    position: relative;
+    left: 50px;
+    width: 40%;
+    align-items: center;
+  }
+}
