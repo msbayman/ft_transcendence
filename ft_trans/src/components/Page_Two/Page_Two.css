@@ -17,7 +17,9 @@
   text-align: center;
   justify-content: center;
   display: flex;
+  border-radius: 2rem;
   flex-wrap: wrap;
+  background-color: #300488;
   padding: 2%;
 }
 .b1,
