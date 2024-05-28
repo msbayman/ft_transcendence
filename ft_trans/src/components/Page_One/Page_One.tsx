@@ -28,7 +28,7 @@ function Page_One() {
               alt="best game"
               className="max-lg:w-7rem lg:mr-2 sm:mr-0.5 sm:text-m"
             />
-            <button
+            <button  id="btn_playnow"
               type="button"
 
               className="inline-flex items-center  md:text-3xl sm:text-l py-2.5 px-4  max-sm:px-3 max-sm:text-xs lg:text-l font-medium text-center text-white border-2 border-white rounded-3xl"

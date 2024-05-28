@@ -7,4 +7,16 @@
 .text_philo
 {
   font-family:'Chau Philomene One';
+  transition: all;
+}
+
+#btn_playnow
+{
+  transition: background-color 0.5s linear, color 0.5s linear;
+}
+#btn_playnow:hover
+{
+  background-color: white;
+  color: rgb(74, 34, 205);
+  transition: background-color 500ms linear, color 500ms linear; 
 }

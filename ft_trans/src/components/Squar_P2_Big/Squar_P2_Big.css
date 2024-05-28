@@ -72,11 +72,11 @@
   }
 
   @media screen and (max-width: 768px) {
-  .main_div_s {
-    width: 20%;
-    height: 15%;
+  .main_div_b {
+    width: 33vw;
+    height: 33vw;
   }
-  .title_div_s {
+  .title_div_b {
     font-size: 20%;
   }
   .text_s
