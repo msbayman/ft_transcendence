@@ -54,7 +54,7 @@
   .foot_page2 {
     top: 300px;
     width: 80vw;
-    height: fit-content;
+    height: 20vh;
     flex-direction: column;
   }
   .foot_box {
@@ -63,13 +63,13 @@
   .top1,
   .top2,
   .top3 {
-    font-size: 10%;
+    font-size: 60%;
   }
 
   .bottom1,
   .bottom2,
   .bottom3 {
-    font-size: 5%;
+    font-size: 30%;
   }
 }
 
