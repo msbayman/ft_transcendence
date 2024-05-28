@@ -1,4 +1,4 @@
-import React from "react";
+
 import "./Squar_P2_Small.css";
 
 interface Props{

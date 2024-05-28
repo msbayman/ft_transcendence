@@ -53,12 +53,12 @@
 @media screen and (max-width: 468px) {
   .foot_page2 {
     top: 300px;
-    width: fit-content;
+    width: 80vw;
     height: fit-content;
     flex-direction: column;
   }
   .foot_box {
-    /* flex-direction: column; */
+
   }
   .top1,
   .top2,

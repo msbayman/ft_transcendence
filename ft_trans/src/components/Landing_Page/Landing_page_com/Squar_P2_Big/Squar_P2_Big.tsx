@@ -1,5 +1,5 @@
-import React from "react";
-import'./Squar_P2_Big.css'
+
+import'./Squar_P2_Big.css';
 
 interface Props{
   main_icon: string;

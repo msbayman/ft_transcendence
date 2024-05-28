@@ -1,4 +1,4 @@
-import React from "react";
+
 import "./Page_One.css";
 function Page_One() {
 

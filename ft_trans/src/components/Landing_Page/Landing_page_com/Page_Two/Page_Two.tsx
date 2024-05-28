@@ -1,4 +1,4 @@
-import React from "react";
+
 
 import "./Page_Two.css";
 import Squar_P2_Small from "../Squar_P2_Small/Squar_P2_Small";

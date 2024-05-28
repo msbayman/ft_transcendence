@@ -1,4 +1,4 @@
-import React from "react";
+
 import "./Nav_Bar.css";
 
 function Nav_Bar() {
