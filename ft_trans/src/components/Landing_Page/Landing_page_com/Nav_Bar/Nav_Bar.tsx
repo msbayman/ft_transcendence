@@ -17,11 +17,11 @@ function Nav_Bar() {
             <img className="w-20 m-10" src="./Home_page/logo.png" alt="" />
           </span>
           <div className=" lg:flex hidden space-x-4 ">
-            <a href="#l_p_1">Home</a>
-            <a href="#l_p_2">Discover</a>
-            <a href="#l_p_3">About</a>
-            <a href="#">Login</a>
-            <a href="#">Sign up</a>
+            <a className="a_nav_bar_horz" href="#l_p_1">Home</a>
+            <a className="a_nav_bar_horz" href="#l_p_2">Discover</a>
+            <a className="a_nav_bar_horz" href="#l_p_3">About</a>
+            <a className="a_nav_bar_horz" href="#">Login</a>
+            <a className="a_nav_bar_horz" href="#">Sign up</a>
           </div>
           <div className="lg:hidden  pr-10  ">
             <img className="w-10" src="./Home_page/lines.svg" alt="" />

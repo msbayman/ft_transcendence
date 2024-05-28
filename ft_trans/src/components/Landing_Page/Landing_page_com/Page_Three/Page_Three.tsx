@@ -1,11 +1,5 @@
 import "./Page_Three.css";
-import Button from '@mui/material/Button';
-
-
-
-
-
-
+import Button from "@mui/material/Button";
 
 function Page_Three() {
   return (
@@ -13,7 +7,7 @@ function Page_Three() {
       <div className="first_empty"></div>
       <div className="main_box_p3">
         <div className="faq_box">
-            <div className="FAQ_dev">FAQ</div>
+          <div className="FAQ_dev">FAQ</div>
           <p className="questions_style">
             What is the purpose of the PingPong website ?
           </p>
@@ -22,22 +16,23 @@ function Page_Three() {
             updated .
           </p>
           <p className="questions_style">Is it a free game ?</p>
-          <p className="answer_style">Yes, it's completely free but you can make in-game purchases .</p>
+          <p className="answer_style">
+            Yes, it's completely free but you can make in-game purchases .
+          </p>
           <p className="questions_style">How can i play ?</p>
-          <p className="answer_style">Is easy, just by clicking the arrow keys .</p>
+          <p className="answer_style">
+            Is easy, just by clicking the arrow keys .
+          </p>
           <p className="questions_style">Is it safe ?</p>
           <p className="answer_style">Yes, is more secure and safe .</p>
         </div>
 
-        <p className="text_box">What are waiting for, upgrade your skills by Join us Now !!</p>
-<div className="
-btn_box">
-{/* 
-        <button >
-            play now 
-        </button> */}
-        <Button id="str" >Play now</Button>
-</div>
+        <p className="text_box">
+          What are waiting for, upgrade your skills by Join us Now !!
+        </p>
+        <div className="btn_box">
+          <Button id="str">Play now</Button>
+        </div>
       </div>
       <div className="empty_footer"></div>
     </div>

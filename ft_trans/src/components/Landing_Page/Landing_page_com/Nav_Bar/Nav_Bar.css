@@ -3,6 +3,16 @@
   padding: 0;
   margin: 0;
 }
+
+.a_nav_bar_horz {
+  transition: transform 0.3s linear;
+}
+
+.a_nav_bar_horz:hover {
+  transform: scale(1.2);
+  transition: transform 0.3s linear;
+}
+
 .main_div {
   font-family: "Manjari", sans-serif;
   z-index: 10;
@@ -12,20 +22,6 @@
   width: 100vw;
   height: 10vh;
   font-size: 26px;
-
-
-
-
-
-
-
-
-  /* From https://css.glass */
-  /* background: rgba(255, 255, 255, 0);
-  border-radius: 16px;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(1.5px);
-  -webkit-backdrop-filter: blur(3.8px); */
   position: fixed;
   top: 0;
   left: 0;
@@ -37,7 +33,7 @@
   align-items: center;
 }
 .box_right {
- /* position: relative; */
+  /* position: relative; */
   display: flex;
   flex-direction: row;
   flex: 1;
@@ -66,7 +62,7 @@
 }
 
 @media only screen and (max-width: 1440px) {
-  .main_div{
+  .main_div {
     font-size: 15px;
   }
   .nav_list {
@@ -75,7 +71,7 @@
 }
 
 @media only screen and (max-width: 1024px) {
-  .main_div{
+  .main_div {
     font-size: 15px;
   }
   .nav_list {
@@ -84,7 +80,7 @@
 }
 
 @media only screen and (max-width: 768px) {
-  .main_div{
+  .main_div {
     font-size: 15px;
   }
   .nav_list {
@@ -96,7 +92,7 @@
 }
 
 @media only screen and (max-width: 425px) {
-  .main_div{
+  .main_div {
     /* color: black; */
     font-size: 15px;
   }
