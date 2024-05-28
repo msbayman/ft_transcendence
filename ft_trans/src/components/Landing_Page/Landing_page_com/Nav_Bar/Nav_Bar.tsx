@@ -16,7 +16,7 @@ function Nav_Bar() {
           <span className="text-2xl font-semibold">
             <img className="w-20 m-10" src="./Home_page/logo.png" alt="" />
           </span>
-          <div className=" lg:flex hidden space-x-4 ">
+          <div className=" lg:flex gap-3 hidden space-x-4 ">
             <a className="a_nav_bar_horz" href="#l_p_1">Home</a>
             <a className="a_nav_bar_horz" href="#l_p_2">Discover</a>
             <a className="a_nav_bar_horz" href="#l_p_3">About</a>
