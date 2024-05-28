@@ -5,7 +5,7 @@ import Squar_P2_Small from "../Squar_P2_Small/Squar_P2_Small";
 import Squar_P2_Big from "../Squar_P2_Big/Squar_P2_Big";
 function Page_Two() {
   return (
-    <div
+    <div id="l_p_2"
       className="main_p_2 relative overflow-x-hidden m-0 h-screen bg-cover bg-center flex flex-col justify-center items-center"
       style={{ backgroundImage: 'url("/Home_page/page_2_background.svg")' }}
     >

@@ -9,7 +9,7 @@ import Button from '@mui/material/Button';
 
 function Page_Three() {
   return (
-    <div className="main_p3">
+    <div id="l_p_3" className="main_p3">
       <div className="first_empty"></div>
       <div className="main_box_p3">
         <div className="faq_box">

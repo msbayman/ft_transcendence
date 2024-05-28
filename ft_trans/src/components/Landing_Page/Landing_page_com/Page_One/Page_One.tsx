@@ -3,7 +3,7 @@ import "./Page_One.css";
 function Page_One() {
 
   return (
-    <>
+    <div id="l_p_1">
       <div
         id="main_p1"
         className=" text-2xl  font-bold flex lg:justify-start  lg:items-center  max-lg:justify-center max-lg:items-center  h-screen bg-cover relative"
@@ -45,7 +45,7 @@ function Page_One() {
           className=" w-full h-full max-h-80 absolute bottom-0 left-0"
         />
       </div>
-    </>
+    </div>
   );
 }
 
