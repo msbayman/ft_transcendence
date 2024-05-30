@@ -24,7 +24,7 @@ function Nav_Bar({show_hide_sd_bar}:Props) {
       <div className="max-w-8xl mx-auto px-4 ">
         <div className="flex items-center justify-between h-16 lg:pl-40 lg:pr-40">
           <span className="text-2xl font-semibold">
-            <img className="w-20 m-10" src="./Home_page/logo.png" alt="" />
+           <a href="#"> <img className="w-20 m-10"  src="./Home_page/logo.png" alt="logo game" /></a> 
           </span>
           <div className=" lg:flex gap-3 hidden space-x-4 ">
             <a className="a_nav_bar_horz" href="#l_p_1">Home</a>
