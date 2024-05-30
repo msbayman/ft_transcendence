@@ -1,4 +1,3 @@
-import React from 'react'
 
 import './Sd_Bar_Landing.css'
 function Sd_Bar_Landing() {

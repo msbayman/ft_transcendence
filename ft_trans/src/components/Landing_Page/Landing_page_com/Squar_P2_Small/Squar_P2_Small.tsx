@@ -1,17 +1,13 @@
-
 import "./Squar_P2_Small.css";
 
-interface Props{
+interface Props {
   main_icon: string;
   small_icon: string;
   title: string;
-  txt: string;  
+  txt: string;
 }
 
-
-
-
-function Squar_P2_Small({main_icon,small_icon,title,txt}:Props) {
+function Squar_P2_Small({ main_icon, small_icon, title, txt }: Props) {
   return (
     <>
       <div className="main_div_s">
@@ -21,7 +17,9 @@ function Squar_P2_Small({main_icon,small_icon,title,txt}:Props) {
         <div className="title_div_s">{title}</div>
         <div className="text_icon_div_s">
           <div className="text_s">{txt} </div>
-          <div className="icon_s"><img src = {small_icon}></img></div>
+          <div className="icon_s">
+            <img src={small_icon}></img>
+          </div>
         </div>
       </div>
     </>
