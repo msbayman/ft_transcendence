@@ -1,0 +1,33 @@
+.main_div_sid_land{
+    display: flex ;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 19vw;
+    position: fixed;
+    background-color: #300488;
+    top: 0;
+    z-index: 8;
+    right: 0;
+}
+.sid_land_list
+{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    margin-top: 90%;
+
+    align-items: start;
+    
+}
+
+.sb_item
+{
+    margin-top: 10px;
+}
+@media only screen and (max-width: 425px) {
+  .main_div_sid_land{
+    width: 50vw;
+  }
+}

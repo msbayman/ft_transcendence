@@ -1,7 +1,17 @@
 
 import "./Nav_Bar.css";
 
-function Nav_Bar() {
+
+interface Props
+{
+  show_hide_sd_bar: ()=> void;
+}
+
+
+
+
+
+function Nav_Bar({show_hide_sd_bar}:Props) {
   return (
 
     <nav
@@ -24,7 +34,7 @@ function Nav_Bar() {
             <a className="a_nav_bar_horz" href="#">Sign up</a>
           </div>
           <div className="lg:hidden  pr-10  ">
-            <img className="w-10" src="./Home_page/lines.svg" alt="" />
+            <img className="w-10"  onClick={show_hide_sd_bar} src="./Home_page/lines.svg" alt="" />
           </div>
         </div>
       </div>
