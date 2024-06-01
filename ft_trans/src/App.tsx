@@ -5,8 +5,8 @@ import Login_Page from "./components/Login_Page/Login_Page";
 function App() {
   return (
     <>
-     {/* <Landing_Page/> */}
-     <Login_Page/>
+     <Landing_Page/>
+     {/* <Login_Page/> */}
 
     </>
   );
