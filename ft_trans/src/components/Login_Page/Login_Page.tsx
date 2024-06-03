@@ -1,5 +1,6 @@
 import { TextField, colors } from "@mui/material";
 import "./Login_Page.css";
+import { Link } from "react-router-dom";
 
 function Login_Page() {
   return (
@@ -9,7 +10,8 @@ function Login_Page() {
           <div className="login_left">
             <div className="left_cont">
               <div className="game_logo_login"></div>
-              <img id="logo_login" src="logo_game.png" alt="game_logo" />
+              <Link to="/"><img id="logo_login" src="logo_game.png" alt="game_logo" /></Link>
+            
               <div className="login_form">
                 <div className="div_mail">
                   <TextField
@@ -106,7 +108,7 @@ function Login_Page() {
 
               <div className="forget_and_singup">
                 <span className="forget_pass">Don't have an account ?</span>
-                <span>Sign Up !</span>
+                <span><Link to="/signup">Sign Up ! </Link></span>
               </div>
             </div>
           </div>

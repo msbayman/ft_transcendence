@@ -1,5 +1,6 @@
 import { TextField } from "@mui/material";
 import "./Signup_Page.css";
+import { Link } from "react-router-dom";
 
 function Signup_Page() {
   return (
@@ -17,7 +18,13 @@ function Signup_Page() {
         <div className="rightContainer">
           <div className="signup_right">
             <div className="right_cont">
-              <img id="logo_signup" src="logo_game.png" alt="game_logo" />
+
+             
+              
+               <Link to="/"> <img id="logo_signup" src="logo_game.png" alt="game_logo" /></Link>
+              
+              
+              
               <div className="signup_form">
                 <img
                   className="auth"
@@ -29,11 +36,10 @@ function Signup_Page() {
                   src="connect_with_42.svg"
                   alt="login intra"
                 />
-                  <span className="dotted-line">
+                <span className="dotted-line">
                   <div id="or">or</div>
                 </span>
 
-                
                 <div className="div_fullname_s input_fld">
                   <TextField
                     id="f_full_name_sign input_fld"
@@ -101,7 +107,8 @@ function Signup_Page() {
                       },
                     }}
                   />
-                </div><div className="div_email_s input_fld">
+                </div>
+                <div className="div_email_s input_fld">
                   <TextField
                     id="f_Email_sign"
                     label="Email"
@@ -169,7 +176,8 @@ function Signup_Page() {
                       },
                     }}
                   />
-                </div><div className="div_r_pw_s input_fld">
+                </div>
+                <div className="div_r_pw_s input_fld">
                   <TextField
                     id="f_rpw_sign"
                     label="Re-Password"
@@ -205,18 +213,14 @@ function Signup_Page() {
                   />
                 </div>
 
-
                 <button id="btn_signup">Sign Up</button>
 
                 <div className="no_acc_or_log">
-                <span className="no_acc">Do you have an account ?</span>
-                <span>Login</span>
-              </div>
-
-
-
-
-
+                  <span className="no_acc">Do you have an account ?</span>
+                  <span>
+                    <Link to="/login">Login</Link>
+                  </span>
+                </div>
               </div>
             </div>
           </div>
