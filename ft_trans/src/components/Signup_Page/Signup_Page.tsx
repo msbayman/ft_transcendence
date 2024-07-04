@@ -1,8 +1,47 @@
+import { useState } from 'react';
 import { TextField } from "@mui/material";
 import "./Signup_Page.css";
 import { Link } from "react-router-dom";
 
 function Signup_Page() {
+  const [formData, setFormData] = useState({
+    full_name: '',
+    username: '',
+    email: '',
+    password: '',
+    re_password: '',
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch('http://127.0.0.1:8000/user_auth/add_player', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const data = await response.json();
+      console.log('Success:', data);
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
   return (
     <>
       <div className="main_signup">
@@ -18,14 +57,8 @@ function Signup_Page() {
         <div className="rightContainer">
           <div className="signup_right">
             <div className="right_cont">
-
-             
-              
-               <Link to="/"> <img id="logo_signup" src="logo_game.png" alt="game_logo" /></Link>
-              
-              
-              
-              <div className="signup_form">
+              <Link to="/"> <img id="logo_signup" src="logo_game.png" alt="game_logo" /></Link>
+              <form className="signup_form" onSubmit={handleSubmit}>
                 <img
                   className="auth"
                   src="connect_with_google.svg"
@@ -42,8 +75,11 @@ function Signup_Page() {
 
                 <div className="div_fullname_s input_fld">
                   <TextField
-                    id="f_full_name_sign input_fld"
+                    id="f_full_name_sign"
                     label="Full name"
+                    name="full_name"
+                    value={formData.full_name}
+                    onChange={handleChange}
                     maxRows={4}
                     variant="standard"
                     sx={{
@@ -78,6 +114,9 @@ function Signup_Page() {
                   <TextField
                     id="f_Username_sign"
                     label="Username"
+                    name="username"
+                    value={formData.username}
+                    onChange={handleChange}
                     maxRows={4}
                     variant="standard"
                     sx={{
@@ -112,6 +151,9 @@ function Signup_Page() {
                   <TextField
                     id="f_Email_sign"
                     label="Email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
                     maxRows={4}
                     variant="standard"
                     sx={{
@@ -146,7 +188,10 @@ function Signup_Page() {
                   <TextField
                     id="f_pw_sign"
                     label="Password"
+                    name="password"
                     type="password"
+                    value={formData.password}
+                    onChange={handleChange}
                     maxRows={4}
                     variant="standard"
                     sx={{
@@ -181,7 +226,10 @@ function Signup_Page() {
                   <TextField
                     id="f_rpw_sign"
                     label="Re-Password"
+                    name="re_password"
                     type="password"
+                    value={formData.re_password}
+                    onChange={handleChange}
                     maxRows={4}
                     variant="standard"
                     sx={{
@@ -213,7 +261,7 @@ function Signup_Page() {
                   />
                 </div>
 
-                <button id="btn_signup">Sign Up</button>
+                <button id="btn_signup" type="submit">Sign Up</button>
 
                 <div className="no_acc_or_log">
                   <span className="no_acc">Do you have an account ?</span>
@@ -221,7 +269,7 @@ function Signup_Page() {
                     <Link to="/login">Login</Link>
                   </span>
                 </div>
-              </div>
+              </form>
             </div>
           </div>
         </div>
