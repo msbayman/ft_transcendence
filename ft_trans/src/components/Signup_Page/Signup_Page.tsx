@@ -1,7 +1,7 @@
 import { useState, FormEvent } from 'react';
 import { TextField } from "@mui/material";
 import "./Signup_Page.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function Signup_Page() {
   const [formData, setFormData] = useState({
@@ -11,6 +11,8 @@ function Signup_Page() {
     password: '',
     re_password: '',
   });
+  const navigate = useNavigate(); // Initialize useNavigate
+
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -38,7 +40,10 @@ function Signup_Page() {
       }
 
       const data = await response.json();
+      
       console.log('Success:', data);
+
+      navigate('/login'); // Redirect to login page after successful submission
     } catch (error) {
       console.error('Error:', error);
     }
