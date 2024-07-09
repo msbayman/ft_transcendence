@@ -85,7 +85,7 @@ function Signup_Page() {
                   {...register('full_name')}
                   variant="standard"
                   error={!!errors.full_name}
-                  helperText={errors.full_name?.message}
+                  helperText={errors.full_name ? errors.full_name.message as string : ''}
                   sx={{
                     width: "150%",
                     "& .MuiInputBase-input": {
@@ -121,7 +121,7 @@ function Signup_Page() {
                   {...register('username')}
                   variant="standard"
                   error={!!errors.username}
-                  helperText={errors.username?.message}
+                  helperText={errors.username ? errors.username.message as string : ''}
                   sx={{
                     width: "150%",
                     "& .MuiInputBase-input": {
@@ -157,7 +157,7 @@ function Signup_Page() {
                   {...register('email')}
                   variant="standard"
                   error={!!errors.email}
-                  helperText={errors.email?.message}
+                  helperText={errors.email ? errors.email.message as string : ''}
                   sx={{
                     width: "150%",
                     "& .MuiInputBase-input": {
@@ -190,11 +190,11 @@ function Signup_Page() {
                 <TextField
                   id="f_pw_sign"
                   label="Password"
-                  type="password"
                   {...register('password')}
+                  type="password"
                   variant="standard"
                   error={!!errors.password}
-                  helperText={errors.password?.message}
+                  helperText={errors.password ? errors.password.message as string : ''}
                   sx={{
                     width: "150%",
                     "& .MuiInputBase-input": {
@@ -227,11 +227,11 @@ function Signup_Page() {
                 <TextField
                   id="f_rpw_sign"
                   label="Re-Password"
-                  type="password"
                   {...register('re_password')}
+                  type="password"
                   variant="standard"
                   error={!!errors.re_password}
-                  helperText={errors.re_password?.message}
+                  helperText={errors.re_password ? errors.re_password.message as string : ''}
                   sx={{
                     width: "150%",
                     "& .MuiInputBase-input": {
@@ -268,7 +268,7 @@ function Signup_Page() {
               <div className="no_acc_or_log">
                 <span className="no_acc">Do you have an account ?</span>
                 <span>
-                  <Link to="/login">Login</Link>
+                  <Link to="/login" id="sign_in">Sign in</Link>
                 </span>
               </div>
             </form>
