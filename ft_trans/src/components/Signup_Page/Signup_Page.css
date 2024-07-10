@@ -6,6 +6,7 @@
   display: flex;
   flex: 1;
   position: fixed;
+  overflow-y: scroll;
 }
 
 .signup_left {

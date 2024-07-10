@@ -2,29 +2,36 @@ import { useState, FormEvent } from 'react';
 import { TextField } from "@mui/material";
 import "./Signup_Page.css";
 import { Link, useNavigate } from "react-router-dom";
-import{z} from "zod";
+import { z } from 'zod';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+
+const SignupSchema = z.object({
+  full_name: z.string().min(7, { message: "Full name must be between 7 and 30 characters" }).max(30),
+  username: z.string().min(3, { message: "Username must be between 3 and 15 characters" }).max(15),
+  email: z.string().email({ message: "Invalid email address" }),
+  password: z.string().min(6, { message: "Password must be between 6 and 30 characters" }).max(30),
+  re_password: z.string().min(6, { message: "Password must be between 6 and 30 characters" }).max(30),
+}).refine(data => data.password === data.re_password, {
+  message: "Passwords don't match",
+  path: ["re_password"],
+});
+
+
+
+
+
+
+
 
 function Signup_Page() {
-  const [formData, setFormData] = useState({
-    full_name: '',
-    username: '',
-    email: '',
-    password: '',
-    re_password: '',
+  const [mailUsernameErr, setMailUsernameErr] = useState('');
+  const navigate = useNavigate();
+  const { register, handleSubmit, formState: { errors } } = useForm({
+    resolver: zodResolver(SignupSchema),
   });
-  const navigate = useNavigate(); // Initialize useNavigate
 
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
-
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const onSubmit = async (formData: any) => {
     try {
       const response = await fetch('http://127.0.0.1:8000/user_auth/add_player', {
         method: 'POST',
@@ -35,15 +42,14 @@ function Signup_Page() {
       });
 
       if (!response.ok) {
-        const errorData = await response.json();
-        console.log('Response:', errorData);  // Log the response for debugging
+        setMailUsernameErr("Username or Email already used !! ")
+        // const errorData = await response.json();
+        // console.log('Response:', errorData);  // Log the response for debugging
         throw new Error('Network response was not ok');
       }
 
       const data = await response.json();
-      
       console.log('Success:', data);
-
       navigate('/login'); // Redirect to login page after successful submission
     } catch (error) {
       console.error('Error:', error);
@@ -65,7 +71,7 @@ function Signup_Page() {
         <div className="signup_right">
           <div className="right_cont">
             <Link to="/"> <img id="logo_signup" src="logo_game.png" alt="game_logo" /></Link>
-            <form className="signup_form" onSubmit={handleSubmit}>
+            <form className="signup_form" onSubmit={handleSubmit(onSubmit)}>
               <img
                 className="auth"
                 src="connect_with_google.svg"
@@ -84,193 +90,185 @@ function Signup_Page() {
                 <TextField
                   id="f_full_name_sign"
                   label="Full name"
-                  name="full_name"
-                  value={formData.full_name}
-                  onChange={handleChange}
-                  maxRows={4}
+                  {...register('full_name')}
                   variant="standard"
+                  error={!!errors.full_name}
+                  helperText={errors.full_name ? errors.full_name.message as string : ''}
                   sx={{
-                    width: "150%", // Adjust width as needed
+                    width: "150%",
                     "& .MuiInputBase-input": {
-                      color: "white", // Text color
-                      fontSize: "1.25rem", // Adjust font size
+                      color: "white",
+                      fontSize: "1.25rem",
                     },
                     "& .MuiInputLabel-root": {
-                      color: "white", // Label color
-                      fontSize: "1.25rem", // Adjust font size for the label
+                      color: "white",
+                      fontSize: "1.25rem",
                     },
                     "& .MuiInput-underline:before": {
-                      borderBottomColor: "white", // Default underline color
+                      borderBottomColor: "white",
                     },
                     "& .MuiInput-underline:hover:not(.Mui-disabled):before": {
-                      borderBottomColor: "white", // Hover underline color
+                      borderBottomColor: "white",
                     },
                     "& .MuiInput-underline:after": {
-                      borderBottomColor: "white", // Focused underline color
+                      borderBottomColor: "white",
                     },
                     "& .MuiFormHelperText-root": {
-                      color: "white", // Helper text color
+                      color: "white",
                     },
                     "& .MuiSvgIcon-root": {
-                      color: "white", // Icon color
+                      color: "white",
                     },
                   }}
                 />
-                <text className ="err_field "></text>
               </div>
               <div className="div_username_s input_fld">
                 <TextField
                   id="f_Username_sign"
                   label="Username"
-                  name="username"
-                  value={formData.username}
-                  onChange={handleChange}
-                  maxRows={4}
+                  {...register('username')}
                   variant="standard"
+                  error={!!errors.username}
+                  helperText={errors.username ? errors.username.message as string : ''}
                   sx={{
-                    width: "150%", // Adjust width as needed
+                    width: "150%",
                     "& .MuiInputBase-input": {
-                      color: "white", // Text color
-                      fontSize: "1.25rem", // Adjust font size
+                      color: "white",
+                      fontSize: "1.25rem",
                     },
                     "& .MuiInputLabel-root": {
-                      color: "white", // Label color
-                      fontSize: "1.25rem", // Adjust font size for the label
+                      color: "white",
+                      fontSize: "1.25rem",
                     },
                     "& .MuiInput-underline:before": {
-                      borderBottomColor: "white", // Default underline color
+                      borderBottomColor: "white",
                     },
                     "& .MuiInput-underline:hover:not(.Mui-disabled):before": {
-                      borderBottomColor: "white", // Hover underline color
+                      borderBottomColor: "white",
                     },
                     "& .MuiInput-underline:after": {
-                      borderBottomColor: "white", // Focused underline color
+                      borderBottomColor: "white",
                     },
                     "& .MuiFormHelperText-root": {
-                      color: "white", // Helper text color
+                      color: "white",
                     },
                     "& .MuiSvgIcon-root": {
-                      color: "white", // Icon color
+                      color: "white",
                     },
                   }}
                 />
-                <text className ="err_field "></text>
               </div>
               <div className="div_email_s input_fld">
                 <TextField
                   id="f_Email_sign"
                   label="Email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  maxRows={4}
+                  {...register('email')}
                   variant="standard"
+                  error={!!errors.email}
+                  helperText={errors.email ? errors.email.message as string : ''}
                   sx={{
-                    width: "150%", // Adjust width as needed
+                    width: "150%",
                     "& .MuiInputBase-input": {
-                      color: "white", // Text color
-                      fontSize: "1.25rem", // Adjust font size
+                      color: "white",
+                      fontSize: "1.25rem",
                     },
                     "& .MuiInputLabel-root": {
-                      color: "white", // Label color
-                      fontSize: "1.25rem", // Adjust font size for the label
+                      color: "white",
+                      fontSize: "1.25rem",
                     },
                     "& .MuiInput-underline:before": {
-                      borderBottomColor: "white", // Default underline color
+                      borderBottomColor: "white",
                     },
                     "& .MuiInput-underline:hover:not(.Mui-disabled):before": {
-                      borderBottomColor: "white", // Hover underline color
+                      borderBottomColor: "white",
                     },
                     "& .MuiInput-underline:after": {
-                      borderBottomColor: "white", // Focused underline color
+                      borderBottomColor: "white",
                     },
                     "& .MuiFormHelperText-root": {
-                      color: "white", // Helper text color
+                      color: "white",
                     },
                     "& .MuiSvgIcon-root": {
-                      color: "white", // Icon color
+                      color: "white",
                     },
                   }}
                   />
-                  <text className ="err_field "></text>
               </div>
               <div className="div_pw_s input_fld">
                 <TextField
                   id="f_pw_sign"
                   label="Password"
-                  name="password"
+                  {...register('password')}
                   type="password"
-                  value={formData.password}
-                  onChange={handleChange}
-                  maxRows={4}
                   variant="standard"
+                  error={!!errors.password}
+                  helperText={errors.password ? errors.password.message as string : ''}
                   sx={{
-                    width: "150%", // Adjust width as needed
+                    width: "150%",
                     "& .MuiInputBase-input": {
-                      color: "white", // Text color
-                      fontSize: "1.25rem", // Adjust font size
+                      color: "white",
+                      fontSize: "1.25rem",
                     },
                     "& .MuiInputLabel-root": {
-                      color: "white", // Label color
-                      fontSize: "1.25rem", // Adjust font size for the label
+                      color: "white",
+                      fontSize: "1.25rem",
                     },
                     "& .MuiInput-underline:before": {
-                      borderBottomColor: "white", // Default underline color
+                      borderBottomColor: "white",
                     },
                     "& .MuiInput-underline:hover:not(.Mui-disabled):before": {
-                      borderBottomColor: "white", // Hover underline color
+                      borderBottomColor: "white",
                     },
                     "& .MuiInput-underline:after": {
-                      borderBottomColor: "white", // Focused underline color
+                      borderBottomColor: "white",
                     },
                     "& .MuiFormHelperText-root": {
-                      color: "white", // Helper text color
+                      color: "white",
                     },
                     "& .MuiSvgIcon-root": {
-                      color: "white", // Icon color
+                      color: "white",
                     },
                   }}
                   />
-                  <text className ="err_field "></text>
               </div>
               <div className="div_r_pw_s input_fld">
                 <TextField
                   id="f_rpw_sign"
                   label="Re-Password"
-                  name="re_password"
+                  {...register('re_password')}
                   type="password"
-                  value={formData.re_password}
-                  onChange={handleChange}
-                  maxRows={4}
                   variant="standard"
+                  error={!!errors.re_password}
+                  helperText={errors.re_password ? errors.re_password.message as string : ''}
                   sx={{
-                    width: "150%", // Adjust width as needed
+                    width: "150%",
                     "& .MuiInputBase-input": {
-                      color: "white", // Text color
-                      fontSize: "1.25rem", // Adjust font size
+                      color: "white",
+                      fontSize: "1.25rem",
                     },
                     "& .MuiInputLabel-root": {
-                      color: "white", // Label color
-                      fontSize: "1.25rem", // Adjust font size for the label
+                      color: "white",
+                      fontSize: "1.25rem",
                     },
                     "& .MuiInput-underline:before": {
-                      borderBottomColor: "white", // Default underline color
+                      borderBottomColor: "white",
                     },
                     "& .MuiInput-underline:hover:not(.Mui-disabled):before": {
-                      borderBottomColor: "white", // Hover underline color
+                      borderBottomColor: "white",
                     },
                     "& .MuiInput-underline:after": {
-                      borderBottomColor: "white", // Focused underline color
+                      borderBottomColor: "white",
                     },
                     "& .MuiFormHelperText-root": {
-                      color: "white", // Helper text color
+                      color: "white",
                     },
                     "& .MuiSvgIcon-root": {
-                      color: "white", // Icon color
+                      color: "white",
                     },
                   }}
                   />
-                  <text className ="err_field "></text>
+                  {mailUsernameErr && <p className ="err_field " >{mailUsernameErr}</p>}
+
               </div>
 
               <button id="btn_signup" type="submit">
@@ -280,7 +278,7 @@ function Signup_Page() {
               <div className="no_acc_or_log">
                 <span className="no_acc">Do you have an account ?</span>
                 <span>
-                  <Link to="/login">Login</Link>
+                  <Link to="/login" id="sign_in">Sign in</Link>
                 </span>
               </div>
             </form>
