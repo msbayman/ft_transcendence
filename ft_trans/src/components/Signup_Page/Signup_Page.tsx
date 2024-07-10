@@ -1,33 +1,39 @@
-import { useState, FormEvent } from 'react';
-import { TextField } from "@mui/material";
 import "./Signup_Page.css";
+import { TextField } from "@mui/material";
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from "react-router-dom";
 import { z } from 'zod';
-import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 
+const fullNameSchema = z
+  .string()
+  .regex(/^[a-zA-Z ]+$/, { message: "Only letters and spaces allowed" })
+  .min(7, { message: "Must be 7-30 characters" })
+  .max(30, { message: "Must be 7-30 characters" });
+
+const userNameSchema = z
+  .string()
+  .regex(/^[a-zA-Z0-9-_]+$/, { message: "Only letters, 0-9 , _ , -" })
+  .min(3, { message: "Must be 3-15 characters" })
+  .max(15, { message: "Must be 3-15 characters" });
+
 const SignupSchema = z.object({
-  full_name: z.string().min(7, { message: "Full name must be between 7 and 30 characters" }).max(30),
-  username: z.string().min(3, { message: "Username must be between 3 and 15 characters" }).max(15),
-  email: z.string().email({ message: "Invalid email address" }),
-  password: z.string().min(6, { message: "Password must be between 6 and 30 characters" }).max(30),
-  re_password: z.string().min(6, { message: "Password must be between 6 and 30 characters" }).max(30),
+  full_name: fullNameSchema,
+  username: userNameSchema,
+  email: z.string().email({ message: "Invalid email" }),
+  password: z.string().min(6, { message: "Must be 6-30 characters" }).max(30),
+  re_password: z.string().min(6, { message: "Must be 6-30 characters" }).max(30),
 }).refine(data => data.password === data.re_password, {
   message: "Passwords don't match",
   path: ["re_password"],
 });
 
 
-
-
-
-
-
-
 function Signup_Page() {
   const [mailUsernameErr, setMailUsernameErr] = useState('');
   const navigate = useNavigate();
-  const { register, handleSubmit, formState: { errors } } = useForm({
+  const { register, handleSubmit, formState: { errors } ,reset } = useForm({
     resolver: zodResolver(SignupSchema),
   });
 
@@ -50,6 +56,7 @@ function Signup_Page() {
 
       const data = await response.json();
       console.log('Success:', data);
+      reset();//
       navigate('/login'); // Redirect to login page after successful submission
     } catch (error) {
       console.error('Error:', error);
