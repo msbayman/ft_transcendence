@@ -66,6 +66,10 @@
   align-items: center;
   /* flex: 4; */
 }
+.err_field
+{ 
+  color: rgb(156, 50, 50);
+}
 #logo_signup {
   margin-bottom: 100px;
 }

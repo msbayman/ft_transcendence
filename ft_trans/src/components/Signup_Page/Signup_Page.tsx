@@ -2,6 +2,7 @@ import { useState, FormEvent } from 'react';
 import { TextField } from "@mui/material";
 import "./Signup_Page.css";
 import { Link, useNavigate } from "react-router-dom";
+import{z} from "zod";
 
 function Signup_Page() {
   const [formData, setFormData] = useState({
@@ -115,6 +116,7 @@ function Signup_Page() {
                     },
                   }}
                 />
+                <text className ="err_field "></text>
               </div>
               <div className="div_username_s input_fld">
                 <TextField
@@ -152,6 +154,7 @@ function Signup_Page() {
                     },
                   }}
                 />
+                <text className ="err_field "></text>
               </div>
               <div className="div_email_s input_fld">
                 <TextField
@@ -188,7 +191,8 @@ function Signup_Page() {
                       color: "white", // Icon color
                     },
                   }}
-                />
+                  />
+                  <text className ="err_field "></text>
               </div>
               <div className="div_pw_s input_fld">
                 <TextField
@@ -226,7 +230,8 @@ function Signup_Page() {
                       color: "white", // Icon color
                     },
                   }}
-                />
+                  />
+                  <text className ="err_field "></text>
               </div>
               <div className="div_r_pw_s input_fld">
                 <TextField
@@ -264,7 +269,8 @@ function Signup_Page() {
                       color: "white", // Icon color
                     },
                   }}
-                />
+                  />
+                  <text className ="err_field "></text>
               </div>
 
               <button id="btn_signup" type="submit">
