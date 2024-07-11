@@ -285,7 +285,7 @@ function Signup_Page() {
               <div className="no_acc_or_log">
                 <span className="no_acc">Do you have an account ?</span>
                 <span>
-                  <Link to="/login" id="sign_in">Sign in</Link>
+                  <Link to="/login" id="log_in">login in</Link>
                 </span>
               </div>
             </form>
