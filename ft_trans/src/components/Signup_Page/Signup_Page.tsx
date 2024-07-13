@@ -6,6 +6,10 @@ import { Link, useNavigate } from "react-router-dom";
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 
+
+//zod
+
+
 const fullNameSchema = z
   .string()
   .regex(/^[a-zA-Z ]+$/, { message: "Only letters and spaces allowed" })
@@ -29,6 +33,7 @@ const SignupSchema = z.object({
   path: ["re_password"],
 });
 
+//main fun
 
 function Signup_Page() {
   const [mailUsernameErr, setMailUsernameErr] = useState('');
@@ -49,15 +54,13 @@ function Signup_Page() {
 
       if (!response.ok) {
         setMailUsernameErr("Username or Email already used !! ")
-        // const errorData = await response.json();
-        // console.log('Response:', errorData);  // Log the response for debugging
-        throw new Error('Network response was not ok');
+        // throw new Error('Network response was not ok');
       }
 
       const data = await response.json();
       console.log('Success:', data);
-      reset();//
-      navigate('/login'); // Redirect to login page after successful submission
+      reset();
+      navigate('/login');
     } catch (error) {
       console.error('Error:', error);
     }

@@ -1,6 +1,10 @@
-import { TextField, } from "@mui/material";
 import "./Login_Page.css";
-import { Link } from "react-router-dom";
+import { TextField } from "@mui/material";
+import { useForm } from 'react-hook-form';
+import { Link, useNavigate } from "react-router-dom";
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+
 
 function Login_Page() {
   return (
@@ -12,7 +16,7 @@ function Login_Page() {
               <div className="game_logo_login"></div>
               <Link to="/"><img id="logo_login" src="logo_game.png" alt="game_logo" /></Link>
             
-              <div className="login_form">
+              <form className="login_form">
                 <div className="div_mail">
                   <TextField
                     id="email_f"
@@ -92,7 +96,7 @@ function Login_Page() {
                 <span className="dotted-line">
                   <div id="or">or</div>
                 </span>
-              </div>
+              </form>
               <div className="login_42_google">
                 <img
                   className="auth"
