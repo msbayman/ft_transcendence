@@ -1,12 +1,38 @@
-import "./Login_Page.css";
 import { TextField } from "@mui/material";
-import { useForm } from 'react-hook-form';
-import { Link, useNavigate } from "react-router-dom";
-import { z } from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
-
+import "./Login_Page.css";
+import { Link } from "react-router-dom";
+import { useState } from "react";
 
 function Login_Page() {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setUsername(e.target.value);
+  };
+
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(e.target.value);
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log("username:", username);
+    console.log("Password:", password);
+
+    const response = await fetch("http://127.0.0.1:8000/user_auth/login_player", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({username, password }),
+    });
+
+    const data = await response.json();
+    console.log("Response from server:", data);
+    // Add additional logic to handle the response, such as redirecting the user or displaying a message
+  };
+
   return (
     <>
       <div className="main_login">
@@ -14,15 +40,19 @@ function Login_Page() {
           <div className="login_left">
             <div className="left_cont">
               <div className="game_logo_login"></div>
-              <Link to="/"><img id="logo_login" src="logo_game.png" alt="game_logo" /></Link>
-            
-              <form className="login_form">
+              <Link to="/">
+                <img id="logo_login" src="logo_game.png" alt="game_logo" />
+              </Link>
+
+              <form className="login_form" onSubmit={handleSubmit}>
                 <div className="div_mail">
                   <TextField
-                    id="email_f"
-                    label="Email"
+                    id="Username_f"
+                    label="Username"
                     maxRows={4}
                     variant="standard"
+                    value={username} // Add this line
+                    onChange={handleUsernameChange} // Add this line
                     sx={{
                       width: "100%", // Adjust width as needed
                       "& .MuiInputBase-input": {
@@ -59,6 +89,8 @@ function Login_Page() {
                     type="password"
                     maxRows={4}
                     variant="standard"
+                    value={password} // Add this line
+                    onChange={handlePasswordChange} // Add this line
                     sx={{
                       width: "100%", // Adjust width as needed
                       "& .MuiInputBase-input": {
@@ -91,7 +123,7 @@ function Login_Page() {
 
                 <div className="login_btn_forget">
                   <div className="forget_pass">Forgot Password ?</div>
-                  <button id="btn_login">LOG IN</button>
+                  <button id="btn_login" type="submit">LOG IN</button> {/* Add type="submit" */}
                 </div>
                 <span className="dotted-line">
                   <div id="or">or</div>
@@ -119,7 +151,7 @@ function Login_Page() {
         </div>
 
         <div className="login_right">
-          <div className="title_login"> WELCOME PLAYER !</div>
+          <div className="title_login">WELCOME PLAYER!</div>
           <div className="img_login_ping">
             <img src="Login_page/ping pong table.svg" alt="ping pong table" />
           </div>
