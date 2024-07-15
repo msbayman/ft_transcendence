@@ -157,3 +157,9 @@
     align-items: start;
   }
 }
+
+#err_msg
+{
+  margin-top: 12px;
+  color: red;
+}

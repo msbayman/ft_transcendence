@@ -2,10 +2,12 @@ import { TextField } from "@mui/material";
 import "./Login_Page.css";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import { red } from "@mui/material/colors";
 
 function Login_Page() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [Errmsg, setErrorMessage] = useState("");
 
   const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUsername(e.target.value);
@@ -20,19 +22,23 @@ function Login_Page() {
     console.log("username:", username);
     console.log("Password:", password);
 
-    const response = await fetch("http://127.0.0.1:8000/user_auth/login_player", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({username, password }),
-    });
+    try {
+      const response = await fetch("http://127.0.0.1:8000/user_auth/login_player", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username, password }),
+      });
 
-    const data = await response.json();
-    console.log("Response from server:", data);
-    // Add additional logic to handle the response, such as redirecting the user or displaying a message
+      if (response.status === 401) {
+        const data = await response.json();
+        setErrorMessage(data.detail);
+      }
+    } catch (error) {
+      setErrorMessage('An unexpected error , try again later');
+    }
   };
-
   return (
     <>
       <div className="main_login">
@@ -50,6 +56,7 @@ function Login_Page() {
                     id="Username_f"
                     label="Username"
                     maxRows={4}
+                    required
                     variant="standard"
                     value={username} // Add this line
                     onChange={handleUsernameChange} // Add this line
@@ -84,6 +91,7 @@ function Login_Page() {
                 </div>
                 <div className="div_pw">
                   <TextField
+                  required
                     id="pw_f"
                     label="Password"
                     type="password"
@@ -119,6 +127,7 @@ function Login_Page() {
                       },
                     }}
                   />
+                  {Errmsg && <p id="err_msg"> Invalid username or password </p>}
                 </div>
 
                 <div className="login_btn_forget">

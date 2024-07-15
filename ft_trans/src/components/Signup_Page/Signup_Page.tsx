@@ -44,6 +44,7 @@ function Signup_Page() {
 
   const onSubmit = async (formData: any) => {
     try {
+      console.log('Form Data:', formData);
       const response = await fetch('http://127.0.0.1:8000/user_auth/add_player', {
         method: 'POST',
         headers: {
@@ -56,11 +57,12 @@ function Signup_Page() {
         setMailUsernameErr("Username or Email already used !! ")
         // throw new Error('Network response was not ok');
       }
-
-      const data = await response.json();
-      console.log('Success:', data);
-      reset();
-      navigate('/login');
+      else{
+        const data = await response.json();
+        console.log('Success:', data);
+        reset();
+        navigate('/login');
+      }
     } catch (error) {
       console.error('Error:', error);
     }
