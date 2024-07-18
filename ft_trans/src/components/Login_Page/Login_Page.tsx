@@ -3,12 +3,14 @@ import "./Login_Page.css";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { red } from "@mui/material/colors";
+import { redirect } from "next/dist/server/api-utils";
+import { useNavigate } from 'react-router-dom';
 
 function Login_Page() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [Errmsg, setErrorMessage] = useState("");
-
+  const navigate = useNavigate();
   const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUsername(e.target.value);
   };
@@ -31,9 +33,15 @@ function Login_Page() {
         body: JSON.stringify({ username, password }),
       });
 
+      const data = await response.json();
       if (response.status === 401) {
-        const data = await response.json();
         setErrorMessage(data.detail);
+      }
+      if(response.status===200)
+      {
+        localStorage.setItem('access_token', data.access);
+        localStorage.setItem('refresh_token', data.refresh);
+        window.location.href = 'http://localhost:8000/user_auth/display_users';
       }
     } catch (error) {
       setErrorMessage('An unexpected error , try again later');
