@@ -5,10 +5,9 @@ import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from "react-router-dom";
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-
+import axios from 'axios';
 
 //zod
-
 
 const fullNameSchema = z
   .string()
@@ -45,20 +44,12 @@ function Signup_Page() {
   const onSubmit = async (formData: any) => {
     try {
       console.log('Form Data:', formData);
-      const response = await fetch('http://127.0.0.1:8000/user_auth/add_player', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
+      const response = await axios.post('http://127.0.0.1:8000/user_auth/add_player', formData);
 
-      if (!response.ok) {
-        setMailUsernameErr("Username or Email already used !! ")
-        // throw new Error('Network response was not ok');
-      }
-      else{
-        const data = await response.json();
+      if (response.status !== 201) {
+        setMailUsernameErr("Username or Email already used !! ");
+      } else {
+        const data = response.data;
         console.log('Success:', data);
         reset();
         navigate('/login');
@@ -67,7 +58,6 @@ function Signup_Page() {
       console.error('Error:', error);
     }
   };
-
   return (
     <div className="main_signup">
       <div className="signup_left">
@@ -290,7 +280,7 @@ function Signup_Page() {
               <div className="no_acc_or_log">
                 <span className="no_acc">Do you have an account ?</span>
                 <span>
-                  <Link to="/login" id="log_in">login in</Link>
+                  <Link to="/login" id="log_in">login</Link>
                 </span>
               </div>
             </form>

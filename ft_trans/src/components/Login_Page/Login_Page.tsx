@@ -2,15 +2,13 @@ import { TextField } from "@mui/material";
 import "./Login_Page.css";
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import { red } from "@mui/material/colors";
-import { redirect } from "next/dist/server/api-utils";
-import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+
 
 function Login_Page() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [Errmsg, setErrorMessage] = useState("");
-  const navigate = useNavigate();
   const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUsername(e.target.value);
   };
@@ -25,26 +23,21 @@ function Login_Page() {
     console.log("Password:", password);
 
     try {
-      const response = await fetch("http://127.0.0.1:8000/user_auth/login_player", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ username, password }),
+      const response = await axios.post("http://127.0.0.1:8000/user_auth/login_player", {
+        username,
+        password
       });
 
-      const data = await response.json();
-      if (response.status === 401) {
-        setErrorMessage(data.detail);
-      }
-      if(response.status===200)
-      {
+      if (response.status === 200) {
+        const data = response.data;
         localStorage.setItem('access_token', data.access);
         localStorage.setItem('refresh_token', data.refresh);
-        window.location.href = 'http://localhost:8000/user_auth/display_users';
+        window.location.href = 'http://127.0.0.1:8000/user_auth/display_users';
+      } else if (response.status === 401) {
+        setErrorMessage(response.data.detail);
       }
     } catch (error) {
-      setErrorMessage('An unexpected error , try again later');
+      setErrorMessage('An unexpected error occurred. Please try again later.');
     }
   };
   return (
