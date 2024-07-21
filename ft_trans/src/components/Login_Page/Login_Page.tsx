@@ -1,14 +1,25 @@
-import { TextField } from "@mui/material";
-import "./Login_Page.css";
-import { Link } from "react-router-dom";
 import { useState } from "react";
-import axios from 'axios';
-
+import { TextField } from "@mui/material";
+import { Link } from "react-router-dom";
+import axios from "axios";
+import Cookies from "js-cookie";
+import "./Login_Page.css";
 
 function Login_Page() {
+
+
+  interface player_form {
+    full_name: string;
+    username: string;
+    email: string;
+  }
+
+  const [player_form, setplayer_form] = useState<player_form[]>([]);
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [Errmsg, setErrorMessage] = useState("");
+
   const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUsername(e.target.value);
   };
@@ -19,27 +30,48 @@ function Login_Page() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("username:", username);
-    console.log("Password:", password);
 
     try {
       const response = await axios.post("http://127.0.0.1:8000/user_auth/login_player", {
         username,
-        password
+        password,
       });
 
+      const data = response.data;
       if (response.status === 200) {
-        const data = response.data;
-        localStorage.setItem('access_token', data.access);
-        localStorage.setItem('refresh_token', data.refresh);
-        window.location.href = 'http://127.0.0.1:8000/user_auth/display_users';
-      } else if (response.status === 401) {
-        setErrorMessage(response.data.detail);
+        Cookies.set('access_token', data.access, { path: '/' });
+        Cookies.set('refresh_token', data.refresh, { path: '/' });
+        
+        axios.defaults.headers.common['Authorization'] = `Bearer ${Cookies.get('access_token')}`;
+
+
+
+
+
+        const fetchData = async () => {
+          try {
+            const response2 = await axios.get<player_form[]>('http://127.0.0.1:8000/user_auth/display_users');
+            setplayer_form(response2.data);
+          } catch (error) {
+            console.error(error);
+          }
+        };
+
+        fetchData();
+        let i= 0;
+        while(player_form[i])
+          console.log(player_form[i++]);
+
+        alert("done!");
+      }
+      else if (response.status === 401) {
+        setErrorMessage(data.detail);
       }
     } catch (error) {
       setErrorMessage('An unexpected error occurred. Please try again later.');
     }
   };
+
   return (
     <>
       <div className="main_login">
@@ -59,81 +91,81 @@ function Login_Page() {
                     maxRows={4}
                     required
                     variant="standard"
-                    value={username} // Add this line
-                    onChange={handleUsernameChange} // Add this line
+                    value={username}
+                    onChange={handleUsernameChange}
                     sx={{
-                      width: "100%", // Adjust width as needed
+                      width: "100%",
                       "& .MuiInputBase-input": {
-                        color: "white", // Text color
-                        fontSize: "1.25rem", // Adjust font size
-                        backgroundColor: "transparent", // Ensure the input background is transparent
+                        color: "white",
+                        fontSize: "1.25rem",
+                        backgroundColor: "transparent",
                       },
                       "& .MuiInputLabel-root": {
-                        color: "white", // Label color
-                        fontSize: "1.25rem", // Adjust font size for the label
+                        color: "white",
+                        fontSize: "1.25rem",
                       },
                       "& .MuiInput-underline:before": {
-                        borderBottomColor: "white", // Default underline color
+                        borderBottomColor: "white",
                       },
                       "& .MuiInput-underline:hover:not(.Mui-disabled):before": {
-                        borderBottomColor: "white", // Hover underline color
+                        borderBottomColor: "white",
                       },
                       "& .MuiInput-underline:after": {
-                        borderBottomColor: "white", // Focused underline color
+                        borderBottomColor: "white",
                       },
                       "& .MuiFormHelperText-root": {
-                        color: "white", // Helper text color
+                        color: "white",
                       },
                       "& .MuiSvgIcon-root": {
-                        color: "white", // Icon color
+                        color: "white",
                       },
                     }}
                   />
                 </div>
                 <div className="div_pw">
                   <TextField
-                  required
+                    required
                     id="pw_f"
                     label="Password"
                     type="password"
                     maxRows={4}
                     variant="standard"
-                    value={password} // Add this line
-                    onChange={handlePasswordChange} // Add this line
+                    value={password}
+                    onChange={handlePasswordChange}
                     sx={{
-                      width: "100%", // Adjust width as needed
+                      width: "100%",
                       "& .MuiInputBase-input": {
-                        color: "white", // Text color
-                        fontSize: "1.25rem", // Adjust font size
-                        backgroundColor: "transparent", // Ensure the input background is transparent
+                        color: "white",
+                        fontSize: "1.25rem",
+                        backgroundColor: "transparent",
                       },
                       "& .MuiInputLabel-root": {
-                        color: "white", // Label color
-                        fontSize: "1.25rem", // Adjust font size for the label
+                        color: "white",
+                        fontSize: "1.25rem",
                       },
                       "& .MuiInput-underline:before": {
-                        borderBottomColor: "white", // Default underline color
+                        borderBottomColor: "white",
                       },
                       "& .MuiInput-underline:hover:not(.Mui-disabled):before": {
-                        borderBottomColor: "white", // Hover underline color
+                        borderBottomColor: "white",
                       },
                       "& .MuiInput-underline:after": {
-                        borderBottomColor: "white", // Focused underline color
+                        borderBottomColor: "white",
                       },
                       "& .MuiFormHelperText-root": {
-                        color: "white", // Helper text color
+                        color: "white",
                       },
                       "& .MuiSvgIcon-root": {
-                        color: "white", // Icon color
+                        color: "white",
                       },
                     }}
                   />
-                  {Errmsg && <p id="err_msg"> Invalid username or password </p>}
+                  {Errmsg && <p id="err_msg">Invalid username or password</p>}
                 </div>
 
                 <div className="login_btn_forget">
                   <div className="forget_pass">Forgot Password ?</div>
-                  <button id="btn_login" type="submit">LOG IN</button> {/* Add type="submit" */}
+                  <button id="btn_login" type="submit">LOG IN</button>
                 </div>
                 <span className="dotted-line">
                   <div id="or">or</div>
