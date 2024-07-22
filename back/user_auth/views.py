@@ -81,3 +81,17 @@ class LoginAPIView(APIView):
             }, status=status.HTTP_200_OK)
         else:
             return Response({"detail": "Invalid username or password."}, status=status.HTTP_401_UNAUTHORIZED)
+
+class UserDetailView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        print(request.body)
+        user = request.user
+        data = {
+            'id': user.id,
+            'username': user.username,
+            'email': user.email,
+            'full_name': user.full_name,
+        }
+        return Response(data)

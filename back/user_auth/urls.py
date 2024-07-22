@@ -8,4 +8,5 @@ urlpatterns = [
      path('delete_player', views.delete_player, name='delete_player'),
      path('update_player', views.update_player, name='update_player'),
      path('login_player', views.LoginAPIView.as_view(), name='login_player'),
+     path('UserDetailView', views.UserDetailView.as_view(), name='UserDetailView'),
 ]

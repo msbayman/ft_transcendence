@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import Cookies from "js-cookie";
 import "./Login_Page.css";
-
+import { useNavigate } from 'react-router-dom';
 function Login_Page() {
 
 
@@ -13,7 +13,7 @@ function Login_Page() {
     username: string;
     email: string;
   }
-
+  const navigate = useNavigate();
   const [player_form, setplayer_form] = useState<player_form[]>([]);
 
   const [username, setUsername] = useState("");
@@ -47,22 +47,22 @@ function Login_Page() {
 
 
 
+        navigate("/My_profile");
+        // const fetchData = async () => {
+        //   try {
+        //     const response2 = await axios.get<player_form[]>('http://127.0.0.1:8000/user_auth/display_users');
+        //     setplayer_form(response2.data);
+        //   } catch (error) {
+        //     console.error(error);
+        //   }
+        // };
 
-        const fetchData = async () => {
-          try {
-            const response2 = await axios.get<player_form[]>('http://127.0.0.1:8000/user_auth/display_users');
-            setplayer_form(response2.data);
-          } catch (error) {
-            console.error(error);
-          }
-        };
+        // fetchData();
+        // let i= 0;
+        // while(player_form[i])
+        //   console.log(player_form[i++]);
 
-        fetchData();
-        let i= 0;
-        while(player_form[i])
-          console.log(player_form[i++]);
-
-        alert("done!");
+        // alert("done!");
       }
       else if (response.status === 401) {
         setErrorMessage(data.detail);
