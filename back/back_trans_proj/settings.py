@@ -31,15 +31,19 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
+   'django.contrib.admin',
+    'django.contrib.auth',  # This line should stay
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
     'corsheaders',
-    'user_auth',  # Add your custom app here
+    'user_auth',  # Your custom app
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',  # Optional -- requires install using `django-allauth[socialaccount]`.
+    'allauth.socialaccount.providers.google',
 ]
 
 MIDDLEWARE = [
@@ -51,6 +55,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+    "allauth.account.middleware.AccountMiddleware",
 ]
 
 # CORS settings
@@ -71,6 +76,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.request',
             ],
         },
     },
@@ -141,7 +147,20 @@ CSRF_COOKIE_SAMESITE = 'Strict'
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
 AUTH_USER_MODEL = 'user_auth.player'
 
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': {
+            "profile",
+            "email"
+        },
+        "AUTH_PARAMS": {"access_type": "online"}
+    }
+}
+
+LOGIN_REDIRECT_URL="/"
+LOGOUT_REDIRECT_URL="/"
