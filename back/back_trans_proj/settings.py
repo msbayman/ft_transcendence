@@ -31,8 +31,8 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
-   'django.contrib.admin',
-    'django.contrib.auth',  # This line should stay
+    'django.contrib.admin',
+    'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
@@ -40,10 +40,6 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'user_auth',  # Your custom app
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',  # Optional -- requires install using `django-allauth[socialaccount]`.
-    'allauth.socialaccount.providers.google',
 ]
 
 MIDDLEWARE = [
@@ -55,7 +51,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
-    "allauth.account.middleware.AccountMiddleware",
 ]
 
 # CORS settings
@@ -108,23 +103,17 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
-
-
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     )
 }
 
-
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=30),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
     "AUTH_HEADER_TYPES": ("Bearer",),
 }
-
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
@@ -147,20 +136,8 @@ CSRF_COOKIE_SAMESITE = 'Strict'
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
-    'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
 AUTH_USER_MODEL = 'user_auth.player'
 
-SOCIALACCOUNT_PROVIDERS = {
-    'google': {
-        'SCOPE': {
-            "profile",
-            "email"
-        },
-        "AUTH_PARAMS": {"access_type": "online"}
-    }
-}
 
-LOGIN_REDIRECT_URL="/"
-LOGOUT_REDIRECT_URL="/"
