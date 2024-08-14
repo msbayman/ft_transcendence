@@ -1,15 +1,17 @@
 from django.http import JsonResponse
-from rest_framework.parsers import JSONParser
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework import status
 from .models import Player
 from .serializers import PlayerSerializer
 from django.contrib.auth import authenticate
 from rest_framework.views import APIView
-from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
+import logging
+
+# Logger setup
+logger = logging.getLogger(__name__)
 
 @api_view(['GET'])
 def index(request):
@@ -24,8 +26,10 @@ def display_users(request):
 
 @api_view(['POST'])
 def delete_player(request):
-    data = JSONParser().parse(request)
-    username = data.get('username')
+    username = request.data.get('username')
+    if not username:
+        return Response({'error': 'Username is required.'}, status=status.HTTP_400_BAD_REQUEST)
+    
     try:
         player_to_delete = Player.objects.get(username=username)
         player_to_delete.delete()
@@ -33,16 +37,18 @@ def delete_player(request):
     except Player.DoesNotExist:
         return Response({'error': 'Player not found'}, status=status.HTTP_404_NOT_FOUND)
     except Exception as e:
+        logger.error(f"Error deleting player {username}: {e}")
         return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 @api_view(['POST'])
 def update_player(request):
-    data = JSONParser().parse(request)
-    username = data.get('username')
+    username = request.data.get('username')
+    if not username:
+        return Response({'error': 'Username is required.'}, status=status.HTTP_400_BAD_REQUEST)
 
     try:
         player_to_update = Player.objects.get(username=username)
-        serializer = PlayerSerializer(player_to_update, data=data, partial=True)
+        serializer = PlayerSerializer(player_to_update, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
@@ -50,12 +56,12 @@ def update_player(request):
     except Player.DoesNotExist:
         return Response({'error': 'Player not found'}, status=status.HTTP_404_NOT_FOUND)
     except Exception as e:
+        logger.error(f"Error updating player {username}: {e}")
         return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 @api_view(['POST'])
 def add_player(request):
-    data = JSONParser().parse(request)
-    serializer = PlayerSerializer(data=data)
+    serializer = PlayerSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -63,9 +69,8 @@ def add_player(request):
 
 class LoginAPIView(APIView):
     def post(self, request):
-        data = request.data
-        username = data.get('username')
-        password = data.get('password')
+        username = request.data.get('username')
+        password = request.data.get('password')
         
         if not username or not password:
             return Response({"detail": "Username and password are required."}, status=status.HTTP_400_BAD_REQUEST)
@@ -74,7 +79,6 @@ class LoginAPIView(APIView):
         
         if user is not None:
             refresh = RefreshToken.for_user(user)
-            print(str(refresh.access_token))
             return Response({
                 'refresh': str(refresh),
                 'access': str(refresh.access_token),
@@ -86,7 +90,6 @@ class UserDetailView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        print(request.body)
         user = request.user
         data = {
             'id': user.id,
