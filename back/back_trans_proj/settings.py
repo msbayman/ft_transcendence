@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'corsheaders',
-    'user_auth',  # Your custom app
+    'user_auth',
+    'oauth2_discord',
 ]
 
 MIDDLEWARE = [
