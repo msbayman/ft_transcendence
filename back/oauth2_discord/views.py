@@ -5,21 +5,32 @@ from user_auth.models import Player
 from user_auth.serializers import PlayerSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth import login as auth_login
+from rest_framework.response import Response
+from rest_framework import status
 
 # Discord OAuth2 URL
-url_red = "https://discord.com/oauth2/authorize?client_id=1272193976983752706&response_type=code&redirect_uri=http%3A%2F%2F127.0.0.1%3A8000%2Fdiscord%2Flogin_redirect&scope=email+identify"
+DISCORD_OAUTH_URL = (
+    "https://discord.com/oauth2/authorize?"
+    "client_id=1272193976983752706&"
+    "response_type=code&"
+    "redirect_uri=http%3A%2F%2F127.0.0.1%3A8000%2Fdiscord%2Flogin_redirect&"
+    "scope=email+identify"
+)
 
 def home(request: HttpRequest) -> JsonResponse:
     return JsonResponse({"msg": "slm"})
 
 def login(request: HttpRequest) -> HttpResponse:
-    return redirect(url_red)
+    return redirect(DISCORD_OAUTH_URL)
 
 def login_redirect(request: HttpRequest) -> JsonResponse:
+    print("login_redirect start ***********************************")
     code = request.GET.get('code')
     if code:
         user_info = exchange_code_for_token(code)
-        return add_player_oauth(request, user_info)
+        if "error" in user_info:
+            return JsonResponse({"error": "Failed to retrieve user info"}, status=400)
+        return handle_oauth_user(request, user_info)
     else:
         return JsonResponse({"error": "No code provided"}, status=400)
 
@@ -47,7 +58,7 @@ def exchange_code_for_token(code: str) -> dict:
     else:
         return {"error": "Failed to obtain access token"}
 
-def add_player_oauth(request: HttpRequest, user_info: dict) -> JsonResponse:
+def handle_oauth_user(request: HttpRequest, user_info: dict) -> JsonResponse:
     serializer = PlayerSerializer(data={
         'full_name': user_info.get('global_name', user_info.get('username')),
         'email': user_info.get('email'),
@@ -55,6 +66,7 @@ def add_player_oauth(request: HttpRequest, user_info: dict) -> JsonResponse:
         'id_prov': user_info.get('id'),
         'prov_name': "Discord",
     })
+    print("handle_oauth_user ****************************")
     if serializer.is_valid():
         player = serializer.save()
         auth_login(request, player)
@@ -63,6 +75,6 @@ def add_player_oauth(request: HttpRequest, user_info: dict) -> JsonResponse:
             'refresh': str(refresh),
             'access': str(refresh.access_token),
             'username': player.username,
-        }, status=200)  # Changed to 200 as it could be either creation or update
-    else:
-        return JsonResponse(serializer.errors, status=400)
+        }, status=status.HTTP_201_CREATED)
+    
+    return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
