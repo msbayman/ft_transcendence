@@ -10,85 +10,94 @@ class PlayerSerializer(serializers.ModelSerializer):
         model = Player
         fields = ['full_name', 'username', 'email', 'password', 're_password', 'id_prov', 'prov_name', 'provider_identifier']
         extra_kwargs = {
-            'password': {'write_only': True},
-            're_password': {'write_only': True},
-            'username': {'required': True},
+            'password': {'write_only': True, 'required': False},
+            're_password': {'write_only': True, 'required': False},
+            'username': {'required': False},
             'id_prov': {'write_only': True, 'required': False},
             'prov_name': {'write_only': True, 'required': False},
-            'provider_identifier': {'read_only': True},  # Read-only since it's auto-generated
+            'provider_identifier': {'read_only': True},
         }
 
-    def validate_full_name(self, value):
-        if not re.match(r'^[a-zA-Z ]+$', value):
-            raise serializers.ValidationError("Full name must contain only letters and spaces.")
-        if not (7 <= len(value) <= 30):
-            raise serializers.ValidationError("Full name length must be between 7 and 30 characters.")
-        return value
-
-    def validate_username(self, value):
-        if not re.match(r'^[a-zA-Z0-9-_]+$', value):
-            raise serializers.ValidationError("Username must contain only letters, numbers, hyphens, and underscores.")
-        if not (3 <= len(value) <= 15):
-            raise serializers.ValidationError("Username length must be between 3 and 15 characters.")
-        return value
-
-    def validate_email(self, value):
-        if Player.objects.filter(email=value).exists():
-            raise serializers.ValidationError("A user with this email already exists.")
-        return value
-
-    def validate_password(self, value):
-        validate_password(value)
-        return value
-
     def validate(self, data):
-        # Ensure that passwords match if provided
-        if 'password' in data and 're_password' in data:
-            if data['password'] != data['re_password']:
+        if 'prov_name' not in data:  # Traditional sign-up
+            if not data.get('password'):
+                raise serializers.ValidationError("Password is required for traditional sign-up.")
+            if data.get('password') != data.get('re_password'):
                 raise serializers.ValidationError("Passwords do not match.")
+            self.validate_traditional_fields(data)
         return data
 
+    def validate_traditional_fields(self, data):
+        full_name = data.get('full_name', '')
+        username = data.get('username', '')
+
+        if not re.match(r'^[a-zA-Z ]{7,30}$', full_name):
+            raise serializers.ValidationError("Full name must be 7-30 characters long and contain only letters and spaces.")
+
+        if not re.match(r'^[a-zA-Z0-9-_]{3,15}$', username):
+            raise serializers.ValidationError("Username must be 3-15 characters long and contain only letters, numbers, hyphens, and underscores.")
+
+        if Player.objects.filter(email=data.get('email')).exists():
+            raise serializers.ValidationError("A user with this email already exists.")
+
     def create(self, validated_data):
-        validated_data.pop('re_password', None)
-        is_oauth = 'id_prov' in validated_data and 'prov_name' in validated_data
+        is_oauth = 'prov_name' in validated_data
 
         if is_oauth:
-            # Handle OAuth case
-            base_username = validated_data.get('username', None)
-            username = base_username
-            counter = 1
-
-            # Keep appending symbols until the username is unique
-            while Player.objects.filter(username=username).exists():
-                username = f"{base_username}_{counter}"
-                counter += 1
-
-            player = Player(
-                full_name=validated_data['full_name'],
-                email=validated_data['email'],
-                id_prov=validated_data['id_prov'],
-                prov_name=validated_data['prov_name'],
-                username=username
-            )
-            player.set_unusable_password()
+            return self.create_or_update_oauth_user(validated_data)
         else:
-            # Handle traditional sign-up case
-            player = Player(
-                full_name=validated_data['full_name'],
-                username=validated_data['username'],
-                email=validated_data['email']
-            )
-            player.set_password(validated_data['password'])
+            return self.create_traditional_user(validated_data)
+
+    def create_or_update_oauth_user(self, validated_data):
+        email = validated_data['email']
+        id_prov = validated_data['id_prov']
+        prov_name = validated_data['prov_name']
+
+        # Check if user already exists by email or id_prov
+        existing_user = Player.objects.filter(email=email).first() or Player.objects.filter(id_prov=id_prov, prov_name=prov_name).first()
         
+        if existing_user:
+            # Update existing user with OAuth info
+            existing_user.id_prov = id_prov
+            existing_user.prov_name = prov_name
+            existing_user.full_name = validated_data.get('full_name', existing_user.full_name)
+            existing_user.save()
+            return existing_user
+
+        # Create new user
+        username = self.generate_unique_username(validated_data.get('username', ''))
+        player = Player(
+            full_name=validated_data.get('full_name', ''),
+            email=email,
+            username=username,
+            id_prov=id_prov,
+            prov_name=prov_name
+        )
+        player.set_unusable_password()
         player.save()
         return player
 
+    def create_traditional_user(self, validated_data):
+        validated_data.pop('re_password', None)
+        password = validated_data.pop('password')
+        player = Player(**validated_data)
+        player.set_password(password)
+        player.save()
+        return player
+
+    def generate_unique_username(self, base_username):
+        username = base_username
+        counter = 1
+        while Player.objects.filter(username=username).exists():
+            username = f"{base_username}_{counter}"
+            counter += 1
+        return username
+
     def update(self, instance, validated_data):
-        instance.full_name = validated_data.get('full_name', instance.full_name)
-        instance.email = validated_data.get('email', instance.email)
-
-        if 'password' in validated_data:
-            instance.set_password(validated_data['password'])
-
+        for attr, value in validated_data.items():
+            if attr == 'password':
+                instance.set_password(value)
+            else:
+                setattr(instance, attr, value)
         instance.save()
         return instance
