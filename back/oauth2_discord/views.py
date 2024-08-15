@@ -1,11 +1,9 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect
 from django.http import HttpRequest, HttpResponse, JsonResponse
 import requests
-from django.conf import settings
 from user_auth.models import Player
 from user_auth.serializers import PlayerSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
-from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth import login as auth_login
 
 # Discord OAuth2 URL
@@ -19,12 +17,9 @@ def login(request: HttpRequest) -> HttpResponse:
 
 def login_redirect(request: HttpRequest) -> JsonResponse:
     code = request.GET.get('code')
-
     if code:
         user_info = exchange_code_for_token(code)
-
-        # Handle adding the player to the database
-        return add_player_oauth(user_info)
+        return add_player_oauth(request, user_info)
     else:
         return JsonResponse({"error": "No code provided"}, status=400)
 
@@ -42,59 +37,32 @@ def exchange_code_for_token(code: str) -> dict:
     response = requests.post('https://discord.com/api/oauth2/token', data=data, headers=headers)
     credentials = response.json()
 
-    # Fetch user information using the access token
     access_token = credentials.get('access_token')
     if access_token:
         headers = {
             'Authorization': f'Bearer {access_token}'
         }
         user_response = requests.get('https://discord.com/api/v6/users/@me', headers=headers)
-        user = user_response.json()
-        return user  # Return user info
+        return user_response.json()
     else:
         return {"error": "Failed to obtain access token"}
 
-def add_player_oauth(user_info: dict) -> JsonResponse:
-    # Extract relevant information from user_info
-    username = user_info.get('username')
-    email = user_info.get('email')
-    discord_id = user_info.get('id')
-    full_name = user_info.get('global_name', username)  # Fallback to username if global_name is not provided
-
-    # Check if a user with the same id_prov (Discord ID) already exists
-    try:
-        player = Player.objects.get(id_prov=discord_id, prov_name="Discord")
-        # If found, log the user in and return JWT tokens
+def add_player_oauth(request: HttpRequest, user_info: dict) -> JsonResponse:
+    serializer = PlayerSerializer(data={
+        'full_name': user_info.get('global_name', user_info.get('username')),
+        'email': user_info.get('email'),
+        'username': user_info.get('username'),
+        'id_prov': user_info.get('id'),
+        'prov_name': "Discord",
+    })
+    if serializer.is_valid():
+        player = serializer.save()
+        auth_login(request, player)
         refresh = RefreshToken.for_user(player)
         return JsonResponse({
             'refresh': str(refresh),
             'access': str(refresh.access_token),
             'username': player.username,
-        }, status=200)
-    except ObjectDoesNotExist:
-        # Handle username collision by appending numbers until a unique username is found
-        base_username = username
-        counter = 1
-        while Player.objects.filter(username=username).exists():
-            username = f"{base_username}_{counter}"
-            counter += 1
-        
-        # Create a new Player object
-        player = Player(
-            full_name=full_name,
-            email=email,
-            username=username,
-            id_prov=discord_id,
-            prov_name="Discord",
-        )
-        player.set_unusable_password()  # Since this is an OAuth user, no password is needed
-        player.save()
-
-        # Log the user in and return JWT tokens
-        auth_login(request, player)  # Log the user in to create a session (optional)
-        refresh = RefreshToken.for_user(player)
-        return JsonResponse({
-            'refresh': str(refresh),
-            'access': str(refresh.access_token),
-            'username': player.username,
-        }, status=201)
+        }, status=200)  # Changed to 200 as it could be either creation or update
+    else:
+        return JsonResponse(serializer.errors, status=400)

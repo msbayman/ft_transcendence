@@ -5,7 +5,7 @@ class Player(AbstractUser):
     username = models.CharField(max_length=100, primary_key=True)
     full_name = models.CharField(max_length=30)
     email = models.EmailField(unique=True)
-    id_prov = models.CharField(max_length=40, blank=True, null=True)  # This should be present
+    id_prov = models.CharField(max_length=40, blank=True, null=True)
     prov_name = models.CharField(max_length=30, blank=True, null=True)
     provider_identifier = models.CharField(max_length=100, blank=True, null=True)
     
