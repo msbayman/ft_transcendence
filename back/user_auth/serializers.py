@@ -1,5 +1,4 @@
 from rest_framework import serializers
-from django.contrib.auth.password_validation import validate_password
 from .models import Player
 import re
 
@@ -9,7 +8,10 @@ class PlayerSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Player
-        fields = ['username', 'full_name', 'email', 'password', 're_password', 'id_prov', 'prov_name', 'provider_identifier']
+        fields = [
+            'username', 'full_name', 'email', 'password', 
+            're_password', 'id_prov', 'prov_name', 'provider_identifier'
+        ]
         extra_kwargs = {
             'username': {'required': True},
             'id_prov': {'required': False},
@@ -17,23 +19,56 @@ class PlayerSerializer(serializers.ModelSerializer):
             'provider_identifier': {'read_only': True},
         }
 
+    def validate_full_name(self, value):
+        # Full name validation: 7-30 characters, only letters and spaces
+        if not re.match(r'^[a-zA-Z ]+$', value):
+            raise serializers.ValidationError("Full name must contain only letters and spaces.")
+        if not (7 <= len(value) <= 30):
+            raise serializers.ValidationError("Full name length must be between 7 and 30 characters.")
+        return value
+
+    def validate_username(self, value):
+        # Username validation: 3-15 characters, only letters, numbers, hyphens, and underscores
+        if not re.match(r'^[a-zA-Z0-9-_]+$', value):
+            raise serializers.ValidationError("Username must contain only letters, numbers, hyphens, and underscores.")
+        if not (3 <= len(value) <= 15):
+            raise serializers.ValidationError("Username length must be between 3 and 15 characters.")
+        return value
+
+    def validate_password(self, value):
+        # Password validation: 6-30 characters
+        if not (6 <= len(value) <= 30):
+            raise serializers.ValidationError("Password length must be between 6 and 30 characters.")
+        return value
+
     def validate(self, data):
-        if 'prov_name' not in data:  # Traditional sign-up
-            if not data.get('password'):
-                raise serializers.ValidationError({"password": "Password is required for traditional sign-up."})
-            if data.get('password') != data.get('re_password'):
+        # Convert empty strings to None
+        data['id_prov'] = data.get('id_prov') or None
+        data['prov_name'] = data.get('prov_name') or None
+
+        # Enforce uniqueness only when both id_prov and prov_name are provided
+        if data['id_prov'] and data['prov_name']:
+            if Player.objects.filter(id_prov=data['id_prov'], prov_name=data['prov_name']).exists():
+                raise serializers.ValidationError(
+                    {"non_field_errors": "A user with this provider ID already exists."}
+                )
+
+        # Ensure passwords match
+        if 'password' in data and 're_password' in data:
+            if data['password'] != data['re_password']:
                 raise serializers.ValidationError({"re_password": "Passwords do not match."})
-            validate_password(data['password'])
+
         return data
 
     def create(self, validated_data):
-        is_oauth = 'prov_name' in validated_data
-        
+        validated_data.pop('re_password', None)
+        is_oauth = 'prov_name' in validated_data and validated_data['prov_name']
+
         if is_oauth:
             player = self.get_or_create_oauth_user(validated_data)
         else:
             player = self.create_traditional_user(validated_data)
-        
+
         return player
 
     def get_or_create_oauth_user(self, validated_data):
