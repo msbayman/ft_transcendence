@@ -7,8 +7,6 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import axios from 'axios';
 
-//zod
-
 const fullNameSchema = z
   .string()
   .regex(/^[a-zA-Z ]+$/, { message: "Only letters and spaces allowed" })
@@ -32,8 +30,6 @@ const SignupSchema = z.object({
   path: ["re_password"],
 });
 
-//main fun
-
 function Signup_Page() {
   const [mailUsernameErr, setMailUsernameErr] = useState('');
   const navigate = useNavigate();
@@ -42,22 +38,44 @@ function Signup_Page() {
   });
 
   const onSubmit = async (formData: any) => {
+    const dataToSubmit = {
+      ...formData,
+      id_prov: "",
+      prov_name: "",
+    };
+
     try {
       console.log('Form Data:', formData);
-      const response = await axios.post('http://127.0.0.1:8000/user_auth/add_player', formData);
+      const response = await axios.post('http://127.0.0.1:8000/user_auth/add_player', dataToSubmit);
 
-      if (response.status !== 201) {
-        setMailUsernameErr("Username or Email already used !! ");
-      } else {
-        const data = response.data;
-        console.log('Success:', data);
+      if (response.status === 201) {
+        // Success: Reset form and navigate to login
         reset();
         navigate('/login');
       }
-    } catch (error) {
+    } catch (error: any) {
+      // Check if error response contains specific field errors
+      if (error.response && error.response.data) {
+        const errorData = error.response.data;
+
+        // Set backend errors to the mailUsernameErr state
+        if (errorData.non_field_errors) {
+          setMailUsernameErr(errorData.non_field_errors.join(', '));
+        } else if (errorData.username) {
+          setMailUsernameErr(errorData.username.join(', '));
+        } else if (errorData.email) {
+          setMailUsernameErr(errorData.email.join(', '));
+        } else {
+          setMailUsernameErr('An unknown error occurred. Please try again.');
+        }
+      } else {
+        setMailUsernameErr('An unknown error occurred. Please try again.');
+      }
+
       console.error('Error:', error);
     }
   };
+
   return (
     <div className="main_signup">
       <div className="signup_left">
@@ -269,8 +287,7 @@ function Signup_Page() {
                     },
                   }}
                   />
-                  {mailUsernameErr && <p className ="err_field " >{mailUsernameErr}</p>}
-
+                  {mailUsernameErr && <p className="err_field">{mailUsernameErr}</p>}
               </div>
 
               <button id="btn_signup" type="submit">
