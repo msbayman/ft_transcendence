@@ -1,24 +1,31 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { TextField } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import Cookies from "js-cookie";
 import "./Login_Page.css";
-import { useNavigate } from 'react-router-dom';
+
+
+
 function Login_Page() {
-
-
-  interface player_form {
-    full_name: string;
-    username: string;
-    email: string;
-  }
   const navigate = useNavigate();
-  const [player_form, setplayer_form] = useState<player_form[]>([]);
-
+  const location = useLocation();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [Errmsg, setErrorMessage] = useState("");
+
+  useEffect(() => {
+    // Check if we've been redirected from OAuth
+    const searchParams = new URLSearchParams(location.search);
+    const oauthSuccess = searchParams.get('oauth_success');
+
+    if (oauthSuccess === 'true') {
+      // Clear the URL parameters
+      window.history.replaceState({}, document.title, "/My_profile");
+      // Navigate to the profile page
+      navigate("/My_profile");
+    }
+  }, [location, navigate]);
 
   const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUsername(e.target.value);
@@ -37,40 +44,25 @@ function Login_Page() {
         password,
       });
 
-      const data = response.data;
       if (response.status === 200) {
-        Cookies.set('access_token', data.access, { path: '/' });
-        Cookies.set('refresh_token', data.refresh, { path: '/' });
-        
-        axios.defaults.headers.common['Authorization'] = `Bearer ${Cookies.get('access_token')}`;
-
-
-
-
         navigate("/My_profile");
-        // const fetchData = async () => {
-        //   try {
-        //     const response2 = await axios.get<player_form[]>('http://127.0.0.1:8000/user_auth/display_users');
-        //     setplayer_form(response2.data);
-        //   } catch (error) {
-        //     console.error(error);
-        //   }
-        // };
-
-        // fetchData();
-        // let i= 0;
-        // while(player_form[i])
-        //   console.log(player_form[i++]);
-
-        // alert("done!");
-      }
-      else if (response.status === 401) {
-        setErrorMessage(data.detail);
+      } else if (response.status === 401) {
+        setErrorMessage(response.data.detail);
       }
     } catch (error) {
       setErrorMessage('An unexpected error occurred. Please try again later.');
     }
   };
+
+  const handleOAuthLogin = () => {
+    // Redirect to the backend's Discord login URL
+    window.location.href = "http://localhost:8000/discord/login";
+  };
+
+  // ... rest of the component (render method) remains the same
+
+
+
 
   return (
     <>
@@ -176,6 +168,7 @@ function Login_Page() {
                   className="auth"
                   src="connect_with_google.svg"
                   alt="login google"
+                  onClick={handleOAuthLogin}
                 />
                 <img
                   className="auth"
