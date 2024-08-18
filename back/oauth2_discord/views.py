@@ -7,6 +7,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth import login as auth_login
 from rest_framework.response import Response
 from rest_framework import status
+from django.contrib.auth import authenticate
 
 # Discord OAuth2 URL
 DISCORD_OAUTH_URL = (
@@ -24,7 +25,6 @@ def login(request: HttpRequest) -> HttpResponse:
     return redirect(DISCORD_OAUTH_URL)
 
 def login_redirect(request: HttpRequest) -> JsonResponse:
-    print("login_redirect start ***********************************")
     code = request.GET.get('code')
     if code:
         user_info = exchange_code_for_token(code)
@@ -58,23 +58,51 @@ def exchange_code_for_token(code: str) -> dict:
     else:
         return {"error": "Failed to obtain access token"}
 
-def handle_oauth_user(request: HttpRequest, user_info: dict) -> JsonResponse:
-    serializer = PlayerSerializer(data={
-        'full_name': user_info.get('global_name', user_info.get('username')),
-        'email': user_info.get('email'),
-        'username': user_info.get('username'),
-        'id_prov': user_info.get('id'),
-        'prov_name': "Discord",
-    })
-    print("handle_oauth_user ****************************")
-    if serializer.is_valid():
-        player = serializer.save()
-        auth_login(request, player)
-        refresh = RefreshToken.for_user(player)
-        return JsonResponse({
-            'refresh': str(refresh),
-            'access': str(refresh.access_token),
-            'username': player.username,
-        }, status=status.HTTP_201_CREATED)
-    
-    return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+def handle_oauth_user(request: HttpRequest, user_info: dict) -> HttpResponse:
+    email = user_info.get('email')
+    username = user_info.get('username')
+
+    # Attempt to find or create the user
+    try:
+        # Try to get the user by email (which should be unique)
+        user = Player.objects.get(email=email)
+
+        # Update the user's OAuth details
+        user.id_prov = user_info.get('id')
+        user.prov_name = "Discord"
+        user.save()
+
+    except Player.DoesNotExist:
+        # If no user with the email exists, create a new user
+
+        # Check if the username already exists and generate a unique one if necessary
+        base_username = username
+        counter = 1
+
+        while Player.objects.filter(username=username).exists():
+            username = f"{base_username}_{counter}"
+            counter += 1
+
+        # Create the new user
+        serializer = PlayerSerializer(data={
+            'full_name': user_info.get('global_name', username),
+            'email': email,
+            'username': username,
+            'id_prov': user_info.get('id'),
+            'prov_name': "Discord",
+        })
+        if serializer.is_valid():
+            user = serializer.save()
+            user.set_unusable_password()  # OAuth users don't use passwords
+            user.save()
+        else:
+            # In case of an unexpected validation error, return a generic error
+            return JsonResponse({"error": "Failed to create or update user"}, status=500)
+
+    # Log the user in and generate JWT tokens
+    auth_login(request, user)  # Create a session
+    refresh = RefreshToken.for_user(user)  # Generate JWT tokens
+
+    frontend_url = "http://localhost:5173/login"  # Adjust this URL to match your frontend
+    redirect_url = f"{frontend_url}?oauth_success=true"
+    return redirect(redirect_url)
