@@ -1,11 +1,9 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { TextField } from "@mui/material";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import Cookies from "js-cookie";
 import "./Login_Page.css";
-
-
 
 function Login_Page() {
   const navigate = useNavigate();
@@ -15,13 +13,16 @@ function Login_Page() {
   const [Errmsg, setErrorMessage] = useState("");
 
   useEffect(() => {
-    // Check if we've been redirected from OAuth
     const searchParams = new URLSearchParams(location.search);
-    const oauthSuccess = searchParams.get('oauth_success');
-
-    if (oauthSuccess === 'true') {
-      // Clear the URL parameters
-      window.history.replaceState({}, document.title, "/My_profile");
+    const accessToken = searchParams.get('access_token');
+    const refreshToken = searchParams.get('refresh_token');
+    console.log("hello", accessToken)
+    if (accessToken && refreshToken) {
+      // Store tokens in cookies
+      Cookies.set('access_token', accessToken, { path: '/' });
+      Cookies.set('refresh_token', refreshToken, { path: '/' });
+      axios.defaults.headers.common['Authorization'] = `Bearer ${Cookies.get('access_token')}`;
+      
       // Navigate to the profile page
       navigate("/My_profile");
     }
@@ -45,6 +46,11 @@ function Login_Page() {
       });
 
       if (response.status === 200) {
+        Cookies.set('access_token', response.data.access, { path: '/' });
+        Cookies.set('refresh_token', response.data.refresh, { path: '/' });
+        axios.defaults.headers.common['Authorization'] = `Bearer ${Cookies.get('access_token')}`;
+        console.log("haaaaaaaaaaana:", Cookies.get('access_token'));
+        
         navigate("/My_profile");
       } else if (response.status === 401) {
         setErrorMessage(response.data.detail);
@@ -54,16 +60,41 @@ function Login_Page() {
     }
   };
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   const handleOAuthLogin = () => {
-    // Redirect to the backend's Discord login URL
     window.location.href = "http://localhost:8000/discord/login";
   };
 
-  // ... rest of the component (render method) remains the same
 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+  
   return (
     <>
       <div className="main_login">

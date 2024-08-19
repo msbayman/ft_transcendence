@@ -2,6 +2,7 @@ import { useState , useEffect} from "react";
 import "./My_profile.css";
 import axios from "axios";
 import Cookies from "js-cookie";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 
 function My_profile() {
   interface player_data {
@@ -9,9 +10,16 @@ function My_profile() {
     username: string;
     email: string;
   }
-
+  const location = useLocation();
   const [player_data, setplayer_data] = useState<player_data>();
   useEffect(() => {
+    
+    // const searchParams = new URLSearchParams(location.search);
+    // const accessToken = searchParams.get('access_token') as string; 
+    // const refreshToken = searchParams.get('refresh_token')as string;
+    // Cookies.set('access_token', accessToken, { path: '/' });
+    // Cookies.set('refresh_token', refreshToken, { path: '/' });
+    console.log("my_profile:", Cookies.get('access_token'))
     const storedToken = Cookies.get("access_token");
     if (storedToken) {
       fetchData(storedToken);
