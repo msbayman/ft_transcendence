@@ -14,11 +14,21 @@ function My_profile() {
   const [player_data, setplayer_data] = useState<player_data>();
   useEffect(() => {
     
-    // const searchParams = new URLSearchParams(location.search);
-    // const accessToken = searchParams.get('access_token') as string; 
-    // const refreshToken = searchParams.get('refresh_token')as string;
-    // Cookies.set('access_token', accessToken, { path: '/' });
-    // Cookies.set('refresh_token', refreshToken, { path: '/' });
+    const state = location.state as { fromOAuth?: boolean }; // Access the state from the previous navigation
+    const searchParams = new URLSearchParams(location.search);
+
+    if (!state?.fromOAuth) {
+      const accessToken = searchParams.get('access_token') as string;
+      const refreshToken = searchParams.get('refresh_token') as string;
+
+      // Store tokens in cookies
+      if (accessToken && refreshToken) {
+        Cookies.set('access_token', accessToken, { path: '/' });
+        Cookies.set('refresh_token', refreshToken, { path: '/' });
+      }
+    }
+
+
     console.log("my_profile:", Cookies.get('access_token'))
     const storedToken = Cookies.get("access_token");
     if (storedToken) {

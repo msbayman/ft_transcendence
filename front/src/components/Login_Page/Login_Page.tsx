@@ -5,6 +5,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import "./Login_Page.css";
 
+
 function Login_Page() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -16,15 +17,15 @@ function Login_Page() {
     const searchParams = new URLSearchParams(location.search);
     const accessToken = searchParams.get('access_token');
     const refreshToken = searchParams.get('refresh_token');
-    console.log("hello", accessToken)
+    console.log("hello", accessToken);
     if (accessToken && refreshToken) {
       // Store tokens in cookies
       Cookies.set('access_token', accessToken, { path: '/' });
       Cookies.set('refresh_token', refreshToken, { path: '/' });
       axios.defaults.headers.common['Authorization'] = `Bearer ${Cookies.get('access_token')}`;
       
-      // Navigate to the profile page
-      navigate("/My_profile");
+      // Navigate to the profile page and send `false` as a state variable
+      navigate("/My_profile", { state: { fromOAuth: false } });
     }
   }, [location, navigate]);
 
@@ -49,9 +50,9 @@ function Login_Page() {
         Cookies.set('access_token', response.data.access, { path: '/' });
         Cookies.set('refresh_token', response.data.refresh, { path: '/' });
         axios.defaults.headers.common['Authorization'] = `Bearer ${Cookies.get('access_token')}`;
-        console.log("haaaaaaaaaaana:", Cookies.get('access_token'));
         
-        navigate("/My_profile");
+        // Navigate to the profile page and send `true` as a state variable
+        navigate("/My_profile", { state: { fromOAuth: true } });
       } else if (response.status === 401) {
         setErrorMessage(response.data.detail);
       }
@@ -60,42 +61,15 @@ function Login_Page() {
     }
   };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   const handleOAuthLogin = () => {
     window.location.href = "http://localhost:8000/discord/login";
   };
+  const handleOAuthLogin_42 = () => {
+    window.location.href = "http://localhost:8000/42/login";
+  };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
   return (
+
     <>
       <div className="main_login">
         <div className="leftContainer">
@@ -202,6 +176,7 @@ function Login_Page() {
                   onClick={handleOAuthLogin}
                 />
                 <img
+                onClick={handleOAuthLogin_42}
                   className="auth"
                   src="connect_with_42.svg"
                   alt="login intra"
