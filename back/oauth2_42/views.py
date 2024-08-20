@@ -4,40 +4,38 @@ import requests
 from user_auth.models import Player
 from user_auth.serializers import PlayerSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
-from django.contrib.auth import login as auth_login
+from django.conf import settings 
 
-# Discord OAuth2 URL
-DISCORD_OAUTH_URL = (
-    "https://discord.com/oauth2/authorize?client_id=1272193976983752706&"
-    "response_type=code&redirect_uri=http%3A%2F%2F127.0.0.1%3A8000%2Fdiscord%2Flogin_redirect&"
-    "scope=email+identify"
-)
-
+# 42 OAuth2 URL
 def login(request: HttpRequest) -> HttpResponse:
-    return redirect(DISCORD_OAUTH_URL)
+    authorization_url = (
+        f"{settings.OAUTH_42_AUTHORIZATION_URL}?client_id={settings.OAUTH_42_CLIENT_ID}&"
+        f"redirect_uri={settings.OAUTH_42_REDIRECT_URI}&response_type=code&scope=public"
+    )
+    return redirect(authorization_url)
 
 def login_redirect(request: HttpRequest) -> JsonResponse:
     code = request.GET.get('code')
     if code:
-        user_info = exchange_code_for_token(code)
+        user_info = exchange_code_for_token_42(code)
         if "error" in user_info:
             return JsonResponse({"error": "Failed to retrieve user info"}, status=400)
-        return handle_oauth_user(request, user_info)
+        return handle_oauth_user_42(request, user_info)
     else:
         return JsonResponse({"error": "No code provided"}, status=400)
 
-def exchange_code_for_token(code: str) -> dict:
+def exchange_code_for_token_42(code: str) -> dict:
     data = {
-        'client_id': "1272193976983752706",
-        'client_secret': "A-avTEAQ-gzHms8y11YHTcICPjihhvn0",
         'grant_type': 'authorization_code',
+        'client_id': settings.OAUTH_42_CLIENT_ID,
+        'client_secret': settings.OAUTH_42_CLIENT_SECRET,
         'code': code,
-        'redirect_uri': 'http://127.0.0.1:8000/discord/login_redirect',
+        'redirect_uri': settings.OAUTH_42_REDIRECT_URI,
     }
     headers = {
         'Content-Type': 'application/x-www-form-urlencoded'
     }
-    response = requests.post('https://discord.com/api/oauth2/token', data=data, headers=headers)
+    response = requests.post(settings.OAUTH_42_TOKEN_URL, data=data, headers=headers)
     credentials = response.json()
 
     access_token = credentials.get('access_token')
@@ -45,20 +43,20 @@ def exchange_code_for_token(code: str) -> dict:
         headers = {
             'Authorization': f'Bearer {access_token}'
         }
-        user_response = requests.get('https://discord.com/api/v6/users/@me', headers=headers)
+        user_response = requests.get(settings.OAUTH_42_USER_INFO_URL, headers=headers)
         return user_response.json()
     else:
         return {"error": "Failed to obtain access token"}
 
-def handle_oauth_user(request: HttpRequest, user_info: dict) -> HttpResponse:
+def handle_oauth_user_42(request: HttpRequest, user_info: dict) -> HttpResponse:
     email = user_info.get('email')
-    username = user_info.get('username')
+    username = user_info.get('login')
     user_id_prov = user_info.get('id')
-    
+
     try:
         user = Player.objects.get(email=email)
         user.id_prov = user_id_prov
-        user.prov_name = "Discord"
+        user.prov_name = "42"
         user.save()
     except Player.DoesNotExist:
         base_username = username
@@ -68,11 +66,11 @@ def handle_oauth_user(request: HttpRequest, user_info: dict) -> HttpResponse:
             counter += 1
 
         serializer = PlayerSerializer(data={
-            'full_name': user_info.get('global_name', username),
+            'full_name': user_info.get('displayname', username),
             'email': email,
             'username': username,
             'id_prov': user_id_prov,
-            'prov_name': "Discord",
+            'prov_name': "42",
         })
         if serializer.is_valid():
             user = serializer.save()
