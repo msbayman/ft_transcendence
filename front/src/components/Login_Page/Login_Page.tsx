@@ -170,14 +170,15 @@ function Login_Page() {
               </form>
               <div className="login_42_google">
                 <img
-                  className="auth"
+                  
+                  className="auth cursor-pointer"
                   src="connect_with_google.svg"
                   alt="login google"
                   onClick={handleOAuthLogin}
                 />
                 <img
                 onClick={handleOAuthLogin_42}
-                  className="auth"
+                  className="auth cursor-pointer"
                   src="connect_with_42.svg"
                   alt="login intra"
                 />
