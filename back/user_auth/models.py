@@ -7,6 +7,9 @@ class Player(AbstractUser):
     id_prov = models.CharField(max_length=40, blank=True, null=True)
     prov_name = models.CharField(max_length=30, blank=True, null=True)
     provider_identifier = models.CharField(max_length=100, blank=True, null=True)
+    otp_code = models.CharField(max_length=6)  # OTP code
+    created_at = models.DateTimeField(auto_now_add=True)  # Time when the OTP was created
+
 
     def save(self, *args, **kwargs):
         # Convert empty strings to None before saving
