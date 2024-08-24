@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.utils import timezone
+from datetime import timedelta
 
 class Player(AbstractUser):
     full_name = models.CharField(max_length=30)
@@ -7,9 +9,12 @@ class Player(AbstractUser):
     id_prov = models.CharField(max_length=40, blank=True, null=True)
     prov_name = models.CharField(max_length=30, blank=True, null=True)
     provider_identifier = models.CharField(max_length=100, blank=True, null=True)
-    otp_code = models.CharField(max_length=6)  # OTP code
+    otp_code = models.CharField(max_length=6,blank=True)  # OTP code
     created_at = models.DateTimeField(auto_now_add=True)  # Time when the OTP was created
 
+
+    def is_expired(self):
+        return timezone.now() > self.created_at + timedelta(minutes=5)
 
     def save(self, *args, **kwargs):
         # Convert empty strings to None before saving

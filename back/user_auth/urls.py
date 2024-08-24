@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-
+from .import otp_view
 urlpatterns = [
      path("", views.index, name="index"),
      path("display_users", views.display_users, name="display_users"),
@@ -9,4 +9,5 @@ urlpatterns = [
      path('update_player', views.update_player, name='update_player'),
      path('login_player', views.LoginAPIView.as_view(), name='login_player'),
      path('UserDetailView', views.UserDetailView.as_view(), name='UserDetailView'),
+     path("make_req_otp/<str:email_to_send>/", otp_view.send_otp_via_email, name="make_req_otp"),
 ]

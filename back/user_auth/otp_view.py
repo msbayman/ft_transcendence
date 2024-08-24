@@ -1,7 +1,6 @@
 import secrets
 import smtplib
 import time
-from django.http import JsonResponse
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
@@ -9,7 +8,7 @@ from email.mime.multipart import MIMEMultipart
 SMTP_SERVER = 'smtp.gmail.com'
 SMTP_PORT = 587
 EMAIL_ADDRESS = 'aymanmsaoub@gmail.com'  # Replace with your email
-EMAIL_PASSWORD = 'adgi pcyk qimx zanw'   # Replace with your email password or app-specific password
+EMAIL_PASSWORD = 'adgi pcyk qimx zanw'        # Replace with your email password or app-specific password
 
 # OTP Storage
 otp_storage = {}
@@ -44,14 +43,24 @@ def store_otp(email, otp):
     current_time = time.time()
     otp_storage[email] = {'otp': otp, 'timestamp': current_time}
 
-def send_otp_email(request, email_to_send):
-    # Generate OTP
-    otp = generate_otp()
+def verify_otp(email, entered_otp):
+    if email in otp_storage:
+        stored_otp_info = otp_storage[email]
+        stored_otp = stored_otp_info['otp']
+        timestamp = stored_otp_info['timestamp']
+        current_time = time.time()
 
-    # Send the OTP to the specified email address
-    if send_otp_via_email(email_to_send, otp):
-        # Store the OTP in the session or some storage
-        store_otp(email_to_send, otp)
-        return JsonResponse({'message': f'OTP sent to {email_to_send}'}, status=200)
+        if current_time - timestamp > 300:
+            print('OTP has expired.')
+            del otp_storage[email]
+            return False
+        elif stored_otp == entered_otp:
+            print('OTP verified successfully!')
+            del otp_storage[email]
+            return True
+        else:
+            print('Invalid OTP.')
+            return False
     else:
-        return JsonResponse({'error': 'Failed to send OTP'}, status=500)
+        print('No OTP found for this email.')
+        return False
