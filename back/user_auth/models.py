@@ -11,7 +11,7 @@ class Player(AbstractUser):
     provider_identifier = models.CharField(max_length=100, blank=True, null=True)
     otp_code = models.CharField(max_length=6,blank=True)  # OTP code
     created_at = models.DateTimeField(auto_now_add=True)  # Time when the OTP was created
-
+    active_2fa = models.BooleanField(default=False)
 
     def is_expired(self):
         return timezone.now() > self.created_at + timedelta(minutes=5)
