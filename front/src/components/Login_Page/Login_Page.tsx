@@ -17,7 +17,6 @@ function Login_Page() {
     const searchParams = new URLSearchParams(location.search);
     const accessToken = searchParams.get('access_token');
     const refreshToken = searchParams.get('refresh_token');
-    const twofa_required = searchParams.get('2fa_required');
 
     // console.log("hello", accessToken);
     if (accessToken && refreshToken) {
@@ -50,9 +49,8 @@ function Login_Page() {
 
         if (response.status === 200) {
             if (response.data.twofa_required) {
-              console.log("hey 1");
-                // Redirect to the OTP verification page
-                navigate(response.data.redirect_to);
+              const redirectUrl = `${response.data.redirect_to}?username=${response.data.username}`;
+              navigate(redirectUrl);
             } else {
               console.log("hey 2");
                 // Store tokens and redirect to the dashboard

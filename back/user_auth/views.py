@@ -8,6 +8,8 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from .models import Player
 from rest_framework.permissions import IsAuthenticated
 from .serializers import PlayerSerializer
+from .otp_view import generate_otp , send_otp_via_email
+from django.utils import timezone
 
 # Logger setup
 logger = logging.getLogger(__name__)
@@ -85,7 +87,6 @@ class LoginAPIView(APIView):
             player = Player.objects.get(username=username)
             
             if not player.active_2fa:
-                print("0000000000ayman00000000")
                 # If 2FA is disabled, proceed to login and generate tokens
                 refresh = RefreshToken.for_user(user)
                 return Response({
@@ -95,18 +96,59 @@ class LoginAPIView(APIView):
                 }, status=status.HTTP_200_OK)
             
             else:
-                # If 2FA is enabled, return a response indicating that OTP verification is needed
-                # You might send the OTP here in a real scenario
+                # If 2FA is enabled, generate and send OTP
+                otp_code = generate_otp()
+                send_otp_via_email(user.email, otp_code)  # Send OTP via email
+                
+                # Store OTP in the player's record
+                player.otp_code = otp_code
+                player.created_at = timezone.now()
+                player.save()
+
                 return Response({
-                    "detail": "2FA is enabled. Please verify with your OTP.",
                     "twofa_required": True,
-                    "redirect_to": '/verify-otp'  # Specify the OTP verification page
+                    "username": player.username,
+                    "redirect_to": '/Valid_otp'  # Specify the OTP verification page
                 }, status=status.HTTP_200_OK)
         else:
             return Response({"detail": "Invalid username or password."}, status=status.HTTP_401_UNAUTHORIZED)
-        
 
 
+class VerifyOTP(APIView):
+    def post(self, request):
+        username = request.data.get('username')
+        otp = request.data.get('otp')
+        print(otp)
+
+        if not username or not otp:
+            return Response({"detail": "Username and OTP are required."}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            player = Player.objects.get(username=username)
+        except Player.DoesNotExist:
+            return Response({"detail": "User not found."}, status=status.HTTP_404_NOT_FOUND)
+
+        # Check if the OTP has expired
+        if player.is_expired():
+            return Response({"detail": "OTP has expired."}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Verify the OTP
+        if player.otp_code == otp:
+            # OTP is correct, proceed to login and generate tokens
+            # Since the OTP is correct, you may directly authenticate the user without checking the password again
+            refresh = RefreshToken.for_user(player)  # Assuming `player` is the user instance
+
+            # Clear the OTP after successful verification
+            player.otp_code = 0
+            player.save()
+
+            return Response({
+                'refresh': str(refresh),
+                'access': str(refresh.access_token),
+                'redirect_to': '/My_profile'  # Redirect to the profile page after successful login
+            }, status=status.HTTP_200_OK)
+        else:
+            return Response({"detail": "Invalid OTP."}, status=status.HTTP_400_BAD_REQUEST)
 
 
 
