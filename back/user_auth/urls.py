@@ -9,7 +9,7 @@ urlpatterns = [
      path('update_player', views.update_player, name='update_player'),
      path('login_simple', views.LoginAPIView.as_view(), name='login_simple'),
      # path('send-otp', views.SendOTPView.as_view(), name='send-otp'),
-     # path('verify-otp-and-login', views.VerifyOTPAndLogin.as_view(), name='verify-otp-and-login'),
+     path('VerifyOTP', views.VerifyOTP.as_view(), name='VerifyOTP'),
      path('UserDetailView', views.UserDetailView.as_view(), name='UserDetailView'),
      path("make_req_otp/<str:email_to_send>/", otp_view.send_otp_via_email, name="make_req_otp"),
 ]
