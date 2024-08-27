@@ -70,6 +70,17 @@ INSTALLED_APPS = [
     'oauth2_42',
 ]
 
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:5173',
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost:5173',
+]
+
+CSRF_COOKIE_SECURE = False  # Set to True in production
+CSRF_COOKIE_HTTPONLY = True
+CSRF_COOKIE_SAMESITE = 'Lax'  # Can be 'Strict' in production if appropriate
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',

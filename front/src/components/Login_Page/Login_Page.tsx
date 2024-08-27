@@ -17,7 +17,9 @@ function Login_Page() {
     const searchParams = new URLSearchParams(location.search);
     const accessToken = searchParams.get('access_token');
     const refreshToken = searchParams.get('refresh_token');
-    console.log("hello", accessToken);
+    const twofa_required = searchParams.get('2fa_required');
+
+    // console.log("hello", accessToken);
     if (accessToken && refreshToken) {
       // Store tokens in cookies
       Cookies.set('access_token', accessToken, { path: '/' });
@@ -38,28 +40,36 @@ function Login_Page() {
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+      e.preventDefault();
+  
+      try {
+        const response = await axios.post("http://127.0.0.1:8000/user_auth/login_simple", {
+            username,
+            password,
+        });
 
-    try {
-      const response = await axios.post("http://127.0.0.1:8000/user_auth/login_player", {
-        username,
-        password,
-      });
-
-      if (response.status === 200) {
-        Cookies.set('access_token', response.data.access, { path: '/' });
-        Cookies.set('refresh_token', response.data.refresh, { path: '/' });
-        axios.defaults.headers.common['Authorization'] = `Bearer ${Cookies.get('access_token')}`;
-        
-        // Navigate to the profile page and send `true` as a state variable
-        navigate("/My_profile", { state: { fromOAuth: true } });
-      } else if (response.status === 401) {
-        setErrorMessage(response.data.detail);
-      }
+        if (response.status === 200) {
+            if (response.data.twofa_required) {
+              console.log("hey 1");
+                // Redirect to the OTP verification page
+                navigate(response.data.redirect_to);
+            } else {
+              console.log("hey 2");
+                // Store tokens and redirect to the dashboard
+                Cookies.set('access_token', response.data.access, { path: '/' });
+                Cookies.set('refresh_token', response.data.refresh, { path: '/' });
+                axios.defaults.headers.common['Authorization'] = `Bearer ${Cookies.get('access_token')}`;
+                navigate(response.data.redirect_to);
+            }
+        } else if (response.status === 401) {
+          console.log("hey 3");
+            setErrorMessage(response.data.detail);
+        }
     } catch (error) {
-      setErrorMessage('An unexpected error occurred. Please try again later.');
+      console.log("hey 4");
+        setErrorMessage('An unexpected error occurred. Please try again later.');
     }
-  };
+};
 
   const handleOAuthLogin = () => {
     window.location.href = "http://localhost:8000/discord/login";

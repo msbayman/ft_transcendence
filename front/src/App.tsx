@@ -4,6 +4,7 @@ import Landing_Page from "./components/Landing_Page/Landing_page_com/Landing_Pag
 import Login_Page from "./components/Login_Page/Login_Page";
 import Signup_Page from "./components/Signup_Page/Signup_Page";
 import My_profile from "./components/My_rofile/My_profile"
+import Valid_otp from "./components/Valid_otp/Valid_otp";
 function App() {
   
   return (
@@ -15,6 +16,7 @@ function App() {
             <Route path="login" element={<Login_Page />} />
             <Route path="signup" element={<Signup_Page />} />
             <Route path="My_profile" element={<My_profile />} />
+            <Route path="Valid_otp" element={<Valid_otp />} />
           </Routes>
         </main>
       </BrowserRouter>
