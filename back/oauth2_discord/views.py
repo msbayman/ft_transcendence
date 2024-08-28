@@ -9,12 +9,7 @@ from user_auth.otp_view import generate_otp , send_otp_via_email
 from django.utils import timezone
 
 # Discord OAuth2 URL
-DISCORD_OAUTH_URL = (
-    "https://discord.com/oauth2/authorize?client_id=1272193976983752706&"
-    "response_type=code&redirect_uri=http%3A%2F%2F127.0.0.1%3A8000%2Fdiscord%2Flogin_redirect&"
-    "scope=email+identify"
-)
-
+DISCORD_OAUTH_URL = "https://discord.com/oauth2/authorize?client_id=1272193976983752706&response_type=code&redirect_uri=http%3A%2F%2F127.0.0.1%3A8000%2Fdiscord%2Flogin_redirect&scope=email+identify"
 def login(request: HttpRequest) -> HttpResponse:
     return redirect(DISCORD_OAUTH_URL)
 
@@ -31,7 +26,7 @@ def login_redirect(request: HttpRequest) -> JsonResponse:
 def exchange_code_for_token(code: str) -> dict:
     data = {
         'client_id': "1272193976983752706",
-        'client_secret': "A-avTEAQ-gzHms8y11YHTcICPjihhvn0",
+        'client_secret': "gDEzOmoJ_gNmEBP4IPAfN9v_S3oQn_tK",
         'grant_type': 'authorization_code',
         'code': code,
         'redirect_uri': 'http://127.0.0.1:8000/discord/login_redirect',
@@ -81,6 +76,7 @@ def exchange_code_for_token(code: str) -> dict:
 #             user.set_unusable_password()
 #             user.save()
 #         else:
+#             print(serializer.error_messages)
 #             return JsonResponse({"error": "Failed to create or update user"}, status=500)
 
 #     refresh = RefreshToken.for_user(user)
@@ -122,7 +118,7 @@ def handle_oauth_user(request: HttpRequest, user_info: dict) -> HttpResponse:
             'id_prov': user_id_prov,
             'prov_name': "Discord",
         })
-        if serializer.is_valid():
+        if serializer.is_valid(): 
             user = serializer.save()
             user.set_unusable_password()
             user.save()
