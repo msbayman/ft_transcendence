@@ -1,3 +1,12 @@
+body
+{
+    background-color: #300488;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+}
 .form_otp
 {
     color: black;
@@ -9,3 +18,4 @@
 p{
     color: black;
 }
+
