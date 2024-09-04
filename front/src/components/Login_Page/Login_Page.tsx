@@ -5,7 +5,6 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import "./Login_Page.css";
 
-
 function Login_Page() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -15,12 +14,14 @@ function Login_Page() {
 
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
-    const accessToken = searchParams.get('access_token');
-    const refreshToken = searchParams.get('refresh_token');
+    const accessToken = searchParams.get("access_token");
+    const refreshToken = searchParams.get("refresh_token");
     if (accessToken && refreshToken) {
-      Cookies.set('access_token', accessToken, { path: '/' });
-      Cookies.set('refresh_token', refreshToken, { path: '/' });
-      axios.defaults.headers.common['Authorization'] = `Bearer ${Cookies.get('access_token')}`;
+      Cookies.set("access_token", accessToken, { path: "/" });
+      Cookies.set("refresh_token", refreshToken, { path: "/" });
+      axios.defaults.headers.common["Authorization"] = `Bearer ${Cookies.get(
+        "access_token"
+      )}`;
       // Navigate to the profile page and send `false` as a state variable
       navigate("/My_profile", { state: { fromOAuth: false } });
     }
@@ -35,31 +36,36 @@ function Login_Page() {
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
-  
-      try {
-        const response = await axios.post("http://127.0.0.1:8000/user_auth/login_simple", {
-            username,
-            password,
-        });
+    e.preventDefault();
 
-        if (response.status === 200) {
-            if (response.data.twofa_required) {
-              const redirectUrl = `${response.data.redirect_to}?username=${response.data.username}`;
-              navigate(redirectUrl);
-            } else {
-                Cookies.set('access_token', response.data.access, { path: '/' });
-                Cookies.set('refresh_token', response.data.refresh, { path: '/' });
-                axios.defaults.headers.common['Authorization'] = `Bearer ${Cookies.get('access_token')}`;
-                navigate(response.data.redirect_to);
-            }
-        } else if (response.status === 401) {
-            setErrorMessage(response.data.detail);
+    try {
+      const response = await axios.post(
+        "http://127.0.0.1:8000/user_auth/login_simple",
+        {
+          username,
+          password,
         }
+      );
+
+      if (response.status === 200) {
+        if (response.data.twofa_required) {
+          const redirectUrl = `${response.data.redirect_to}?username=${response.data.username}`;
+          navigate(redirectUrl);
+        } else {
+          Cookies.set("access_token", response.data.access, { path: "/" });
+          Cookies.set("refresh_token", response.data.refresh, { path: "/" });
+          axios.defaults.headers.common[
+            "Authorization"
+          ] = `Bearer ${Cookies.get("access_token")}`;
+          navigate(response.data.redirect_to);
+        }
+      } else if (response.status === 401) {
+        setErrorMessage(response.data.detail);
+      }
     } catch (error) {
-        setErrorMessage('An unexpected error occurred. Please try again later.');
+      setErrorMessage("An unexpected error occurred. Please try again later.");
     }
-};
+  };
 
   const handleOAuthLogin = () => {
     window.location.href = "http://localhost:8000/discord/login";
@@ -69,7 +75,6 @@ function Login_Page() {
   };
 
   return (
-
     <>
       <div className="main_login">
         <div className="leftContainer">
@@ -162,7 +167,9 @@ function Login_Page() {
 
                 <div className="login_btn_forget">
                   <div className="forget_pass">Forgot Password ?</div>
-                  <button id="btn_login" type="submit">LOG IN</button>
+                  <button id="btn_login" type="submit">
+                    LOG IN
+                  </button>
                 </div>
                 <span className="dotted-line">
                   <div id="or">or</div>
@@ -170,14 +177,13 @@ function Login_Page() {
               </form>
               <div className="login_42_google">
                 <img
-                  
                   className="auth cursor-pointer"
                   src="connect_with_google.svg"
                   alt="login google"
                   onClick={handleOAuthLogin}
                 />
                 <img
-                onClick={handleOAuthLogin_42}
+                  onClick={handleOAuthLogin_42}
                   className="auth cursor-pointer"
                   src="connect_with_42.svg"
                   alt="login intra"
@@ -186,7 +192,9 @@ function Login_Page() {
 
               <div className="forget_and_singup">
                 <span className="forget_pass">Don't have an account ?</span>
-                <span><Link to="/signup">Sign Up ! </Link></span>
+                <span>
+                  <Link to="/signup">Sign Up ! </Link>
+                </span>
               </div>
             </div>
           </div>

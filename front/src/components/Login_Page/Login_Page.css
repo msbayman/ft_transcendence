@@ -158,8 +158,7 @@
   }
 }
 
-#err_msg
-{
+#err_msg {
   margin-top: 12px;
   color: red;
 }
