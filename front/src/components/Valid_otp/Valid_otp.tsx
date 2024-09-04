@@ -64,6 +64,8 @@ const ValidOtp: React.FC = () => {
   };
 
   return (
+    <div className="bd_otp">
+
     <Box 
       component="form" 
       onSubmit={handleSubmit} 
@@ -73,6 +75,12 @@ const ValidOtp: React.FC = () => {
       alignItems="center" 
       justifyContent="center"
       p={2}
+      sx={{
+        border: '2px solid white', // Change the color and style as needed
+        padding: 8,
+        borderRadius: 4,
+        backgroundColor: "#130150",
+      }}
     >
       <Typography variant="h6" mb={2} sx={{ color: 'white' }}>Hello, {username}</Typography>
       <Box display="flex" justifyContent="space-between" mb={2} >
@@ -106,15 +114,22 @@ const ValidOtp: React.FC = () => {
           />
         ))}
       </Box>
-      <Button variant="contained" color="primary" type="submit">
-        Verify
-      </Button>
+
+      <Button 
+        type="submit"
+        variant="contained"
+        style={{
+          backgroundColor: '#300488', // Set the button color
+          color: 'white', // Set text color for contrast
+        }}
+      > save </Button>
       {errMsg && (
        <Alert severity="error" sx={{ marginTop: 2, color: 'red', backgroundColor: 'red' }}>
        {errMsg}
      </Alert>
       )}
     </Box>
+    </div>
   );
 };
 
