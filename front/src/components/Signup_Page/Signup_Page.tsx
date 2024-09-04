@@ -45,20 +45,15 @@ function Signup_Page() {
     };
 
     try {
-      console.log('Form Data:', formData);
       const response = await axios.post('http://127.0.0.1:8000/user_auth/add_player', dataToSubmit);
 
       if (response.status === 201) {
-        // Success: Reset form and navigate to login
         reset();
         navigate('/login');
       }
     } catch (error: any) {
-      // Check if error response contains specific field errors
       if (error.response && error.response.data) {
         const errorData = error.response.data;
-
-        // Set backend errors to the mailUsernameErr state
         if (errorData.non_field_errors) {
           setMailUsernameErr(errorData.non_field_errors.join(', '));
         } else if (errorData.username) {
@@ -71,8 +66,6 @@ function Signup_Page() {
       } else {
         setMailUsernameErr('An unknown error occurred. Please try again.');
       }
-
-      console.error('Error:', error);
     }
   };
 
