@@ -17,14 +17,10 @@ function Login_Page() {
     const searchParams = new URLSearchParams(location.search);
     const accessToken = searchParams.get('access_token');
     const refreshToken = searchParams.get('refresh_token');
-
-    // console.log("hello", accessToken);
     if (accessToken && refreshToken) {
-      // Store tokens in cookies
       Cookies.set('access_token', accessToken, { path: '/' });
       Cookies.set('refresh_token', refreshToken, { path: '/' });
       axios.defaults.headers.common['Authorization'] = `Bearer ${Cookies.get('access_token')}`;
-      
       // Navigate to the profile page and send `false` as a state variable
       navigate("/My_profile", { state: { fromOAuth: false } });
     }
@@ -52,19 +48,15 @@ function Login_Page() {
               const redirectUrl = `${response.data.redirect_to}?username=${response.data.username}`;
               navigate(redirectUrl);
             } else {
-              console.log("hey 2");
-                // Store tokens and redirect to the dashboard
                 Cookies.set('access_token', response.data.access, { path: '/' });
                 Cookies.set('refresh_token', response.data.refresh, { path: '/' });
                 axios.defaults.headers.common['Authorization'] = `Bearer ${Cookies.get('access_token')}`;
                 navigate(response.data.redirect_to);
             }
         } else if (response.status === 401) {
-          console.log("hey 3");
             setErrorMessage(response.data.detail);
         }
     } catch (error) {
-      console.log("hey 4");
         setErrorMessage('An unexpected error occurred. Please try again later.');
     }
 };
