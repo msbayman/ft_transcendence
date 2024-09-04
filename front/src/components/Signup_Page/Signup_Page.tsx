@@ -1,11 +1,11 @@
 import "./Signup_Page.css";
 import { TextField } from "@mui/material";
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-import { z } from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
-import axios from 'axios';
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import axios from "axios";
 
 const fullNameSchema = z
   .string()
@@ -19,21 +19,31 @@ const userNameSchema = z
   .min(3, { message: "Must be 3-15 characters" })
   .max(15, { message: "Must be 3-15 characters" });
 
-const SignupSchema = z.object({
-  full_name: fullNameSchema,
-  username: userNameSchema,
-  email: z.string().email({ message: "Invalid email" }),
-  password: z.string().min(6, { message: "Must be 6-30 characters" }).max(30),
-  re_password: z.string().min(6, { message: "Must be 6-30 characters" }).max(30),
-}).refine(data => data.password === data.re_password, {
-  message: "Passwords don't match",
-  path: ["re_password"],
-});
+const SignupSchema = z
+  .object({
+    full_name: fullNameSchema,
+    username: userNameSchema,
+    email: z.string().email({ message: "Invalid email" }),
+    password: z.string().min(6, { message: "Must be 6-30 characters" }).max(30),
+    re_password: z
+      .string()
+      .min(6, { message: "Must be 6-30 characters" })
+      .max(30),
+  })
+  .refine((data) => data.password === data.re_password, {
+    message: "Passwords don't match",
+    path: ["re_password"],
+  });
 
 function Signup_Page() {
-  const [mailUsernameErr, setMailUsernameErr] = useState('');
+  const [mailUsernameErr, setMailUsernameErr] = useState("");
   const navigate = useNavigate();
-  const { register, handleSubmit, formState: { errors } ,reset } = useForm({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm({
     resolver: zodResolver(SignupSchema),
   });
 
@@ -45,26 +55,29 @@ function Signup_Page() {
     };
 
     try {
-      const response = await axios.post('http://127.0.0.1:8000/user_auth/add_player', dataToSubmit);
+      const response = await axios.post(
+        "http://127.0.0.1:8000/user_auth/add_player",
+        dataToSubmit
+      );
 
       if (response.status === 201) {
         reset();
-        navigate('/login');
+        navigate("/login");
       }
     } catch (error: any) {
       if (error.response && error.response.data) {
         const errorData = error.response.data;
         if (errorData.non_field_errors) {
-          setMailUsernameErr(errorData.non_field_errors.join(', '));
+          setMailUsernameErr(errorData.non_field_errors.join(", "));
         } else if (errorData.username) {
-          setMailUsernameErr(errorData.username.join(', '));
+          setMailUsernameErr(errorData.username.join(", "));
         } else if (errorData.email) {
-          setMailUsernameErr(errorData.email.join(', '));
+          setMailUsernameErr(errorData.email.join(", "));
         } else {
-          setMailUsernameErr('An unknown error occurred. Please try again.');
+          setMailUsernameErr("An unknown error occurred. Please try again.");
         }
       } else {
-        setMailUsernameErr('An unknown error occurred. Please try again.');
+        setMailUsernameErr("An unknown error occurred. Please try again.");
       }
     }
   };
@@ -83,7 +96,10 @@ function Signup_Page() {
       <div className="rightContainer">
         <div className="signup_right">
           <div className="right_cont">
-            <Link to="/"> <img id="logo_signup" src="logo_game.png" alt="game_logo" /></Link>
+            <Link to="/">
+              {" "}
+              <img id="logo_signup" src="logo_game.png" alt="game_logo" />
+            </Link>
             <form className="signup_form" onSubmit={handleSubmit(onSubmit)}>
               <img
                 className="auth"
@@ -103,10 +119,12 @@ function Signup_Page() {
                 <TextField
                   id="f_full_name_sign"
                   label="Full name"
-                  {...register('full_name')}
+                  {...register("full_name")}
                   variant="standard"
                   error={!!errors.full_name}
-                  helperText={errors.full_name ? errors.full_name.message as string : ''}
+                  helperText={
+                    errors.full_name ? (errors.full_name.message as string) : ""
+                  }
                   sx={{
                     width: "150%",
                     "& .MuiInputBase-input": {
@@ -139,10 +157,12 @@ function Signup_Page() {
                 <TextField
                   id="f_Username_sign"
                   label="Username"
-                  {...register('username')}
+                  {...register("username")}
                   variant="standard"
                   error={!!errors.username}
-                  helperText={errors.username ? errors.username.message as string : ''}
+                  helperText={
+                    errors.username ? (errors.username.message as string) : ""
+                  }
                   sx={{
                     width: "150%",
                     "& .MuiInputBase-input": {
@@ -175,10 +195,12 @@ function Signup_Page() {
                 <TextField
                   id="f_Email_sign"
                   label="Email"
-                  {...register('email')}
+                  {...register("email")}
                   variant="standard"
                   error={!!errors.email}
-                  helperText={errors.email ? errors.email.message as string : ''}
+                  helperText={
+                    errors.email ? (errors.email.message as string) : ""
+                  }
                   sx={{
                     width: "150%",
                     "& .MuiInputBase-input": {
@@ -205,17 +227,19 @@ function Signup_Page() {
                       color: "white",
                     },
                   }}
-                  />
+                />
               </div>
               <div className="div_pw_s input_fld">
                 <TextField
                   id="f_pw_sign"
                   label="Password"
-                  {...register('password')}
+                  {...register("password")}
                   type="password"
                   variant="standard"
                   error={!!errors.password}
-                  helperText={errors.password ? errors.password.message as string : ''}
+                  helperText={
+                    errors.password ? (errors.password.message as string) : ""
+                  }
                   sx={{
                     width: "150%",
                     "& .MuiInputBase-input": {
@@ -242,17 +266,21 @@ function Signup_Page() {
                       color: "white",
                     },
                   }}
-                  />
+                />
               </div>
               <div className="div_r_pw_s input_fld">
                 <TextField
                   id="f_rpw_sign"
                   label="Re-Password"
-                  {...register('re_password')}
+                  {...register("re_password")}
                   type="password"
                   variant="standard"
                   error={!!errors.re_password}
-                  helperText={errors.re_password ? errors.re_password.message as string : ''}
+                  helperText={
+                    errors.re_password
+                      ? (errors.re_password.message as string)
+                      : ""
+                  }
                   sx={{
                     width: "150%",
                     "& .MuiInputBase-input": {
@@ -279,8 +307,10 @@ function Signup_Page() {
                       color: "white",
                     },
                   }}
-                  />
-                  {mailUsernameErr && <p className="err_field">{mailUsernameErr}</p>}
+                />
+                {mailUsernameErr && (
+                  <p className="err_field">{mailUsernameErr}</p>
+                )}
               </div>
 
               <button id="btn_signup" type="submit">
@@ -290,7 +320,9 @@ function Signup_Page() {
               <div className="no_acc_or_log">
                 <span className="no_acc">Do you have an account ?</span>
                 <span>
-                  <Link to="/login" id="log_in">login</Link>
+                  <Link to="/login" id="log_in">
+                    login
+                  </Link>
                 </span>
               </div>
             </form>
