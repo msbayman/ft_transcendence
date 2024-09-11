@@ -1,6 +1,10 @@
-.nav_bar_items
-{
-  margin:0 1rem;
+.nav_bar_items {
+  margin: 0 1rem;
+}
+
+.nav_bar_items:hover {
+  margin: 0 1rem;
+  filter: brightness(150%);
 }
 
 @media (min-width: 1440px) {
