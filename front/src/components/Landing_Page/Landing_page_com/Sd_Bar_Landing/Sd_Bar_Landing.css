@@ -9,7 +9,7 @@
   background-color: #300488;
   top: 0;
   z-index: 8;
-  left: 0;
+  right: 0;
   animation-name: example;
   animation-duration: 1s;
 }
@@ -23,17 +23,30 @@
 }
 
 .sb_item {
-  margin-top: 10px;
+  padding-bottom: 0.2rem;
+  font-size: 1rem;
+  margin: 10px;
+  width: 100%;
+  padding: 0.5rem;
 }
+.sb_item:hover {
+  border-top: white solid 1px;
+  border-bottom: white solid 1px;
+
+  /* scale: 1.2; */
+  /* font-weight: bold; */
+}
+
+
 
 @keyframes example {
   from {
-    left: -200px;
+    right: -200px;
     opacity: 0;
   }
   to {
     opacity: 1;
-    left: 0;
+    right: 0;
   }
 }
 

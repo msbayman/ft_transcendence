@@ -9,7 +9,7 @@ function Sd_Bar_Landing() {
                 <li className='sb_item'><a  href="#l_p_2">Discover</a></li>
                 <li className='sb_item'><a  href="#l_p_3">About</a></li>
                 <li className='sb_item'> <Link to="login">Login</Link></li>
-                <li className='sb_item'> <Link to="signup">Sign up</Link></li>
+                <li className='sb_item'> <Link to="signup">Signup</Link></li>
             </ul>
         </div>
       )
