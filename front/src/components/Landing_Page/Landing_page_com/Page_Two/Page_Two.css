@@ -1,76 +1,82 @@
-.foot_page2 {
-  position: relative;
-  top: 400px;
+.l_p_2 {
+  height: 100vh;
+  width: 100vw;
+  background-size: cover;
+  background-position: center;
   display: flex;
-  margin: auto, 1%;
-  height: 10%;
-  width: 80vw;
-  border-radius: 2rem;
-  text-align: center;
-
+  flex-direction: column;
   justify-content: center;
-  background-color: black;
+  align-items: center;
+  background-image: url("/Home_page/page_2_background.svg");
 }
 
-.foot_box {
-  width: 100%;
-  text-align: center;
-  justify-content: center;
+.l_p_2_top {
   display: flex;
-  border-radius: 2rem;
-  flex-wrap: wrap;
-  background-color: #300488;
-  padding: 2%;
-}
-.b1,
-.b2,
-.b3 {
   flex: 1;
+  width: 100vw;
 
-  flex-wrap: wrap;
+  justify-content: space-around;
 }
 
-.top1,
-.top2,
-.top3 {
-  font-weight: bold;
-  font-size: 27px;
+.cards_landing_page {
+  width: 25%;
+  max-width: 30rem;
 }
 
-.bottom1,
-.bottom2,
-.bottom3 {
-  color: #f72585;
-  font-weight: bold;
-  font-size: 14px;
+#challenges {
+  max-width: 35rem;
+  width: 30%;
+  src: url("/Home_page/cards/infos_card.svg");
 }
 
-.b2 {
-  border-left: solid 2px white;
-  border-right: solid 2px white;
+.l_p_2_buttom {
+  flex: 1;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
+#info_card {
+  margin-top: 10%;
+  width: 1071px;
 }
 
-@media screen and (max-width: 468px) {
-  .foot_page2 {
-    background-color: transparent;
-    top: 300px;
-    width: 80vw;
-    height: 20vh;
+@media (min-width: 1440px) {
+  .l_p_2_top {
+    justify-content: space-evenly;
+  }
+}
+
+@media (max-width: 425px) {
+  .l_p_2_top {
+    flex: 0;
     flex-direction: column;
+    align-items: center;
   }
-  .foot_box {
-
-  }
-  .top1,
-  .top2,
-  .top3 {
-    font-size: 60%;
-  }
-
-  .bottom1,
-  .bottom2,
-  .bottom3 {
-    font-size: 30%;
+  .cards_landing_page {
+    margin: 2%;
   }
 }
 
+@media (max-width: 1024px) {
+  #info_card {
+    width: 610px;
+  }
+}
+
+#info_card_v {
+  display: none;
+}
+
+@media (max-width: 425px) {
+  #info_card {
+    display: none;
+  }
+  #info_card_v {
+    display: block;
+  }
+
+  .l_p_2_buttom {
+    align-items: end;
+  }
+}
