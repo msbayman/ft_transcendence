@@ -1,7 +1,7 @@
 import "./Page_Two.css";
 function Page_Two() {
   return (
-    <div className="l_p_2">
+    <div id="l_p_2">
       <div className="l_p_2_top">
         <img className="cards_landing_page" src="/Home_page/cards/card_multiplayer.svg" alt="multiplayer" />
         <img className="cards_landing_page" id="challenges" src="/Home_page/cards/card_challenges.svg" alt="challenges" />
