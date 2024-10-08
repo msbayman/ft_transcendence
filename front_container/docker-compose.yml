@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: dockerfile
+    volumes:
+      - ./front:/app
+      - /app/node_modules
+    ports:
+      - "5173:5173"  # Map port 5173 to the host machine
+    command: npm run dev -- --host  # Add the --host flag here
