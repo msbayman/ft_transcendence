@@ -82,7 +82,7 @@ function Login_Page() {
             <div className="left_cont">
               <div className="game_logo_login"></div>
               <Link to="/">
-                <img id="logo_login" src="logo_game.png" alt="game_logo" />
+                <img id="logo_login" src="game_logo.svg" alt="game_logo" />
               </Link>
 
               <form className="login_form" onSubmit={handleSubmit}>

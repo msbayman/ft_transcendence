@@ -98,7 +98,7 @@ function Signup_Page() {
           <div className="right_cont">
             <Link to="/">
               {" "}
-              <img id="logo_signup" src="logo_game.png" alt="game_logo" />
+              <img id="logo_signup" src="game_logo.svg" alt="game_logo" />
             </Link>
             <form className="signup_form" onSubmit={handleSubmit(onSubmit)}>
               <img

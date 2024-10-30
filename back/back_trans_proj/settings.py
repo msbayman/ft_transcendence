@@ -23,7 +23,7 @@ import os
 
 # 42 OAuth Configuration
 OAUTH_42_CLIENT_ID = 'u-s4t2ud-a4ca19d4122b0c8776673be4adb941c09df86f136d15c2be0d6cf1670894fa0e'
-OAUTH_42_CLIENT_SECRET = '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'
+OAUTH_42_CLIENT_SECRET = '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'
 OAUTH_42_REDIRECT_URI = 'http://127.0.0.1:8000/42/login_redirect'
 OAUTH_42_AUTHORIZATION_URL = 'https://api.intra.42.fr/oauth/authorize'
 OAUTH_42_TOKEN_URL = 'https://api.intra.42.fr/oauth/token'
