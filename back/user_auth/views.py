@@ -92,7 +92,7 @@ class LoginAPIView(APIView):
                 return Response({
                     'refresh': str(refresh),
                     'access': str(refresh.access_token),
-                    'redirect_to': '/My_profile'  # Specify the page to redirect to
+                    'redirect_to': '/Overview'  # Specify the page to redirect to
                 }, status=status.HTTP_200_OK)
             
             else:
@@ -145,7 +145,7 @@ class VerifyOTP(APIView):
             return Response({
                 'refresh': str(refresh),
                 'access': str(refresh.access_token),
-                'redirect_to': '/My_profile'  # Redirect to the profile page after successful login
+                'redirect_to': '/Overview'  # Redirect to the profile page after successful login
             }, status=status.HTTP_200_OK)
         else:
             return Response({"detail": "Invalid OTP."}, status=status.HTTP_400_BAD_REQUEST)

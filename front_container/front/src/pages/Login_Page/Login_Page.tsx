@@ -23,7 +23,7 @@ function Login_Page() {
         "access_token"
       )}`;
       // Navigate to the profile page and send `false` as a state variable
-      navigate("/My_profile", { state: { fromOAuth: false } });
+      navigate("/Overview", { state: { fromOAuth: false } });
     }
   }, [location, navigate]);
 
