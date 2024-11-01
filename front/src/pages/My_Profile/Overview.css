@@ -2,17 +2,15 @@
     background-color: #5D12CD;
 
 }
-.content {
-    display: flex;
-    font-size: 150%;
-}
+
 .all{
+  background-image: url(./assets/Back_left_Side.png);
+  background-size: cover;
+  background-position: center;
     display: flex;
-}
-.left_side{
-    background-color: #320890;
-    color: black;
-}
+    flex-direction: row;
+  }
+
 .nav_color1.Overview{
     background-color: #320890;
   }
@@ -170,9 +168,25 @@
     padding: 50px 0 20px 0;
     display: flex;
     justify-content: center;
-    text-align: center;
+    align-items: center;
     margin-bottom: auto;
   }
+  .cercle{
+    position: absolute;
+    display: flex;
+    background-color: #3A0CA3;
+    width: 35px;
+    height: 35px;
+    margin-right: -100px;
+    border-radius: 50px;
+}
+.nav_hide{
+  width: 20px;
+  /* position: relative; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
   .imgg1 {
     width: 70px;
   }
@@ -193,6 +207,10 @@
     flex:1;
     overflow-y: auto;
     
+  }
+  .navbar_item1_h{
+    display: none;
+
   }
   .navbar_item1{
     padding: 20px 0;
