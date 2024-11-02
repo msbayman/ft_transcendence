@@ -13,14 +13,13 @@ import Shop from "./assets/Shop.svg";
 import Notifications from "./assets/Notifications.svg";
 import Settings from "./assets/Settings.svg";
 import Logout from "./assets/Logout.svg";
-import NavToHide from "./assets/NavToHide.svg"
+import NavToHide from "./assets/NavToHide.svg";
 import Overview_Page from "./Overview_Page/Overview_Page";
 import Profile_Page from "./Profile_Page/Profile_Page";
 import Play_Page from "./Play_Page/Play_Page";
 import Friends_Page from "./Friends_Page/Friends_Page";
 import Shop_Page from "./Shop_Page/Shop_Page";
 import Settings_Page from "./Settings_Page/Settings_Page";
-
 
 function Overview() {
   interface player_data {
@@ -99,25 +98,37 @@ function Overview() {
     if (path === "/settings") {
       return localistation.pathname === path ? "selected1" : "selected_hide";
     } else {
-      console.log(localistation.pathname, path);
       return localistation.pathname === path ? "selected" : "selected_hide";
     }
   };
-  // const [ActiveNavbar, setActiveNavbar] = useState(false);
+  const [ActiveNavbar, setActiveNavbar] = useState(false);
 
-  // const ClickToActive = () => {
-  //   setActiveNavbar(ActiveNavbar);
-  //   return ActiveNavbar ? ".navbar_item1_h" : " ";
-  // };
+  const ClickToActive = () => {
+    setActiveNavbar((ActiveNavbar) => !ActiveNavbar);
+  };
+  const CheckWindow = () => {
+    if (window.innerWidth > 1000)
+      setActiveNavbar(true);
+  };
+  useEffect(() => {
+    CheckWindow();
+    window.addEventListener("resize", CheckWindow);
+    return () => {
+      window.removeEventListener("resize", CheckWindow);
+    };
+  }, []);
 
   return (
     <div className="all">
-      <div id="right_navbar">
+      <div
+        className={ActiveNavbar ? "cercle" : "cercle_hide"}
+        onClick={ClickToActive}
+      >
+        <img src={NavToHide} className="nav_hide" />
+      </div>
+      <div className={ActiveNavbar ? "right_navbar" : "Hide Nav_right_hide"}>
         <div className="the_logo">
-          <img src={Logo_ping} className="imgg1" />
-          <div className="cercle">
-            <img src={NavToHide} className="nav_hide" />
-          </div>
+          <img src={Logo_ping} className="imgg1 imgg1_hide" />
         </div>
         <div className="bar_search">
           <div className="search_content">
@@ -152,7 +163,7 @@ function Overview() {
             <div className={getNavLinkBar("/Shop")}></div>
           </NavLink>
         </div>
-        <div className="content_navbar_item2">
+        <div className="content_navbar_item2 content_navbar_item2_hide">
           <div className="hr_cont">
             <hr className="brr" />
           </div>
