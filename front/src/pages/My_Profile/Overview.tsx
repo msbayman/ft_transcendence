@@ -3,6 +3,8 @@ import "./Overview.css";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { NavLink, Route, Routes, useLocation } from "react-router-dom";
+import OpenNavbar from "./assets/Open_Navbar.svg";
+import CloseNavbar from "./assets/Close_Navbar.svg";
 import Logo_ping from "./assets/Logo_ping.svg";
 import Search from "./assets/Search.svg";
 import Overview_img from "./assets/Overiew.svg";
@@ -44,6 +46,7 @@ function Overview() {
       }
     }
 
+    console.log("Overview:", Cookies.get("access_token"));
     const storedToken = Cookies.get("access_token");
     if (storedToken) {
       fetchData(storedToken);
@@ -106,8 +109,7 @@ function Overview() {
     setActiveNavbar((ActiveNavbar) => !ActiveNavbar);
   };
   const CheckWindow = () => {
-    if (window.innerWidth > 1000)
-      setActiveNavbar(true);
+    if (window.innerWidth > 1000) setActiveNavbar(true);
   };
   useEffect(() => {
     CheckWindow();
@@ -123,7 +125,14 @@ function Overview() {
         className={ActiveNavbar ? "cercle" : "cercle_hide"}
         onClick={ClickToActive}
       >
-        <img src={NavToHide} className="nav_hide" />
+        <img
+          src={CloseNavbar}
+          className={ActiveNavbar ? "Open_Navbar" : "Open_Navbar_hide"}
+        />
+        <img
+          src={OpenNavbar}
+          className={ActiveNavbar ? "Open_Navbar_hide" : "Open_Navbar"}
+        />
       </div>
       <div className={ActiveNavbar ? "right_navbar" : "Hide Nav_right_hide"}>
         <div className="the_logo">
@@ -181,7 +190,7 @@ function Overview() {
           </NavLink>
         </div>
       </div>
-      <div className="left_side">
+      <div className={ActiveNavbar ? "left_side" : "left_side_update"}>
         <Routes>
           <Route path="/overview" element={<Overview_Page />} />
           <Route path="/profile" element={<Profile_Page />} />
