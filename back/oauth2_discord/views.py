@@ -150,6 +150,5 @@ def handle_oauth_user(request: HttpRequest, user_info: dict) -> HttpResponse:
         frontend_url = "http://localhost:5173/Overview"
         redirect_url = f"{frontend_url}?access_token={access_token}&refresh_token={refresh_token}"
         
-        print(f"Redirect URL: {redirect_url}")
 
         return redirect(redirect_url)

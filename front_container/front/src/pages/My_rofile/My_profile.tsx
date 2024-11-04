@@ -26,8 +26,6 @@ function Overview() {
         Cookies.set("refresh_token", refreshToken, { path: "/" });
       }
     }
-
-    console.log("Overview:", Cookies.get("access_token"));
     const storedToken = Cookies.get("access_token");
     if (storedToken) {
       fetchData(storedToken);
