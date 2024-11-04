@@ -1,0 +1,159 @@
+@media (min-width:1500px) {
+    
+    .Overview_Page {
+        display: flex;
+        flex-direction: row;
+        flex-grow: 1;
+        gap: 25px;
+        justify-content:center;
+        flex-wrap: wrap;
+    }
+    
+    .Part_1 {
+        background-color: aquamarine;
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: space-around;
+        align-items: flex-end;
+        flex-grow: 2;
+        max-width: 1000px;
+        border-radius: 20px;
+    }
+    
+    .States_Profile {
+        display: flex;
+        background-color: blueviolet;
+        /* width: 50%; */
+        flex-grow: 1.5;
+        height: 200px;
+        margin: 15px;
+        border-radius: 20px;
+    }
+    
+    .Top_Achievement {
+        display: flex;
+        background-color:brown;
+        /* width: 50%; */
+        flex-grow: 1;
+        height: 200px;
+        margin: 15px;
+        border-radius: 20px;
+    }
+    
+    .Part_2 {
+        background-color: rgb(33, 47, 35);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+        flex-grow: 1;
+        max-width: 600px;
+        min-width: 450px;
+        border-radius: 20px;
+        gap: 20px;
+        padding: 20px;
+    }
+    .Leaderboard {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-grow: 3;
+        background-color: aqua;
+        width: 100%;
+        border-radius: 20px;
+    }
+    .Online_Friends{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-grow: 2;
+        background-color: rgb(201, 129, 145);
+        width: 100%;
+        border-radius: 20px;
+        
+    }
+    .Play_Button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-grow: .5;
+        background-color: rgb(80, 195, 141);
+        width: 100%;
+        border-radius: 20px;
+    }
+}
+@media (max-width:1500px) {
+    
+    .Overview_Page {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        gap: 25px;
+        justify-content: center;
+        align-items: center;
+        /* height: 100%; */
+    }
+    
+    .Part_1 {
+        background-color: aquamarine;
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: space-around;
+        align-items: flex-end;
+        flex-grow: 1;
+        max-width: 900px;
+        min-width: 600px;
+        width: 100%;
+        border-radius: 20px;
+    }
+    
+    .States_Profile {
+        display: flex;
+        background-color: blueviolet;
+        flex-grow: 1.5;
+        height: 200px;
+        margin: 15px;
+        border-radius: 20px;
+    }
+    
+    .Top_Achievement {
+        display: flex;
+        background-color:brown;
+        flex-grow: 1;
+        height: 200px;
+        margin: 15px;
+        border-radius: 20px;
+    }
+    
+    .Part_2 {
+        display: grid;
+        background-color: rgb(33, 47, 35);
+        max-width: 900px;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto auto;
+        flex-grow: .8;
+        width: 100%;
+        border-radius: 20px;
+        padding: 20px;
+        gap: 20px;
+    }
+
+    .Leaderboard {
+        background-color: aqua;
+        border-radius: 20px;
+        grid-column: 1 / 2;
+        grid-row: 1 / 3;
+    }
+    .Online_Friends{
+        background-color: rgb(201, 129, 145);
+        border-radius: 20px;
+        grid-column: 2 / 2;
+        grid-row: 1 / 2;
+    }
+    .Play_Button {
+        grid-column: 2 / 2;
+        grid-row: 2 / 3;
+        background-color: rgb(80, 195, 141);
+        border-radius: 20px;
+    }
+}
