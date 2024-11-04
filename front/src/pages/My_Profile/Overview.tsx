@@ -44,7 +44,6 @@ function Overview() {
       }
     }
 
-    console.log("Overview:", Cookies.get("access_token"));
     const storedToken = Cookies.get("access_token");
     if (storedToken) {
       fetchData(storedToken);
