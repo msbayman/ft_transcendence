@@ -15,7 +15,6 @@ import Shop from "./assets/Shop.svg";
 import Notifications from "./assets/Notifications.svg";
 import Settings from "./assets/Settings.svg";
 import Logout from "./assets/Logout.svg";
-import NavToHide from "./assets/NavToHide.svg";
 import Overview_Page from "./Overview_Page/Overview_Page";
 import Profile_Page from "./Profile_Page/Profile_Page";
 import Play_Page from "./Play_Page/Play_Page";
