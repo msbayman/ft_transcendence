@@ -5,8 +5,9 @@ export const Overview_Page = () => {
   return (
     <div className="Overview_Page">
       <div className="Part_1">
-        <div className="Background_Profile"></div>
-        <div className="States_Profile"></div>
+        <div className="Background_Profile">
+          <div className="States_Profile"></div>
+        </div>
         <div className="Top_Achievement"></div>
       </div>
       <div className="Part_2">

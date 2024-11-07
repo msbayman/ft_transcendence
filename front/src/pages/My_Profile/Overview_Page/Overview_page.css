@@ -4,39 +4,49 @@
         display: flex;
         flex-direction: row;
         flex-grow: 1;
-        gap: 25px;
+        /* gap: 25px; */
         justify-content:center;
         flex-wrap: wrap;
     }
     
     .Part_1 {
-        background-color: aquamarine;
+        /* background-color: aquamarine; */
         display: flex;
-        flex-direction: row-reverse;
-        justify-content: space-around;
+        /* flex-direction: column; */
+        /* justify-content: space-around; */
         align-items: flex-end;
         flex-grow: 2;
         max-width: 1000px;
-        border-radius: 20px;
+        /* border-radius: 20px; */
+        padding: 20px;
     }
-    
     .States_Profile {
         display: flex;
         background-color: blueviolet;
-        /* width: 50%; */
-        flex-grow: 1.5;
+
+        width: 20%;
         height: 200px;
-        margin: 15px;
+        /* margin: 15px; */
         border-radius: 20px;
     }
+    .Background_Profile {
+        background-color: rgb(65, 105, 92);
+        display: flex;
+        flex-grow: 1;
+        height: 100%;
+        /* flex-grow: 2; */
+    }
+    
     
     .Top_Achievement {
         display: flex;
+        position: fixed;
         background-color:brown;
-        /* width: 50%; */
-        flex-grow: 1;
-        height: 200px;
-        margin: 15px;
+        height: 250px;
+        width: 20%;
+        max-width: 430px;
+        /* padding: 300px; */
+        /* margin: 15px; */
         border-radius: 20px;
     }
     
@@ -82,7 +92,7 @@
         border-radius: 20px;
     }
 }
-@media (max-width:1500px) {
+@media (min-width:1170px) and (max-width:1500px) {
     
     .Overview_Page {
         display: flex;
@@ -91,20 +101,22 @@
         gap: 25px;
         justify-content: center;
         align-items: center;
-        /* height: 100%; */
     }
     
     .Part_1 {
         background-color: aquamarine;
         display: flex;
+        box-sizing: border-box;
         flex-direction: row-reverse;
-        justify-content: space-around;
+        justify-content: space-between;
         align-items: flex-end;
         flex-grow: 1;
         max-width: 900px;
         min-width: 600px;
+        min-height: 600px;
         width: 100%;
         border-radius: 20px;
+        /* gap: 20px; */
     }
     
     .States_Profile {
@@ -130,14 +142,15 @@
         background-color: rgb(33, 47, 35);
         max-width: 900px;
         grid-template-columns: 1fr 1fr;
-        grid-template-rows: auto auto;
+        grid-template-rows: 1fr auto;
         flex-grow: .8;
         width: 100%;
         border-radius: 20px;
         padding: 20px;
         gap: 20px;
+        min-height: 500px;
     }
-
+    
     .Leaderboard {
         background-color: aqua;
         border-radius: 20px;
@@ -152,8 +165,16 @@
     }
     .Play_Button {
         grid-column: 2 / 2;
-        grid-row: 2 / 3;
+        grid-row: 1.6 / 2;
+        height: 100px;
+        padding-bottom: 22px;
         background-color: rgb(80, 195, 141);
         border-radius: 20px;
     }
+}
+
+@media (max-width:1170px) {
+    .Overview_Page{
+    }
+
 }
