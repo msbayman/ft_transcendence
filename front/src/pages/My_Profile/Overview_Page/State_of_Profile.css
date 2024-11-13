@@ -1,0 +1,82 @@
+.all_content_state {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* align-self:center; */
+    flex-grow: 1;
+    padding: 20px;
+    height: 240px;
+    border-radius: 60px;
+    background: rgba(255, 255, 255, 0.40);
+    backdrop-filter: blur(10px);
+    gap: 30px;
+}
+.part_1_state {
+    /* height: 50%; */
+    display: flex;
+    /* flex-grow: 1; */
+    flex-direction: row;
+    gap: 30px;
+}
+
+.Photo_Profile {
+
+}
+.Photo_P {
+    border-radius: 50%;
+    width: 140px;
+    margin-top: -60px;
+    margin-left: 2%;
+}
+.Name_and_online-state {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    /* gap: 10px; */
+}
+.Name {
+    font-size: xx-large;
+    margin-top: -10px;
+}
+
+.state {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: green;
+}
+
+.Online-state {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 7px;
+    font-size:larger;
+    color: green;
+    margin-top: -5px;
+
+}
+
+.part_2_state {
+    display: flex;
+    /* flex-wrap: wrap; */
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+.win_state,.lose_state,.achievement_state,.exp_state {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    background-color: rgb(3, 74, 74);
+    height: 13dvw;
+    width: 13dvw;
+    max-height: 80px;
+    max-width: 80px;
+}
+
+.win_state {
+    background-color: green;
+}

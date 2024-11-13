@@ -84,7 +84,7 @@ def exchange_code_for_token(code: str) -> dict:
 #     refresh_token = str(refresh)
 
 
-#     frontend_url = "http://localhost:5173/My_profile"
+#     frontend_url = "http://localhost:5173/Overview"
 #     redirect_url = f"{frontend_url}?access_token={access_token}&refresh_token={refresh_token}"
     
 #     print(f"Redirect URL: {redirect_url}")
@@ -147,9 +147,8 @@ def handle_oauth_user(request: HttpRequest, user_info: dict) -> HttpResponse:
         access_token = str(refresh.access_token)
         refresh_token = str(refresh)
 
-        frontend_url = "http://localhost:5173/My_profile"
+        frontend_url = "http://localhost:5173/Overview"
         redirect_url = f"{frontend_url}?access_token={access_token}&refresh_token={refresh_token}"
         
-        print(f"Redirect URL: {redirect_url}")
 
         return redirect(redirect_url)
