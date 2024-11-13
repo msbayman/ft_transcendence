@@ -22,9 +22,9 @@ const Top_of_Achievement = () => {
           <div className="Title_Acheiv"></div>
         </div>
       </div>
-      <div className="">
-        <img src={dd} className="part_2_achv" />
-        <div className="Titre_Acheivement"></div>
+      <div className="Achiev_Title">
+        <img src={dd} className="part_2_achv"/>
+        <div className="Titre_Acheivement">Top<br/>Achievement</div>
       </div>
     </div>
   );

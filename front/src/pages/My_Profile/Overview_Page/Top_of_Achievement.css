@@ -18,10 +18,28 @@
     /* background-color: antiquewhite; */
 }
 
+.Achiev_Title {
+    display: flex;
+    align-items: start;
+    justify-content: center;
+}
 
 .part_2_achv {
     display: flex;
-    position: relative;
+    align-items: center;
+    justify-content: center;
     width: 280px;
     margin-bottom: -50px;
+}
+
+.Titre_Acheivement {
+    font-family: "Alexandria", sans-serif;
+    position: absolute;
+    text-align: center;
+    padding-top: 5px;
+    font-size: 180%;
+    font-weight: 300;
+    color: aliceblue;
+    letter-spacing: 1.5px;
+    line-height: normal;
 }

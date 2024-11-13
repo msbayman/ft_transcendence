@@ -16,7 +16,9 @@ export const Overview_Page = () => {
           </div>
         </div>
       </div>
-      <div className="Top_Achievement_mobile"></div>
+      <div className="Top_Achievement_mobile">
+        <Top_of_Achievement />
+      </div>
       <div className="Part_2">
         <div className="Leaderboard"></div>
         <div className="Online_Friends"></div>

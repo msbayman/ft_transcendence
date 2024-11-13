@@ -52,7 +52,7 @@
     }
     
     .Part_2 {
-        background-color: rgb(88, 71, 131);
+        /* background-color: rgb(88, 71, 131); */
         display: flex;
         flex-direction: column;
         justify-content: space-around;
@@ -71,7 +71,7 @@
         flex-grow: 3;
         background-color: aqua;
         width: 100%;
-        border-radius: 20px;
+        border-radius: 50px;
     }
     .Online_Friends{
         display: flex;
@@ -80,7 +80,7 @@
         flex-grow: 2;
         background-color: rgb(201, 129, 145);
         width: 100%;
-        border-radius: 20px;
+        border-radius: 50px;
         
     }
     .Play_Button {
@@ -90,7 +90,10 @@
         flex-grow: .5;
         background-color: rgb(80, 195, 141);
         width: 100%;
-        border-radius: 20px;
+        border-radius: 50px;
+    }
+    .Top_Achievement_mobile {
+        display: none;
     }
 }
 @media (min-width:1143px) and (max-width:1595px) {
@@ -114,7 +117,10 @@
         width: 100%;
     }
     .Background_Profile {
-        background-color: rgb(46, 166, 122);
+        background-image: url(../Images/Back1.png);
+        background-size: cover;
+        background-position:top;
+        background-repeat: no-repeat;
         display: inline-flex;
         flex-direction: row-reverse;
         justify-content: space-around;
@@ -172,6 +178,9 @@
         background-color: rgb(80, 195, 141);
         border-radius: 20px;
     }
+    .Top_Achievement_mobile {
+        display: none;
+    }
 }
 
 @media (max-width:1143px) {
@@ -188,8 +197,6 @@
     .Part_1 {
         display: flex;
         flex-direction: column;
-        background-color: aquamarine;
-        justify-content: center;
         align-items: center;
         flex-grow: 2;
         width: 100%;
@@ -197,7 +204,10 @@
     }
     .Background_Profile {
         display: flex;
-        background-color: rgb(28, 93, 69);
+        background-image: url(../Images/Back1.png);
+        background-size: cover;
+        background-position:top;
+        background-repeat: no-repeat;
         justify-content: center;
         align-items: end;
         flex-grow: 1;
@@ -220,7 +230,7 @@
     }
     .Top_Achievement_mobile {
         display: flex;
-        background-color:brown;
+        /* background-color:brown; */
         flex-grow: .9;
         width: 97%;
         min-height: 100px;

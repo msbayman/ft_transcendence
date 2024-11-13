@@ -35,11 +35,13 @@
     /* gap: 10px; */
 }
 .Name {
+    font-family: "Alexandria", sans-serif;
     font-size: xx-large;
     margin-top: -10px;
 }
 
 .state {
+    font-family: "Alexandria", sans-serif;
     width: 10px;
     height: 10px;
     border-radius: 50%;
@@ -61,22 +63,32 @@
     display: flex;
     /* flex-wrap: wrap; */
     flex-direction: row;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
-    gap: 20px;
+    gap: 5px;
 }
 .win_state,.lose_state,.achievement_state,.exp_state {
     display: inline-flex;
     justify-content: center;
     align-items: center;
     border-radius: 50%;
-    background-color: rgb(3, 74, 74);
     height: 13dvw;
     width: 13dvw;
-    max-height: 80px;
-    max-width: 80px;
+    max-height: 85px;
+    max-width: 85px;
 }
 
 .win_state {
     background-color: green;
+}
+
+.lose_state {
+    background-color: red;
+}
+
+.achievement_state {
+    background-color: rebeccapurple;
+}
+.exp_state {
+    background-color: yellow;
 }
