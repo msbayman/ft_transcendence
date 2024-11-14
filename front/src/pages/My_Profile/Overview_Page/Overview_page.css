@@ -3,11 +3,15 @@
     .Overview_Page {
         display: flex;
         flex-direction: row;
+        position: relative;
+        /* align-items: start; */
         flex-grow: 1;
+        justify-content: center;
         /* gap: 25px; */
-        justify-content:center;
-        flex-wrap: wrap;
+        /* justify-content:center; */
+        /* flex-wrap: wrap; */
     }
+
     
     .Part_1 {
         display: flex;
@@ -15,6 +19,24 @@
         flex-grow: 2;
         max-width: 1000px;
         min-height: 1250px;
+    }
+    
+    .Welcome_Back {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        /* text-align: center; */
+        margin: -.5px 580px;
+        color: aliceblue;
+        font-size: 35px;
+        letter-spacing: 5px;
+        font-weight: 400;
+        background-color: #3A0CA3;
+        width: 400px;
+        height:60px;
+        border-radius: 40px;
+        /* box-shadow: 0 0 10px #000000; */
     }
     
     .Background_Profile {
@@ -30,6 +52,8 @@
         flex-grow: 1;
         border-radius: 65px;
     }
+    
+
     
     .States_Profile {
         display: flex;
@@ -99,12 +123,16 @@
 @media (min-width:1143px) and (max-width:1595px) {
      
     .Overview_Page {
+        /* overflow: hidden; */
         display: flex;
+        /* position: relative; */
         flex-direction: column;
         flex-grow: 1;
-        justify-content: center;
+        justify-content: start;
         align-items: center;
+        gap: 29px;
     }
+
     
     .Part_1 {
         display: flex;
@@ -113,7 +141,7 @@
         /* align-items: center; */
         flex-grow: 1;
         max-width: 900px;
-        min-width: 600px;
+        min-height: 800px;
         width: 100%;
     }
     .Background_Profile {
@@ -126,7 +154,7 @@
         justify-content: space-around;
         align-items: flex-end;
         flex-grow: 1;
-        border-radius: 20px;
+        border-radius: 60px;
     }
     
     .States_Profile {
@@ -189,7 +217,7 @@
         flex-direction: column;
         min-height: 100vh;
         flex-grow: 1;
-        justify-content: center;
+        justify-content: start;
         align-items: center;
         gap: 15px;
 
@@ -200,7 +228,8 @@
         align-items: center;
         flex-grow: 2;
         width: 100%;
-        min-height: 500px;
+        min-height: 800px;
+        /* min-height: 500px; */
     }
     .Background_Profile {
         display: flex;
@@ -212,7 +241,7 @@
         align-items: end;
         flex-grow: 1;
         width: 100%;
-        border-radius: 20px;
+        border-radius: 65px;
     }
     
     .States_Profile {
@@ -231,9 +260,11 @@
     .Top_Achievement_mobile {
         display: flex;
         /* background-color:brown; */
-        flex-grow: .9;
-        width: 97%;
-        min-height: 100px;
+        /* flex-grow: .4; */
+        width: 65%;
+        min-width: 300px;
+
+        /* min-height: 220px; */
         border-radius: 30px;
     }
     .Part_2 {

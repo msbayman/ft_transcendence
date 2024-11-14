@@ -7,6 +7,9 @@ export const Overview_Page = () => {
   return (
     <div className="Overview_Page">
       <div className="Part_1">
+        <div className="part_welcome">
+        <div className="Welcome_Back">Welcome Back !</div>
+        </div>
         <div className="Background_Profile">
           <div className="States_Profile">
             <State_of_Profile />

@@ -1,9 +1,9 @@
 .all_content_acheiv {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
-    gap: 30px;
+    gap: 10px;
     width: 100%;
     height: 85%;
     border-radius: 60px;
@@ -13,25 +13,69 @@
 .part_1_achv {
     display: flex;
     flex-direction: row;
-    width: 300px;
-    height: 65%;
-    /* background-color: antiquewhite; */
+    justify-content: space-around;
+    width: 100%;
+    /* max-width: 530px; */
+    flex-grow: 1;
+    padding: 0 20px;
+    gap: 15px;
+}
+
+.acheiv {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* align-items: center; */
+    margin-top: 15px;
+    flex-grow: 1;
+    width: 20px;
+    border-radius: 10%;
+    gap: 15px;
+}
+
+.Title_Acheiv {
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    font-family: "Alexandria", sans-serif;
+    flex-grow: .2;
+    height: 10%;
+    font-size: 14px;
+    font-weight: 400;
+    font-style: bold;
+    font-optical-sizing: auto;
+    color: whitesmoke;
+    line-height: normal;
+    text-align: center;
+}
+
+.ach_img {
+    /* width: 60px; */
+}
+.icone_Acheiv{
+    height: 10%;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
 }
 
 .Achiev_Title {
-    /* display: flex; */
-    /* align-items: start; */
-    /* justify-content: center; */
+    /* display: flex;
+    justify-content: center;
+    align-items: center; */
     position: relative;
 }
 
 .part_2_achv {
-    /* display: flex; */
-
-    /* align-items: center; */
-    /* justify-content: center; */
-    width: 280px;
-    margin-bottom: -50px;
+    /* display: flex ;
+    position: relative;
+    justify-content: center;
+    align-items: center; */
+    /* padding: 0 200px; */
+    /* width: 280px; */
+    /* margin: 30px; */
+    /* margin-bottom: -50px; */
 }
 
 .Titre_Acheivement {
@@ -39,8 +83,9 @@
     position: absolute;
     text-align: center;
     transform: translate(-50%, -50%);
-    padding-left: 270px;
-    font-size: 180%;
+    top: 45%;
+    left: 50%;
+    font-size:26px;
     font-weight: 300;
     color: aliceblue;
     letter-spacing: 1.5px;
