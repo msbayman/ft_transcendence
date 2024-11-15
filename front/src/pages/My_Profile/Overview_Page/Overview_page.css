@@ -11,32 +11,37 @@
         /* justify-content:center; */
         /* flex-wrap: wrap; */
     }
-
     
     .Part_1 {
         display: flex;
-        /* background-color: aquamarine; */
+        position: relative;
+        justify-content: center;
         flex-grow: 2;
         max-width: 1000px;
         min-height: 1250px;
     }
     
-    .Welcome_Back {
+    .part_welcome {
         display: flex;
         justify-content: center;
-        align-items: center;
+        align-items: start;
+        position: relative;
+        /* margin: 0 23px; */
+    }
+    
+    .Welcome_Back {
+        left: 40px;
+        top: 20px;
         position: absolute;
-        /* text-align: center; */
-        margin: -.5px 580px;
+        text-align: center;
         color: aliceblue;
         font-size: 35px;
         letter-spacing: 5px;
         font-weight: 400;
         background-color: #3A0CA3;
         width: 400px;
-        height:60px;
+        box-shadow: 0 0 22px .5px rgb(0, 0, 0, 20);
         border-radius: 40px;
-        /* box-shadow: 0 0 10px #000000; */
     }
     
     .Background_Profile {
@@ -57,9 +62,7 @@
     
     .States_Profile {
         display: flex;
-        /* background-color: blueviolet; */
         flex-grow: 1.5;
-        /* width: 60%; */
         max-width: 550px;
         height: 250px;
         margin: 15px;
@@ -130,7 +133,7 @@
         flex-grow: 1;
         justify-content: start;
         align-items: center;
-        gap: 29px;
+        /* gap: 29px; */
     }
 
     
@@ -144,6 +147,30 @@
         min-height: 800px;
         width: 100%;
     }
+
+    .part_welcome {
+        display: flex;
+        justify-content: center;
+        align-items: start;
+        position: relative;
+        /* margin: 0 23px; */
+    }
+    
+    .Welcome_Back {
+        left: 40px;
+        top: 20px;
+        position: absolute;
+        text-align: center;
+        color: aliceblue;
+        font-size: 35px;
+        letter-spacing: 5px;
+        font-weight: 400;
+        background-color: #3A0CA3;
+        width: 400px;
+        box-shadow: 0 0 22px .5px rgb(0, 0, 0, 20);
+        border-radius: 40px;
+    }
+
     .Background_Profile {
         background-image: url(../Images/Back1.png);
         background-size: cover;
@@ -176,26 +203,26 @@
     
     .Part_2 {
         display: grid;
-        background-color: rgb(88, 71, 131);
+        min-height: 700px;
         max-width: 900px;
         grid-template-columns: 1.5fr 1fr;
         grid-template-rows: 4fr 1fr;
         flex-grow: .8;
         width: 100%;
-        padding: 20px;
+        padding: 20px 0;
         gap: 20px;
     }
 
     .Leaderboard {
         background-color: aqua;
-        border-radius: 20px;
+        border-radius: 50px;
         grid-column: 1 / 2;
         grid-row: 1 / 3;
     }
 
     .Online_Friends{
         background-color: rgb(201, 129, 145);
-        border-radius: 20px;
+        border-radius: 50px;
         grid-column: 2 / 2;
         grid-row: 1 / 2;
     }
@@ -204,7 +231,7 @@
         grid-column: 2 / 2;
         grid-row: 2 / 3;
         background-color: rgb(80, 195, 141);
-        border-radius: 20px;
+        border-radius: 50px;
     }
     .Top_Achievement_mobile {
         display: none;
@@ -231,6 +258,29 @@
         min-height: 800px;
         /* min-height: 500px; */
     }
+    .part_welcome {
+        display: flex;
+        justify-content: center;
+        align-items: start;
+        position: relative;
+    }
+    
+    .Welcome_Back {
+        min-width: 30px;
+        top: 18px;
+        position: absolute;
+        text-align: center;
+        color: aliceblue;
+        font-size: clamp(22px, 3vw, 35px);
+        letter-spacing: 5px;
+        font-weight: 400;
+        background-color: #3A0CA3;
+        min-width: 250px;
+        width: 34dvw;
+        max-width: 400px;
+        box-shadow: 0 0 22px .5px rgb(0, 0, 0, 20);
+        border-radius: 40px;
+    }
     .Background_Profile {
         display: flex;
         background-image: url(../Images/Back1.png);
@@ -241,13 +291,12 @@
         align-items: end;
         flex-grow: 1;
         width: 100%;
-        border-radius: 65px;
+        border-radius: 55px;
     }
     
     .States_Profile {
         display: flex;
         justify-content: center;
-
         height: 200px;
         width: 97%;
         margin-bottom: 55px;
@@ -259,12 +308,8 @@
     }
     .Top_Achievement_mobile {
         display: flex;
-        /* background-color:brown; */
-        /* flex-grow: .4; */
         width: 65%;
-        min-width: 300px;
-
-        /* min-height: 220px; */
+        min-width: 350px;
         border-radius: 30px;
     }
     .Part_2 {
