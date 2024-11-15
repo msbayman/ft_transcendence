@@ -1,4 +1,88 @@
 .All_Content_Leaderboard {
-    /* background-color: blue; */
+    font-family: "Alexandria", sans-serif;
+    position: relative;
     height: 100%;
+    width: 100%;
+    gap: 15px;
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+}
+
+.Title_Leaderboard {
+    font-style: normal;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    gap: 30px;
+    color: aliceblue;
+}
+
+.The_Title_Leaderboard {
+    font-size: x-large;
+    font-weight: bolder;
+    padding: 0 23px;
+}
+
+.Button_More {
+    font-size:larger;
+    position: absolute;
+    right: 45px;
+}
+.Table_Leaderboard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    overflow: hidden;
+}
+
+.Title_Table_Leaderboard{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    height: 60px;
+    background: #5116C4;
+    border-radius: 35px;
+
+}
+
+.the_Name {
+    color: aliceblue;
+}
+.Top10 {
+    background-color: aliceblue;
+    font-size: 25px;
+    font-weight: 600;
+    padding: 0 20px;
+    margin-left: 10px;
+    color: #5116C4;
+    box-shadow: 0 0 5px black;
+    text-align: center;
+    border-radius: 30px;
+}
+
+.Inside_Leaderboard {
+    display: inline-flex;
+    flex-direction: column;
+    position: relative;
+    width: 100%;
+    overflow-y: scroll;
+}
+
+.Inside_Leaderboard::-webkit-scrollbar {
+  width: 6px; /* Set the scrollbar width */
+}
+
+.Inside_Leaderboard::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 6px;
+}
+
+/* Scrollbar Thumb on Hover */
+.Inside_Leaderboard::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }
