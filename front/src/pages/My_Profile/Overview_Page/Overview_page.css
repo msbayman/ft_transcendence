@@ -4,12 +4,8 @@
         display: flex;
         flex-direction: row;
         position: relative;
-        /* align-items: start; */
         flex-grow: 1;
         justify-content: center;
-        /* gap: 25px; */
-        /* justify-content:center; */
-        /* flex-wrap: wrap; */
     }
     
     .Part_1 {
@@ -45,7 +41,6 @@
     }
     
     .Background_Profile {
-        /* background-color: rgb(46, 166, 122); */
         background-image: url(../Images/Back1.png);
         background-size: cover;
         background-position:top;
@@ -58,8 +53,6 @@
         border-radius: 65px;
     }
     
-
-    
     .States_Profile {
         display: flex;
         flex-grow: 1.5;
@@ -71,7 +64,6 @@
     
     .Top_Achievement {
         display: flex;
-        /* background-color:brown; */
         flex-grow: 1;
         height: 250px;
         margin: 15px;
@@ -79,23 +71,22 @@
     }
     
     .Part_2 {
-        /* background-color: rgb(88, 71, 131); */
         display: flex;
         flex-direction: column;
-        justify-content: space-around;
-        align-items: center;
+        justify-content: start;
+        align-items: start;
         flex-grow: 1;
         max-width: 600px;
         min-width: 450px;
         gap: 20px;
-        padding: 20px;
+        padding: 0 20px;
         min-height: 1250px;
     }
     .Leaderboard {
         display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-grow: 3;
+        justify-content: start;
+        /* align-items: start; */
+        height: 800px;
         background-color: aqua;
         width: 100%;
         border-radius: 50px;
@@ -256,7 +247,6 @@
         flex-grow: 2;
         width: 100%;
         min-height: 800px;
-        /* min-height: 500px; */
     }
     .part_welcome {
         display: flex;
@@ -322,8 +312,9 @@
 
     .Leaderboard {
         display: flex;
-        flex-grow: 2;
+        /* flex-grow: 2; */
         background-color: aqua;
+        height: 320px;
     }
     
     .Online_Friends {

@@ -2,13 +2,14 @@
 import "./Overview_Page.css";
 import State_of_Profile from "./State_of_Profile";
 import Top_of_Achievement from "./Top_of_Achievement";
+import The_Leaderboard from "./Leaderboard"
 
 export const Overview_Page = () => {
   return (
     <div className="Overview_Page">
       <div className="Part_1">
         <div className="part_welcome">
-        <div className="Welcome_Back">Welcome Back !</div>
+          <div className="Welcome_Back">Welcome Back !</div>
         </div>
         <div className="Background_Profile">
           <div className="States_Profile">
@@ -23,7 +24,9 @@ export const Overview_Page = () => {
         <Top_of_Achievement />
       </div>
       <div className="Part_2">
-        <div className="Leaderboard"></div>
+        <div className="Leaderboard">
+          <The_Leaderboard />
+        </div>
         <div className="Online_Friends"></div>
         <div className="Play_Button"></div>
       </div>
