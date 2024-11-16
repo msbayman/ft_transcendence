@@ -51,6 +51,7 @@
 }
 
 .the_Name {
+    font-size: clamp(11px, 3vw, 16px);
     color: aliceblue;
 }
 .Top10 {
