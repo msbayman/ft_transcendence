@@ -1,35 +1,33 @@
 #root {
-    background-color: #5D12CD;
-
+  background-color: #5d12cd;
 }
 
-.all{
+.all {
   background-image: url(./assets/Back_left_Side.png);
   background-size: cover;
   background-position: center;
   display: flex;
   position: relative;
-  }
-
-.nav_color1.Overview{
-    background-color: #320890;
-
 }
 
-.nav_color1.Profile{
-    background-color: #320890;
+.nav_color1.Overview {
+  background-color: #320890;
 }
 
-.nav_color1.Play{
-    background-color: #320890;
+.nav_color1.Profile {
+  background-color: #320890;
 }
 
-.nav_color1.Friends{
-    background-color: #320890;
+.nav_color1.Play {
+  background-color: #320890;
 }
 
-.nav_color1.Shop{
-    background-color: #320890;
+.nav_color1.Friends {
+  background-color: #320890;
+}
+
+.nav_color1.Shop {
+  background-color: #320890;
 }
 
 .selected1 {
@@ -54,81 +52,47 @@
   width: auto;
   display: flex;
   flex-grow: 1;
-  max-width: calc(100% - 100px);
+  /* max-width: calc(100% - 100px); */
   padding: 15px;
-  /* box-sizing: border-box; */
+  box-sizing: border-box;
 }
 .left_side_update {
+	-ms-overflow-style: none;
+	overflow-x: hidden;
   overflow-y: auto;
   height: 100vh;
   width: auto;
   display: flex;
   flex-grow: 1;
-  max-width: calc(100% - 22px);
-  padding: 15px;
-  /* box-sizing: border-box; */
+  /* max-width: calc(100% - 22px); */
+  padding: 5px;
+  box-sizing: border-box;
 }
 
 @media (min-width: 1000px) {
   .right_navbar {
     min-height: 100vh;
     font-family: "Alexandria", sans-serif;
-    background-color: #3A0CA3;
+    background-color: #3a0ca3;
     color: white;
     width: 300px;
-    height:100vh;
+    height: 100vh;
     display: inline-flex;
     flex-direction: column;
     justify-content: start;
     box-sizing: border-box;
-    transition: all .3s ease-out;
+    transition: all 0.3s ease-out;
   }
 
-  .the_logo{
+  .the_logo {
     padding: 30px 0 20px 0;
     display: flex;
     justify-content: center;
     margin-bottom: auto;
   }
-  .cercle{
+  .cercle {
     display: none;
   }
-
-  .bar_search{
-    background-color: #200B50;
-    border-radius: 10px;
-    padding: 10px;
-    margin: 15px;
-  }
-  
-  .search_content {
-    /* height: 10px; */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .imgg{
-    margin-right: 13px;
-  }
-
-  .content_navbar_item1{
-    flex: 1;
-    overflow-y: auto;
-  }
-
-  .navbar_item1{
-    padding: 20px 0;
-    position: relative;
-    height: 80px;
-    display: flex;
-    align-items: center;
-    padding-left: 30px;
-    text-Decoration: none;
-    color: inherit;
-    transition: all .3s ease-out;
-  }
-
   .navbar_item1.Overview {
     padding-left: 50px;
   }
@@ -144,29 +108,65 @@
   .navbar_item1.Shop {
     padding-left: 50px;
   }
-  .cercle{
+
+  .bar_search {
+    background-color: #200b50;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 15px;
+  }
+
+  .search_content {
+    /* height: 10px; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .imgg {
+    margin-right: 13px;
+    /* width: 30px; */
+  }
+
+  .content_navbar_item1 {
+    flex: 1;
+    overflow-y: auto;
+  }
+
+  .navbar_item1 {
+    padding: 20px 0;
+    position: relative;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    padding-left: 30px;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.3s ease-out;
+  }
+
+  .cercle {
     display: none;
   }
-  .cercle_hide{
+  .cercle_hide {
     display: none;
   }
 
-  
-  .selected_hide{
+  .selected_hide {
     display: none;
   }
 
-  .hr_cont{
+  .hr_cont {
     display: flex;
     justify-content: center;
   }
-  .brr{
+  .brr {
     width: 75%;
     margin: 15px;
     border: 1px solid white;
   }
-  
-  .navbar_item2{
+
+  .navbar_item2 {
     position: relative;
     padding: 10px 0;
     display: flex;
@@ -174,16 +174,16 @@
     justify-content: flex-start;
     padding-left: 40px;
     margin-top: auto;
-    text-Decoration: none;
+    text-decoration: none;
     color: inherit;
   }
 
-  .Logout{
+  .Logout {
     padding-bottom: 25px;
   }
 
-  .navbar_item1:hover, .navbar_item2:hover
-  {
+  .navbar_item1:hover,
+  .navbar_item2:hover {
     background-color: #320890;
   }
 }
@@ -191,132 +191,131 @@
 @media (max-width: 1000px) {
   .right_navbar {
     font-family: "Alexandria", sans-serif;
-    background-color: #3A0CA3;
+    background-color: #3a0ca3;
     color: white;
-    width: 100px;
-    height:100vh;
+    width: 70px;
+    height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
     box-sizing: border-box;
-    transition: all .3s ease-out;
+    transition: all 0.3s ease-out;
   }
-  
-  .cercle_hide{
+
+  .cercle_hide {
     position: absolute;
     display: flex;
     justify-content: center;
     align-items: center;
     margin-top: 100px;
-    background-color: #3A0CA3;
+    background-color: #3a0ca3;
     width: 40px;
     height: 50px;
     border-radius: 50px;
-    transition: all .3s ease-in;
+    transition: all 0.3s ease-in;
   }
-  .cercle{
+  .cercle {
     position: absolute;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-left: 76px;
-    margin-top: 100px;
-    background-color: #3A0CA3;
+    margin-left: 45px;
+    margin-top: 78px;
+    background-color: #3a0ca3;
     width: 40px;
     height: 50px;
     border-radius: 50px;
-    transition: all .3s ease-out;
-}
-  .Open_Navbar{
+    transition: all 0.3s ease-out;
+  }
+  .Open_Navbar {
     width: 22px;
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: all .3s ease-in;
+    transition: all 0.3s ease-in;
   }
-  .Open_Navbar_hide{
+  .Open_Navbar_hide {
     display: none;
   }
-  
-  .Nav_right_hide{
-    background-color: #3A0CA3;
+
+  .Nav_right_hide {
+    background-color: #3a0ca3;
     height: 100vh;
     width: 22px;
-    transition: all .3s ease-in;
+    transition: all 0.3s ease-in;
   }
-  
-  .the_logo{
-    padding: 50px 0 45px 0;
+
+  .the_logo {
+    padding: 30px 0 40px 0;
     display: flex;
     justify-content: center;
     align-items: center;
     margin-bottom: auto;
   }
+  .imgg {
+    width: 25px;
+  }
   .imgg1 {
-    width: 70px;
+    width: 60px;
     margin-right: 5px;
   }
-  
+
   .search_content {
-    padding:20px;
+    padding: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
   }
-  
-  .content_navbar_item1{
-    flex:1;
+
+  .content_navbar_item1 {
+    flex: 1;
     overflow-y: auto;
-    
   }
-  .navbar_item1_h{
+  .navbar_item1_h {
     display: none;
   }
 
-  .navbar_item1{
-    padding: 20px 0;
+  .navbar_item1 {
     position: relative;
     display: flex;
     align-items: center;
-    height: 80px;
-    padding-left: 30px;
+    justify-content: center;
+    height: 60px;
+    /* padding-left: 30px; */
   }
-  
+
   .selected {
     position: absolute;
     background-color: white;
     width: 4px;
-    height: 75px;
+    height: 60px;
     right: 0;
   }
 
-  .hr_cont{
+  .hr_cont {
     display: flex;
     justify-content: center;
   }
 
-  .brr{
+  .brr {
     width: 75%;
     margin: 15px;
     border: 1px solid white;
   }
 
-  .navbar_item2{
+  .navbar_item2 {
     position: relative;
     padding: 10px 0;
     display: flex;
     align-items: center;
-    justify-content: flex-start;
-    padding-left: 30px;
-    margin-top: auto;
+	justify-content: center;
   }
 
-  .small_width{
+  .small_width {
     width: 10px;
   }
-  
 
-  .Hide > *{
+  .Hide > * {
     display: none;
   }
 
@@ -328,13 +327,13 @@
     right: 0;
   } */
 
-  .Logout{
+  .Logout {
     padding-bottom: 25px;
   }
 
-  .navbar_item1:hover, .navbar_item2:hover
-  {
-    background-color: #2E0985;
+  .navbar_item1:hover,
+  .navbar_item2:hover {
+    background-color: #2e0985;
   }
   .hidden_name {
     display: none;

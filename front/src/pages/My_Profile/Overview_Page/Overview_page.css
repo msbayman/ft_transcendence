@@ -51,6 +51,7 @@
         align-items: flex-end;
         flex-grow: 1;
         border-radius: 65px;
+        box-shadow: 0 0 10px 0 rgba(24, 21, 21, 0.718);
     }
     
     .States_Profile {
@@ -85,20 +86,21 @@
     .Leaderboard {
         display: flex;
         justify-content: start;
-        /* align-items: start; */
         height: 800px;
         background-color: #3A0CA3;
         width: 100%;
         border-radius: 50px;
+        box-shadow: 0 0 10px 0 rgba(24, 21, 21, 0.718);
     }
     .Online_Friends{
         display: flex;
         justify-content: center;
         align-items: center;
         flex-grow: 2;
-        background-color: rgb(201, 129, 145);
+        background-color: #3A0CA3;
         width: 100%;
         border-radius: 50px;
+        box-shadow: 0 0 10px 0 rgba(24, 21, 21, 0.718);
         
     }
     .Play_Button {
@@ -299,7 +301,7 @@
     .Top_Achievement_mobile {
         display: flex;
         width: 65%;
-        min-width: 350px;
+        min-width: 300px;
         border-radius: 30px;
     }
     .Part_2 {
