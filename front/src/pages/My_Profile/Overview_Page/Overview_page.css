@@ -3,7 +3,8 @@
     .Overview_Page {
         display: flex;
         flex-direction: row;
-        position: relative;
+        /* position: relative; */
+        height: 100vh;
         flex-grow: 1;
         justify-content: center;
     }
@@ -14,7 +15,8 @@
         justify-content: center;
         flex-grow: 2;
         max-width: 1000px;
-        min-height: 1250px;
+        height: 100vh;
+        min-height: 850px;
     }
     
     .part_welcome {
@@ -81,12 +83,16 @@
         min-width: 450px;
         gap: 20px;
         padding: 0 20px;
-        min-height: 1250px;
+        height: 100vh;
+        min-height: 850px;
+        /* min-height: 1250px; */
     }
     .Leaderboard {
         display: flex;
         justify-content: start;
-        height: 800px;
+        /* height: 800px; */
+        height: 50dvh;
+        /* min-height: 500px; */
         background-color: #3A0CA3;
         width: 100%;
         border-radius: 50px;
@@ -97,6 +103,8 @@
         justify-content: center;
         align-items: center;
         flex-grow: 2;
+        min-height: 300px;
+        height: 30dvh;
         background-color: #3A0CA3;
         width: 100%;
         border-radius: 50px;
@@ -106,6 +114,7 @@
     .Play_Button {
         display: flex;
         justify-content: center;
+        height: 20dvh;
         align-items: center;
         flex-grow: .5;
         background-color: rgb(80, 195, 141);
