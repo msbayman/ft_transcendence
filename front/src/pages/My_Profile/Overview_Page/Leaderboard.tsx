@@ -42,8 +42,6 @@ const Leaderboard = () => {
           <p>sdfsdfdsfdsf</p>
           <p>sdfsdfdsfdsf</p>
           <p>sdfsdfdsfdsf</p>
-          <p>sdfsdfdsfdsf</p>
-          <p>sdfsdfdsfdsf</p>
         </div>
       </div>
     </div>

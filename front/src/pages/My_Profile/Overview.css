@@ -1,5 +1,7 @@
 #root {
   background-color: #5d12cd;
+  height: 100dvh;
+  overflow-y: hidden;
 }
 
 .all {
@@ -56,6 +58,7 @@
   padding: 15px;
   box-sizing: border-box;
 }
+
 .left_side_update {
 	-ms-overflow-style: none;
 	overflow-x: hidden;
@@ -67,6 +70,20 @@
   /* max-width: calc(100% - 22px); */
   padding: 5px;
   box-sizing: border-box;
+}
+
+*::-webkit-scrollbar {
+  width: 6px; /* Set the scrollbar width */
+}
+
+*::-webkit-scrollbar-thumb {
+  background: #ffffff;
+  border-radius: 6px;
+}
+
+/* Scrollbar Thumb on Hover */
+*::-webkit-scrollbar-thumb:hover {
+  background: #929292;
 }
 
 @media (min-width: 1000px) {
@@ -81,7 +98,7 @@
     flex-direction: column;
     justify-content: start;
     box-sizing: border-box;
-    transition: all 0.3s ease-out;
+    /* transition: all 0.3s ease-out; */
   }
 
   .the_logo {
@@ -205,6 +222,7 @@
   .cercle_hide {
     position: absolute;
     display: flex;
+    z-index: 1;
     justify-content: center;
     align-items: center;
     margin-top: 100px;
@@ -217,6 +235,7 @@
   .cercle {
     position: absolute;
     display: flex;
+    z-index: 1;
     justify-content: center;
     align-items: center;
     margin-left: 45px;
@@ -228,6 +247,7 @@
     transition: all 0.3s ease-out;
   }
   .Open_Navbar {
+    position: relative;
     width: 22px;
     display: flex;
     justify-content: center;

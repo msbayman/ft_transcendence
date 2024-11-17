@@ -3,6 +3,8 @@ import "./Overview_Page.css";
 import State_of_Profile from "./State_of_Profile";
 import Top_of_Achievement from "./Top_of_Achievement";
 import The_Leaderboard from "./Leaderboard"
+import Online_Friends_Overview from "./Online_Friends_Overview";
+import Button_Play from "../Images/Button_Play.svg"
 
 export const Overview_Page = () => {
   return (
@@ -27,8 +29,12 @@ export const Overview_Page = () => {
         <div className="Leaderboard">
           <The_Leaderboard />
         </div>
-        <div className="Online_Friends"></div>
-        <div className="Play_Button"></div>
+        <div className="Online_Friends">
+          <Online_Friends_Overview />
+        </div>
+        <div className="Play_Button">
+          <img src={Button_Play} className="play" />
+        </div>
       </div>
     </div>
   );
