@@ -69,7 +69,7 @@ function Overview() {
       console.error(error);
     }
   };
-
+console.log(player_data?.email, player_data?.full_name, player_data?.username);
   const localistation = useLocation();
 
   const getNavLink = (path: string) => {
