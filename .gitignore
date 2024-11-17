@@ -1,2 +1,4 @@
 back/venv/
+venv/
 front/node_modules/
+.DS_Store
