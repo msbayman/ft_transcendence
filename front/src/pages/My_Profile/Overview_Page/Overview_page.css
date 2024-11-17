@@ -120,6 +120,7 @@
     }
     .play {
         height: 130px;
+        cursor: pointer;
     }
     .Top_Achievement_mobile {
         display: none;
