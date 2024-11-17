@@ -1,12 +1,19 @@
-// import React from "react";
+import React from "react";
 import "./Overview_Page.css";
 import State_of_Profile from "./State_of_Profile";
 import Top_of_Achievement from "./Top_of_Achievement";
 import The_Leaderboard from "./Leaderboard"
 import Online_Friends_Overview from "./Online_Friends_Overview";
 import Button_Play from "../Images/Button_Play.svg"
+import { useNavigate } from "react-router-dom";
 
-export const Overview_Page = () => {
+export const Overview_Page: React.FC = () => {
+
+  const navigate = useNavigate();
+
+  const Onclick = () => {
+    navigate("/Play");
+  } 
   return (
     <div className="Overview_Page">
       <div className="Part_1">
@@ -33,7 +40,9 @@ export const Overview_Page = () => {
           <Online_Friends_Overview />
         </div>
         <div className="Play_Button">
-          <img src={Button_Play} className="play" />
+          <button onClick={Onclick}>
+            <img src={Button_Play} className="play" />
+          </button>
         </div>
       </div>
     </div>
