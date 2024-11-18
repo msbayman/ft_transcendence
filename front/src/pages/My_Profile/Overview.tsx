@@ -22,6 +22,7 @@ import Friends_Page from "./Friends_Page/Friends_Page";
 import Shop_Page from "./Shop_Page/Shop_Page";
 import Settings_Page from "./Settings_Page/Settings_Page";
 
+
 function Overview() {
   interface player_data {
     full_name: string;
@@ -96,7 +97,7 @@ console.log(player_data?.email, player_data?.full_name, player_data?.username);
     }
   };
   const getNavLinkBar = (path: string) => {
-    if (path === "/settings") {
+    if (path === "/Settings") {
       return localistation.pathname === path ? "selected1" : "selected_hide";
     } else {
       return localistation.pathname === path ? "selected" : "selected_hide";
@@ -139,6 +140,7 @@ console.log(player_data?.email, player_data?.full_name, player_data?.username);
         </div>
         <div className="bar_search">
           <div className="search_content">
+            {/* <input className="search_content hidden_name" placeholder="Search" /> */}
             <img src={Search} className="imgg" />
             <span className="hidden_name"> Search </span>
           </div>
@@ -191,12 +193,12 @@ console.log(player_data?.email, player_data?.full_name, player_data?.username);
       </div>
       <div className={ActiveNavbar ? "left_side" : "left_side_update"}>
         <Routes>
-          <Route path="/overview" element={<Overview_Page />} />
-          <Route path="/profile" element={<Profile_Page />} />
-          <Route path="/play" element={<Play_Page />} />
-          <Route path="/friends" element={<Friends_Page />} />
-          <Route path="/shop" element={<Shop_Page />} />
-          <Route path="/settings" element={<Settings_Page />} />
+          <Route path="/Overview" element={<Overview_Page />} />
+          <Route path="/Profile" element={<Profile_Page />} />
+          <Route path="/Play" element={<Play_Page />} />
+          <Route path="/Friends" element={<Friends_Page />} />
+          <Route path="/Shop" element={<Shop_Page />} />
+          <Route path="/Settings" element={<Settings_Page />} />
         </Routes>
       </div>
     </div>
