@@ -95,35 +95,40 @@ def exchange_code_for_token(code: str) -> dict:
 
 
 def handle_oauth_user(request: HttpRequest, user_info: dict) -> HttpResponse:
-    email = user_info.get('email')
-    username = user_info.get('username')
+    email        = user_info.get('email')
+    username     = user_info.get('username')
+    full_name    = user_info.get('global_name', username)
     user_id_prov = user_info.get('id')
-    
+
+    if not(all([email, username, full_name, user_id_prov])):
+        return JsonResponse({"error": "Failed to retrieve user data"}, status = 403)
+ 
     try:
-        user = Player.objects.get(email=email)
-        user.id_prov = user_id_prov
+        user = Player.objects.get(email = email)
+        user.id_prov   = user_id_prov
         user.prov_name = "Discord"
         user.save()
     except Player.DoesNotExist:
         base_username = username
         counter = 1
-        while Player.objects.filter(username=username).exists():
+        while Player.objects.filter(username = username).exists():
             username = f"{base_username}_{counter}"
             counter += 1
-
-        serializer = PlayerSerializer(data={
-            'full_name': user_info.get('global_name', username),
-            'email': email,
-            'username': username,
-            'id_prov': user_id_prov,
-            'prov_name': "Discord",
-        })
+        data = {
+            'full_name' : full_name,
+            'email'     : email,
+            'username'  : username,
+            'id_prov'   : user_id_prov,
+            'prov_name' : "Discord",
+        }
+        serializer = PlayerSerializer(data = data)
+        print ("data:", data)
         if serializer.is_valid(): 
             user = serializer.save()
             user.set_unusable_password()
             user.save()
         else:
-            return JsonResponse({"error": "Failed to create or update user"}, status=500)
+            return JsonResponse({"error": "Failed to create or update user..salam", "details": serializer.errors}, status=500)
 
     # Check if 2FA is enabled
     if user.active_2fa:
