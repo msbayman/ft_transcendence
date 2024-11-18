@@ -1,7 +1,6 @@
 #root {
   background-color: #5d12cd;
   height: 100dvh;
-  overflow-y: hidden;
 }
 
 .all {
@@ -10,6 +9,7 @@
   background-position: center;
   display: flex;
   position: relative;
+  overflow-y: hidden;
 }
 
 .nav_color1.Overview {
