@@ -105,7 +105,6 @@ def handle_oauth_user(request: HttpRequest, user_info: dict) -> HttpResponse:
  
     try:
         user = Player.objects.get(email = email)
-        user.id_prov   = user_id_prov
         user.prov_name = "Discord"
         user.save()
     except Player.DoesNotExist:
