@@ -81,6 +81,7 @@ function Signup_Page() {
       }
     }
   };
+
   const handleOAuthLogin = () => {
     window.location.href = "http://localhost:8000/discord/login";
   };
