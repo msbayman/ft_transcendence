@@ -11,6 +11,7 @@ function Login_Page() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [Errmsg, setErrorMessage] = useState("");
+  const [panding, ispanding] = useState(false);
 
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
@@ -36,8 +37,9 @@ function Login_Page() {
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    ispanding(true) ;
     e.preventDefault();
-
+    
     try {
       const response = await axios.post(
         "http://127.0.0.1:8000/user_auth/login_simple",
@@ -46,7 +48,7 @@ function Login_Page() {
           password,
         }
       );
-
+      
       if (response.status === 200) {
         if (response.data.twofa_required) {
           const redirectUrl = `${response.data.redirect_to}?username=${response.data.username}`;
@@ -63,8 +65,10 @@ function Login_Page() {
         setErrorMessage(response.data.detail);
       }
     } catch (error) {
+      ispanding(false) ;
       setErrorMessage("An unexpected error occurred. Please try again later.");
     }
+    ispanding(false) ;
   };
 
   const handleOAuthLogin = () => {
@@ -168,16 +172,16 @@ function Login_Page() {
 
                 <div className="login_btn_forget">
                   <div className="forget_pass">Forgot Password ?</div>
-                  <button id="btn_login" type="submit">
+                {!panding &&  <button id="btn_login" type="submit">
                     LOG IN
-                  </button>
+                  </button>}
                 </div>
                 <span className="dotted-line">
                   <div id="or">or</div>
                 </span>
               </form>
               <div className="login_42_google">
-                <img
+               <img
                   className="auth cursor-pointer"
                   src="connect_with_google.svg"
                   alt="login google"
