@@ -171,7 +171,7 @@ function Login_Page() {
                 </div>
 
                 <div className="login_btn_forget">
-                  <div className="forget_pass">Forgot Password ?</div>
+
                 {!panding &&  <button id="btn_login" type="submit">
                     LOG IN
                   </button>}
