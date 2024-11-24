@@ -1,0 +1,152 @@
+.wrapper {
+  width: 100%;
+  height: auto;
+  margin: 20px;
+  background-color: #3a0ca3;
+  border-radius: 30px;
+  color: #fff;
+  display: flex;
+  flex-direction: column; 
+}
+
+div h1 {
+  font-family: "Alexandria", sans-serif;
+  font-size: 60px;
+  font-weight: 700;
+  text-align: justify;
+  margin: 30px;
+  padding-left: 20px;
+}
+
+.options {
+  font-family: "Alexandria", sans-serif;
+  display: flex;
+  font-size: 30px;
+  font-weight: normal;
+  justify-content: center;
+  margin-inline: auto;
+  width: 390px;
+  margin-bottom: 10px;
+  position: relative;
+}
+
+.abs {
+  left: 0;
+  border-radius:  30px;
+  position: absolute;
+  background-color: #8151ee;
+  height: 100%;
+  width: 50%;
+  transition: transform .6s ease;
+}
+
+.abs.active {
+  transform: translateX(100%);
+}
+
+.content {
+  background-color: transparent;
+  height: 70%;
+}
+
+.save-cancel {
+  font-family: "Alexandria", sans-serif;
+  font-size: 30px;
+  font-weight: normal;
+  display: flex;
+  justify-content: end;
+  align-items: flex-end;
+  gap: 10px;
+  margin-top: 30px;
+  margin-right: 130px;
+}
+
+.prfl {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  padding: 2px 2px 2px 2px;
+  flex: 1;
+  border-radius: 64px;
+}
+.sec {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  padding: 2px 2px 2px 2px;
+  flex: 1;
+  border-radius: 64px;
+}
+
+.btn {
+  display: flex;
+  justify-content: center;
+  margin: 10px;
+  width: 210px;
+  height: 49px;
+  font-size: 24px;
+  border-radius: 64px;
+}
+
+.btn.save {
+  /* font-family: "Manjari", serif; */
+  font-weight: 230;
+  background-color: white;
+  color: #3a0ca3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn.cancel {
+  /* font-family: "Manjari", serif; */
+  font-weight: 200;
+  background-color: #3a0ca3;
+  border: 2px solid white;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.text-container {
+  position: relative;
+  font-size: 36px;
+}
+
+.TwoFA {
+  position: relative;
+  font-family: "Alexandria", sans-serif;
+  font-size: 20px;
+  padding: 30px;
+  border: 1px solid #8051EE;
+  display: flex;
+  flex-direction: column;  
+  margin: 50px;
+  border-radius: 7px;
+}
+
+input[type="radio"] {
+  width: 2em;
+  height: 2rem;
+  accent-color: green;
+}
+
+
+.description
+{
+  text-align: center;
+
+}
+
+.check-TFA {
+  margin: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  /* font-family: "Manjari", serif; */
+  font-weight: 240;
+  font-size: larger;
+}
+
+
