@@ -5,15 +5,15 @@ function Password_component() {
 		<div className='inpt'>
 			<span className='spn'>
 				<label htmlFor='1'>Current Password</label>
-				<input type="text" placeholder='Current Password' id='1'/>
+				<input type="password" placeholder='Current Password' id='1'/>
 			</span>
 			<span className='spn'>
 				<label>New Password</label>
-				<input type="text" placeholder='New Password' />
+				<input type="password" placeholder='New Password' />
 			</span>
 			<span className='spn'>
 				<label>Confirme New Password</label>
-				<input type="text" placeholder='Confirme New Password'/>
+				<input type="password" placeholder='Confirme New Password'/>
 			</span>
 		</div>
 	</div>
