@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import './Settings_Page.css'
+import TwoFA_Component from './TwoFA-component';
+import Password_component from './Password_component';
 
 const Settings_Page = () => {
   const [action, setAction] = useState('');
@@ -35,37 +37,10 @@ const Settings_Page = () => {
 
         <div className="from-box security">
           <h1 className='text-container'>Password</h1>
-          <div>.</div>
-          <div>.</div>
-          <div>.</div>
-          <div>.</div>
-          <div>.</div>
-          <div>.</div>
-          <div>.</div>
-          <div>.</div>
-          <div>.</div>
-          <div>.</div>
-          <div>.</div>
-          <div>.</div>
-          <div>.</div>
-          <div>.</div>
-          <div>.</div>
-          <div>.</div>
-          <div>.</div>
-          <h1 className='text-container'>Two-Factor Authentication (2FA)</h1>
-          
-          
-          <div className='TwoFA'>
-            <p className='description'>Enhance the security of your account by enabling Two-Factor Authentication (2FA).
-              This feature adds an extra of protection, ensuring that only you can access.
-              Your account, even if your password is compromised</p>
-            <div className='check-TFA'>
-              <input type="radio" id="twoFAChoice1" name="" value="email" />
-              <label>Activate Two-factor authentication (2FA)</label>
-            </div>
-          </div>
 
-          
+          <Password_component/>
+          <TwoFA_Component />
+
         </div>
       </div>
 
