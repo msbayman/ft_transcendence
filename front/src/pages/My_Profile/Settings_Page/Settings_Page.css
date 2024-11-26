@@ -240,7 +240,7 @@ label {
   border-radius: 6px;
   background-color: #3a0ca3;
   border: 1px solid white;
-  padding: 20px 45px 20px 20px;
+  padding: 20px 55px 20px 20px;
   font-size: 23px;
   color: #b59bf3;
 
@@ -259,15 +259,15 @@ label {
   flex-direction: column;
   width: 50%;
   color: black;
-  /* background-color: green; */
   
 }
 
 .spn {
+  font-family: "Alexandria", sans-serif;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 10px;
+  margin: 11px;
   flex-direction: row;
 }
 
@@ -275,9 +275,15 @@ label {
 
 .pswd {
   width: 100%;
-  /* background-color: gray; */
   display: flex;
   justify-content: center;
 
 }
 
+.pswd .icon {
+  position: absolute;
+  left: 74.6%;
+  font-size: 2rem;
+  color: #fff;
+  cursor: pointer;
+}
