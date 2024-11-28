@@ -2,6 +2,7 @@ import { useState } from 'react'
 import './Settings_Page.css'
 import TwoFA_Component from './TwoFA-component';
 import Password_component from './Password_component';
+import Profile_side from './Profile_side'
 
 const Settings_Page = () => {
   const [action, setAction] = useState('');
@@ -20,7 +21,6 @@ const Settings_Page = () => {
       <h1>Settings</h1>
 
 
-
       <div className='options'>
         <div className={`abs${action}`} />
         <div className='prfl'>
@@ -33,6 +33,8 @@ const Settings_Page = () => {
 
       <div className='content'>
         <div className="from-box profile">
+          {/* TODO = make profile page */}
+          <Profile_side /> 
         </div>
 
         <div className="from-box security">
