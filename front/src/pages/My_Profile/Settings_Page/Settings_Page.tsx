@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import './Settings_Page.css'
-import TwoFA_Component from './TwoFA-component';
-import Password_component from './Password_component';
+import Security_box from './Security_box';
 import Profile_side from './Profile_side'
 
 const Settings_Page = () => {
@@ -32,18 +31,8 @@ const Settings_Page = () => {
       </div>
 
       <div className='content'>
-        <div className="from-box profile">
-          {/* TODO = make profile page */}
-          <Profile_side /> 
-        </div>
-
-        <div className="from-box security">
-          <h1 className='text-container'>Password</h1>
-
-          <Password_component/>
-          <TwoFA_Component />
-
-        </div>
+        <Profile_side /> 
+        {/* <Security_box /> */}
       </div>
 
 
