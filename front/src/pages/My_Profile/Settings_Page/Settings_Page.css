@@ -55,12 +55,17 @@ div h1 {
   font-family: "Alexandria", sans-serif;
   font-size: 30px;
   font-weight: normal;
+  gap: 10px;
+  width: 100%;
+  position: relative;
+}
+
+.child-btn
+{
+  margin-right: 11vw;
   display: flex;
   justify-content: end;
   align-items: flex-end;
-  gap: 10px;
-  margin-top: 30px;
-  margin-right: 130px;
 }
 
 .prfl {
@@ -339,10 +344,10 @@ span {
 }
 
 .params label {
+  padding: 0;
   width: 300px;
   text-align: start;
-  /* padding-left: 20px;
-  padding-right: 20px; */
+
 }
 
 .prf-pic {
@@ -372,7 +377,7 @@ span {
   width: 20rem;
   height: 20rem;
   top: 15.8rem;
-  left: 6rem;
+  left: 6vw;
   display: flex;
   justify-content: center; /* Center horizontally */
   padding-top: 0.5rem;
