@@ -13,6 +13,7 @@ import Login_Page from "./pages/Login_Page/Login_Page";
 import Signup_Page from "./pages/Signup_Page/Signup_Page";
 import Valid_otp from "./pages/Valid_otp/Valid_otp";
 import Overview from "./pages/My_Profile/Overview";
+import ValidOtp from "./pages/Valid_otp/Valid_otp";
 
 function App() {
   const navigate = useNavigate();
