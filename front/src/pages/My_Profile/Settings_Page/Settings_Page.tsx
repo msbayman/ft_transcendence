@@ -5,37 +5,40 @@ import Profile_side from "./Profile_side";
 
 const Settings_Page = () => {
   const [action, setAction] = useState("");
+  const [tab, setTab] = useState<boolean>(true);
 
-  const Profile = () => {
-    setAction(" active");
-  };
+  // const Profile = () => {
+  //   setAction(" active");
+  // };
 
-  const Security = () => {
-    setAction("");
+  // const Security = () => {
+  //   setAction("");
+  // };
+
+  const handleTabs = (tab: boolean) => {
+    setTab(tab);
+    !tab ? setAction(" active") : setAction("");
   };
 
   return (
     <div className="wrapper">
-      <h1>Settings</h1>
+      <h1 className="w-[70%]">Settings</h1>
 
       <div className="options">
         <div className={`abs${action}`} />
         <div className="prfl">
-          <a href="#" onClick={Security}>
+          <a href="#" onClick={() => handleTabs(true)}>
             Profile
           </a>
         </div>
         <div className="sec">
-          <a href="#" onClick={Profile}>
+          <a href="#" onClick={() => handleTabs(false)}>
             Security
           </a>
         </div>
       </div>
 
-      <div className="content">
-        <Profile_side />
-        {/* <Security_box /> */}
-      </div>
+      <div className="content">{tab ? <Profile_side /> : <Security_box />}</div>
 
       <div className="save-cancel">
         <div className="child-btn">
