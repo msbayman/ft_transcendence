@@ -189,7 +189,7 @@ console.log(player_data?.email, player_data?.full_name, player_data?.username);
           </NavLink>
         </div>
       </div>
-      <div className={ActiveNavbar ? "left_side" : "left_side_update"}>
+      <div className={ActiveNavbar ? "left_side overflow-hidden" : "left_side_update"}>
         <Routes>
           <Route path="/overview" element={<Overview_Page />} />
           <Route path="/profile" element={<Profile_Page />} />
