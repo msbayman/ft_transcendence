@@ -22,7 +22,7 @@ const Settings_Page = () => {
 
   return (
     <div className="wrapper">
-      <h1 className="w-[70%]">Settings</h1>
+      <h1 className="w-[90%]">Settings</h1>
 
       <div className="options">
         <div className={`abs${action}`} />
@@ -38,7 +38,7 @@ const Settings_Page = () => {
         </div>
       </div>
 
-      <div className="content">{tab ? <Profile_side /> : <Security_box />}</div>
+      <div className="content overflow-hidden">{tab ? <Profile_side /> : <Security_box />}</div>
 
       <div className="save-cancel">
         <div className="child-btn">
