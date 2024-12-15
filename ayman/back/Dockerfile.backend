@@ -2,14 +2,13 @@ FROM python:3.9
 
 WORKDIR /app
 
-# Copy requirements.txt from the current context (already in ./back)
 COPY requirements.txt /app/requirements.txt
+COPY . /app
 
-# Install dependencies
 RUN pip install --upgrade pip
 RUN pip install -r /app/requirements.txt
 
-# Copy the rest of the backend code
-COPY . /app
+# Install postgresql-client for pg_isready
+RUN apt-get update && apt-get install -y postgresql-client
 
 CMD ["bash"]
