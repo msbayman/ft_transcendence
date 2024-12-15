@@ -8,7 +8,7 @@ ACTIVATE=$(VENV_DIR)/bin/activate
 .PHONY: venv install runserver clean source all front
 
 venv:
-	$(PYTHON) -m venv $(VENV_DIR)
+	$(PYTHON) -m virtualenv $(VENV_DIR)
 	@echo "Virtual environment created in $(VENV_DIR)"
 
 install: venv
@@ -27,8 +27,4 @@ front:
 	cd $(FRONT_DIR) && npm install && npm run dev
 	@echo "Frontend started successfully"
 
-
-
 back: venv install runserver
-
-
