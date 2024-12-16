@@ -21,6 +21,7 @@ import Play_Page from "./Play_Page/Play_Page";
 import Friends_Page from "./Friends_Page/Friends_Page";
 import Shop_Page from "./Shop_Page/Shop_Page";
 import Settings_Page from "./Settings_Page/Settings_Page";
+import The_Leaderboard from "./Overview_Page/The_Leaderboard";
 
 
 function Overview() {
@@ -70,11 +71,11 @@ function Overview() {
       console.error(error);
     }
   };
-console.log(player_data?.email, player_data?.full_name, player_data?.username);
   const localistation = useLocation();
 
   const getNavLink = (path: string) => {
-    if (path === "/Overview") {
+    console.log("---> " + path + " <---");
+    if (path === "/Overview" || path === "/Overview/Leadearboard") {
       return localistation.pathname === path
         ? "navbar_item1 nav_color1 Overview"
         : "navbar_item1";
@@ -140,16 +141,15 @@ console.log(player_data?.email, player_data?.full_name, player_data?.username);
         </div>
         <div className="bar_search">
           <div className="search_content">
-            {/* <input className="search_content hidden_name" placeholder="Search" /> */}
             <img src={Search} className="imgg" />
             <span className="hidden_name"> Search </span>
           </div>
         </div>
         <div className="content_navbar_item1">
-          <NavLink to="Overview" className={getNavLink("/Overview")}>
+          <NavLink to={"Overview"} className={getNavLink("/Overview" || "/Overview/Leadearboard")}>
             <img src={Overview_img} className="imgg" />
             <span className="hidden_name"> Overview </span>
-            <div className={getNavLinkBar("/Overview")}> </div>
+            <div className={getNavLinkBar("/Overview" || "/Overview/Leadearboard")}> </div>
           </NavLink>
           <NavLink to="Profile" className={getNavLink("/Profile")}>
             <img src={Profile} className="imgg" />
@@ -194,6 +194,7 @@ console.log(player_data?.email, player_data?.full_name, player_data?.username);
       <div className={ActiveNavbar ? "left_side" : "left_side_update"}>
         <Routes>
           <Route path="/Overview" element={<Overview_Page />} />
+          <Route path="/Overview/Leadearboard" element={<The_Leaderboard />} />
           <Route path="/Profile" element={<Profile_Page />} />
           <Route path="/Play" element={<Play_Page />} />
           <Route path="/Friends" element={<Friends_Page />} />

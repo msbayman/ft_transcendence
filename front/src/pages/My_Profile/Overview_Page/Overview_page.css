@@ -319,8 +319,9 @@
     }
     .Top_Achievement_mobile {
         display: flex;
-        width: 65%;
-        min-width: 300px;
+        width: 100%;
+        max-width: 500px;
+        min-width: 260px;
         border-radius: 30px;
     }
     .Part_2 {
@@ -339,7 +340,6 @@
         background-color: #3A0CA3;
         height: 550px;
         width: 100%;
-        
         border-radius: 30px;
     }
     
@@ -355,13 +355,14 @@
     .Play_Button {
         display: flex;
         justify-content: center;
-        align-items: start;
-        min-height: 100px;
-        width: 400px;
+        align-items: center;
+        /* min-height: 100px; */
+        /* width: 400px; */
         border-radius: 30px;
     }
     .play {
-        height: 130px;
+        /* height: 130px; */
+        width: 100%;
     }
 
 }
