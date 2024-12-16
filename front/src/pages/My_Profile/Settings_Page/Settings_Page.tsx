@@ -1,24 +1,79 @@
-import { useState } from "react";
 import "./Settings_Page.css";
 import Security_box from "./Security_box";
 import Profile_side from "./Profile_side";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import Cookies from "js-cookie";
+
+
 
 const Settings_Page = () => {
   const [action, setAction] = useState("");
   const [tab, setTab] = useState<boolean>(true);
 
-  // const Profile = () => {
-  //   setAction(" active");
-  // };
+  interface player_data {
+    full_name: string;
+    username: string;
+    email: string;
+  }
+  const [player_data, setPlayerData] = useState<player_data>({
+    full_name: "",
+    username: "",
+    email: "",
+  });
 
-  // const Security = () => {
-  //   setAction("");
-  // };
+
+  const handleSave = async () => {
+    try {
+      const token = Cookies.get("access_token");
+      if (!token) throw new Error("No access token found.");
+  
+      const response = await axios.put(
+        "http://127.0.0.1:8000/user_auth/UpdateUserDetail",
+        player_data,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setPlayerData(response.data);
+      console.log("Profile updated:", response.data);
+    } catch (error) {
+      console.error("Failed to update profile:", error);
+    }
+  };
 
   const handleTabs = (tab: boolean) => {
     setTab(tab);
     !tab ? setAction(" active") : setAction("");
   };
+
+  // Fetch player data
+  useEffect(() => {
+    const fetchPlayerData = async () => {
+      try {
+        const token = Cookies.get("access_token"); // Ensure token is available
+        if (!token) throw new Error("No access token found. Please log in.");
+
+        const response = await axios.get<player_data>(
+          "http://127.0.0.1:8000/user_auth/UserDetailView",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        setPlayerData(response.data);
+      } catch (error) {
+        console.error("Failed to fetch player data:", error);
+      }
+    };
+
+    fetchPlayerData();
+  }, []);
+  // -----------------------------------------
 
   return (
     <div className="wrapper">
@@ -38,13 +93,20 @@ const Settings_Page = () => {
         </div>
       </div>
 
-      <div className="content overflow-hidden">{tab ? <Profile_side /> : <Security_box />}</div>
+      <div className="content overflow-hidden">{tab 
+        ? <Profile_side
+          player={player_data}
+          setPlayerData={(updatedData) =>
+          setPlayerData((prev) => ({ ...prev, ...updatedData }))}
+          />
+        : <Security_box />}
+      </div>
 
       <div className="save-cancel">
         <div className="child-btn">
           <button className="btn cancel">Cancel</button>
-          <button className="btn save">Save</button>
-        </div>
+          <button className="btn save" onClick={handleSave}>Save</button>
+        </div> 
       </div>
     </div>
   );

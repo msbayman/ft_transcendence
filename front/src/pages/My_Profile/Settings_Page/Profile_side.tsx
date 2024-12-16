@@ -1,4 +1,26 @@
-function Profile_side() {
+import React from "react";
+
+interface player_data {
+  full_name: string;
+  username: string;
+  email: string;
+}
+
+interface ProfileSideProps {
+  player: Partial<player_data>; // "Partial<player_data>" tells TypeScript that all the properties inside player_data are optional.
+  setPlayerData: React.Dispatch<React.SetStateAction<Partial<player_data>>>;
+}
+
+function Profile_side({ player, setPlayerData }: ProfileSideProps) {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setPlayerData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+    setPlayerData({...player, [name]: value});
+    console.log(value);
+  };
   return (
     <div className="from-box profile">
       <div className="prf-pic">
@@ -10,11 +32,23 @@ function Profile_side() {
         <div className="params">
           <span className="username">
             <label>Username</label>
-            <input type="text" placeholder="Username" />
+            <input
+              type="text"
+              name="username"
+              placeholder={player?.username || ""}
+              value={player?.username || ""}
+              onChange={handleInputChange}
+            />
           </span>
           <span className="eml">
             <label>Email</label>
-            <input type="text" placeholder="Email" />
+            <input
+              type="text"
+              name="email"
+              placeholder={player?.email || ""}
+              value={player?.email || ""}
+              onChange={handleInputChange}
+            />
           </span>
         </div>
       </div>
