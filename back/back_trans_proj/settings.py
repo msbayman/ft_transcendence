@@ -23,7 +23,7 @@ import os
 
 # 42 OAuth Configuration
 OAUTH_42_CLIENT_ID = 'u-s4t2ud-a4ca19d4122b0c8776673be4adb941c09df86f136d15c2be0d6cf1670894fa0e'
-OAUTH_42_CLIENT_SECRET = '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'
+OAUTH_42_CLIENT_SECRET = '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'
 OAUTH_42_REDIRECT_URI = 'http://127.0.0.1:8000/42/login_redirect'
 OAUTH_42_AUTHORIZATION_URL = 'https://api.intra.42.fr/oauth/authorize'
 OAUTH_42_TOKEN_URL = 'https://api.intra.42.fr/oauth/token'
@@ -57,6 +57,7 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+    'daphne',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -68,6 +69,8 @@ INSTALLED_APPS = [
     'user_auth',
     'oauth2_discord',
     'oauth2_42',
+    'chat',
+    'channels',
 ]
 
 CORS_ALLOWED_ORIGINS = [
@@ -115,7 +118,36 @@ TEMPLATES = [
         },
     },
 ]
-WSGI_APPLICATION = 'back_trans_proj.wsgi.application'
+# WSGI_APPLICATION = 'back_trans_proj.wsgi.application'
+ASGI_APPLICATION = "back_trans_proj.asgi.application"
+
+# CHANNEL_LAYERS = {
+#     'default': {
+#         'BACKEND': 'channels_redis.core.RedisChannelLayer',
+#         'CONFIG': {
+#             'hosts': [('127.0.0.1', 6379)],
+#         },
+#     },
+# }
+# CHANNEL_LAYERS = {
+#     'default': {
+#         'BACKEND': 'channels_redis.core.RedisChannelLayer',
+#         'CONFIG': {
+#             "hosts": [('127.0.0.1', 6379)],
+#         },
+#     },
+# }
+
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [("redis", 6379)],  # Use the service name instead of localhost
+        },
+    },
+}
+
 
 DATABASES = {
     'default': {

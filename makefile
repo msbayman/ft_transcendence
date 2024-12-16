@@ -1,34 +1,36 @@
-PYTHON=python3
-VENV_DIR=venv
-BACK_DIR=back
-FRONT_DIR=front
-REQUIREMENTS=$(BACK_DIR)/requirements.txt
-ACTIVATE=$(VENV_DIR)/bin/activate
+# Variables
+COMPOSE_FILE = docker-compose.yml
 
-.PHONY: venv install runserver clean source all front
+# Targets
+.PHONY: up down restart build clean logs
 
-venv:
-	$(PYTHON) -m venv $(VENV_DIR)
-	@echo "Virtual environment created in $(VENV_DIR)"
+# Start the containers
+up:
+	@echo "Starting containers..."
+	docker-compose -f $(COMPOSE_FILE) up -d
 
-install: venv
-	/bin/bash -c "source $(ACTIVATE) && $(VENV_DIR)/bin/pip install -r $(REQUIREMENTS)"
-	@echo "Dependencies installed from $(REQUIREMENTS)"
+# Stop the containers
+down:
+	@echo "Stopping containers..."
+	docker-compose -f $(COMPOSE_FILE) down
 
-runserver: install
-	/bin/bash -c "source $(ACTIVATE) && cd $(BACK_DIR) && ../$(VENV_DIR)/bin/python manage.py runserver"
-	@echo "Django development server is running"
+# Restart the containers
+restart:
+	@echo "Restarting containers..."
+	docker-compose -f $(COMPOSE_FILE) down
+	docker-compose -f $(COMPOSE_FILE) up -d
 
-source:
-	@echo "Run the following command to activate the virtual environment:"
-	@echo "source $(ACTIVATE)"
+# Build or rebuild the containers
+build:
+	@echo "Building containers..."
+	docker-compose -f $(COMPOSE_FILE) up --build -d
 
-front:
-	cd $(FRONT_DIR) && npm install && npm run dev
-	@echo "Frontend started successfully"
+# Clean up (stop containers and remove volumes)
+clean:
+	@echo "Cleaning up containers and volumes..."
+	docker-compose -f $(COMPOSE_FILE) down -v
 
-
-
-back: venv install runserver
-
-
+# View logs
+logs:
+	@echo "Displaying logs..."
+	docker-compose -f $(COMPOSE_FILE) logs -f

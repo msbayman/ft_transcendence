@@ -1,0 +1,35 @@
+version: "3.8"
+
+services:
+  backend:
+    build:
+      context: ./back
+      dockerfile: Dockerfile.backend
+    container_name: backend
+    volumes:
+      - ./back:/app
+      - /app/venv
+    ports:
+      - "8000:8000"
+    environment:
+      - PYTHONPATH=/app
+    command: bash -c "pip install -r /app/requirements.txt && python manage.py runserver 0.0.0.0:8000"
+
+  frontend:
+    build:
+      context: ./front
+      dockerfile: Dockerfile.frontend
+    container_name: frontend
+    volumes:
+      - ./front:/app
+      - /app/node_modules
+    ports:
+      - "5173:5173"
+    command: sh -c "npm fund --fix && npm install && npm run dev"
+
+  redis:
+    image: redis:7
+    container_name: redis
+    ports:
+      - "6379:6379"
+    command: [ "redis-server" ]

@@ -51,7 +51,7 @@ export default function ChatInterface() {
   };
 
   return (
-    <div className="main flex flex-col bg-[#560BAD]">
+    <div className="main flex h-screen flex-col bg-[#560BAD] p-4">
       {/* Header */}
       <div className="flex items-center gap-3 p-4 border-b border-white/10">
         <div className="h-14 w-14">
@@ -106,7 +106,7 @@ export default function ChatInterface() {
           {/* Input */}
           <input
             placeholder="Your Message..."
-            className="flex-1  pl-10 border-0 focus:ring-0 focus:ring-offset-0 px-2"
+            className="flex-1  pl-10 border-0 ring-0 outline-none  focus:ring-offset-0 px-2 "
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyPress={(e) => {
