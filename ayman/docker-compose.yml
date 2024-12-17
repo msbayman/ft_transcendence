@@ -8,7 +8,6 @@ services:
     container_name: backend
     volumes:
       - ./back:/app
-      - /app/venv
     ports:
       - "8000:8000"
     environment:
@@ -17,21 +16,25 @@ services:
       - DB_PASSWORD=postgres_password
       - DB_HOST=db
       - DB_PORT=5432
+      
     command: >
-      sh -c "
+        sh -c "
         until pg_isready -h $DB_HOST -p $DB_PORT; do 
           echo 'Waiting for database...'; 
           sleep 5; 
         done; 
         echo 'Database is ready'; 
-        pip install -r /app/requirements.txt && 
-        python manage.py migrate && 
-        python manage.py shell -c \"
-          from django.contrib.auth.models import User; 
-          User.objects.filter(username='admin').exists() or 
-          User.objects.create_superuser('admin', 'admin@example.com', 'admin')\" && 
-        python manage.py runserver 0.0.0.0:8000
-      "
+
+        python3 -m venv /app/venv && 
+        . /app/venv/bin/activate && 
+        /app/venv/bin/pip install -r /app/requirements.txt && 
+
+        /app/venv/bin/python manage.py migrate && 
+        /app/venv/bin/python manage.py createsuperuser --noinput --username admin --email admin@example.com || true && 
+        /app/venv/bin/python manage.py runserver 0.0.0.0:8000
+        "
+
+
 
   frontend:
     build:
@@ -44,6 +47,8 @@ services:
     ports:
       - "5173:5173"
     command: sh -c "npm install && npm run dev"
+
+
 
   db:
     image: postgres:13

@@ -1,7 +1,7 @@
 from pathlib import Path
 from datetime import timedelta
 import os
-from django.contrib.auth.models import User  # Ensure no unexpected indentation here
+# from django.contrib.auth.models import User  # Ensure no unexpected indentation here
 
 
 # 42 OAuth Configuration
@@ -19,6 +19,26 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'django-insecure-!9+ns2!3$k!*vdvy1#i
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
+
+
+
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [],  # No custom template directories needed
+        'APP_DIRS': True,  # Required for Django admin to work
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
+
+
 
 INSTALLED_APPS = [
     'django.contrib.admin',
