@@ -143,7 +143,7 @@ CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
         'CONFIG': {
-            "hosts": [("redis", 6379)],  # Use the service name instead of localhost
+            "hosts": [("redis", 6379)],
         },
     },
 }
@@ -210,5 +210,6 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 AUTH_USER_MODEL = 'user_auth.player'
+
 
 

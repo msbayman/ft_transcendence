@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import gojo from "../assets/gojo.png";
 
 interface Friend {
@@ -6,6 +6,12 @@ interface Friend {
   name: string;
   avatar: string;
   online: boolean;
+}
+
+interface User {
+  id: number;
+  username: string;
+  avatar?: string;
 }
 
 interface Message {
@@ -21,16 +27,49 @@ interface Message {
 
 export default function Messages() {
   const [searchQuery, setSearchQuery] = useState('');
+  const [users, setUsers] = useState<User[]>([]);
+  const [friends, setFriends] = useState<Friend[]>([]);
 
-  const friends: Friend[] = [
-    { id: "1", name: "Asrarf", avatar: gojo, online: true },
-    { id: "2", name: "Lwajdi", avatar: gojo, online: true },
-    { id: "3", name: "ayman", avatar: gojo, online: true },
-    { id: "4", name: "michel", avatar: gojo, online: true },
-    { id: "5", name: "friend5", avatar: gojo, online: true },
-    { id: "6", name: "friend6", avatar: gojo, online: false },
-    { id: "7", name: "friend7", avatar: gojo, online: true },
-  ];
+  // const friends: Friend[] = [
+  //   { id: "1", name: "Asrarf", avatar: gojo, online: true },
+  //   { id: "2", name: "Lwajdi", avatar: gojo, online: true },
+  //   { id: "3", name: "ayman", avatar: gojo, online: true },
+  //   { id: "4", name: "michel", avatar: gojo, online: true },
+  //   { id: "5", name: "friend5", avatar: gojo, online: true },
+  //   { id: "6", name: "friend6", avatar: gojo, online: false },
+  //   { id: "7", name: "friend7", avatar: gojo, online: true },
+  // ];
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const response = await fetch('http://127.0.0.1:8000/chat/api/users/', {
+          headers: {
+            'Authorization': 'Bearer ' + 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM0NjM0NDcyLCJpYXQiOjE3MzQzNzUyNzIsImp0aSI6IjE4ODRhYTQ3MjlkZjQ2NWJiYTAyNDBmNTU3NzVjZTdhIiwidXNlcl9pZCI6MTN9.sPEv0q4AMl80_TW73rSBNp7m2QgDTtWi2NWsBwX6DcA',
+          },
+        });
+        if (response.ok) {
+          const data: User[] = await response.json();
+          setUsers(data);
+
+          const convertedFriends: Friend[] = data.map((user, index) => ({
+            id: user.id.toString(),
+            name: user.username,
+            avatar: gojo, // You might want to use user's actual avatar if available
+            online: index < 4 // Arbitrarily mark first 4 users as online
+          }));
+          setFriends(convertedFriends);
+        } else {
+          console.error('Failed to fetch users');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+
+    fetchUsers();
+  }, []);
+  
 
   const messages: Message[] = [
     {

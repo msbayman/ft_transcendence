@@ -1,16 +1,17 @@
 import React from "react";
 import "./Friends_Page.css";
-import UserList from "./UserList";
+// import UserList from "./UserList";
+// import UserList from "./list"
 // import ChatLayout from "./ChatLayout";
-// import FriendsList from "./FriendsList";
+import FriendsList from "./FriendsList";
 import ChatInterface from "./test";
 
 export const Friends_Page = () => {
   return (
     <>
       <ChatInterface></ChatInterface>
-      <UserList></UserList>
-      {/* <FriendsList></FriendsList> */}
+      {/* <UserList></UserList> */}
+      <FriendsList></FriendsList>
     </>
   );
 };
