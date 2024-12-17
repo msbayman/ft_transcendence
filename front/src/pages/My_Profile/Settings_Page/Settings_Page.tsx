@@ -75,6 +75,12 @@ const Settings_Page = () => {
   }, []);
   // -----------------------------------------
 
+  // TODO: Implement the following: 
+  // 1. Handle save
+  // 2. Handle update player data
+  
+
+
   return (
     <div className="wrapper">
       <h1 className="w-[90%]">Settings</h1>
