@@ -21,7 +21,7 @@ import Play_Page from "./Play_Page/Play_Page";
 import Friends_Page from "./Friends_Page/Friends_Page";
 import Shop_Page from "./Shop_Page/Shop_Page";
 import Settings_Page from "./Settings_Page/Settings_Page";
-import The_Leaderboard from "./Overview_Page/The_Leaderboard";
+import The_Leaderboard from "./Overview_Page/Leaderboard_Page/The_Leaderboard";
 
 
 function Overview() {
@@ -72,11 +72,12 @@ function Overview() {
     }
   };
   const localistation = useLocation();
+  console.log(localistation.pathname);
 
   const getNavLink = (path: string) => {
-    console.log("---> " + path + " <---");
-    if (path === "/Overview" || path === "/Overview/Leadearboard") {
-      return localistation.pathname === path
+    // console.log("---> " + path + " <---");
+    if (path === "/Overview") {
+      return '/' + localistation.pathname.split("/")[1] === path
         ? "navbar_item1 nav_color1 Overview"
         : "navbar_item1";
     } else if (path === "/Profile") {
@@ -101,7 +102,9 @@ function Overview() {
     if (path === "/Settings") {
       return localistation.pathname === path ? "selected1" : "selected_hide";
     } else {
-      return localistation.pathname === path ? "selected" : "selected_hide";
+      return '/' + localistation.pathname.split("/")[1] === path
+        ? "selected"
+        : "selected_hide";
     }
   };
   const [ActiveNavbar, setActiveNavbar] = useState(false);
@@ -146,10 +149,10 @@ function Overview() {
           </div>
         </div>
         <div className="content_navbar_item1">
-          <NavLink to={"Overview"} className={getNavLink("/Overview" || "/Overview/Leadearboard")}>
+          <NavLink to={"Overview"} className={getNavLink("/Overview")}>
             <img src={Overview_img} className="imgg" />
             <span className="hidden_name"> Overview </span>
-            <div className={getNavLinkBar("/Overview" || "/Overview/Leadearboard")}> </div>
+            <div className={getNavLinkBar("/Overview")}> </div>
           </NavLink>
           <NavLink to="Profile" className={getNavLink("/Profile")}>
             <img src={Profile} className="imgg" />

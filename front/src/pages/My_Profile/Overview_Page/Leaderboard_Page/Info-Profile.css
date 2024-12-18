@@ -1,0 +1,86 @@
+.part11 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    color: aliceblue;
+    padding-top: 30px;
+    gap: 30px;
+}
+
+.Score_style {
+    font-size: xxx-large;
+}
+
+.Score_style_value {
+    font-size: 40px;
+    font-weight: lighter;
+    margin-top: -20px;
+}
+
+.font-text {
+    font-family: "Alexandria", sans-serif;
+}
+
+.Photo_dProfile {
+    width: 200px;
+    height: 200px;
+    border-radius: 100%;
+}
+
+.Name_of_Profile {
+    font-size: 60px;
+}
+
+.The_level{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 70%;
+    height: 100px;
+}
+
+.Exp_Level {
+    align-self: self-start;
+    margin-left: 20px;
+}
+
+.level_Profile {
+    width: 100%;
+    height: 20px;
+    display: flex;
+    /* align-items: center; */
+    justify-content: end;
+    background-color: aliceblue;
+    border-radius: 10px;
+}
+
+.Etoile_lvl{
+    height: 50px;
+    margin-top: -18px;
+    margin-right: -15px;
+    /* justify-content: flex-end; */
+}
+
+.part22 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+    padding-bottom: 30px;
+    width: 100%;
+    color: aliceblue;
+}
+.title_static {
+    font-family: "Alexandria", sans-serif;
+    font-size: xx-large;
+}
+
+.Static_Text {
+    font-family: "Luckiest Guy", cursive;
+    font-size: xx-large;
+}
+
+.Color_Yellow {
+    color: #FFC24F;
+}
