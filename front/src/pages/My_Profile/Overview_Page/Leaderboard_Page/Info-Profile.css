@@ -27,6 +27,7 @@
     width: 200px;
     height: 200px;
     border-radius: 100%;
+    box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.43);
 }
 
 .Name_of_Profile {
@@ -41,38 +42,53 @@
     width: 70%;
 }
 
-.Exp_Level {
-    align-self: self-start;
-    margin-left: 20px;
-    font-family: "Luckiest Guy", cursive;
-}
-
 .level_Profile {
     position: relative;
     width: 100%;
     height: 20px;
     display: flex;
-    justify-content: end;
+    justify-content: space-between;
+    align-items: center;
     background-color: aliceblue;
     border-radius: 10px;
 }
 
+.Progress_bar_lvl {
+    height: 12px;
+    width: 190px;
+    margin-left: 5px;
+    background-color: green;
+    border-radius: 30px;
+}
+
+.lvl_progress {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
 .Etoile_lvl{
+    position: absolute;
     height: 50px;
-    margin-top: -20px;
-    margin-right: -34px;
 }
 
 .lvl_value {
+    position: absolute;
     font-weight: 500;
-    margin-top: 4px;
+    margin-top: 10px;
     font-size:27px;
     display: flex;
-    justify-content: center;
     font-family: "Luckiest Guy", cursive;
-    align-items: center;
     color: black;
+}
+
+.Exp_Level {
+    align-self: self-start;
+    text-shadow: 0 3px 5px black;
+    margin-left: 20px;
+    margin-top: 8px;
+    font-size: 20px;
+    font-family: "Luckiest Guy", cursive;
 }
 
 .part22 {
@@ -93,6 +109,8 @@
 .Static_Text {
     font-family: "Luckiest Guy", cursive;
     font-size: xx-large;
+    text-shadow: 0 3px 5px black;
+
 }
 
 .Color_Yellow {

@@ -1,7 +1,7 @@
-import React from 'react'
-import "./Info-Profile.css"
-import ph_pro from "../../Images/profile.png"
-import etoile from "../../Images/Etoile.svg"
+import React from "react";
+import "./Info-Profile.css";
+import Ph_pro from "../../Images/profile.png";
+import etoile from "../../Images/Etoile.svg";
 
 const Info_Profile = () => {
   return (
@@ -10,13 +10,16 @@ const Info_Profile = () => {
         <div className="Score_style font-text">Your Score</div>
         <div className="Score_style_value">850 Points</div>
         <div className="Photo_dProfile">
-          <img src={ph_pro} className="Photo_dProfile" />
+          <img src={Ph_pro} className="Photo_dProfile" />
         </div>
         <div className="Name_of_Profile">KACIMO</div>
         <div className="The_level">
           <div className="level_Profile">
+            <div className="Progress_bar_lvl"></div>
+            <div className='lvl_progress'>
               <img src={etoile} className="Etoile_lvl" />
-              <div className="lvl_value">3</div>
+              <div className="lvl_value">13</div>
+            </div>
           </div>
           <div className="Exp_Level">125 OF 365</div>
         </div>
@@ -44,6 +47,6 @@ const Info_Profile = () => {
       </div>
     </>
   );
-}
+};
 
-export default Info_Profile
+export default Info_Profile;
