@@ -12,11 +12,11 @@ const Info_Profile = () => {
         <div className="Photo_dProfile">
           <img src={ph_pro} className="Photo_dProfile" />
         </div>
-        <div className='Name_of_Profile'>KACIMO</div>
+        <div className="Name_of_Profile">KACIMO</div>
         <div className="The_level">
           <div className="level_Profile">
-            <img src={etoile} className='Etoile_lvl'/>
-            <span>3</span>
+              <img src={etoile} className="Etoile_lvl" />
+              <div className="lvl_value">3</div>
           </div>
           <div className="Exp_Level">125 OF 365</div>
         </div>
