@@ -1,0 +1,41 @@
+.Content_of_Leadearboard {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    max-width: 1550px;
+    gap: 20px;
+}
+
+.title_leader {
+    color: aliceblue;
+}
+
+.content-leader {
+    height: 100%;
+    width: 100%;
+    background-color: #5116C4;
+    box-shadow: 0 0 7px 1px black;
+    border-radius: 30px;
+    display: flex;
+    flex-direction: row;
+    /* gap: 20px; */
+}
+
+.Info-Profile {
+    /* flex-grow: 1; */
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.Table-Leader {
+    flex-grow: 2.5;
+    border-radius: 30px;
+    box-shadow: 0 0 7px 1px black;
+    background-color: #3A0CA3;
+}

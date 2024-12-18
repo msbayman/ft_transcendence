@@ -53,6 +53,7 @@
   height: 100vh;
   width: auto;
   display: flex;
+  justify-content: center;
   flex-grow: 1;
   /* max-width: calc(100% - 100px); */
   padding: 15px;
@@ -66,6 +67,7 @@
   height: 100vh;
   width: auto;
   display: flex;
+  justify-content: center;
   flex-grow: 1;
   /* max-width: calc(100% - 22px); */
   padding: 5px;
@@ -281,7 +283,7 @@
   }
 
   .search_content {
-    padding: 20px;
+    padding: 20px 0;
     display: flex;
     align-items: center;
     justify-content: center;
