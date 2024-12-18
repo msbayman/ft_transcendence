@@ -10,6 +10,7 @@
 
 .Score_style {
     font-size: xxx-large;
+    text-shadow: 0 3px 5px black;
 }
 
 .Score_style_value {
@@ -30,6 +31,7 @@
 
 .Name_of_Profile {
     font-size: 60px;
+    text-shadow: 0 3px 5px black;
 }
 
 .The_level{
@@ -85,6 +87,7 @@
 .title_static {
     font-family: "Alexandria", sans-serif;
     font-size: xx-large;
+    text-shadow: 0 3px 5px black;
 }
 
 .Static_Text {
