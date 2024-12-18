@@ -1,0 +1,66 @@
+version: "3.8"
+
+services:
+  backend:
+    build:
+      context: ./back
+      dockerfile: Dockerfile.backend
+    container_name: backend
+    volumes:
+      - ./back:/app
+    ports:
+      - "8000:8000"
+    environment:
+      - DB_NAME=postgres_db
+      - DB_USER=postgres_user
+      - DB_PASSWORD=postgres_password
+      - DB_HOST=db
+      - DB_PORT=5432
+      
+    command: >
+        sh -c "
+        until pg_isready -h db -p 5432; do 
+          echo 'Waiting for database...'; 
+          sleep 5; 
+        done; 
+        echo 'Database is ready'; 
+
+        python3 -m venv /app/venv && 
+        . /app/venv/bin/activate && 
+        /app/venv/bin/pip install -r /app/requirements.txt && 
+
+        /app/venv/bin/python manage.py migrate && 
+        /app/venv/bin/python manage.py createsuperuser --noinput --username admin --email admin@example.com || true && 
+        /app/venv/bin/python manage.py runserver 0.0.0.0:8000
+        "
+
+
+
+  frontend:
+    build:
+      context: ./front
+      dockerfile: Dockerfile.frontend
+    container_name: frontend
+    volumes:
+      - ./front:/app
+      - /app/node_modules
+    ports:
+      - "5173:5173"
+    command: sh -c "npm install && npm run dev"
+
+
+
+  db:
+    image: postgres:13
+    container_name: postgres_db
+    environment:
+      POSTGRES_DB: postgres_db
+      POSTGRES_USER: postgres_user
+      POSTGRES_PASSWORD: postgres_password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+volumes:
+  postgres_data:

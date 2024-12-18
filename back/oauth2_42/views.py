@@ -52,13 +52,17 @@ def exchange_code_for_token_42(code: str) -> dict:
 
 
 def handle_oauth_user_42(request: HttpRequest, user_info: dict) -> HttpResponse:
-    email = user_info.get('email')
-    username = user_info.get('login')
+
+    email         = user_info.get('email')
+    username     = user_info.get('login')
+    full_name    = user_info.get('usual_full_name', username)
     user_id_prov = user_info.get('id')
+
+    if not(all([email, username, full_name, user_id_prov])):
+        return JsonResponse({"error": "Failed to retrieve user data"}, status = 403)
 
     try:
         user = Player.objects.get(email=email)
-        user.id_prov = user_id_prov
         user.prov_name = "42"
         user.save()
     except Player.DoesNotExist:
@@ -69,7 +73,7 @@ def handle_oauth_user_42(request: HttpRequest, user_info: dict) -> HttpResponse:
             counter += 1
 
         serializer = PlayerSerializer(data={
-            'full_name': user_info.get('displayname', username),
+            'full_name': full_name,
             'email': email,
             'username': username,
             'id_prov': user_id_prov,

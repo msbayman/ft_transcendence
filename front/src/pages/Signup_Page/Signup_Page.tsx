@@ -82,6 +82,13 @@ function Signup_Page() {
     }
   };
 
+  const handleOAuthLogin = () => {
+    window.location.href = "http://localhost:8000/discord/login";
+  };
+  const handleOAuthLogin_42 = () => {
+    window.location.href = "http://localhost:8000/42/login";
+  };
+
   return (
     <div className="main_signup">
       <div className="signup_left">
@@ -102,12 +109,14 @@ function Signup_Page() {
             </Link>
             <form className="signup_form" onSubmit={handleSubmit(onSubmit)}>
               <img
-                className="auth"
+                className="auth cursor-pointer"
+                onClick={handleOAuthLogin}
                 src="connect_with_google.svg"
                 alt="login google"
               />
               <img
-                className="auth"
+                className="auth cursor-pointer"
+                onClick={handleOAuthLogin_42}
                 src="connect_with_42.svg"
                 alt="login intra"
               />
