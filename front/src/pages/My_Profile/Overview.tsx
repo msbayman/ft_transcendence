@@ -21,6 +21,8 @@ import Play_Page from "./Play_Page/Play_Page";
 import Friends_Page from "./Friends_Page/Friends_Page";
 import Shop_Page from "./Shop_Page/Shop_Page";
 import Settings_Page from "./Settings_Page/Settings_Page";
+import The_Leaderboard from "./Overview_Page/Leaderboard_Page/The_Leaderboard";
+
 
 function Overview() {
   interface player_data {
@@ -69,12 +71,13 @@ function Overview() {
       console.error(error);
     }
   };
-console.log(player_data?.email, player_data?.full_name, player_data?.username);
   const localistation = useLocation();
+  console.log(localistation.pathname);
 
   const getNavLink = (path: string) => {
+    // console.log("---> " + path + " <---");
     if (path === "/Overview") {
-      return localistation.pathname === path
+      return '/' + localistation.pathname.split("/")[1] === path
         ? "navbar_item1 nav_color1 Overview"
         : "navbar_item1";
     } else if (path === "/Profile") {
@@ -96,10 +99,12 @@ console.log(player_data?.email, player_data?.full_name, player_data?.username);
     }
   };
   const getNavLinkBar = (path: string) => {
-    if (path === "/settings") {
+    if (path === "/Settings") {
       return localistation.pathname === path ? "selected1" : "selected_hide";
     } else {
-      return localistation.pathname === path ? "selected" : "selected_hide";
+      return '/' + localistation.pathname.split("/")[1] === path
+        ? "selected"
+        : "selected_hide";
     }
   };
   const [ActiveNavbar, setActiveNavbar] = useState(false);
@@ -144,7 +149,7 @@ console.log(player_data?.email, player_data?.full_name, player_data?.username);
           </div>
         </div>
         <div className="content_navbar_item1">
-          <NavLink to="Overview" className={getNavLink("/Overview")}>
+          <NavLink to={"Overview"} className={getNavLink("/Overview")}>
             <img src={Overview_img} className="imgg" />
             <span className="hidden_name"> Overview </span>
             <div className={getNavLinkBar("/Overview")}> </div>
@@ -191,12 +196,13 @@ console.log(player_data?.email, player_data?.full_name, player_data?.username);
       </div>
       <div className={ActiveNavbar ? "left_side" : "left_side_update"}>
         <Routes>
-          <Route path="/overview" element={<Overview_Page />} />
-          <Route path="/profile" element={<Profile_Page />} />
-          <Route path="/play" element={<Play_Page />} />
-          <Route path="/friends" element={<Friends_Page />} />
-          <Route path="/shop" element={<Shop_Page />} />
-          <Route path="/settings" element={<Settings_Page />} />
+          <Route path="/Overview" element={<Overview_Page />} />
+          <Route path="/Overview/Leadearboard" element={<The_Leaderboard />} />
+          <Route path="/Profile" element={<Profile_Page />} />
+          <Route path="/Play" element={<Play_Page />} />
+          <Route path="/Friends" element={<Friends_Page />} />
+          <Route path="/Shop" element={<Shop_Page />} />
+          <Route path="/Settings" element={<Settings_Page />} />
         </Routes>
       </div>
     </div>
