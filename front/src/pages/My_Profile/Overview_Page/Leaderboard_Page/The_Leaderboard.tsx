@@ -1,4 +1,4 @@
-import React from "react"
+// import React from "react"
 import "./The_Leaderboard.css"
 import Info_Profile from "./Info-Profile"
 import Table_Leaderboard from "./Table_Leaderboard"
