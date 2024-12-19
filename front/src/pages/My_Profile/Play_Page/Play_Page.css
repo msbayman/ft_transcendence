@@ -23,7 +23,9 @@
 .modes {
   position: relative;
   font-size: 4.5rem;
-  line-height: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;  
   font-weight: 700;
 }
 
@@ -59,4 +61,114 @@
   bottom: 2.7rem;
   left: 3.5rem;
   text-align: center;
+}
+
+
+@media screen and (max-width: 1024px) {
+  .one {
+    position: relative;
+    bottom: 2.7rem;
+    right: 5rem;
+    font-size: 4.5rem;
+    text-align: center;
+  }
+  .two {
+    position: relative;
+    bottom: 2.7rem;
+    left: 3.5rem;
+    font-size: 4.5rem;
+    text-align: center;
+  }
+  .tourn {
+    position: relative;
+    bottom: 4rem;
+    left: 4rem;
+    font-size: 4.5rem;
+    text-align: center;
+  }
+  .bot {
+    position: relative;
+    bottom: 4rem;
+    right: 4rem;
+    font-size: 4.5rem;
+    text-align: center;
+  }
+}
+
+@media screen and (max-width: 1024px) { 
+  .here 
+  {
+    background-color: violet;
+    width: 100%;
+    height: 80%;
+    display: flex;
+    flex-direction: column;
+  }
+  .image {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+@media screen and (max-width: 1800px) {
+  
+  .one {
+    position: relative;
+    bottom: 2.7rem;
+    right: 5rem;
+    font-size: 4.5rem;
+    text-align: center;
+  }
+  .two {
+    position: relative;
+    bottom: 2.7rem;
+    left: 3.5rem;
+    font-size: 4.5rem;
+    text-align: center;
+  }
+  .tourn {
+    position: relative;
+    bottom: 4rem;
+    left: 4rem;
+    font-size: 4.5rem;
+    text-align: center;
+  }
+  .bot {
+    position: relative;
+    bottom: 4rem;
+    right: 4rem;
+    font-size: 4.5rem;
+    text-align: center;
+  }
+}
+
+@media screen and (max-width: 1440px) {
+  .one {
+    position: relative;
+    bottom: 1.5rem;
+    right: 2rem;
+    font-size: 3.6rem;
+    text-align: center;
+  }
+  .two {
+    position: relative;
+    bottom: 1.5rem;
+    font-size: 3.6rem;
+    left: 2rem;
+    text-align: center;
+  }
+  .tourn {
+    position: relative;
+    bottom: 1.5rem;
+    left: 2rem;
+    font-size: 3.6rem;
+    text-align: center;
+  }
+  .bot {
+    position: relative;
+    bottom: 1.5rem;
+    right: 2rem;
+    font-size: 3.6rem;
+    text-align: center;
+  }
 }
