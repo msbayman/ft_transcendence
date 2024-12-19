@@ -76,16 +76,41 @@
 }
 
 .win_state {
-    background-color: green;
+    /* background-color: green; */
+    color: black;
 }
 
 .lose_state {
-    background-color: red;
+    /* background-color: red; */
 }
 
 .achievement_state {
-    background-color: rebeccapurple;
+    /* background-color: rebeccapurple; */
 }
 .exp_state {
-    background-color: yellow;
+    /* background-color: yellow; */
 }
+
+.hover-container {
+    position: relative;
+  }
+  .hover-text {
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #000;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 3px;
+    white-space: nowrap;
+    transition: visibility 0.2s, opacity 0.2s;
+  }
+  
+  .hover-container:hover .hover-text {
+    visibility: visible;
+    opacity: 1;
+  }
+  

@@ -75,7 +75,6 @@ function Overview() {
   console.log(localistation.pathname);
 
   const getNavLink = (path: string) => {
-    // console.log("---> " + path + " <---");
     if (path === "/Overview") {
       return '/' + localistation.pathname.split("/")[1] === path
         ? "navbar_item1 nav_color1 Overview"

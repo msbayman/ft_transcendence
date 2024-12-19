@@ -1,5 +1,5 @@
 import React from "react";
-import "./Overview_Page.css";
+import "./Overview_page.css"
 import State_of_Profile from "./State_of_Profile";
 import Top_of_Achievement from "./Top_of_Achievement";
 import The_Leaderboard from "./Leaderboard"
