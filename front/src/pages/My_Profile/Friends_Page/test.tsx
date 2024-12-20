@@ -9,25 +9,31 @@ interface Message {
   id: number;
   text: string;
   sent: boolean;
+  avatar: string;
 }
 
-export default function ChatInterface() {
+interface UserName {
+  value: string;
+}
+
+
+const ChatInterface: React.FC<UserName> = ({ value }) => {
   const [messages, setMessages] = useState<Message[]>([
-    { id: 1, text: "Lorem", sent: true },
+    { id: 1, text: "Lorem", sent: true, avatar: gojo },
     {
       id: 2,
       text: "Lorem ipsum dolor sit amet, consecte tur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam .",
-      sent: false,
+      sent: false, avatar: gojo 
     },
-    { id: 3, text: "Lorem ipsum dolor .", sent: true },
-    { id: 4, text: "Lorem ipsum dolor sit amet, consecte .", sent: false },
-    { id: 5, text: "Lorem", sent: true },
+    { id: 3, text: "Lorem ipsum dolor .", sent: true, avatar: gojo  },
+    { id: 4, text: "Lorem ipsum dolor sit amet, consecte .", sent: false, avatar: gojo  },
+    { id: 5, text: "Lorem", sent: true, avatar: gojo  },
     {
       id: 6,
       text: "Lorem ipsum dolor sit amet, consecte tur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam .",
-      sent: false,
+      sent: false, avatar: gojo ,
     },
-    { id: 7, text: "Lorem ipsum dolor .", sent: true },
+    { id: 7, text: "Lorem ipsum dolor .", sent: true, avatar: gojo  },
   ]);
 
   const [input, setInput] = useState("");
@@ -44,7 +50,7 @@ export default function ChatInterface() {
     if (input.trim()) {
       setMessages([
         ...messages,
-        { id: messages.length + 1, text: input, sent: true },
+        { id: messages.length + 1, text: input, sent: true, avatar: gojo  },
       ]);
       setInput("");
     }
@@ -58,7 +64,7 @@ export default function ChatInterface() {
           <img src={gojo} alt="Profile" className="rounded-full" />
         </div>
         <div>
-          <h1 className="text-xl font-semibold text-white">Ilyass Asrarfi</h1>
+          <h1 className="text-xl font-semibold text-white">{value}</h1>
           <p className="text-sm text-white/70">Online</p>
         </div>
       </div>
@@ -73,7 +79,7 @@ export default function ChatInterface() {
           >
             {message.sent && (
               <div className="h-10 w-10">
-                <img src={gojo} alt="Profile" className="rounded-full" />
+                <img src={message.avatar} alt="Profile" className="rounded-full" />
               </div>
             )}
             <div
@@ -85,7 +91,7 @@ export default function ChatInterface() {
             </div>
             {!message.sent && (
               <div className="h-10 w-10">
-                <img src={gojo} alt="Profile" className="rounded-full" />
+                <img src={message.avatar} alt="Profile" className="rounded-full" />
               </div>
             )}
           </div>
@@ -137,3 +143,5 @@ export default function ChatInterface() {
     </div>
   );
 }
+
+export default ChatInterface;
