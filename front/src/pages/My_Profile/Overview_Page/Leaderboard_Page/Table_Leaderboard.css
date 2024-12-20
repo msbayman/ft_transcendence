@@ -17,13 +17,34 @@
     height: 80px;
     border-radius: 30px;
     background-color: #5116C4;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
     color: aliceblue;
     font-family: "Alexandria", sans-serif;
     font-weight: 300;
     font-style: normal;
     font-size: 28px;
+}
+
+.content_of_title0 {
+    /* margin-left:30px 0 30px 0; */
+    /* width: 350px; */
+    padding-left: 70px;
+    flex-grow: 1;
+}
+
+.content_of_title1 {
+    flex-grow: 1;
+    padding-left: 100px;
+}
+
+.content_of_title2 {
+    flex-grow: 1;
+    padding-left: 50px;
+}
+
+.content_of_title3 {
+    flex-grow: 2;
 }
 
 .the_table_leader {
@@ -41,7 +62,7 @@
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 30px;
+    gap: 60px;
 }
 
 
@@ -57,11 +78,37 @@
     font-family: "Luckiest Guy", cursive;
     color: aliceblue;
     font-size: xx-large;
-    padding-left: 30px;
+    padding-left: 20px;
     width: 100px;
 }
 
 .class_img {
     width: 100px;
     height: 100px;
+    margin: 0 70px 0 20px;
+}
+
+.class_player {
+    font-size: xx-large;
+    font-family: "Alexandria", sans-serif;
+    color: aliceblue;
+    font-weight: 100;
+    width: 220px;
+}
+.class_score {
+    width: 180px;
+    font-size: x-large;
+    font-family: "Alexandria", sans-serif;
+    color: aliceblue;
+    font-weight: 100;
+}
+
+
+.view_Profile {
+    width: 180px;
+    height: 60px;
+    background-color: #300488;
+    border: white solid 1px;
+    border-radius: 50px;
+    color: aliceblue;
 }
