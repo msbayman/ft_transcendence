@@ -32,4 +32,36 @@
     overflow-y: scroll;
 }
 
+.ss {
+    color: aliceblue;
+    font-size: x-large;
+}
 
+.every_columns {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+
+.dd1 {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 30px;
+}
+
+.class_id {
+    font-family: "Luckiest Guy", cursive;
+    color: aliceblue;
+    font-size: xx-large;
+    padding-left: 30px;
+    width: 100px;
+}
+
+.class_img {
+    width: 100px;
+    height: 100px;
+}

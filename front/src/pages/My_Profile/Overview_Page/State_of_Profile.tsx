@@ -1,7 +1,6 @@
-// import { ProgressCircleRing, ProgressCircleRoot} from "@/components/ui/progress-circle"
+import * as React from 'react';
 import "./State_of_Profile.css"
 import ph_pro from '../Images/profile.png'
-import * as React from 'react';
 import { CircularProgress,CircularProgressLabel } from "@chakra-ui/progress"
 
 const State_of_Profile = () => {
