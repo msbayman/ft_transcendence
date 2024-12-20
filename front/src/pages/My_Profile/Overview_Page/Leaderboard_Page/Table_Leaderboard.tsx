@@ -6,40 +6,67 @@ import { useMemo } from "react";
 
 const Table_Leaderboard = () => {
   console.log(FakeTable);
-  const Data = useMemo(() => FakeTable,[])
-  const colomns = useMemo(() => [
+  const data = useMemo(() => FakeTable,[])
+  const columns = useMemo(() => [
     {
-      Header:"_id",
+      Header:"Rank",
       accessor:"id",
+      className:"class_id"
     },
     {
-      Header:"_Username",
+      Header:"",
+      accessor:"Path_Image",
+      className:"class_img",
+      Cell: ({ value }: { value: string }) => (
+        <img src={value} alt="Profile" style={{borderRadius:'50%'}}/>
+      )
+    },
+    {
+      Header:"Player",
       accessor:"User",
     },
     {
-      Header:"_Photo_Profile",
-      accessor:"Path_Image",
-    },
-    {
-      Header:"_Score",
-      accessor:"Score",
+      Header:"Score",
+      accessor:"score",
     },
   ],[])
-  const { getTableProps,getTableBodyProps, headerGroups, rows, prepareRow } = useTable({colomns, Data});
+  const { getTableProps,getTableBodyProps, headerGroups, rows, prepareRow } = useTable({columns, data});
   return (
     <div className="content_ofTable">
-      {/* <div className="title_of_table">
+      <div className="title_of_table">
         <div className="content_of_title">Rank</div>
         <div className="content_of_title">Player</div>
         <div className="content_of_title">Score</div>
         <div className="content_of_title"></div>
       </div>
       <div className="the_table_leader">
-      </div> */}
+
         <table {...getTableProps()}>
-          <thead></thead>
-          <tbody></tbody>
+          {/* <thead className="title_of_table">
+            {headerGroups.map((headerGroup) => (
+              <tr {...headerGroup.getHeaderGroupProps()}>
+                {headerGroup.headers.map((columns) => (
+                  <th {...columns.getHeaderProps()}>
+                    {columns.render("Header")}
+                  </th>
+                ))}
+              </tr>
+            ))}
+          </thead> */}
+          <tbody className="every_columns" {...getTableBodyProps()}>
+            {rows.map((row) => {
+              prepareRow(row)
+              return (
+                <tr className="dd1"{...row.getRowProps()}>
+                  {row.cells.map((cell) => (
+                    <td className="ss" {...cell.getCellProps({className: cell.column.className,})}>{cell.render("Cell")}</td>
+                  ))}
+                <hr /></tr>
+              )
+            })}
+          </tbody>
         </table>
+      </div>
     </div>
   );
 }
