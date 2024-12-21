@@ -1,9 +1,13 @@
-import * as React from "react"
+ import * as React from "react"
 import "./Table_Leaderboard.css"
 import { useTable } from "react-table"
 import FakeTable from "../Fake_Table.json"
 import { useMemo } from "react";
 import { useNavigate } from "react-router-dom";
+import The_one from '../../Images/Leader_1.svg'
+import The_two from '../../Images/Leader_2.svg'
+import The_tree from '../../Images/Leader_3.svg'
+
 
 
 const Table_Leaderboard = () => {
@@ -21,12 +25,28 @@ const Table_Leaderboard = () => {
       className:"class_id",
     },
     {
-      Header:"",
-      accessor:"Path_Image",
-      className:"class_img",
-      Cell: ({ value }: { value: string }) => (
-        <img src={value} alt="Profile" style={{borderRadius:'50%'}}/>
-      )
+      Header: "",
+      accessor: "Path_Image",
+      className: "class_img",
+      Cell: ({ value, row }: { value: string; row: any }) => {
+        const idString = row.original._id;
+        const id = Number(idString.replace(/[^0-9]/g, ""));
+
+        const rankImages: { [key: number]: string } = {
+          1: The_one,
+          2: The_two,
+          3: The_tree,
+        };
+
+        return (
+          <div>
+            <img src={value} alt="Profile" style={{ borderRadius: "50%" }} />
+            {rankImages[id] && (
+              <img src={rankImages[id]} className="top3" />
+            )}
+          </div>
+        );
+      },
     },
     {
       Header:"Player",
@@ -74,15 +94,18 @@ const Table_Leaderboard = () => {
             ))}
           </thead> */}
           <tbody className="every_columns" {...getTableBodyProps()}>
-            {rows.map((row) => {
+            {rows.map((row, index) => {
               prepareRow(row)
               return (
+                <div className="ss" key={index}>
                 <tr className="dd1"{...row.getRowProps()}>
-                  <hr />
                   {row.cells.map((cell) => (
-                    <td className="ss" {...cell.getCellProps({className: cell.column.className})}>{cell.render("Cell")}</td>
+                    <td  {...cell.getCellProps({className: cell.column.className})}>{cell.render("Cell")}</td>
                   ))}
                 </tr>
+                {index !== rows.length -1 && <hr className="seperator"/> }
+                {index == rows.length -1 && <hr className="seperator1"/> }
+                </div>
               )
             })}
           </tbody>
@@ -93,3 +116,4 @@ const Table_Leaderboard = () => {
 }
 
 export default Table_Leaderboard
+

@@ -49,15 +49,16 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: aliceblue;
+    background-color: whitesmoke;
     border-radius: 10px;
 }
 
 .Progress_bar_lvl {
     height: 12px;
-    width: 190px;
+    width: 93%;
     margin-left: 5px;
-    background-color: green;
+    color: green;
+    background-color: white;
     border-radius: 30px;
 }
 
