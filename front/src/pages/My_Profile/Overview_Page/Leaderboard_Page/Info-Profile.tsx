@@ -2,6 +2,18 @@ import React from "react";
 import "./Info-Profile.css";
 import Ph_pro from "../../Images/profile.png";
 import etoile from "../../Images/Etoile.svg";
+import { LinearProgress, Slider } from '@mui/material';
+import { styled } from '@mui/material/styles';
+
+// const CustomLinearProgress = styled(LinearProgress)(() => ({
+//   height: 12,
+//   borderRadius: 12,
+//   backgroundColor: '#ffffff', // Track color
+//   '& .MuiLinearProgress-bar': {
+//     backgroundColor: '#4caf50', // Progress bar color
+//   },
+//   value:32,
+// }));
 
 const Info_Profile = () => {
   return (
@@ -15,7 +27,16 @@ const Info_Profile = () => {
         <div className="Name_of_Profile">KACIMO</div>
         <div className="The_level">
           <div className="level_Profile">
-            <div className="Progress_bar_lvl"></div>
+            <div className="Progress_bar_lvl">
+              <LinearProgress variant="determinate" value={70} sx={{
+                height: "12px",
+                borderRadius: "30px",
+                backgroundColor : 'whitesmoke',
+                '& .MuiLinearProgress-bar': {
+                backgroundColor: "green",
+              },
+              }}/>
+            </div>
             <div className='lvl_progress'>
               <img src={etoile} className="Etoile_lvl" />
               <div className="lvl_value">13</div>
