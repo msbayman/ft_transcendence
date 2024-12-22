@@ -12,6 +12,17 @@ OAUTH_42_AUTHORIZATION_URL = 'https://api.intra.42.fr/oauth/authorize'
 OAUTH_42_TOKEN_URL = 'https://api.intra.42.fr/oauth/token'
 OAUTH_42_USER_INFO_URL = 'https://api.intra.42.fr/v2/me'
 
+
+
+OAUTH_DISCORD_CLIENT_ID = "1272193976983752706"
+OAUTH_DISCORD_CLIENT_SECRET = "gDEzOmoJ_gNmEBP4IPAfN9v_S3oQn_tK"
+OAUTH_DISCORD_REDIRECT_URI = 'http://127.0.0.1:8000/discord/login_redirect'
+OAUTH_DISCORD_TOKEN_URL = 'https://discord.com/api/oauth2/token'
+DISCORD_OAUTH_URL = "https://discord.com/oauth2/authorize?client_id=1272193976983752706&response_type=code&redirect_uri=http%3A%2F%2F127.0.0.1%3A8000%2Fdiscord%2Flogin_redirect&scope=email+identify"
+DSCORD_API_V6 = 'https://discord.com/api/v6/users/@me'
+
+
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'django-insecure-!9+ns2!3$k!*vdvy1#i+l7$&l67w_4j(x$4ln2ij$+7dorextm')
