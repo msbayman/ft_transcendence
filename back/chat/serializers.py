@@ -23,3 +23,11 @@ class ConversationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Message
         fields = ['id', 'sender', 'receiver', 'content', 'timestamp']  # Replace 'content' with your actual field name for message text
+        
+        
+        
+        
+# id: number;
+# text: string;
+# sent: boolean;
+# avatar: string;

@@ -5,11 +5,23 @@ import { useState, useEffect, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFaceSmile, faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 import "./test.css";
+import Cookies from "js-cookie";
+
+interface APIResponse {
+  id: number;
+  sender: string;
+  receiver: string;
+  content: string;
+  timestamp: number;
+  is_read: boolean;
+}
+
 interface Message {
   id: number;
   text: string;
   sent: boolean;
   avatar: string;
+  timestamp: number;
 }
 
 interface UserName {
@@ -17,28 +29,59 @@ interface UserName {
 }
 
 
+
 const ChatInterface: React.FC<UserName> = ({ value }) => {
-  const [messages, setMessages] = useState<Message[]>([
-    { id: 1, text: "Lorem", sent: true, avatar: gojo },
-    {
-      id: 2,
-      text: "Lorem ipsum dolor sit amet, consecte tur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam .",
-      sent: false, avatar: gojo 
-    },
-    { id: 3, text: "Lorem ipsum dolor .", sent: true, avatar: gojo  },
-    { id: 4, text: "Lorem ipsum dolor sit amet, consecte .", sent: false, avatar: gojo  },
-    { id: 5, text: "Lorem", sent: true, avatar: gojo  },
-    {
-      id: 6,
-      text: "Lorem ipsum dolor sit amet, consecte tur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam .",
-      sent: false, avatar: gojo ,
-    },
-    { id: 7, text: "Lorem ipsum dolor .", sent: true, avatar: gojo  },
-  ]);
-
+  const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
-
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  // const chatSocket = new WebSocket(
+  //   "ws://" + window.location.host + "/ws/chat/" + value + "/"
+  // );
+  // console.log("url " + window.location.host)
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const token = Cookies.get("access_token");
+        const response = await fetch('http://127.0.0.1:8000/chat/getconversation/', {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+            'Username': value,
+          },
+        });
+
+        if (!response.ok) {
+          if (response.status === 404) {
+            console.log('No messages found');
+            setMessages([]);
+            return;
+          }
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const rawJson = await response.json();
+        
+        // Convert API response to Message format and sort by ID
+        const messages: Message[] = rawJson
+          .map((msg: APIResponse) => ({
+            id: msg.id, // Fixed: Use the correct id from APIResponse
+            sent: msg.sender !== value,
+            text: msg.content,
+            avatar: gojo,
+            timestamp: msg.timestamp,
+          }))
+          .sort((a: Message, b: Message) => a.id - b.id); // Sort messages by ID
+
+        setMessages(messages);
+      } catch (error) {
+        console.error('Error fetching messages:', error);
+      }
+    };
+
+    fetchUsers();
+  }, [value]);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -46,13 +89,27 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
 
   useEffect(scrollToBottom, [messages]);
 
-  const handleSend = () => {
+  const handleSend = async () => {
     if (input.trim()) {
-      setMessages([
-        ...messages,
-        { id: messages.length + 1, text: input, sent: true, avatar: gojo  },
-      ]);
+      const newMessage: Message = {
+        id: Date.now(), // Temporary ID until server response
+        text: input,
+        sent: true,
+        avatar: gojo,
+        timestamp: Date.now(),
+      };
+
+      // Update UI immediately
+      setMessages(prevMessages => [...prevMessages, newMessage].sort((a, b) => a.id - b.id));
+      // chatSocket.send(
+      //   JSON.stringify({
+      //     message: newMessage,
+      //   })
+      // );
       setInput("");
+
+      // You can add the API call to send the message here
+      // After successful API response, you might want to update the message with the correct ID from server
     }
   };
 
@@ -68,6 +125,7 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
           <p className="text-sm text-white/70">Online</p>
         </div>
       </div>
+
       {/* Messages */}
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
         {messages.map((message) => (
@@ -98,21 +156,13 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
         ))}
         <div ref={messagesEndRef} />
       </div>
+
       {/* Input */}
       <div className="p-7">
         <div className="flex items-center gap-2 bg-white rounded-lg p-2">
-          {/* Attach Icon (Placeholder for Paperclip) */}
-          {/* <button
-            className="text-gray-500 p-2 rounded-full hover:bg-gray-200 transition"
-            aria-label="Attach"
-          >
-            <div className="h-5 w-5" />
-          </button> */}
-
-          {/* Input */}
           <input
             placeholder="Your Message..."
-            className="flex-1  pl-10 border-0 ring-0 outline-none  focus:ring-offset-0 px-2 "
+            className="flex-1 pl-10 border-0 ring-0 outline-none focus:ring-offset-0 px-2"
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyPress={(e) => {
@@ -122,7 +172,6 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
             }}
           />
 
-          {/* Emoji Button */}
           <button
             className="text-gray-500 p-2 rounded-full hover:bg-gray-200 transition"
             aria-label="Emoji"
@@ -130,7 +179,6 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
             <FontAwesomeIcon icon={faFaceSmile} className="h-5 w-5" />
           </button>
 
-          {/* Send Button */}
           <button
             className="p-2 bg-[#5D3FD3] text-white rounded-full hover:bg-[#4B32A6] transition"
             onClick={handleSend}
@@ -142,6 +190,6 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
       </div>
     </div>
   );
-}
+};
 
 export default ChatInterface;

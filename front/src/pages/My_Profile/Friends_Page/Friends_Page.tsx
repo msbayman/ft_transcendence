@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import "./Friends_Page.css";
-import Component from './testfetch';
+// import Component from './testfetch';
 import FriendsList from "./FriendsList";
 import ChatInterface from "./test";
 // import Messages from "./fetch";
@@ -18,7 +18,7 @@ export const Friends_Page: React.FC = () => {
   }
   return (
     <>
-      <Component></Component>
+      {/* <Component></Component> */}
       <ChatInterface value={user}/>
       {/* <UserList></UserList> */}
       <FriendsList onClick={handelUser}/>

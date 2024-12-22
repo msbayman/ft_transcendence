@@ -107,48 +107,38 @@ class TestAuthView(APIView):
 class GetConversation(APIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
+
     def get(self, request):
         try:
             receiver = request.user
-            # Add logging to check the header value
-            username = request.headers.get('Username')
-            logger.debug(f"Attempting to fetch conversation with username: {username}")
-            
-            if not username:
+            sender_username = request.headers.get('Username')
+
+            # If the username header is not provided, return an error
+            if not sender_username:
                 return Response({"error": "Username header is required"}, status=400)
-                
-            sender = Player.objects.get(username=username)
-            
-            # Log the users involved
-            logger.debug(f"Fetching conversation between {receiver.username} and {sender.username}")
-            
+
+            # Get the sender object using the username from the header
+            try:
+                sender = Player.objects.get(username=sender_username)
+            except Player.DoesNotExist:
+                return Response({"error": "Sender not found"}, status=404)
+
+            # Fetch all messages where the sender is either the logged-in user or the user provided in the header
             conversation = Message.objects.filter(
-                ((models.Q(sender=sender) & models.Q(receiver=receiver)) |
-                 (models.Q(sender=receiver) & models.Q(receiver=sender)))
+                (Q(sender=sender, receiver=receiver) | Q(sender=receiver, receiver=sender))
             ).order_by('-timestamp')
 
-            conversation_data = ConversationSerializer(conversation, many=True).data
-            
-            response_data = {
-                "conversation": conversation_data,
-                "meta": {
-                    "message_count": len(conversation_data),
-                    "users": {
-                        "sender": sender.username,
-                        "receiver": receiver.username
-                    }
-                }
-            }
-            
-            return Response(response_data)
-                
-        except Player.DoesNotExist:
-            logger.error(f"Player not found for username: {request.headers.get('Username')}")
-            return Response({"error": "User not found"}, status=404)
+            # Serialize the messages
+            serialized_message = MessageSerializer(conversation, many=True).data
+
+            # Return the serialized messages or a message if no messages were found
+            if serialized_message:
+                logger.debug(f"Returning {len(serialized_message)} messages")
+                return Response(serialized_message)
+            else:
+                logger.debug("No messages found")
+                return Response({"message": "No messages found with other users"}, status=404)
+
         except Exception as e:
-            logger.error(f"Unexpected error in GetConversation: {str(e)}")
-            logger.error(f"Request headers: {request.headers}")
-            return Response(
-                {"error": "An unexpected error occurred", "detail": str(e)}, 
-                status=500
-            )
+            logger.error(f"Error in conversation: {e}")
+            return Response({"error": str(e)}, status=500)
