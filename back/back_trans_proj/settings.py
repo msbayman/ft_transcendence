@@ -12,6 +12,10 @@ OAUTH_42_AUTHORIZATION_URL = 'https://api.intra.42.fr/oauth/authorize'
 OAUTH_42_TOKEN_URL = 'https://api.intra.42.fr/oauth/token'
 OAUTH_42_USER_INFO_URL = 'https://api.intra.42.fr/v2/me'
 
+SMTP_SERVER = 'smtp.gmail.com'
+SMTP_PORT = 587
+EMAIL_ADDRESS = 'aymanmsaoub@gmail.com'  # Replace with your email
+EMAIL_PASSWORD = 'adgi pcyk qimx zanw'        # Replace with your email password or app-specific password
 
 
 OAUTH_DISCORD_CLIENT_ID = "1272193976983752706"
