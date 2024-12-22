@@ -2,7 +2,7 @@
 COMPOSE_FILE = docker-compose.yml
 
 # Targets
-.PHONY: up down restart build clean clean-all logs
+.PHONY: up down restart build clean clean-all logs clean-cache
 
 # Start the containers
 up:
@@ -39,3 +39,9 @@ clean-all:
 logs:
 	@echo "Displaying logs..."
 	docker-compose -f $(COMPOSE_FILE) logs -f
+
+# Clean cache and volumes
+clean-cache:
+	@echo "Cleaning cache and volumes..."
+	docker-compose -f $(COMPOSE_FILE) down --volumes
+	docker system prune -f
