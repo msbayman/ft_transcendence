@@ -15,6 +15,8 @@ services:
       - DB_PASSWORD=postgres_password
       - DB_HOST=db
       - DB_PORT=5432
+    depends_on:
+      - db
     command:
       - /bin/sh
       - -c
@@ -30,7 +32,6 @@ services:
         /app/venv/bin/python manage.py migrate
         echo "from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.create_superuser('admin', 'admin@example.com', 'admin') if not User.objects.filter(username='admin').exists() else None" | /app/venv/bin/python manage.py shell
         /app/venv/bin/python manage.py runserver 0.0.0.0:8000
-
   frontend:
     build:
       context: ./front
@@ -46,7 +47,6 @@ services:
       - -c
       - |
         npm install && npm run dev
-
   db:
     image: postgres:13
     container_name: postgres_db
@@ -54,10 +54,12 @@ services:
       POSTGRES_DB: postgres_db
       POSTGRES_USER: postgres_user
       POSTGRES_PASSWORD: postgres_password
+      PGDATA: /var/lib/postgresql/data/pgdata
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - pgdata:/var/lib/postgresql/data
     ports:
       - "5432:5432"
 
 volumes:
-  postgres_data:
+  pgdata:
+    driver: local
