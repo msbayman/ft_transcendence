@@ -10,25 +10,25 @@ import axios from "axios";
 const fullNameSchema = z
   .string()
   .regex(/^[a-zA-Z ]+$/, { message: "Only letters and spaces allowed" })
-  .min(7, { message: "Must be 7-30 characters" })
-  .max(30, { message: "Must be 7-30 characters" });
+  .min(2, { message: "Must be 2-40 characters" })
+  .max(40, { message: "Must be 2-40 characters" });
 
 const userNameSchema = z
   .string()
   .regex(/^[a-zA-Z0-9-_]+$/, { message: "Only letters, 0-9 , _ , -" })
-  .min(3, { message: "Must be 3-15 characters" })
-  .max(15, { message: "Must be 3-15 characters" });
+  .min(2, { message: "Must be 2-40 characters" })
+  .max(40, { message: "Must be 2-40 characters" });
 
 const SignupSchema = z
   .object({
     full_name: fullNameSchema,
     username: userNameSchema,
     email: z.string().email({ message: "Invalid email" }),
-    password: z.string().min(6, { message: "Must be 6-30 characters" }).max(30),
+    password: z.string().min(6, { message: "Must be 6-40 characters" }).max(30),
     re_password: z
       .string()
-      .min(6, { message: "Must be 6-30 characters" })
-      .max(30),
+      .min(6, { message: "Must be 6-40 characters" })
+      .max(40),
   })
   .refine((data) => data.password === data.re_password, {
     message: "Passwords don't match",
