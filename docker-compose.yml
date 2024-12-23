@@ -1,5 +1,4 @@
 version: "3.8"
-
 services:
   backend:
     build:
@@ -16,25 +15,21 @@ services:
       - DB_PASSWORD=postgres_password
       - DB_HOST=db
       - DB_PORT=5432
-      
-    command: >
-        sh -c "
+    command:
+      - /bin/sh
+      - -c
+      - |
         until pg_isready -h db -p 5432; do 
-          echo 'Waiting for database...'; 
-          sleep 5; 
-        done; 
-        echo 'Database is ready'; 
-
-        python3 -m venv /app/venv && 
-        . /app/venv/bin/activate && 
-        /app/venv/bin/pip install -r /app/requirements.txt && 
-
-        /app/venv/bin/python manage.py migrate && 
-        /app/venv/bin/python manage.py createsuperuser --noinput --username admin --email admin@example.com || true && 
+          echo 'Waiting for database...'
+          sleep 5
+        done
+        echo 'Database is ready'
+        python3 -m venv /app/venv
+        . /app/venv/bin/activate
+        /app/venv/bin/pip install -r /app/requirements.txt
+        /app/venv/bin/python manage.py migrate
+        echo "from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.create_superuser('admin', 'admin@example.com', 'admin') if not User.objects.filter(username='admin').exists() else None" | /app/venv/bin/python manage.py shell
         /app/venv/bin/python manage.py runserver 0.0.0.0:8000
-        "
-
-
 
   frontend:
     build:
@@ -46,9 +41,11 @@ services:
       - /app/node_modules
     ports:
       - "5173:5173"
-    command: sh -c "npm install && npm run dev"
-
-
+    command:
+      - /bin/sh
+      - -c
+      - |
+        npm install && npm run dev
 
   db:
     image: postgres:13
