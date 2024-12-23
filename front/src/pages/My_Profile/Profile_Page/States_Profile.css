@@ -4,6 +4,7 @@
     /* justify-content: center; */
     align-items: center;
     height: 100%;
+    max-height: 500px;
     min-width: 450px;
     width: 100%;
 }
@@ -14,9 +15,42 @@
 }
 .Content_stat {
     display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
     border-radius: 20px;
     height: 100%;
     width: 100%;
     background-color: #3a0ca3;
+}
 
+.the_table_stats {
+    flex-grow: 6;
+}
+
+.info_table_stats {
+    display: flex;
+    flex-direction: row;
+    align-items:center;
+    gap: 30px;
+    padding-left: 60px;
+    flex-grow: 1;
+}
+
+.win_info {
+    width: 15px;
+    height: 15px;
+    border-radius: 30px;
+    background-color: green;
+}
+.lose_info {
+    width: 15px;
+    height: 15px;
+    border-radius: 30px;
+    background-color: red;
+}
+
+.text_lose, .text_win {
+    color:aliceblue;
+    font-family: "Alexandria", sans-serif;
+    font-size: large;
 }
