@@ -53,7 +53,7 @@ class LastMessageView(APIView):  # Remove LoginRequiredMixin
     Last msg between two users 
     """
     authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
 
     def get(self, request):
         try:

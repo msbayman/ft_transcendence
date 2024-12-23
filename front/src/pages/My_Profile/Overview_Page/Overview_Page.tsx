@@ -1,5 +1,5 @@
 import React from "react";
-import "./Overview_Page.css";
+import "./Overview_page.css"
 import State_of_Profile from "./State_of_Profile";
 import Top_of_Achievement from "./Top_of_Achievement";
 import The_Leaderboard from "./Leaderboard"
@@ -40,8 +40,8 @@ export const Overview_Page: React.FC = () => {
           <Online_Friends_Overview />
         </div>
         <div className="Play_Button">
-          <button onClick={Onclick}>
-            <img src={Button_Play} className="play" />
+          <button onClick={Onclick} className="play">
+            <img src={Button_Play}/>
           </button>
         </div>
       </div>
