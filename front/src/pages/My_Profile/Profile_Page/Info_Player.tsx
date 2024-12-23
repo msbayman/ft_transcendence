@@ -1,6 +1,6 @@
 import * as React from "react";
 import ph_pro from "../Images/profile.png";
-import "./Info_Player.css";
+import './Info_Player.css';
 import { LinearProgress } from "@mui/material";
 import etoile from "../Images/Etoile.svg";
 import { CircularProgress, CircularProgressLabel } from "@chakra-ui/progress";

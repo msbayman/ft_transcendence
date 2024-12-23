@@ -31,7 +31,7 @@ class PlayerSerializer(serializers.ModelSerializer):
         # Username validation: 3-15 characters, only letters, numbers, hyphens, and underscores
         if not re.match(r'^[a-zA-Z0-9-_]+$', value):
             raise serializers.ValidationError("Username must contain only letters, numbers, hyphens, and underscores.")
-        if 3 <= len(value) <= 15:
+        if 3 <= len(value) <= 30:
             return value
         elif prov_name == "Discord" or prov_name == "42":
             return value
