@@ -53,6 +53,7 @@
   height: 100vh;
   width: auto;
   display: flex;
+  justify-content: center;
   flex-grow: 1;
   /* max-width: calc(100% - 100px); */
   padding: 15px;
