@@ -86,14 +86,14 @@
   justify-content: center;
   align-items: start;
   width: 100%;
-  flex-grow: 1;
+  flex-grow: 2;
 }
 
 .Content_of_States {
   display: flex;
   width: 100%;
   flex-grow: 1;
-  max-height: 480px;
+  max-height: 440px;
 }
 
 .play_hide {
