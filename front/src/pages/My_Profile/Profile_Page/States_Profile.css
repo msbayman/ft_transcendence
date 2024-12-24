@@ -24,7 +24,7 @@
   background-color: #3a0ca3;
 }
 
-/* .css-132pz3d-MuiChartsAxis-root-MuiChartsXAxis-root .MuiChartsAxis-line {
+.css-132pz3d-MuiChartsAxis-root-MuiChartsXAxis-root .MuiChartsAxis-line {
     stroke: white !important;
     shape-rendering: crispEdges;
     stroke-width: 1;
@@ -35,13 +35,13 @@
     stroke: white !important;
     shape-rendering: crispEdges;
     stroke-width: 1;
-} */
+}
 
 .the_table_stats {
   flex-grow: 6;
   margin-top: 20px;
   border-radius:13px;
-  background-color: whitesmoke;
+  /* background-color: whitesmoke; */
   width: 480px;
   height: 1px;
 }

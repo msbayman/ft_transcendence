@@ -37,7 +37,7 @@ export const States_Profile = () => {
             series={[
               {
                 data: [4, 3, 5, 1, 5],
-                color: "green",
+                color: "#04D100",
               },
               {
                 data: [1, 6, 3, 0, 1],
@@ -47,6 +47,15 @@ export const States_Profile = () => {
             borderRadius={30}
             width={500}
             height={300}
+            sx={{
+              stroke:'white', // General text color
+              '& .MuiChartsAxis-line': { // Axis line color
+                stroke: 'white',
+              },
+              '& .MuiChartsAxis-label': { // Axis label text color (for both x and y axes)
+                color: 'white',
+              },
+            }}
           />
         </div>
         <div className="info_table_stats">
