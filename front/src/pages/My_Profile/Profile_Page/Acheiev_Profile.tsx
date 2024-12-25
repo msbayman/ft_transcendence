@@ -43,6 +43,7 @@ const Acheiev_Profile = () => {
       status: "false",
       path_image: "/Achievements/unlock4.png",
     },
+    
   ];
   return (
     <div className="all_Ache">

@@ -40,12 +40,10 @@
 }
 .inside_content_ach {
     width: 95%;
-    /* height: 95%; */
+    padding-bottom: 36px;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    /* align-items: start; */
-    /* justify-content: center; */
     overflow-y: scroll;
     padding-right: 20px;
     padding-left: 20px;
