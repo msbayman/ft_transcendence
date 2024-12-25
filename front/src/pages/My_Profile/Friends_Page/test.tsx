@@ -34,12 +34,15 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const websocketRef = useRef<WebSocket | null>(null);
 
   // const chatSocket = new WebSocket(
   //   "ws://" + window.location.host + "/ws/chat/" + value + "/"
   // );
   // console.log("url " + window.location.host)
   useEffect(() => {
+    if (value === '')
+        return ;
     const fetchUsers = async () => {
       try {
         const token = Cookies.get("access_token");
@@ -81,6 +84,8 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
     };
 
     fetchUsers();
+    const wsUrl = `ws://127.0.0.1:8000/ws/chat/${value}/`;
+    websocketRef.current = new WebSocket(wsUrl);
   }, [value]);
 
   const scrollToBottom = () => {
@@ -90,29 +95,31 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
   useEffect(scrollToBottom, [messages]);
 
   const handleSend = async () => {
-    if (input.trim()) {
-      const newMessage: Message = {
-        id: Date.now(), // Temporary ID until server response
-        text: input,
-        sent: true,
-        avatar: gojo,
-        timestamp: Date.now(),
-      };
-
-      // Update UI immediately
-      setMessages(prevMessages => [...prevMessages, newMessage].sort((a, b) => a.id - b.id));
-      // chatSocket.send(
-      //   JSON.stringify({
-      //     message: newMessage,
-      //   })
-      // );
-      setInput("");
-
-      // You can add the API call to send the message here
-      // After successful API response, you might want to update the message with the correct ID from server
-    }
+    if (!input.trim() || !websocketRef.current) return;
+  
+    const newMessage: Message = {
+      id: Date.now(),
+      text: input,
+      sent: true,
+      avatar: gojo,
+      timestamp: Date.now(),
+    };
+  
+    // Update UI immediately
+    setMessages(prevMessages => [...prevMessages, newMessage].sort((a, b) => a.id - b.id));
+    
+    // Send via WebSocket
+    websocketRef.current.send(JSON.stringify({
+      message: input
+    }));
+  
+    setInput("");
   };
 
+  if (value === '')
+    return (
+      <div className="main flex h-screen flex-col bg-[#560BAD] p-4"></div>
+    );
   return (
     <div className="main flex h-screen flex-col bg-[#560BAD] p-4">
       {/* Header */}

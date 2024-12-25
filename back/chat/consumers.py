@@ -15,9 +15,11 @@ class ChatConsumer(AsyncWebsocketConsumer):
         self.sender_id = self.user.id
         self.receiver_id = await self.get_user_id_by_username(self.username)
         
+        print(f"self.username: {self.username}")
         print(f"sender_id: {self.sender_id}")
         print(f"receiver_id: {self.receiver_id}")
-        unique_id = self.sender_id + self.receiver_id
+        # unique_id = self.sender_id + self.receiver_id
+        unique_id = 55
         self.room_group_name = f'chat_{unique_id}'
         # print(f"\ngroup_name: {self.room_group_name}")
         await self.channel_layer.group_add(

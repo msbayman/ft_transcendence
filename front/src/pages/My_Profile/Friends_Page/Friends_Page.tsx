@@ -12,7 +12,7 @@ import ChatInterface from "./test";
 
 
 export const Friends_Page: React.FC = () => {
-  const [user ,setUser] = useState<string>('alae');
+  const [user ,setUser] = useState<string>('');
   const handelUser = (newUser:string) => {
     setUser(newUser);
   }

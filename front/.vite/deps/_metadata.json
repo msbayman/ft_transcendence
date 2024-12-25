@@ -1,115 +1,115 @@
 {
-  "hash": "5a50fb19",
+  "hash": "284e679e",
   "configHash": "6e577991",
-  "lockfileHash": "30f6337f",
-  "browserHash": "797ce7d3",
+  "lockfileHash": "6bcf9a36",
+  "browserHash": "1d78b6d6",
   "optimized": {
     "react": {
       "src": "../../node_modules/react/index.js",
       "file": "react.js",
-      "fileHash": "23a703fe",
+      "fileHash": "034a2285",
       "needsInterop": true
     },
     "react-dom": {
       "src": "../../node_modules/react-dom/index.js",
       "file": "react-dom.js",
-      "fileHash": "e15a7fd8",
+      "fileHash": "1ed320d2",
       "needsInterop": true
     },
     "react-router-dom": {
       "src": "../../node_modules/react-router-dom/dist/index.js",
       "file": "react-router-dom.js",
-      "fileHash": "0babe7ed",
+      "fileHash": "9943b56b",
       "needsInterop": false
     },
     "js-cookie": {
       "src": "../../node_modules/js-cookie/dist/js.cookie.mjs",
       "file": "js-cookie.js",
-      "fileHash": "d620e0e7",
+      "fileHash": "275c026a",
       "needsInterop": false
     },
     "axios": {
       "src": "../../node_modules/axios/index.js",
       "file": "axios.js",
-      "fileHash": "1dfa82cf",
+      "fileHash": "13dd7fa8",
       "needsInterop": false
     },
     "react/jsx-dev-runtime": {
       "src": "../../node_modules/react/jsx-dev-runtime.js",
       "file": "react_jsx-dev-runtime.js",
-      "fileHash": "a20fddde",
+      "fileHash": "7b1f8534",
       "needsInterop": true
     },
     "react/jsx-runtime": {
       "src": "../../node_modules/react/jsx-runtime.js",
       "file": "react_jsx-runtime.js",
-      "fileHash": "d94a640e",
+      "fileHash": "18ea18ed",
       "needsInterop": true
     },
     "@chakra-ui/progress": {
       "src": "../../node_modules/@chakra-ui/progress/dist/index.mjs",
       "file": "@chakra-ui_progress.js",
-      "fileHash": "9d82edfc",
+      "fileHash": "a7c30ed5",
       "needsInterop": false
     },
     "@fortawesome/free-solid-svg-icons": {
       "src": "../../node_modules/@fortawesome/free-solid-svg-icons/index.mjs",
       "file": "@fortawesome_free-solid-svg-icons.js",
-      "fileHash": "a0d2d38b",
+      "fileHash": "81ec942a",
       "needsInterop": false
     },
     "@fortawesome/react-fontawesome": {
       "src": "../../node_modules/@fortawesome/react-fontawesome/index.es.js",
       "file": "@fortawesome_react-fontawesome.js",
-      "fileHash": "d1fc0a46",
+      "fileHash": "56e9d843",
       "needsInterop": false
     },
     "@hookform/resolvers/zod": {
       "src": "../../node_modules/@hookform/resolvers/zod/dist/zod.mjs",
       "file": "@hookform_resolvers_zod.js",
-      "fileHash": "945f99d8",
+      "fileHash": "c9a69bd8",
       "needsInterop": false
     },
     "@mui/material": {
       "src": "../../node_modules/@mui/material/index.js",
       "file": "@mui_material.js",
-      "fileHash": "e0411543",
+      "fileHash": "6a0c0057",
       "needsInterop": false
     },
     "@mui/material/Button": {
       "src": "../../node_modules/@mui/material/Button/index.js",
       "file": "@mui_material_Button.js",
-      "fileHash": "2fa25818",
+      "fileHash": "709eaea8",
       "needsInterop": false
     },
     "framer-motion": {
       "src": "../../node_modules/framer-motion/dist/es/index.mjs",
       "file": "framer-motion.js",
-      "fileHash": "d80616f6",
+      "fileHash": "c2a17bd9",
       "needsInterop": false
     },
     "react-dom/client": {
       "src": "../../node_modules/react-dom/client.js",
       "file": "react-dom_client.js",
-      "fileHash": "6a48d4fb",
+      "fileHash": "2f4ed6c4",
       "needsInterop": true
     },
     "react-hook-form": {
       "src": "../../node_modules/react-hook-form/dist/index.esm.mjs",
       "file": "react-hook-form.js",
-      "fileHash": "f2f8e9ec",
+      "fileHash": "59a0efec",
       "needsInterop": false
     },
     "react-table": {
       "src": "../../node_modules/react-table/index.js",
       "file": "react-table.js",
-      "fileHash": "e228c95a",
+      "fileHash": "4843eab5",
       "needsInterop": true
     },
     "zod": {
       "src": "../../node_modules/zod/lib/index.mjs",
       "file": "zod.js",
-      "fileHash": "35cf28c0",
+      "fileHash": "f6630963",
       "needsInterop": false
     }
   },
