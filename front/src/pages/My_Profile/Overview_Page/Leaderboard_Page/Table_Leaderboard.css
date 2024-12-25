@@ -120,11 +120,12 @@
 }
 
 .seperator {
+    stroke: aliceblue;
     width: 105%;
     margin-top: 40px;
 }
 .seperator1 {
-    border: #5116C4; 
+    border: #5116C4;
     width: 105%;
     margin-top: 30px;
 }

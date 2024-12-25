@@ -24,8 +24,9 @@ export const Profile_Page = () => {
       <div className="all_content_Profile">
         <div className="cover_profile">
           <div className="button_settings">
-            <button onClick={click_to_settings}>
+            <button className="hover-container1" onClick={click_to_settings}>
               <img src={To_settings} />
+            <span className="hover-text">Settings</span>
             </button>
           </div>
         </div>
@@ -49,8 +50,6 @@ export const Profile_Page = () => {
               <States_Profile />
             </div>
           </div>
-
-          <div className="play_hide"></div>
         </div>
       </div>
     </div>

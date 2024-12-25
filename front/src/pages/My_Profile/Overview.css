@@ -76,6 +76,7 @@
 
 *::-webkit-scrollbar {
   width: 6px; /* Set the scrollbar width */
+  display: none;
 }
 
 *::-webkit-scrollbar-thumb {
