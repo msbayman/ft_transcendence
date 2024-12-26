@@ -16,7 +16,7 @@ import Notifications from "./assets/Notifications.svg";
 import Settings from "./assets/Settings.svg";
 import Logout from "./assets/Logout.svg";
 import Overview_Page from "./Overview_Page/Overview_Page";
-import Profile_Page from "./Profile_Page/Profile_Page";
+import Profile_Page from "./Profile_Page/Other_Profile/Profile_Page";
 import Play_Page from "./Play_Page/Play_Page";
 import Friends_Page from "./Friends_Page/Friends_Page";
 import Shop_Page from "./Shop_Page/Shop_Page";
@@ -47,7 +47,7 @@ function Overview() {
       }
     }
 
-    console.log("Overview:", Cookies.get("access_token"));
+    // console.log("Overview:", Cookies.get("access_token"));
     const storedToken = Cookies.get("access_token");
     if (storedToken) {
       fetchData(storedToken);
@@ -72,7 +72,6 @@ function Overview() {
     }
   };
   const localistation = useLocation();
-  console.log(localistation.pathname);
 
   const getNavLink = (path: string) => {
     if (path === "/Overview") {
@@ -80,7 +79,7 @@ function Overview() {
         ? "navbar_item1 nav_color1 Overview"
         : "navbar_item1";
     } else if (path === "/Profile") {
-      return localistation.pathname === path
+      return '/' + localistation.pathname.split("/")[1] === path
         ? "navbar_item1 nav_color1 Profile"
         : "navbar_item1";
     } else if (path === "/Play") {

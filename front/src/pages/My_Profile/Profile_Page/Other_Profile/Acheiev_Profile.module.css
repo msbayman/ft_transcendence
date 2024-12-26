@@ -4,7 +4,7 @@
     width: 100%;
     gap: 10px;
     min-width: 520px;
-    max-height: 970px;
+    /* max-height: 970px; */
     flex-direction: column;
 }
 
@@ -67,12 +67,12 @@
     height: 100%;
 }
 
-.hover-container2 {
+.hover_container2 {
     position: relative;
     display: inline-flex;
   }
 
-  .hover-text1 {
+  .hover_text1 {
     visibility: hidden;
     opacity: 0;
     position: absolute;
@@ -88,7 +88,7 @@
     z-index: 10;
   }
   
-  .hover-container2:hover .hover-text1 {
+  .hover-container2:hover .hover_text1 {
     visibility: visible;
     opacity: 1;
   }
