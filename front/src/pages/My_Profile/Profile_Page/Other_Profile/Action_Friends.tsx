@@ -1,14 +1,28 @@
-import * as React from 'react'
-import other from './Action_Friends.module.css'
+import * as React from "react";
+import other from "./Action_Friends.module.css";
 
 const Action_Friends = () => {
-    return (
-        <div className={other.All_Action}>
-            <div className={other.add_friend}></div>
-            <div></div>
-            <div></div>
-        </div>
-    )
-}
+  return (
+    <div className={other.All_Action}>
+      <div className={other.add_friend}>
+        <img
+          src="/Icones/icone_add_friend.png"
+          className={other.icone_add}
+          alt="icone_add_friend"
+        />
+        <span>Add Friend</span>
+      </div>
+      <div></div>
+      <div className={other.add_block}>
+        <img
+          src="/Icones/icone_block_friend.png"
+          className={other.icone_block}
+          alt="icone_block_friend"
+        />
+        <span>Block</span>
+      </div>
+    </div>
+  );
+};
 
 export default Action_Friends;
