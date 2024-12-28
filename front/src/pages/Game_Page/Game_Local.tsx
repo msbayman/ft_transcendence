@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
-import table_game from "../assets/table.svg";
-import table_b from "../assets/table_blue.svg";
-import pause from "../assets/puse.svg";
-import rus from "../assets/rus.svg";
-import name from "../assets/name_hold_game.svg";
-import logo from "../assets/logo_game.svg";
+import table_game from "../../assets/table.svg";
+import table_b from "../../assets/table_blue.svg";
+import pause from "../../assets/puse.svg";
+import rus from "../../assets/rus.svg";
+import name from "../../assets/name_hold_game.svg";
+import logo from "../../assets/logo_game.svg";
 
 function Game_Local() {
   const [paddleLeftPosition, setPaddleLeftPosition] = useState(135);

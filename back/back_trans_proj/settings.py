@@ -67,6 +67,8 @@ INSTALLED_APPS = [
     'user_auth',
     'oauth2_discord',
     'oauth2_42',
+    'game',
+    'channels',
 ]
 
 CORS_ALLOWED_ORIGINS = [
@@ -149,3 +151,13 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 AUTH_USER_MODEL = 'user_auth.player'
+
+ASGI_APPLICATION = "back_trans_proj.asgi.application"
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [("redis", 6379)],
+        },
+    },
+}
