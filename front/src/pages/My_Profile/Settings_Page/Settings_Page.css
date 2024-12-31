@@ -3,7 +3,8 @@
 .wrapper {
   width: 100%;
   max-width: 1550px;
-  height: auto;
+  height: 97%;
+  min-height: 95%;
   margin: 20px;
   background-color: #3a0ca3;
   border-radius: 30px;
@@ -127,12 +128,19 @@ div h1 {
   justify-content: center;
 }
 
+
 .text-container {
   font-family: "Alexandria", sans-serif;
   position: relative;
   font-size: 36px;
   /* width: 90%; */
 }
+
+.text-container.TFA{
+
+  top: 4rem;
+}
+
 
 .TwoFA {
   position: relative;
@@ -141,8 +149,11 @@ div h1 {
   border: 1px solid #8051EE;
   display: flex;
   flex-direction: column;  
-  margin: 2rem;
+  margin: 3rem;
+  top: 1rem;
+  left: 2rem;
   height: 30%;
+  width: 89%;
   border-radius: 7px;
 }
 
@@ -256,12 +267,13 @@ label {
 
 .inpt input {
   width: 60%;
-  height: 60px;
+  /* height: 3.75rem; */
   border-radius: 6px;
   background-color: #3a0ca3;
-  border: 1px solid white;
+  border: 1px solid #8051EE;
   padding: 20px 55px 20px 20px;
-  font-size: 23px;
+  font-size: 20px;
+  font-weight: 200;
   color: #b59bf3;
 
 }
@@ -294,9 +306,12 @@ label {
 
 
 .pswd {
-  width: 100%;
+  width: 150%;
   display: flex;
   justify-content: center;
+  align-items: center;
+  position: relative;
+  right: 250px;
 
 }
 
@@ -401,7 +416,6 @@ span {
   width: 15.5rem;
   height: 15.5rem;
   border-radius: 50%; /* Keep it circular */
-  /* background-color: #b59bf3; */
   background-image: url('../Images/profile.png');
   background-repeat: no-repeat;
   background-size: contain;

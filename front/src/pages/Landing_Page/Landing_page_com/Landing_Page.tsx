@@ -13,7 +13,7 @@ function Landing_Page() {
   };
 
   return (
-    <div className="bg-[#300488] overflow-hidden">
+    <div className="bg-[#300488] ">
       {side_bar && <Sd_Bar_Landing />}
       <Nav_Bar show_hide_sd_bar={show_hide_sd_bar} />
       <Page_One />

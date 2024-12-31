@@ -133,7 +133,7 @@ console.log(player_data?.email, player_data?.full_name, player_data?.username);
           className={ActiveNavbar ? "Open_Navbar_hide" : "Open_Navbar"}
         />
       </div>
-      <div className={ActiveNavbar ? "right_navbar" : "Hide Nav_right_hide"}>
+      <div className={ActiveNavbar ? "right_navbar scrollbar-hide" : "Hide Nav_right_hide"}>
         <div className="the_logo">
           <img src={Logo_ping} className="imgg1 imgg1_hide" />
         </div>

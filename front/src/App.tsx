@@ -65,7 +65,7 @@ function App() {
 
   return (
     <Fragment>
-      <main>
+      <main className="scrollbar-hide">
         <Routes>
           <Route path="/" element={<Landing_Page />} />
           <Route path="login" element={<Login_Page />} />

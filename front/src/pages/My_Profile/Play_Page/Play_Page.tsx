@@ -1,38 +1,34 @@
 // import React from 'react'
-import './Play_Page.css'
-import OneVsOne from "../assets/1v1.svg"
-import TwoVsTwo from "../assets/2v2.svg"
-import Tournemant from "../assets/Tourn.svg"
-import Bot from "../assets/vsBot.svg"
+import "./Play_Page.css";
+import EmblaCarousel from "./EmblaCarousel/EmblaCarousel";
+import { EmblaOptionsType } from "embla-carousel";
 
+const OPTIONS: EmblaOptionsType = { loop: true };
 
+const SLIDEIMAPS = [
+  { mapPath: "./map/1v1.svg", id: 0, mapName: "1v1" },
+  { mapPath: "./map/1v1.svg", id: 1, mapName: "2v2" },
+  { mapPath: "./map/1v1.svg", id: 2, mapName: "Tournemant" },
+  { mapPath: "./map/1v1.svg", id: 3, mapName: "Bot" },
+];
 
 const Play_Page = () => {
   return (
-    <div className='main'>
-      <div className='utils relative'>
+    <main className="overflow-scroll scrollbar-hide min-h-[941px] relative flex justify-center items-center flex-wrap h-auto w-full md:m-10 m-0  rounded-3xl">
+      <div className="absolute top-[5%] z-10  w-[70%] h-[10%] bg-yellow-300 rounded-3xl">
         <div></div>
         <div></div>
         <div></div>
         <div></div>
       </div>
-      <div className='here relative grid grid-cols-1 lg:grid-cols-2 gap-10 bottom-5'>
-        <div className='modes ~sm/lg'>
-          <img className='image' src={OneVsOne} />
-        </div>
-        <div className='modes ~sm/lg'>
-          <img className='image' src={TwoVsTwo} />
-        </div>
-        <div className='modes ~sm/lg'>
-          <img className='image' src={Bot} />
-        </div>
-        <div className='modes ~sm/lg'>
-          <img className='image' src={Tournemant} />
-        </div>
+      <div className="absolute flex flex-wrap justify-evenly items-center  h-[90%] bottom-0  w-full  overflow-scroll scrollbar-hide bg-slate-500 ">
+        <EmblaCarousel
+          slidesmaps={SLIDEIMAPS}
+          options={OPTIONS}
+        />
       </div>
-    </div>
+    </main>
+  );
+};
 
-  )
-}
-
-export default Play_Page
+export default Play_Page;

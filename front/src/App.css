@@ -5,6 +5,7 @@
   background-color: none;
   box-shadow: none;
   color: white;
+  scrollbar-width: none !important;
   
 }
 
@@ -12,9 +13,27 @@ body{
     width:100svw;
     height:100svh;
     overflow-x: hidden;
+    scrollbar-width: none !important;
+}
+body::-webkit-scrollbar{
+    display: none !important;
+}
+*::-webkit-scrollbar{
+    display: none !important;
 }
 /* .maxfocus-highlighted
 {
  background-color: none;
  box-shadow: none;
 } */
+
+/* For Webkit-based browsers (Chrome, Safari and Opera) */
+.scrollbar-hide::-webkit-scrollbar {
+    display: none;
+}
+
+/* For IE, Edge and Firefox */
+.scrollbar-hide {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}

@@ -99,7 +99,7 @@ const Settings_Page = () => {
         </div>
       </div>
 
-      <div className="content overflow-hidden">{tab 
+      <div className="content overflow-scroll scrollbar-hide">{tab 
         ? <Profile_side
           player={player_data}
           setPlayerData={(updatedData) =>
