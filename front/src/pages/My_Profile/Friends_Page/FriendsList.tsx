@@ -41,7 +41,7 @@ const FriendsList: React.FC<SelectedUser> = ({ onClick }) => {
         }
 
         const users = await response.json();
-        const friends: Friend[] = users.map((user, index: number) => ({
+        const friends: Friend[] = users.map((user: any, index: number) => ({
           id: index.toString(),
           name: user.user2,
           avatar: user.avatar || gojo,
@@ -64,7 +64,7 @@ const FriendsList: React.FC<SelectedUser> = ({ onClick }) => {
   };
 
   return (
-    <div className="flex flex-col h-screen bg-[#4B0082] text-white p-4">
+    <div className="flex flex-col bg-[#3A0CA3] text-white p-4 rounded-r-[44px]">
       <header className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold">Messages</h1>
         <button className="p-2" aria-label="Compose new message">
@@ -87,16 +87,16 @@ const FriendsList: React.FC<SelectedUser> = ({ onClick }) => {
       <section className="mb-6">
         <h2 className="text-2xl mb-4">Friends</h2>
         <div className="flex overflow-x-auto pb-4 gap-4">
-          {friends.slice(0, 3).map((friend) => (
-            <div key={friend.id} className="flex flex-col items-center flex-shrink-0">
-              <div className="relative">
+          {friends.map((friend) => (
+            <div key={friend.id} className="flex flex-col items-center justify-center flex-shrink-0 w-[61px] h-[86px] bg-[#5012C4] rounded-lg">
+              <div className="relative ">
                 <img
                   src={friend.avatar}
                   alt={friend.name}
-                  className="w-16 h-16 rounded-full bg-purple-700"
+                  className="w-12 h-12 rounded-full"
                 />
                 {friend.online && (
-                  <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-[#4B0082]" />
+                  <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-[#3A0CA3]" />
                 )}
               </div>
               <span className="text-sm mt-1">{friend.name}</span>
@@ -136,24 +136,24 @@ const FriendsList: React.FC<SelectedUser> = ({ onClick }) => {
               friend.name.toLowerCase().includes(searchQuery.toLowerCase())
             )
             .map((friend) => (
-              <div
+              <button
                 key={friend.id}
-                className="flex items-center gap-3 p-2 hover:bg-purple-900 rounded-lg transition-colors"
+                className="flex items-center gap-3 p-2 hover:bg-purple-900 rounded-lg transition-colors w-full"
               >
                 <img
                   src={friend.avatar}
                   alt={friend.name}
                   className="w-12 h-12 rounded-full bg-purple-700"
                 />
-                <button
+                <div
                   className="flex-1 text-left"
                   onClick={() => handleClick(friend.name)}
                 >
                   <h3 className="font-semibold">{friend.name}</h3>
                   <p className="text-sm text-gray-300 truncate">{friend.content}</p>
-                </button>
+                </div>
                 <span className="text-sm text-gray-300">{friend.timestamp}</span>
-              </div>
+              </button>
             ))}
         </div>
       </section>

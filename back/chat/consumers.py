@@ -8,7 +8,9 @@ from .models import Message
 User = get_user_model()
 
 class ChatConsumer(AsyncWebsocketConsumer):
+    
     async def connect(self):
+        await self.accept();    
         self.username = self.scope['url_route']['kwargs']['username'] #receiver
         self.user = self.scope['user'] #sender
         
@@ -18,8 +20,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         print(f"self.username: {self.username}")
         print(f"sender_id: {self.sender_id}")
         print(f"receiver_id: {self.receiver_id}")
-        # unique_id = self.sender_id + self.receiver_id
-        unique_id = 55
+        unique_id = self.sender_id + self.receiver_id
         self.room_group_name = f'chat_{unique_id}'
         # print(f"\ngroup_name: {self.room_group_name}")
         await self.channel_layer.group_add(
@@ -27,7 +28,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
             self.channel_name
         )
         
-        await self.accept()
+        
     
     @database_sync_to_async
     def get_user_id_by_username(self, username):
@@ -74,4 +75,3 @@ class ChatConsumer(AsyncWebsocketConsumer):
             receiver=receiver,
             content=message
         )
-        # print(f"sender:{self.user}\n, receiver:{receiver}")

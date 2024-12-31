@@ -1,4 +1,4 @@
-.MessagesHeader
+/* .MessagesHeader
 {
     display: flex;
     justify-content: space-between;
@@ -6,24 +6,24 @@
     width: 92%;
     margin: 0 auto;
     padding-top: 10px;
-}
+} */
 /* 
 .FriendsList h1
 {
     color: #FFFFFF;
 } */
 
-.MessagesHeader h1
+/* .MessagesHeader h1
 {
     font-size: 24px;
-}
+} */
 
-.MessagesHeader img
+/* .MessagesHeader img
 {
     width: 23.47px;
     height: 24px;
 
-}
+} */
 
 /* #Title
 {

@@ -39,7 +39,7 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
   // const chatSocket = new WebSocket(
   //   "ws://" + window.location.host + "/ws/chat/" + value + "/"
   // );
-  // console.log("url " + window.location.host)
+  console.log("url " + window.location.host)
   useEffect(() => {
     if (value === '')
         return ;
@@ -118,10 +118,10 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
 
   if (value === '')
     return (
-      <div className="main flex h-screen flex-col bg-[#560BAD] p-4"></div>
+      <div className="w-11/12 rounded-l-[44px] flex flex-col bg-[#5012C4] p-4"></div>
     );
   return (
-    <div className="main flex h-screen flex-col bg-[#560BAD] p-4">
+    <div className=" w-11/12 rounded-l-[44px] flex flex-col bg-[#5012C4] p-4">
       {/* Header */}
       <div className="flex items-center gap-3 p-4 border-b border-white/10">
         <div className="h-14 w-14">
@@ -187,7 +187,7 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
           </button>
 
           <button
-            className="p-2 bg-[#5D3FD3] text-white rounded-full hover:bg-[#4B32A6] transition"
+            className="p-2 bg-[#5D3FD3] text-white rounded-full h-[40px] w-[40px]  hover:bg-[#4B32A6] transition "
             onClick={handleSend}
             aria-label="Send"
           >

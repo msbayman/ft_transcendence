@@ -17,13 +17,13 @@ export const Friends_Page: React.FC = () => {
     setUser(newUser);
   }
   return (
-    <>
+    <div className='flex w-full p-[15px] h-full drop-shadow-2xl'>
       {/* <Component></Component> */}
       <ChatInterface value={user}/>
       {/* <UserList></UserList> */}
       <FriendsList onClick={handelUser}/>
       {/* <Messages></Messages> */}
-    </>
+    </div>
   );
 };
 
