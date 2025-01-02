@@ -1,133 +1,133 @@
 {
-  "hash": "006ab7e6",
+  "hash": "a74c93b5",
   "configHash": "6e577991",
-  "lockfileHash": "7d3a0864",
-  "browserHash": "c70f683c",
+  "lockfileHash": "8274d7e4",
+  "browserHash": "0b9ae278",
   "optimized": {
     "react": {
       "src": "../../node_modules/react/index.js",
       "file": "react.js",
-      "fileHash": "f90c7e45",
+      "fileHash": "833ab283",
       "needsInterop": true
     },
     "react-dom": {
       "src": "../../node_modules/react-dom/index.js",
       "file": "react-dom.js",
-      "fileHash": "f11a63d2",
+      "fileHash": "8f3500dd",
       "needsInterop": true
     },
     "react-router-dom": {
       "src": "../../node_modules/react-router-dom/dist/index.js",
       "file": "react-router-dom.js",
-      "fileHash": "d0b590a9",
+      "fileHash": "91c6ccda",
       "needsInterop": false
     },
     "js-cookie": {
       "src": "../../node_modules/js-cookie/dist/js.cookie.mjs",
       "file": "js-cookie.js",
-      "fileHash": "51d37fa2",
+      "fileHash": "9f4ab8c7",
       "needsInterop": false
     },
     "axios": {
       "src": "../../node_modules/axios/index.js",
       "file": "axios.js",
-      "fileHash": "c2393847",
+      "fileHash": "65bc0a9a",
       "needsInterop": false
     },
     "react/jsx-dev-runtime": {
       "src": "../../node_modules/react/jsx-dev-runtime.js",
       "file": "react_jsx-dev-runtime.js",
-      "fileHash": "0f7a1280",
+      "fileHash": "835e021b",
       "needsInterop": true
     },
     "react/jsx-runtime": {
       "src": "../../node_modules/react/jsx-runtime.js",
       "file": "react_jsx-runtime.js",
-      "fileHash": "19f812b9",
+      "fileHash": "3facec1d",
       "needsInterop": true
     },
     "@chakra-ui/progress": {
       "src": "../../node_modules/@chakra-ui/progress/dist/index.mjs",
       "file": "@chakra-ui_progress.js",
-      "fileHash": "7a12426a",
+      "fileHash": "d7e46dc1",
       "needsInterop": false
     },
     "@hookform/resolvers/zod": {
       "src": "../../node_modules/@hookform/resolvers/zod/dist/zod.mjs",
       "file": "@hookform_resolvers_zod.js",
-      "fileHash": "2bbfba90",
+      "fileHash": "8de81f49",
       "needsInterop": false
     },
     "@mui/material": {
       "src": "../../node_modules/@mui/material/index.js",
       "file": "@mui_material.js",
-      "fileHash": "bad939c3",
+      "fileHash": "604ddf19",
       "needsInterop": false
     },
     "@mui/material/Button": {
       "src": "../../node_modules/@mui/material/Button/index.js",
       "file": "@mui_material_Button.js",
-      "fileHash": "c37260bf",
+      "fileHash": "ffb5bc62",
       "needsInterop": false
     },
     "@mui/x-charts/BarChart": {
       "src": "../../node_modules/@mui/x-charts/BarChart/index.js",
       "file": "@mui_x-charts_BarChart.js",
-      "fileHash": "b6208786",
+      "fileHash": "c7974e2d",
       "needsInterop": false
     },
     "framer-motion": {
       "src": "../../node_modules/framer-motion/dist/es/index.mjs",
       "file": "framer-motion.js",
-      "fileHash": "866382b6",
+      "fileHash": "4c424d41",
       "needsInterop": false
     },
     "react-dom/client": {
       "src": "../../node_modules/react-dom/client.js",
       "file": "react-dom_client.js",
-      "fileHash": "7053859c",
+      "fileHash": "d5840292",
       "needsInterop": true
     },
     "react-hook-form": {
       "src": "../../node_modules/react-hook-form/dist/index.esm.mjs",
       "file": "react-hook-form.js",
-      "fileHash": "07398088",
+      "fileHash": "5319649a",
       "needsInterop": false
     },
     "react-table": {
       "src": "../../node_modules/react-table/index.js",
       "file": "react-table.js",
-      "fileHash": "27fdcaf3",
+      "fileHash": "1a075cc3",
       "needsInterop": true
     },
     "zod": {
       "src": "../../node_modules/zod/lib/index.mjs",
       "file": "zod.js",
-      "fileHash": "78271bb9",
+      "fileHash": "e2ab5f42",
       "needsInterop": false
     }
   },
   "chunks": {
-    "chunk-WUAFFAXZ": {
-      "file": "chunk-WUAFFAXZ.js"
+    "chunk-LPV5RJOV": {
+      "file": "chunk-LPV5RJOV.js"
     },
-    "chunk-QXTMA5VT": {
-      "file": "chunk-QXTMA5VT.js"
+    "chunk-JCM4F3OT": {
+      "file": "chunk-JCM4F3OT.js"
     },
     "chunk-62LOVD4M": {
       "file": "chunk-62LOVD4M.js"
     },
-    "chunk-IFJDQTR6": {
-      "file": "chunk-IFJDQTR6.js"
+    "chunk-ZF2HZRFU": {
+      "file": "chunk-ZF2HZRFU.js"
     },
     "chunk-ZZLBGYQN": {
       "file": "chunk-ZZLBGYQN.js"
     },
+    "chunk-IFJDQTR6": {
+      "file": "chunk-IFJDQTR6.js"
+    },
     "chunk-JO3Y3TZY": {
       "file": "chunk-JO3Y3TZY.js"
-    },
-    "chunk-ZF2HZRFU": {
-      "file": "chunk-ZF2HZRFU.js"
     },
     "chunk-65KY755N": {
       "file": "chunk-65KY755N.js"

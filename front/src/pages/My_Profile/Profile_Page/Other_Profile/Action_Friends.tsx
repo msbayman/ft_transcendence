@@ -3,9 +3,14 @@ import other from "./Action_Friends.module.css";
 
 const Action_Friends = () => {
   const [SendRequestFriend, SetSendRequestFriend] = React.useState(true);
+  const [SendRequestBlock, SetSendRequestBlock] = React.useState(true);
 
   const Is_Send = () => {
     SetSendRequestFriend(!SendRequestFriend);
+  };
+
+  const Is_Block = () => {
+    SetSendRequestBlock(!SendRequestBlock);
   };
 
   return (
@@ -44,6 +49,31 @@ const Action_Friends = () => {
           />
           <span>Block</span>
         </div>
+      </div>
+      <div className={other.Block_container}>
+        {SendRequestBlock ? (
+          <button onClick={Is_Block} className={other.add_block}>
+            <div className={other.add_block}>
+              <img
+                src="/Icones/icone_block_friend.png"
+                className={other.icone_block}
+                alt="icone_block_friend"
+              />
+              <span>Block</span>
+            </div>
+          </button>
+        ) : (
+          <button onClick={Is_Block} className={other.add_block}>
+            <div className={other.add_block}>
+              <img
+                src="/Icones/icone_block_friend.png"
+                className={other.icone_block}
+                alt="icone_block_friend"
+              />
+              <span>Unblock</span>
+            </div>
+          </button>
+        )}
       </div>
     </div>
   );

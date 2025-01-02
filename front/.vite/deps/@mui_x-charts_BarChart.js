@@ -4,7 +4,7 @@ import {
   Typography_default,
   useTheme,
   useThemeProps
-} from "./chunk-QXTMA5VT.js";
+} from "./chunk-JCM4F3OT.js";
 import {
   _objectWithoutPropertiesLoose,
   clsx_default,
@@ -23,12 +23,12 @@ import {
   useSlotProps_default
 } from "./chunk-62LOVD4M.js";
 import {
+  require_react_dom
+} from "./chunk-ZZLBGYQN.js";
+import {
   _extends,
   init_extends
 } from "./chunk-IFJDQTR6.js";
-import {
-  require_react_dom
-} from "./chunk-ZZLBGYQN.js";
 import {
   require_jsx_runtime
 } from "./chunk-JO3Y3TZY.js";

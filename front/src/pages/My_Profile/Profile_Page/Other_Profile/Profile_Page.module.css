@@ -85,9 +85,9 @@
   position: relative;
   padding-top: 10px;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  width: 90%;
+  width: 100%;
   flex-grow: 1;
   min-height: 70px;
   max-height: 70px;
