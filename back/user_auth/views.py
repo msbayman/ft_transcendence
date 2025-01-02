@@ -62,13 +62,24 @@ def update_player(request):
 
 @api_view(['POST'])
 def add_player(request):
+    email = request.data.get('email', '').strip().lower()  # Normalize email
+    username = request.data.get('username', '').strip()  # Normalize username
+
+    if not email or not username:
+        return Response({"error": "Email and username are required."}, status=status.HTTP_400_BAD_REQUEST)
+
+    # Check if the email or username is already in use
+    if Player.objects.filter(email__iexact=email).exists() or Player.objects.filter(username__iexact=username).exists():
+        return Response({"error": "That email or username is already used."}, status=status.HTTP_409_CONFLICT)
+
+    # Validate and save the player
     serializer = PlayerSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+    # Return validation errors
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
 
 
 
