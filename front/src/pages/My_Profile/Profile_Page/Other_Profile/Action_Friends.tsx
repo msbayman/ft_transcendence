@@ -40,7 +40,7 @@ const Action_Friends = () => {
           </button>
         )}
       </div>
-      <div className={other.Block_container}>
+      {/* <div className={other.Block_container}>
         <div className={other.add_block}>
           <img
             src="/Icones/icone_block_friend.png"
@@ -49,7 +49,7 @@ const Action_Friends = () => {
           />
           <span>Block</span>
         </div>
-      </div>
+      </div> */}
       <div className={other.Block_container}>
         {SendRequestBlock ? (
           <button onClick={Is_Block} className={other.add_block}>

@@ -26,9 +26,14 @@
 }
 
 .Button_More {
+    background-color: #5116C4;
+    width: 80px; 
+    height: 40px;
+    border-radius: 30px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.356);
     font-size:larger;
     position: absolute;
-    right: 45px;
+    right: 40px;
 }
 .Table_Leaderboard {
     display: flex;
@@ -48,7 +53,7 @@
     min-height: 50px;
     background: #5116C4;
     border-radius: 35px;
-
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.356);
 }
 
 .the_Name {
