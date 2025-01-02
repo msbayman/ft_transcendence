@@ -1,47 +1,89 @@
 .All_Action {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    height: 100%;
-    gap: 10px;
-    color: aliceblue;
-    font-size: larger;
-    font-family: "Alexandria", sans-serif;
-    font-weight: 400;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  gap: 10px;
+  color: aliceblue;
+  font-size: larger;
+  font-family: "Alexandria", sans-serif;
+  font-weight: 400;
+}
+
+.Add_container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  /* background-color: #3a0ca3; */
+  flex-grow: 1;
+  max-width: 250px;
 }
 
 .add_friend {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    background-color: #3a0ca3;
-    flex-grow: 1;
-    /* max-width: 260px; */
-    border-radius: 25px;
-    height: 90%;
-    gap: 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  background-color: #3a0ca3;
+  border-radius: 15px;
+  height: 100%;
+  width: 100%;
+  gap: 10px;
 }
 
-.icone_add {
-    width: 30px;
+.cancel_request {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  background-color: #3a0ca3;
+  border-radius: 15px;
+  height: 100%;
+  width: 100%;
+  gap: 10px;
+}
+
+.icone_add,
+.icone_cancel_request {
+  width: 30px;
+}
+
+.Block_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    /* background-color: #3a0ca3; */
+    flex-grow: 1;
+    max-width: 250px;
 }
 
 .icone_block {
     width: 33px;
 }
 
-.add_block{
+/* .add_block {
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
     gap: 10px;
-
-    background-color: #ff0d0d;
-    flex-grow: 1;
-    border-radius: 25px;
+    border-radius: 15px;
     height: 90%;
-}
+    } */
+    
+    .add_block {
+        display: flex;
+        flex-direction: row;
+        flex-grow: 1;
+        align-items: center;
+        justify-content: center;
+        background-color: #ff0d0d;
+    border-radius: 15px;
+    height: 100%;
+    width: 100%;
+    gap: 10px;
+  }

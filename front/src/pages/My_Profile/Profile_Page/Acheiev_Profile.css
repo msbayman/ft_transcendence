@@ -4,7 +4,7 @@
     width: 100%;
     gap: 10px;
     min-width: 520px;
-    max-height: 970px;
+    /* max-height: 970px; */
     flex-direction: column;
 }
 

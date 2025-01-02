@@ -2,17 +2,19 @@
   display: inline-flex;
   justify-content: center;
   flex-grow: 1;
-  min-height: 1300px;
+  /* min-height: 1300px; */
 }
 .all_content_Profile {
   /* position: relative; */
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   gap: 20px;
   flex-grow: 1;
-  width: 100%;
   max-width: 1600px;
+  padding-bottom: 15px;
 }
 
 .cover_profile {
@@ -80,8 +82,15 @@
 }
 
 .action_to_accept{
-  height: 85px;
+  position: relative;
+  padding-top: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 90%;
+  flex-grow: 1;
+  min-height: 70px;
+  max-height: 70px;
 }
 
 .Content_of_Acheievment {
@@ -89,6 +98,7 @@
   justify-content: center;
   align-items: start;
   width: 100%;
+  height: 100%;
   flex-grow: 2;
 }
 
@@ -96,8 +106,8 @@
   display: flex;
   width: 100%;
   flex-grow: 1;
-  max-height: 440px;
-  min-height: 430px;
+  /* max-height: 440px; */
+  min-height: 390px;
 }
 
 .play_hide {

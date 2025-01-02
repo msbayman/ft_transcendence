@@ -45,8 +45,7 @@
 }
 
 .the_table_stats {
-  flex-grow: 6;
-  margin-top: 20px;
+  flex-grow: 7;
   border-radius:13px;
   /* background-color: whitesmoke; */
   width: 480px;

@@ -26,7 +26,7 @@ export const Profile_Page = () => {
           <div className="button_settings">
             <button className="hover-container1" onClick={click_to_settings}>
               <img src={To_settings} />
-            <span className="hover-text">Settings</span>
+            <span className="hover-text">Edit Profile</span>
             </button>
           </div>
         </div>

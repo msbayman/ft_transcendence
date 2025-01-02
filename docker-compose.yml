@@ -15,8 +15,10 @@ services:
       - DB_PASSWORD=postgres_password
       - DB_HOST=db
       - DB_PORT=5432
+      - REDIS_PORT=6380
     depends_on:
       - db
+      - redis
     command:
       - /bin/sh
       - -c
@@ -32,6 +34,7 @@ services:
         /app/venv/bin/python manage.py migrate
         echo "from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.create_superuser('admin', 'admin@example.com', 'admin') if not User.objects.filter(username='admin').exists() else None" | /app/venv/bin/python manage.py shell
         /app/venv/bin/python manage.py runserver 0.0.0.0:8000
+
   frontend:
     build:
       context: ./front
@@ -42,11 +45,14 @@ services:
       - /app/node_modules
     ports:
       - "5173:5173"
+    depends_on:
+      - backend
     command:
       - /bin/sh
       - -c
       - |
         npm install && npm run dev
+
   db:
     image: postgres:13
     container_name: postgres_db
@@ -59,6 +65,13 @@ services:
       - pgdata:/var/lib/postgresql/data
     ports:
       - "5432:5432"
+
+  redis:
+    image: redis:7
+    container_name: redis
+    ports:
+      - "6380:6379"
+    command: ["redis-server"]
 
 volumes:
   pgdata:

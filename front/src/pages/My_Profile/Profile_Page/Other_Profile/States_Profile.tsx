@@ -37,7 +37,7 @@ export const States_Profile = () => {
                 color: "#04D100",
               },
               {
-                data: [1, 6, 3, 0, 1],
+                data: [1, 60, 3, 0, 1],
                 color: "red",
               },
             ]}

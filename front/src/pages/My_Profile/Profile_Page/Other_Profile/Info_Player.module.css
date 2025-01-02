@@ -5,6 +5,7 @@
   justify-content: space-between;
   border-radius: 40px;
   height: 100%;
+  min-height: 880px;
   min-width: 450px;
   width: 100%;
   background-color: #3a0ca3;
@@ -140,7 +141,8 @@
   display: inline-flex;
   flex-direction: column;
   width: 100%;
-  height: 350px;
+  height: 100%;
+  /* height: 350px; */
   gap: 20px;
   border: solid .5px whitesmoke;
   border-radius:30px;
