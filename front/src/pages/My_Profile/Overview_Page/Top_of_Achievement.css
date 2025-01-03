@@ -18,7 +18,6 @@
     /* max-width: 530px; */
     flex-grow: 1;
     padding: 0 20px;
-    gap: 15px;
 }
 
 .acheiv {
@@ -28,17 +27,18 @@
     /* align-items: center; */
     margin-top: 15px;
     flex-grow: 1;
-    width: 20px;
+    width: 22px;
     border-radius: 10%;
     gap: 15px;
 }
 
 .Title_Acheiv {
+    /* padding-bottom: 20px; */
     display: flex;
     justify-content: center;
     align-items: start;
     font-family: "Alexandria", sans-serif;
-    flex-grow: .2;
+    flex-grow: .5;
     height: 10%;
     font-size: 14px;
     font-weight: 400;
@@ -65,9 +65,11 @@
     justify-content: center;
     align-items: center; */
     position: relative;
+
 }
 
 .part_2_achv {
+    /* margin: 0 20px 0 0; */
     /* display: flex ;
     position: relative;
     justify-content: center;

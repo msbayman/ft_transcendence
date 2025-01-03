@@ -1,14 +1,9 @@
 import secrets
 import smtplib
+from django.conf import settings
 import time
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-
-# SMTP Configuration
-SMTP_SERVER = 'smtp.gmail.com'
-SMTP_PORT = 587
-EMAIL_ADDRESS = 'aymanmsaoub@gmail.com'  # Replace with your email
-EMAIL_PASSWORD = 'adgi pcyk qimx zanw'        # Replace with your email password or app-specific password
 
 # OTP Storage
 otp_storage = {}
@@ -22,15 +17,15 @@ def send_otp_via_email(recipient_email, otp):
     body = f'Your OTP is: {otp}\nThis OTP is valid for 5 minutes.'
 
     msg = MIMEMultipart()
-    msg['From'] = EMAIL_ADDRESS
+    msg['From'] = settings.EMAIL_ADDRESS
     msg['To'] = recipient_email
     msg['Subject'] = subject
     msg.attach(MIMEText(body, 'plain'))
 
     try:
-        server = smtplib.SMTP(SMTP_SERVER, SMTP_PORT)
+        server = smtplib.SMTP(settings.SMTP_SERVER, settings.SMTP_PORT)
         server.starttls()
-        server.login(EMAIL_ADDRESS, EMAIL_PASSWORD)
+        server.login(settings.EMAIL_ADDRESS, settings.EMAIL_PASSWORD)
         server.send_message(msg)
         server.quit()
         print(f'OTP email sent to {recipient_email}')

@@ -1,0 +1,33 @@
+.all_content_recent {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    min-width: 450px;
+    flex-direction: column;
+    align-items: center;
+    color: aliceblue;
+    gap: 20px;
+}
+
+.rece_title {
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+}
+
+.Title_Recent, .subTitle_Recent {
+    font-family: "Luckiest Guy" ,cursive;
+}
+
+.Title_Recent {
+    font-size: 40px;
+}
+
+.content_Recent {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background-color: #3a0ca3;
+    border-radius: 20px;
+}

@@ -72,7 +72,8 @@
   color: rgb(156, 50, 50);
 }
 #logo_signup {
-  margin-bottom: 100px;
+  margin-bottom: 30px;
+  width: 15rem;
 }
 .auth {
   margin-bottom: 20px;

@@ -30,5 +30,6 @@ urlpatterns = [
     path("discord/",include("oauth2_discord.urls")),
     path("42/",include("oauth2_42.urls")),
     path("check_csrf_tok/",include("check_csrf_token.urls")),
+    path('game/', include('game.urls')),
 
 ]

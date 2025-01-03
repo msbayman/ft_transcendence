@@ -1,6 +1,7 @@
-// import React from 'react'
-import "./State_of_Profile.css"
-import ph_pro from '../Images/profile.png'
+import * as React from "react";
+import "./State_of_Profile.css";
+import ph_pro from "../Images/profile.png";
+import { CircularProgress, CircularProgressLabel } from "@chakra-ui/progress";
 
 const State_of_Profile = () => {
   return (
@@ -12,18 +13,89 @@ const State_of_Profile = () => {
         </div>
         <div className="Name_and_Online-state">
           <div className="Name">Kacimo</div>
-          <div className="Online-state"> 
-          <div className="state" ></div>Online</div>
+          <div className="Online-state">
+            <div className="state"></div>Online
+          </div>
         </div>
       </div>
       <div className="part_2_state">
-        <div className='win_state'></div>
-        <div className='lose_state'></div>
-        <div className='achievement_state'></div>
-        <div className='exp_state'></div>
+        <div className="win_state hover-container">
+          <CircularProgress
+            capIsRound
+            value={60}
+            color="green"
+            size="100%"
+            sx={{
+              "& .chakra-progress__indicator": {
+                strokeWidth: "6",
+              },
+            }}
+          >
+            <CircularProgressLabel fontSize="calc(100px * 0.2)">
+              60%
+            </CircularProgressLabel>
+          </CircularProgress>
+          <span className="hover-text">Win Rate</span>
+        </div>
+        <div className="lose_state hover-container">
+          <CircularProgress
+            capIsRound
+            value={30}
+            color="red"
+            size="100%"
+            sx={{
+              "& .chakra-progress__indicator": {
+                strokeWidth: "6",
+              },
+            }}
+          >
+            <CircularProgressLabel fontSize="calc(100px * 0.2)">
+              30%
+            </CircularProgressLabel>
+          </CircularProgress>
+          <span className="hover-text">Lose Rate</span>
+        </div>
+        <div className="achievement_state hover-container">
+          <CircularProgress
+            capIsRound
+            value={20}
+            color="rebeccapurple"
+            size="100%"
+            sx={{
+              "& .chakra-progress__indicator": {
+                strokeWidth: "6",
+              },
+            }}
+          >
+            <CircularProgressLabel fontSize="calc(100px * 0.2)">
+              20%
+            </CircularProgressLabel>
+          </CircularProgress>
+          <span className="hover-text">Acheivement Rate</span>
+        </div>
+        <div className="exp_state hover-container">
+          <CircularProgress
+            capIsRound
+            value={80}
+            color="yellow"
+            size="100%"
+            sx={{
+              "& .chakra-progress__indicator": {
+                strokeWidth: "6",
+              },
+            }}
+          >
+            <CircularProgressLabel fontSize="calc(80px * 0.2)">
+              120
+              <br />
+              /320
+            </CircularProgressLabel>
+          </CircularProgress>
+          <span className="hover-text">Exp Rate</span>
+        </div>
       </div>
     </div>
   );
-}
+};
 
-export default State_of_Profile
+export default State_of_Profile;
