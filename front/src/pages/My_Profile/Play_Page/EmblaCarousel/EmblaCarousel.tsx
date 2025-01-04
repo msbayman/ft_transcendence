@@ -19,8 +19,7 @@ const numberWithinRange = (number: number, min: number, max: number): number =>
 
 type PropType = {
   options?: EmblaOptionsType
-  slidesmaps: {mapPath: string, id: number, mapName: string}[]
-  modes?: {modePath: string, id: number}[]
+  slidesmaps: {mapPath: string, id: number}[]
 }
 
 const EmblaCarousel: React.FC<PropType> = (props) => {
@@ -109,8 +108,8 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
         <div className="embla__container">
           {slidesmaps.map((slide) => (
             <div className="embla__slide" key={slide.id}>
-              <img src={slide.mapPath} alt={slide.mapName} onError={() => console.error(`Image not found: ${slide.mapPath}`)} />
-              <div className="embla__slide__number">{slide.mapName}</div>
+              <img src={slide.mapPath} alt="here" aonError={() => console.error(`Image not found: ${slide.mapPath}`)} />
+              <div className="embla__slide__number"/>
             </div>
           ))}
         </div>

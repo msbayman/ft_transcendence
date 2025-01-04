@@ -3,13 +3,14 @@ import "./Play_Page.css";
 import EmblaCarousel from "./EmblaCarousel/EmblaCarousel";
 import { EmblaOptionsType } from "embla-carousel";
 
+
 const OPTIONS: EmblaOptionsType = { loop: true };
 
 const SLIDEIMAPS = [
-  { mapPath: "./map/1v1.svg", id: 0, mapName: "1v1" },
-  { mapPath: "./map/1v1.svg", id: 1, mapName: "2v2" },
-  { mapPath: "./map/1v1.svg", id: 2, mapName: "Tournemant" },
-  { mapPath: "./map/1v1.svg", id: 3, mapName: "Bot" },
+  { mapPath: "1v1.svg", id: 0 },
+  { mapPath: "2v2.svg", id: 1 },
+  { mapPath: "vsBot.svg", id: 2 },
+  { mapPath: "Tourn.svg", id: 3 },
 ];
 
 const Play_Page = () => {
@@ -26,6 +27,7 @@ const Play_Page = () => {
           slidesmaps={SLIDEIMAPS}
           options={OPTIONS}
         />
+
       </div>
     </main>
   );

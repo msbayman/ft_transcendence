@@ -5,8 +5,6 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 
-
-
 const Settings_Page = () => {
   const [action, setAction] = useState("");
   const [tab, setTab] = useState<boolean>(true);
@@ -22,14 +20,13 @@ const Settings_Page = () => {
     email: "",
   });
 
-
   const handleSave = async () => {
     try {
       const token = Cookies.get("access_token");
       if (!token) throw new Error("No access token found.");
-  
-      const response = await axios.put(
-        "http://127.0.0.1:8000/user_auth/UpdateUserDetail",
+
+      const response = await axios.post(
+        "http://127.0.0.1:8000/user_auth/update_player",
         player_data,
         {
           headers: {
@@ -75,11 +72,9 @@ const Settings_Page = () => {
   }, []);
   // -----------------------------------------
 
-  // TODO: Implement the following: 
+  // TODO: Implement the following:
   // 1. Handle save
   // 2. Handle update player data
-  
-
 
   return (
     <div className="wrapper">
@@ -99,20 +94,26 @@ const Settings_Page = () => {
         </div>
       </div>
 
-      <div className="content overflow-scroll scrollbar-hide">{tab 
-        ? <Profile_side
-          player={player_data}
-          setPlayerData={(updatedData) =>
-          setPlayerData((prev) => ({ ...prev, ...updatedData }))}
+      <div className="content overflow-scroll scrollbar-hide">
+        {tab ? (
+          <Profile_side
+            player={player_data}
+            setPlayerData={(updatedData) =>
+              setPlayerData((prev) => ({ ...prev, ...updatedData }))
+            }
           />
-        : <Security_box />}
+        ) : (
+          <Security_box />
+        )}
       </div>
 
       <div className="save-cancel">
         <div className="child-btn">
           <button className="btn cancel">Cancel</button>
-          <button className="btn save" onClick={handleSave}>Save</button>
-        </div> 
+          <button className="btn save" onClick={handleSave}>
+            Save
+          </button>
+        </div>
       </div>
     </div>
   );

@@ -4,7 +4,7 @@ import {
   Typography_default,
   useTheme,
   useThemeProps
-} from "./chunk-6CINOIJK.js";
+} from "./chunk-SVGKHQU4.js";
 import {
   _objectWithoutPropertiesLoose,
   clsx_default,
@@ -13,36 +13,48 @@ import {
   generateUtilityClasses,
   ownerWindow,
   require_prop_types,
-  shouldForwardProp,
+  require_react_is,
   styled_default,
   useControlled,
   useEnhancedEffect_default,
   useForkRef,
   useId,
-  useRtl,
   useSlotProps_default
-} from "./chunk-222HOEAV.js";
+} from "./chunk-5V63FQV4.js";
 import {
   require_react_dom
-} from "./chunk-ZZLBGYQN.js";
+} from "./chunk-BLBKUI5W.js";
 import {
+  CacheProvider,
+  Global,
+  StyleSheet,
+  ThemeContext,
   _extends,
-  init_extends
-} from "./chunk-IFJDQTR6.js";
+  createCache,
+  init_emotion_cache_browser_development_esm,
+  init_emotion_react_browser_development_esm,
+  init_emotion_serialize_development_esm,
+  init_emotion_sheet_development_esm,
+  init_emotion_styled_browser_development_esm,
+  init_extends,
+  newStyled,
+  serializeStyles
+} from "./chunk-73UIML4H.js";
 import {
   require_jsx_runtime
-} from "./chunk-JO3Y3TZY.js";
+} from "./chunk-5HDAWWHN.js";
 import {
   require_react
-} from "./chunk-65KY755N.js";
+} from "./chunk-W4EHDCLL.js";
 import {
+  __publicField,
   __toESM
-} from "./chunk-V4OQ3NZ2.js";
+} from "./chunk-EWTE5DHJ.js";
 
 // node_modules/@mui/x-charts/BarChart/BarChart.js
 init_extends();
-var React79 = __toESM(require_react());
-var import_prop_types25 = __toESM(require_prop_types());
+var React114 = __toESM(require_react());
+var import_prop_types45 = __toESM(require_prop_types());
 
 // node_modules/@mui/x-charts/BarChart/BarPlot.js
 init_extends();
@@ -197,8 +209,8 @@ function makeQueue() {
     }
   };
 }
-function eachSafely(values, each2) {
-  values.forEach((value) => {
+function eachSafely(values2, each2) {
+  values2.forEach((value) => {
     try {
       each2(value);
     } catch (e) {
@@ -551,31 +563,31 @@ var hex3 = /^#([0-9a-fA-F]{1})([0-9a-fA-F]{1})([0-9a-fA-F]{1})$/;
 var hex4 = /^#([0-9a-fA-F]{1})([0-9a-fA-F]{1})([0-9a-fA-F]{1})([0-9a-fA-F]{1})$/;
 var hex6 = /^#([0-9a-fA-F]{6})$/;
 var hex8 = /^#([0-9a-fA-F]{8})$/;
-function normalizeColor(color2) {
+function normalizeColor(color3) {
   let match;
-  if (typeof color2 === "number") {
-    return color2 >>> 0 === color2 && color2 >= 0 && color2 <= 4294967295 ? color2 : null;
+  if (typeof color3 === "number") {
+    return color3 >>> 0 === color3 && color3 >= 0 && color3 <= 4294967295 ? color3 : null;
   }
-  if (match = hex6.exec(color2))
+  if (match = hex6.exec(color3))
     return parseInt(match[1] + "ff", 16) >>> 0;
-  if (colors && colors[color2] !== void 0) {
-    return colors[color2];
+  if (colors && colors[color3] !== void 0) {
+    return colors[color3];
   }
-  if (match = rgb.exec(color2)) {
+  if (match = rgb.exec(color3)) {
     return (parse255(match[1]) << 24 | // r
     parse255(match[2]) << 16 | // g
     parse255(match[3]) << 8 | // b
     255) >>> // a
     0;
   }
-  if (match = rgba.exec(color2)) {
+  if (match = rgba.exec(color3)) {
     return (parse255(match[1]) << 24 | // r
     parse255(match[2]) << 16 | // g
     parse255(match[3]) << 8 | // b
     parse1(match[4])) >>> // a
     0;
   }
-  if (match = hex3.exec(color2)) {
+  if (match = hex3.exec(color3)) {
     return parseInt(
       match[1] + match[1] + // r
       match[2] + match[2] + // g
@@ -585,9 +597,9 @@ function normalizeColor(color2) {
       16
     ) >>> 0;
   }
-  if (match = hex8.exec(color2))
+  if (match = hex8.exec(color3))
     return parseInt(match[1], 16) >>> 0;
-  if (match = hex4.exec(color2)) {
+  if (match = hex4.exec(color3)) {
     return parseInt(
       match[1] + match[1] + // r
       match[2] + match[2] + // g
@@ -597,7 +609,7 @@ function normalizeColor(color2) {
       16
     ) >>> 0;
   }
-  if (match = hsl.exec(color2)) {
+  if (match = hsl.exec(color3)) {
     return (hslToRgb(
       parse360(match[1]),
       // h
@@ -608,7 +620,7 @@ function normalizeColor(color2) {
     ) | 255) >>> // a
     0;
   }
-  if (match = hsla.exec(color2)) {
+  if (match = hsla.exec(color3)) {
     return (hslToRgb(
       parse360(match[1]),
       // h
@@ -924,13 +936,13 @@ var createStringInterpolator2 = (config2) => {
   const output = config2.output.map((value) => {
     return getFluidValue(value).replace(cssVariableRegex, variableToRgba).replace(colorRegex, colorToRgba).replace(namedColorRegex, colorToRgba);
   });
-  const keyframes = output.map((value) => value.match(numberRegex).map(Number));
-  const outputRanges = keyframes[0].map(
-    (_, i) => keyframes.map((values) => {
-      if (!(i in values)) {
+  const keyframes2 = output.map((value) => value.match(numberRegex).map(Number));
+  const outputRanges = keyframes2[0].map(
+    (_, i) => keyframes2.map((values2) => {
+      if (!(i in values2)) {
         throw Error('The arity of each "output" value must be equal');
       }
-      return values[i];
+      return values2[i];
     })
   );
   const interpolators = outputRanges.map(
@@ -1005,27 +1017,27 @@ function useMemoOne(getResult, inputs) {
   );
   const committed = (0, import_react5.useRef)();
   const prevCache = committed.current;
-  let cache = prevCache;
-  if (cache) {
+  let cache2 = prevCache;
+  if (cache2) {
     const useCache = Boolean(
-      inputs && cache.inputs && areInputsEqual(inputs, cache.inputs)
+      inputs && cache2.inputs && areInputsEqual(inputs, cache2.inputs)
     );
     if (!useCache) {
-      cache = {
+      cache2 = {
         inputs,
         result: getResult()
       };
     }
   } else {
-    cache = initial;
+    cache2 = initial;
   }
   (0, import_react5.useEffect)(() => {
-    committed.current = cache;
+    committed.current = cache2;
     if (prevCache == initial) {
       initial.inputs = initial.result = void 0;
     }
-  }, [cache]);
-  return cache.result;
+  }, [cache2]);
+  return cache2.result;
 }
 function areInputsEqual(next, prev) {
   if (next.length !== prev.length) {
@@ -1165,17 +1177,17 @@ var AnimatedObject = class extends Animated {
     this.setValue(source);
   }
   getValue(animated2) {
-    const values = {};
+    const values2 = {};
     eachProp(this.source, (source, key) => {
       if (isAnimated(source)) {
-        values[key] = source.getValue(animated2);
+        values2[key] = source.getValue(animated2);
       } else if (hasFluidValue(source)) {
-        values[key] = getFluidValue(source);
+        values2[key] = getFluidValue(source);
       } else if (!animated2) {
-        values[key] = source;
+        values2[key] = source;
       }
     });
-    return values;
+    return values2;
   }
   /** Replace the raw object data */
   setValue(source) {
@@ -1320,7 +1332,7 @@ function updateRef(ref, value) {
 var cacheKey = Symbol.for("AnimatedComponent");
 var createHost = (components, {
   applyAnimatedValues: applyAnimatedValues2 = () => false,
-  createAnimatedStyle = (style) => new AnimatedObject(style),
+  createAnimatedStyle = (style4) => new AnimatedObject(style4),
   getComponentProps = (props) => props
 } = {}) => {
   const hostConfig = {
@@ -1902,9 +1914,9 @@ var SpringValue = class extends FrameValue {
         node2.constructor == AnimatedString ? 1 : payload ? payload[i].lastPosition : toValues[i]
       );
       let finished = anim.immediate;
-      let position = to2;
+      let position2 = to2;
       if (!finished) {
-        position = node2.lastPosition;
+        position2 = node2.lastPosition;
         if (config2.tension <= 0) {
           node2.done = true;
           return;
@@ -1928,14 +1940,14 @@ var SpringValue = class extends FrameValue {
             p = p > 1 ? 1 : p < 0 ? 0 : p;
             node2.durationProgress = p;
           }
-          position = from + config2.easing(p) * (to2 - from);
-          velocity = (position - node2.lastPosition) / dt;
+          position2 = from + config2.easing(p) * (to2 - from);
+          velocity = (position2 - node2.lastPosition) / dt;
           finished = p == 1;
         } else if (config2.decay) {
           const decay = config2.decay === true ? 0.998 : config2.decay;
           const e = Math.exp(-(1 - decay) * elapsed);
-          position = from + v0 / (1 - decay) * (1 - e);
-          finished = Math.abs(node2.lastPosition - position) <= precision;
+          position2 = from + v0 / (1 - decay) * (1 - e);
+          finished = Math.abs(node2.lastPosition - position2) <= precision;
           velocity = v0 * e;
         } else {
           velocity = node2.lastVelocity == null ? v0 : node2.lastVelocity;
@@ -1950,27 +1962,27 @@ var SpringValue = class extends FrameValue {
           for (let n = 0; n < numSteps; ++n) {
             isMoving = Math.abs(velocity) > restVelocity;
             if (!isMoving) {
-              finished = Math.abs(to2 - position) <= precision;
+              finished = Math.abs(to2 - position2) <= precision;
               if (finished) {
                 break;
               }
             }
             if (canBounce) {
-              isBouncing = position == to2 || position > to2 == isGrowing;
+              isBouncing = position2 == to2 || position2 > to2 == isGrowing;
               if (isBouncing) {
                 velocity = -velocity * bounceFactor;
-                position = to2;
+                position2 = to2;
               }
             }
-            const springForce = -config2.tension * 1e-6 * (position - to2);
+            const springForce = -config2.tension * 1e-6 * (position2 - to2);
             const dampingForce = -config2.friction * 1e-3 * velocity;
             const acceleration = (springForce + dampingForce) / config2.mass;
             velocity = velocity + acceleration * step;
-            position = position + velocity * step;
+            position2 = position2 + velocity * step;
           }
         }
         node2.lastVelocity = velocity;
-        if (Number.isNaN(position)) {
+        if (Number.isNaN(position2)) {
           console.warn(`Got NaN while animating:`, this);
           finished = true;
         }
@@ -1983,7 +1995,7 @@ var SpringValue = class extends FrameValue {
       } else {
         idle = false;
       }
-      if (node2.setValue(position, config2.round)) {
+      if (node2.setValue(position2, config2.round)) {
         changed = true;
       }
     });
@@ -2476,8 +2488,8 @@ function createUpdate(props) {
   props.keys = keys.size ? Array.from(keys) : null;
   return props;
 }
-function findDefined(values, keys) {
-  eachProp(values, (value, key) => value != null && keys.add(key));
+function findDefined(values2, keys) {
+  eachProp(values2, (value, key) => value != null && keys.add(key));
 }
 var ACTIVE_EVENTS = [
   "onStart",
@@ -2541,14 +2553,14 @@ var Controller = class {
   }
   /** Get the current values of our springs */
   get() {
-    const values = {};
-    this.each((spring, key) => values[key] = spring.get());
-    return values;
+    const values2 = {};
+    this.each((spring, key) => values2[key] = spring.get());
+    return values2;
   }
   /** Set the current values without animating. */
-  set(values) {
-    for (const key in values) {
-      const value = values[key];
+  set(values2) {
+    for (const key in values2) {
+      const value = values2[key];
       if (!is.und(value)) {
         this.springs[key].set(value);
       }
@@ -2632,17 +2644,17 @@ var Controller = class {
       });
     }
     const idle = !active && this._started;
-    const values = changed || idle && onRest.size ? this.get() : null;
+    const values2 = changed || idle && onRest.size ? this.get() : null;
     if (changed && onChange.size) {
       flush(onChange, ([onChange2, result]) => {
-        result.value = values;
+        result.value = values2;
         onChange2(result, this, this._item);
       });
     }
     if (idle) {
       this._started = false;
       flush(onRest, ([onRest2, result]) => {
-        result.value = values;
+        result.value = values2;
         onRest2(result, this, this._item);
       });
     }
@@ -2870,9 +2882,9 @@ var SpringRef = () => {
     each(current, (ctrl) => ctrl.resume(...arguments));
     return this;
   };
-  SpringRef2.set = function(values) {
+  SpringRef2.set = function(values2) {
     each(current, (ctrl, i) => {
-      const update22 = is.fun(values) ? values(i, ctrl) : values;
+      const update22 = is.fun(values2) ? values2(i, ctrl) : values2;
       if (update22) {
         ctrl.set(update22);
       }
@@ -3252,15 +3264,15 @@ function isIdle(source) {
 function checkIdle(active) {
   return !active.size || Array.from(active).every(isIdle);
 }
-function becomeIdle(self) {
-  if (!self.idle) {
-    self.idle = true;
-    each(getPayload(self), (node) => {
+function becomeIdle(self2) {
+  if (!self2.idle) {
+    self2.idle = true;
+    each(getPayload(self2), (node) => {
       node.done = true;
     });
-    callFluidObservers(self, {
+    callFluidObservers(self2, {
       type: "idle",
-      parent: self
+      parent: self2
     });
   }
 }
@@ -3288,14 +3300,14 @@ function applyAnimatedValues(instance2, props) {
   const isFilterElement = instance2.nodeName === "filter" || instance2.parentNode && instance2.parentNode.nodeName === "filter";
   const {
     className,
-    style,
+    style: style4,
     children,
     scrollTop,
     scrollLeft,
     viewBox,
     ...attributes
   } = props;
-  const values = Object.values(attributes);
+  const values2 = Object.values(attributes);
   const names = Object.keys(attributes).map(
     (name) => isFilterElement || instance2.hasAttribute(name) ? name : attributeCache[name] || (attributeCache[name] = name.replace(
       /([A-Z])/g,
@@ -3306,9 +3318,9 @@ function applyAnimatedValues(instance2, props) {
   if (children !== void 0) {
     instance2.textContent = children;
   }
-  for (const name in style) {
-    if (style.hasOwnProperty(name)) {
-      const value = dangerousStyleValue(name, style[name]);
+  for (const name in style4) {
+    if (style4.hasOwnProperty(name)) {
+      const value = dangerousStyleValue(name, style4[name]);
       if (isCustomPropRE.test(name)) {
         instance2.style.setProperty(name, value);
       } else {
@@ -3317,7 +3329,7 @@ function applyAnimatedValues(instance2, props) {
     }
   }
   names.forEach((name, i) => {
-    instance2.setAttribute(name, values[i]);
+    instance2.setAttribute(name, values2[i]);
   });
   if (className !== void 0) {
     instance2.className = className;
@@ -3388,7 +3400,7 @@ var degTransforms = /^(rotate|skew)/;
 var addUnit = (value, unit2) => is.num(value) && value !== 0 ? value + unit2 : value;
 var isValueIdentity = (value, id) => is.arr(value) ? value.every((v) => isValueIdentity(v, id)) : is.num(value) ? value === id : parseFloat(value) === id;
 var AnimatedStyle = class extends AnimatedObject {
-  constructor({ x: x2, y: y2, z, ...style }) {
+  constructor({ x: x2, y: y2, z, ...style4 }) {
     const inputs = [];
     const transforms = [];
     if (x2 || y2 || z) {
@@ -3399,12 +3411,12 @@ var AnimatedStyle = class extends AnimatedObject {
         isValueIdentity(xyz, 0)
       ]);
     }
-    eachProp(style, (value, key) => {
+    eachProp(style4, (value, key) => {
       if (key === "transform") {
         inputs.push([value || ""]);
         transforms.push((transform) => [transform, transform === ""]);
       } else if (domTransforms.test(key)) {
-        delete style[key];
+        delete style4[key];
         if (is.und(value))
           return;
         const unit2 = pxTransforms.test(key) ? "px" : degTransforms.test(key) ? "deg" : "";
@@ -3421,9 +3433,9 @@ var AnimatedStyle = class extends AnimatedObject {
       }
     });
     if (inputs.length) {
-      style.transform = new FluidTransform(inputs, transforms);
+      style4.transform = new FluidTransform(inputs, transforms);
     }
-    super(style);
+    super(style4);
   }
 };
 var FluidTransform = class extends FluidValue {
@@ -3621,7 +3633,7 @@ globals_exports.assign({
 });
 var host = createHost(primitives, {
   applyAnimatedValues,
-  createAnimatedStyle: (style) => new AnimatedStyle(style),
+  createAnimatedStyle: (style4) => new AnimatedStyle(style4),
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   getComponentProps: ({ scrollTop, scrollLeft, ...props }) => props
 });
@@ -3655,7 +3667,7 @@ function bisector(f) {
     compare2 = f;
     delta = f;
   }
-  function left(a2, x2, lo = 0, hi = a2.length) {
+  function left2(a2, x2, lo = 0, hi = a2.length) {
     if (lo < hi) {
       if (compare1(x2, x2) !== 0) return hi;
       do {
@@ -3666,7 +3678,7 @@ function bisector(f) {
     }
     return lo;
   }
-  function right(a2, x2, lo = 0, hi = a2.length) {
+  function right2(a2, x2, lo = 0, hi = a2.length) {
     if (lo < hi) {
       if (compare1(x2, x2) !== 0) return hi;
       do {
@@ -3678,10 +3690,10 @@ function bisector(f) {
     return lo;
   }
   function center(a2, x2, lo = 0, hi = a2.length) {
-    const i = left(a2, x2, lo, hi - 1);
+    const i = left2(a2, x2, lo, hi - 1);
     return i > lo && delta(a2[i - 1], x2) > -delta(a2[i], x2) ? i - 1 : i;
   }
-  return { left, center, right };
+  return { left: left2, center, right: right2 };
 }
 function zero() {
   return 0;
@@ -3706,28 +3718,28 @@ function Blur2(blur3) {
   return function(data, rx, ry = rx) {
     if (!((rx = +rx) >= 0)) throw new RangeError("invalid rx");
     if (!((ry = +ry) >= 0)) throw new RangeError("invalid ry");
-    let { data: values, width, height } = data;
-    if (!((width = Math.floor(width)) >= 0)) throw new RangeError("invalid width");
-    if (!((height = Math.floor(height !== void 0 ? height : values.length / width)) >= 0)) throw new RangeError("invalid height");
-    if (!width || !height || !rx && !ry) return data;
+    let { data: values2, width: width2, height: height2 } = data;
+    if (!((width2 = Math.floor(width2)) >= 0)) throw new RangeError("invalid width");
+    if (!((height2 = Math.floor(height2 !== void 0 ? height2 : values2.length / width2)) >= 0)) throw new RangeError("invalid height");
+    if (!width2 || !height2 || !rx && !ry) return data;
     const blurx = rx && blur3(rx);
     const blury = ry && blur3(ry);
-    const temp = values.slice();
+    const temp = values2.slice();
     if (blurx && blury) {
-      blurh(blurx, temp, values, width, height);
-      blurh(blurx, values, temp, width, height);
-      blurh(blurx, temp, values, width, height);
-      blurv(blury, values, temp, width, height);
-      blurv(blury, temp, values, width, height);
-      blurv(blury, values, temp, width, height);
+      blurh(blurx, temp, values2, width2, height2);
+      blurh(blurx, values2, temp, width2, height2);
+      blurh(blurx, temp, values2, width2, height2);
+      blurv(blury, values2, temp, width2, height2);
+      blurv(blury, temp, values2, width2, height2);
+      blurv(blury, values2, temp, width2, height2);
     } else if (blurx) {
-      blurh(blurx, values, temp, width, height);
-      blurh(blurx, temp, values, width, height);
-      blurh(blurx, values, temp, width, height);
+      blurh(blurx, values2, temp, width2, height2);
+      blurh(blurx, temp, values2, width2, height2);
+      blurh(blurx, values2, temp, width2, height2);
     } else if (blury) {
-      blurv(blury, values, temp, width, height);
-      blurv(blury, temp, values, width, height);
-      blurv(blury, values, temp, width, height);
+      blurv(blury, values2, temp, width2, height2);
+      blurv(blury, temp, values2, width2, height2);
+      blurv(blury, values2, temp, width2, height2);
     }
     return data;
   };
@@ -3988,10 +4000,10 @@ function band() {
     start2 += (stop2 - start2 - step * (n - paddingInner)) * align;
     bandwidth = step * (1 - paddingInner);
     if (round) start2 = Math.round(start2), bandwidth = Math.round(bandwidth);
-    var values = range(n).map(function(i) {
+    var values2 = range(n).map(function(i) {
       return start2 + step * i;
     });
-    return ordinalRange(reverse2 ? values.reverse() : values);
+    return ordinalRange(reverse2 ? values2.reverse() : values2);
   }
   scale.domain = function(_) {
     return arguments.length ? (domain(_), rescale()) : domain();
@@ -4538,19 +4550,19 @@ function basis(t13, v0, v1, v2, v3) {
   var t22 = t13 * t13, t32 = t22 * t13;
   return ((1 - 3 * t13 + 3 * t22 - t32) * v0 + (4 - 6 * t22 + 3 * t32) * v1 + (1 + 3 * t13 + 3 * t22 - 3 * t32) * v2 + t32 * v3) / 6;
 }
-function basis_default(values) {
-  var n = values.length - 1;
+function basis_default(values2) {
+  var n = values2.length - 1;
   return function(t) {
-    var i = t <= 0 ? t = 0 : t >= 1 ? (t = 1, n - 1) : Math.floor(t * n), v1 = values[i], v2 = values[i + 1], v0 = i > 0 ? values[i - 1] : 2 * v1 - v2, v3 = i < n - 1 ? values[i + 2] : 2 * v2 - v1;
+    var i = t <= 0 ? t = 0 : t >= 1 ? (t = 1, n - 1) : Math.floor(t * n), v1 = values2[i], v2 = values2[i + 1], v0 = i > 0 ? values2[i - 1] : 2 * v1 - v2, v3 = i < n - 1 ? values2[i + 2] : 2 * v2 - v1;
     return basis((t - i / n) * n, v0, v1, v2, v3);
   };
 }
 
 // node_modules/d3-interpolate/src/basisClosed.js
-function basisClosed_default(values) {
-  var n = values.length;
+function basisClosed_default(values2) {
+  var n = values2.length;
   return function(t) {
-    var i = Math.floor(((t %= 1) < 0 ? ++t : t) * n), v0 = values[(i + n - 1) % n], v1 = values[i % n], v2 = values[(i + 1) % n], v3 = values[(i + 2) % n];
+    var i = Math.floor(((t %= 1) < 0 ? ++t : t) * n), v0 = values2[(i + n - 1) % n], v1 = values2[i % n], v2 = values2[(i + 1) % n], v3 = values2[(i + 2) % n];
     return basis((t - i / n) * n, v0, v1, v2, v3);
   };
 }
@@ -4585,9 +4597,9 @@ function nogamma(a2, b) {
 
 // node_modules/d3-interpolate/src/rgb.js
 var rgb_default = function rgbGamma(y2) {
-  var color2 = gamma(y2);
+  var color3 = gamma(y2);
   function rgb3(start2, end) {
-    var r = color2((start2 = rgb2(start2)).r, (end = rgb2(end)).r), g = color2(start2.g, end.g), b = color2(start2.b, end.b), opacity = nogamma(start2.opacity, end.opacity);
+    var r = color3((start2 = rgb2(start2)).r, (end = rgb2(end)).r), g = color3(start2.g, end.g), b = color3(start2.b, end.b), opacity = nogamma(start2.opacity, end.opacity);
     return function(t) {
       start2.r = r(t);
       start2.g = g(t);
@@ -4601,22 +4613,22 @@ var rgb_default = function rgbGamma(y2) {
 }(1);
 function rgbSpline(spline) {
   return function(colors3) {
-    var n = colors3.length, r = new Array(n), g = new Array(n), b = new Array(n), i, color2;
+    var n = colors3.length, r = new Array(n), g = new Array(n), b = new Array(n), i, color3;
     for (i = 0; i < n; ++i) {
-      color2 = rgb2(colors3[i]);
-      r[i] = color2.r || 0;
-      g[i] = color2.g || 0;
-      b[i] = color2.b || 0;
+      color3 = rgb2(colors3[i]);
+      r[i] = color3.r || 0;
+      g[i] = color3.g || 0;
+      b[i] = color3.b || 0;
     }
     r = spline(r);
     g = spline(g);
     b = spline(b);
-    color2.opacity = 1;
+    color3.opacity = 1;
     return function(t) {
-      color2.r = r(t);
-      color2.g = g(t);
-      color2.b = b(t);
-      return color2 + "";
+      color3.r = r(t);
+      color3.g = g(t);
+      color3.b = b(t);
+      return color3 + "";
     };
   };
 }
@@ -5046,12 +5058,12 @@ function exponent_default(x2) {
 
 // node_modules/d3-format/src/formatGroup.js
 function formatGroup_default(grouping, thousands) {
-  return function(value, width) {
+  return function(value, width2) {
     var i = value.length, t = [], j = 0, g = grouping[0], length = 0;
     while (i > 0 && g > 0) {
-      if (length + g + 1 > width) g = Math.max(1, width - length);
+      if (length + g + 1 > width2) g = Math.max(1, width2 - length);
       t.push(value.substring(i -= g, i + g));
-      if ((length += g + 1) > width) break;
+      if ((length += g + 1) > width2) break;
       g = grouping[j = (j + 1) % grouping.length];
     }
     return t.reverse().join(thousands);
@@ -5168,7 +5180,7 @@ function locale_default(locale3) {
   var group2 = locale3.grouping === void 0 || locale3.thousands === void 0 ? identity_default : formatGroup_default(map3.call(locale3.grouping, Number), locale3.thousands + ""), currencyPrefix = locale3.currency === void 0 ? "" : locale3.currency[0] + "", currencySuffix = locale3.currency === void 0 ? "" : locale3.currency[1] + "", decimal = locale3.decimal === void 0 ? "." : locale3.decimal + "", numerals = locale3.numerals === void 0 ? identity_default : formatNumerals_default(map3.call(locale3.numerals, String)), percent = locale3.percent === void 0 ? "%" : locale3.percent + "", minus = locale3.minus === void 0 ? "−" : locale3.minus + "", nan = locale3.nan === void 0 ? "NaN" : locale3.nan + "";
   function newFormat(specifier) {
     specifier = formatSpecifier(specifier);
-    var fill = specifier.fill, align = specifier.align, sign2 = specifier.sign, symbol = specifier.symbol, zero3 = specifier.zero, width = specifier.width, comma = specifier.comma, precision = specifier.precision, trim = specifier.trim, type = specifier.type;
+    var fill = specifier.fill, align = specifier.align, sign2 = specifier.sign, symbol = specifier.symbol, zero3 = specifier.zero, width2 = specifier.width, comma = specifier.comma, precision = specifier.precision, trim = specifier.trim, type = specifier.type;
     if (type === "n") comma = true, type = "g";
     else if (!formatTypes_default[type]) precision === void 0 && (precision = 12), trim = true, type = "g";
     if (zero3 || fill === "0" && align === "=") zero3 = true, fill = "0", align = "=";
@@ -5200,20 +5212,20 @@ function locale_default(locale3) {
         }
       }
       if (comma && !zero3) value = group2(value, Infinity);
-      var length = valuePrefix.length + value.length + valueSuffix.length, padding = length < width ? new Array(width - length + 1).join(fill) : "";
-      if (comma && zero3) value = group2(padding + value, padding.length ? width - valueSuffix.length : Infinity), padding = "";
+      var length = valuePrefix.length + value.length + valueSuffix.length, padding2 = length < width2 ? new Array(width2 - length + 1).join(fill) : "";
+      if (comma && zero3) value = group2(padding2 + value, padding2.length ? width2 - valueSuffix.length : Infinity), padding2 = "";
       switch (align) {
         case "<":
-          value = valuePrefix + value + valueSuffix + padding;
+          value = valuePrefix + value + valueSuffix + padding2;
           break;
         case "=":
-          value = valuePrefix + padding + value + valueSuffix;
+          value = valuePrefix + padding2 + value + valueSuffix;
           break;
         case "^":
-          value = padding.slice(0, length = padding.length >> 1) + valuePrefix + value + valueSuffix + padding.slice(length);
+          value = padding2.slice(0, length = padding2.length >> 1) + valuePrefix + value + valueSuffix + padding2.slice(length);
           break;
         default:
-          value = padding + valuePrefix + value + valueSuffix;
+          value = padding2 + valuePrefix + value + valueSuffix;
           break;
       }
       return numerals(value);
@@ -6173,9 +6185,9 @@ var pads = { "-": "", "_": " ", "0": "0" };
 var numberRe = /^\s*\d+/;
 var percentRe = /^%/;
 var requoteRe = /[\\^$*+?|[\]().{}]/g;
-function pad(value, fill, width) {
+function pad(value, fill, width2) {
   var sign2 = value < 0 ? "-" : "", string = (sign2 ? -value : value) + "", length = string.length;
-  return sign2 + (length < width ? new Array(width - length + 1).join(fill) + string : string);
+  return sign2 + (length < width2 ? new Array(width2 - length + 1).join(fill) + string : string);
 }
 function requote(s2) {
   return s2.replace(requoteRe, "\\$&");
@@ -6852,16 +6864,16 @@ var DEFAULT_MARGINS = {
 };
 
 // node_modules/@mui/x-charts/hooks/useChartDimensions.js
-var useChartDimensions = (width, height, margin) => {
-  const defaultizedMargin = _extends({}, DEFAULT_MARGINS, margin);
+var useChartDimensions = (width2, height2, margin2) => {
+  const defaultizedMargin = _extends({}, DEFAULT_MARGINS, margin2);
   const drawingArea = React4.useMemo(() => ({
     left: defaultizedMargin.left,
     top: defaultizedMargin.top,
     right: defaultizedMargin.right,
     bottom: defaultizedMargin.bottom,
-    width: Math.max(0, width - defaultizedMargin.left - defaultizedMargin.right),
-    height: Math.max(0, height - defaultizedMargin.top - defaultizedMargin.bottom)
-  }), [width, height, defaultizedMargin.top, defaultizedMargin.bottom, defaultizedMargin.left, defaultizedMargin.right]);
+    width: Math.max(0, width2 - defaultizedMargin.left - defaultizedMargin.right),
+    height: Math.max(0, height2 - defaultizedMargin.top - defaultizedMargin.bottom)
+  }), [width2, height2, defaultizedMargin.top, defaultizedMargin.bottom, defaultizedMargin.left, defaultizedMargin.right]);
   return drawingArea;
 };
 var useChartDimensions_default = useChartDimensions;
@@ -6892,13 +6904,13 @@ if (true) {
 }
 function DrawingProvider(props) {
   const {
-    width,
-    height,
-    margin,
+    width: width2,
+    height: height2,
+    margin: margin2,
     svgRef,
     children
   } = props;
-  const drawingArea = useChartDimensions_default(width, height, margin);
+  const drawingArea = useChartDimensions_default(width2, height2, margin2);
   const chartId = useId();
   const isPointInside = React5.useCallback(({
     x: x2,
@@ -6938,23 +6950,23 @@ function DrawingProvider(props) {
 // node_modules/@mui/x-charts/hooks/useDrawingArea.js
 function useDrawingArea() {
   const {
-    left,
-    top,
-    width,
-    height,
-    bottom,
-    right,
+    left: left2,
+    top: top2,
+    width: width2,
+    height: height2,
+    bottom: bottom2,
+    right: right2,
     isPointInside
   } = React6.useContext(DrawingContext);
   return React6.useMemo(() => ({
-    left,
-    top,
-    width,
-    height,
-    bottom,
-    right,
+    left: left2,
+    top: top2,
+    width: width2,
+    height: height2,
+    bottom: bottom2,
+    right: right2,
     isPointInside
-  }), [height, left, top, width, bottom, right, isPointInside]);
+  }), [height2, left2, top2, width2, bottom2, right2, isPointInside]);
 }
 
 // node_modules/@mui/x-charts/hooks/useSeries.js
@@ -7108,11 +7120,11 @@ var getValueExtremum = (direction) => (params) => {
       seriesXAxisId: series[seriesId].xAxisId ?? series[seriesId].xAxisKey,
       seriesYAxisId: series[seriesId].yAxisId ?? series[seriesId].yAxisKey
     });
-    const [seriesMin, seriesMax] = (stackedData == null ? void 0 : stackedData.reduce((seriesAcc, values, index2) => {
-      if (filter2 && (!filter2(createResult(values[0], direction), index2) || !filter2(createResult(values[1], direction), index2))) {
+    const [seriesMin, seriesMax] = (stackedData == null ? void 0 : stackedData.reduce((seriesAcc, values2, index2) => {
+      if (filter2 && (!filter2(createResult(values2[0], direction), index2) || !filter2(createResult(values2[1], direction), index2))) {
         return seriesAcc;
       }
-      return [Math.min(...values, seriesAcc[0]), Math.max(...values, seriesAcc[1])];
+      return [Math.min(...values2, seriesAcc[0]), Math.max(...values2, seriesAcc[1])];
     }, [Infinity, -Infinity])) ?? [Infinity, -Infinity];
     return [Math.min(seriesMin, acc[0]), Math.max(seriesMax, acc[1])];
   }, [Infinity, -Infinity]);
@@ -8207,10 +8219,10 @@ Step.prototype = {
 };
 
 // node_modules/d3-shape/src/offset/none.js
-function none_default(series, order) {
+function none_default(series, order2) {
   if (!((n = series.length) > 1)) return;
-  for (var i = 1, j, s0, s1 = series[order[0]], n, m = s1.length; i < n; ++i) {
-    s0 = s1, s1 = series[order[i]];
+  for (var i = 1, j, s0, s1 = series[order2[0]], n, m = s1.length; i < n; ++i) {
+    s0 = s1, s1 = series[order2[i]];
     for (j = 0; j < m; ++j) {
       s1[j][1] += s1[j][0] = isNaN(s0[j][1]) ? s0[j][0] : s0[j][1];
     }
@@ -8234,7 +8246,7 @@ function stackSeries(key) {
   return series;
 }
 function stack_default() {
-  var keys = constant_default2([]), order = none_default2, offset = none_default, value = stackValue;
+  var keys = constant_default2([]), order2 = none_default2, offset = none_default, value = stackValue;
   function stack(data) {
     var sz = Array.from(keys.apply(this, arguments), stackSeries), i, n = sz.length, j = -1, oz;
     for (const d of data) {
@@ -8242,7 +8254,7 @@ function stack_default() {
         (sz[i][j] = [0, +value(d, sz[i].key, j, data)]).data = d;
       }
     }
-    for (i = 0, oz = array_default2(order(sz)); i < n; ++i) {
+    for (i = 0, oz = array_default2(order2(sz)); i < n; ++i) {
       sz[oz[i]].index = i;
     }
     offset(sz, oz);
@@ -8255,7 +8267,7 @@ function stack_default() {
     return arguments.length ? (value = typeof _ === "function" ? _ : constant_default2(+_), stack) : value;
   };
   stack.order = function(_) {
-    return arguments.length ? (order = _ == null ? none_default2 : typeof _ === "function" ? _ : constant_default2(Array.from(_)), stack) : order;
+    return arguments.length ? (order2 = _ == null ? none_default2 : typeof _ === "function" ? _ : constant_default2(Array.from(_)), stack) : order2;
   };
   stack.offset = function(_) {
     return arguments.length ? (offset = _ == null ? none_default : _, stack) : offset;
@@ -8264,21 +8276,21 @@ function stack_default() {
 }
 
 // node_modules/d3-shape/src/offset/expand.js
-function expand_default(series, order) {
+function expand_default(series, order2) {
   if (!((n = series.length) > 0)) return;
   for (var i, n, j = 0, m = series[0].length, y2; j < m; ++j) {
     for (y2 = i = 0; i < n; ++i) y2 += series[i][j][1] || 0;
     if (y2) for (i = 0; i < n; ++i) series[i][j][1] /= y2;
   }
-  none_default(series, order);
+  none_default(series, order2);
 }
 
 // node_modules/d3-shape/src/offset/diverging.js
-function diverging_default(series, order) {
+function diverging_default(series, order2) {
   if (!((n = series.length) > 0)) return;
-  for (var i, j = 0, d, dy, yp, yn, n, m = series[order[0]].length; j < m; ++j) {
+  for (var i, j = 0, d, dy, yp, yn, n, m = series[order2[0]].length; j < m; ++j) {
     for (yp = yn = 0, i = 0; i < n; ++i) {
-      if ((dy = (d = series[order[i]][j])[1] - d[0]) > 0) {
+      if ((dy = (d = series[order2[i]][j])[1] - d[0]) > 0) {
         d[0] = yp, d[1] = yp += dy;
       } else if (dy < 0) {
         d[1] = yn, d[0] = yn += dy;
@@ -8290,23 +8302,23 @@ function diverging_default(series, order) {
 }
 
 // node_modules/d3-shape/src/offset/silhouette.js
-function silhouette_default(series, order) {
+function silhouette_default(series, order2) {
   if (!((n = series.length) > 0)) return;
-  for (var j = 0, s0 = series[order[0]], n, m = s0.length; j < m; ++j) {
+  for (var j = 0, s0 = series[order2[0]], n, m = s0.length; j < m; ++j) {
     for (var i = 0, y2 = 0; i < n; ++i) y2 += series[i][j][1] || 0;
     s0[j][1] += s0[j][0] = -y2 / 2;
   }
-  none_default(series, order);
+  none_default(series, order2);
 }
 
 // node_modules/d3-shape/src/offset/wiggle.js
-function wiggle_default(series, order) {
-  if (!((n = series.length) > 0) || !((m = (s0 = series[order[0]]).length) > 0)) return;
+function wiggle_default(series, order2) {
+  if (!((n = series.length) > 0) || !((m = (s0 = series[order2[0]]).length) > 0)) return;
   for (var y2 = 0, j = 1, s0, m, n; j < m; ++j) {
     for (var i = 0, s1 = 0, s2 = 0; i < n; ++i) {
-      var si = series[order[i]], sij0 = si[j][1] || 0, sij1 = si[j - 1][1] || 0, s3 = (sij0 - sij1) / 2;
+      var si = series[order2[i]], sij0 = si[j][1] || 0, sij1 = si[j - 1][1] || 0, s3 = (sij0 - sij1) / 2;
       for (var k2 = 0; k2 < i; ++k2) {
-        var sk = series[order[k2]], skj0 = sk[j][1] || 0, skj1 = sk[j - 1][1] || 0;
+        var sk = series[order2[k2]], skj0 = sk[j][1] || 0, skj1 = sk[j - 1][1] || 0;
         s3 += skj0 - skj1;
       }
       s1 += sij0, s2 += s3 * sij0;
@@ -8315,7 +8327,7 @@ function wiggle_default(series, order) {
     if (s1) y2 -= s2 / s1;
   }
   s0[j - 1][1] += s0[j - 1][0] = y2;
-  none_default(series, order);
+  none_default(series, order2);
 }
 
 // node_modules/d3-shape/src/order/appearance.js
@@ -8351,14 +8363,14 @@ function descending_default2(series) {
 
 // node_modules/d3-shape/src/order/insideOut.js
 function insideOut_default(series) {
-  var n = series.length, i, j, sums = series.map(sum2), order = appearance_default(series), top = 0, bottom = 0, tops = [], bottoms = [];
+  var n = series.length, i, j, sums = series.map(sum2), order2 = appearance_default(series), top2 = 0, bottom2 = 0, tops = [], bottoms = [];
   for (i = 0; i < n; ++i) {
-    j = order[i];
-    if (top < bottom) {
-      top += sums[j];
+    j = order2[i];
+    if (top2 < bottom2) {
+      top2 += sums[j];
       tops.push(j);
     } else {
-      bottom += sums[j];
+      bottom2 += sums[j];
       bottoms.push(j);
     }
   }
@@ -8561,21 +8573,21 @@ var getColor = (series, xAxis, yAxis) => {
   if (valueColorScale) {
     return (dataIndex) => {
       const value = series.data[dataIndex];
-      const color2 = value === null ? series.color : valueColorScale(value);
-      if (color2 === null) {
+      const color3 = value === null ? series.color : valueColorScale(value);
+      if (color3 === null) {
         return series.color;
       }
-      return color2;
+      return color3;
     };
   }
   if (bandColorScale && bandValues) {
     return (dataIndex) => {
       const value = bandValues[dataIndex];
-      const color2 = value === null ? series.color : bandColorScale(value);
-      if (color2 === null) {
+      const color3 = value === null ? series.color : bandColorScale(value);
+      if (color3 === null) {
         return series.color;
       }
-      return color2;
+      return color3;
     };
   }
   return () => series.color;
@@ -8689,37 +8701,37 @@ var getColor2 = (series, xAxis, yAxis, zAxis) => {
     return (dataIndex) => {
       var _a, _b;
       if (((_a = zAxis == null ? void 0 : zAxis.data) == null ? void 0 : _a[dataIndex]) !== void 0) {
-        const color3 = zColorScale((_b = zAxis == null ? void 0 : zAxis.data) == null ? void 0 : _b[dataIndex]);
-        if (color3 !== null) {
-          return color3;
+        const color4 = zColorScale((_b = zAxis == null ? void 0 : zAxis.data) == null ? void 0 : _b[dataIndex]);
+        if (color4 !== null) {
+          return color4;
         }
       }
       const value = series.data[dataIndex];
-      const color2 = value === null ? series.color : zColorScale(value.z);
-      if (color2 === null) {
+      const color3 = value === null ? series.color : zColorScale(value.z);
+      if (color3 === null) {
         return series.color;
       }
-      return color2;
+      return color3;
     };
   }
   if (yColorScale) {
     return (dataIndex) => {
       const value = series.data[dataIndex];
-      const color2 = value === null ? series.color : yColorScale(value.y);
-      if (color2 === null) {
+      const color3 = value === null ? series.color : yColorScale(value.y);
+      if (color3 === null) {
         return series.color;
       }
-      return color2;
+      return color3;
     };
   }
   if (xColorScale) {
     return (dataIndex) => {
       const value = series.data[dataIndex];
-      const color2 = value === null ? series.color : xColorScale(value.x);
-      if (color2 === null) {
+      const color3 = value === null ? series.color : xColorScale(value.x);
+      if (color3 === null) {
         return series.color;
       }
-      return color2;
+      return color3;
     };
   }
   return () => series.color;
@@ -8862,22 +8874,22 @@ var getColor3 = (series, xAxis, yAxis) => {
   if (yColorScale) {
     return (dataIndex) => {
       const value = series.data[dataIndex];
-      const color2 = value === null ? series.color : yColorScale(value);
-      if (color2 === null) {
+      const color3 = value === null ? series.color : yColorScale(value);
+      if (color3 === null) {
         return series.color;
       }
-      return color2;
+      return color3;
     };
   }
   if (xColorScale) {
     return (dataIndex) => {
       var _a;
       const value = (_a = xAxis.data) == null ? void 0 : _a[dataIndex];
-      const color2 = value === null ? series.color : xColorScale(value);
-      if (color2 === null) {
+      const color3 = value === null ? series.color : xColorScale(value);
+      if (color3 === null) {
         return series.color;
       }
-      return color2;
+      return color3;
     };
   }
   return () => series.color;
@@ -9618,10 +9630,10 @@ function BarElement(props) {
     id,
     dataIndex,
     classes: innerClasses,
-    color: color2,
+    color: color3,
     slots,
     slotProps,
-    style,
+    style: style4,
     onClick
   } = props, other = _objectWithoutPropertiesLoose(props, _excluded2);
   const getInteractionItemProps = useInteractionItemProps();
@@ -9636,7 +9648,7 @@ function BarElement(props) {
     id,
     dataIndex,
     classes: innerClasses,
-    color: color2,
+    color: color3,
     isFaded,
     isHighlighted
   };
@@ -9651,7 +9663,7 @@ function BarElement(props) {
       seriesId: id,
       dataIndex
     }), {
-      style,
+      style: style4,
       onClick,
       cursor: onClick ? "pointer" : "unset"
     }),
@@ -9721,24 +9733,24 @@ var React32 = __toESM(require_react());
 var getRadius = (corner, {
   hasNegative,
   hasPositive,
-  borderRadius,
+  borderRadius: borderRadius2,
   layout
 }) => {
-  if (!borderRadius) {
+  if (!borderRadius2) {
     return 0;
   }
   const isVertical = layout === "vertical";
   if (corner === "top-left" && (isVertical && hasPositive || !isVertical && hasNegative)) {
-    return borderRadius;
+    return borderRadius2;
   }
   if (corner === "top-right" && (isVertical && hasPositive || !isVertical && hasPositive)) {
-    return borderRadius;
+    return borderRadius2;
   }
   if (corner === "bottom-right" && (isVertical && hasNegative || !isVertical && hasPositive)) {
-    return borderRadius;
+    return borderRadius2;
   }
   if (corner === "bottom-left" && (isVertical && hasNegative || !isVertical && hasNegative)) {
-    return borderRadius;
+    return borderRadius2;
   }
   return 0;
 };
@@ -9763,7 +9775,7 @@ function BarClipRect(props) {
 }
 function BarClipPath(props) {
   const {
-    style,
+    style: style4,
     maskId
   } = props, rest = _objectWithoutPropertiesLoose(props, _excluded3);
   if (!props.borderRadius || props.borderRadius <= 0) {
@@ -9773,7 +9785,7 @@ function BarClipPath(props) {
     id: maskId,
     children: (0, import_jsx_runtime9.jsx)(BarClipRect, {
       ownerState: rest,
-      style
+      style: style4
     })
   });
 }
@@ -9812,8 +9824,8 @@ var getBarLabel = (options) => {
     value,
     dataIndex,
     seriesId,
-    height,
-    width
+    height: height2,
+    width: width2
   } = options;
   if (barLabel === "value") {
     return value ? value == null ? void 0 : value.toString() : null;
@@ -9824,8 +9836,8 @@ var getBarLabel = (options) => {
     value
   }, {
     bar: {
-      height,
-      width
+      height: height2,
+      width: width2
     }
   });
 };
@@ -9889,14 +9901,14 @@ function BarLabelItem(props) {
   const {
     seriesId,
     classes: innerClasses,
-    color: color2,
-    style,
+    color: color3,
+    style: style4,
     dataIndex,
     barLabel,
     slots,
     slotProps,
-    height,
-    width,
+    height: height2,
+    width: width2,
     value
   } = props, other = _objectWithoutPropertiesLoose(props, _excluded5);
   const {
@@ -9909,7 +9921,7 @@ function BarLabelItem(props) {
   const ownerState = {
     seriesId,
     classes: innerClasses,
-    color: color2,
+    color: color3,
     isFaded,
     isHighlighted,
     dataIndex
@@ -9920,7 +9932,7 @@ function BarLabelItem(props) {
     elementType: Component,
     externalSlotProps: slotProps == null ? void 0 : slotProps.barLabel,
     additionalProps: _extends({}, other, {
-      style,
+      style: style4,
       className: classes.root
     }),
     ownerState
@@ -9935,8 +9947,8 @@ function BarLabelItem(props) {
     value,
     dataIndex,
     seriesId,
-    height,
-    width
+    height: height2,
+    width: width2
   });
   if (!formattedLabelText) {
     return null;
@@ -9993,31 +10005,31 @@ var leaveStyle = ({
   layout,
   yOrigin,
   x: x2,
-  width,
+  width: width2,
   y: y2,
   xOrigin,
-  height
+  height: height2
 }) => _extends({}, layout === "vertical" ? {
   y: yOrigin,
-  x: x2 + width / 2,
+  x: x2 + width2 / 2,
   height: 0,
-  width
+  width: width2
 } : {
-  y: y2 + height / 2,
+  y: y2 + height2 / 2,
   x: xOrigin,
-  height,
+  height: height2,
   width: 0
 });
 var enterStyle = ({
   x: x2,
-  width,
+  width: width2,
   y: y2,
-  height
+  height: height2
 }) => ({
-  x: x2 + width / 2,
-  y: y2 + height / 2,
-  height,
-  width
+  x: x2 + width2 / 2,
+  y: y2 + height2 / 2,
+  height: height2,
+  width: width2
 });
 function BarLabelPlot(props) {
   const {
@@ -10033,22 +10045,22 @@ function BarLabelPlot(props) {
     immediate: skipAnimation2
   });
   return (0, import_jsx_runtime12.jsx)(React35.Fragment, {
-    children: barLabelTransition((style, {
+    children: barLabelTransition((style4, {
       seriesId,
       dataIndex,
-      color: color2,
+      color: color3,
       value,
-      width,
-      height
+      width: width2,
+      height: height2
     }) => (0, import_jsx_runtime12.jsx)(BarLabelItem, _extends({
       seriesId,
       dataIndex,
       value,
-      color: color2,
-      width,
-      height
+      color: color3,
+      width: width2,
+      height: height2
     }, other, {
-      style
+      style: style4
     })))
   });
 }
@@ -10218,9 +10230,9 @@ var useAggregatedData = () => {
       const {
         stackedData
       } = series[seriesId];
-      return stackedData.map((values, dataIndex) => {
+      return stackedData.map((values2, dataIndex) => {
         var _a, _b;
-        const valueCoordinates = values.map((v) => verticalLayout ? yScale(v) : xScale(v));
+        const valueCoordinates = values2.map((v) => verticalLayout ? yScale(v) : xScale(v));
         const minValueCoord = Math.round(Math.min(...valueCoordinates));
         const maxValueCoord = Math.round(Math.max(...valueCoordinates));
         const stackId = series[seriesId].stack;
@@ -10272,31 +10284,31 @@ var leaveStyle2 = ({
   layout,
   yOrigin,
   x: x2,
-  width,
+  width: width2,
   y: y2,
   xOrigin,
-  height
+  height: height2
 }) => _extends({}, layout === "vertical" ? {
   y: yOrigin,
   x: x2,
   height: 0,
-  width
+  width: width2
 } : {
   y: y2,
   x: xOrigin,
-  height,
+  height: height2,
   width: 0
 });
 var enterStyle2 = ({
   x: x2,
-  width,
+  width: width2,
   y: y2,
-  height
+  height: height2
 }) => ({
   y: y2,
   x: x2,
-  height,
-  width
+  height: height2,
+  width: width2
 });
 function BarPlot(props) {
   const {
@@ -10306,11 +10318,11 @@ function BarPlot(props) {
   const {
     skipAnimation: inSkipAnimation,
     onItemClick,
-    borderRadius,
+    borderRadius: borderRadius2,
     barLabel
   } = props, other = _objectWithoutPropertiesLoose(props, _excluded7);
   const skipAnimation2 = useSkipAnimation(inSkipAnimation);
-  const withoutBorderRadius = !borderRadius || borderRadius <= 0;
+  const withoutBorderRadius = !borderRadius2 || borderRadius2 <= 0;
   const transition = useTransition(completedData, {
     keys: (bar) => `${bar.seriesId}-${bar.dataIndex}`,
     from: leaveStyle2,
@@ -10328,7 +10340,7 @@ function BarPlot(props) {
     immediate: skipAnimation2
   });
   return (0, import_jsx_runtime14.jsxs)(React39.Fragment, {
-    children: [!withoutBorderRadius && maskTransition((style, {
+    children: [!withoutBorderRadius && maskTransition((style4, {
       id,
       hasPositive,
       hasNegative,
@@ -10336,22 +10348,22 @@ function BarPlot(props) {
     }) => {
       return (0, import_jsx_runtime14.jsx)(BarClipPath, {
         maskId: id,
-        borderRadius,
+        borderRadius: borderRadius2,
         hasNegative,
         hasPositive,
         layout,
-        style
+        style: style4
       });
-    }), transition((style, {
+    }), transition((style4, {
       seriesId,
       dataIndex,
-      color: color2,
+      color: color3,
       maskId
     }) => {
       const barElement = (0, import_jsx_runtime14.jsx)(BarElement, _extends({
         id: seriesId,
         dataIndex,
-        color: color2
+        color: color3
       }, other, {
         onClick: onItemClick && ((event) => {
           onItemClick(event, {
@@ -10360,7 +10372,7 @@ function BarPlot(props) {
             dataIndex
           });
         }),
-        style
+        style: style4
       }));
       if (withoutBorderRadius) {
         return barElement;
@@ -10600,8 +10612,8 @@ var ChartsSurface = React41.forwardRef(function ChartsSurface2(inProps, ref) {
   });
   const {
     children,
-    width,
-    height,
+    width: width2,
+    height: height2,
     viewBox,
     disableAxisListener = false,
     className,
@@ -10609,15 +10621,15 @@ var ChartsSurface = React41.forwardRef(function ChartsSurface2(inProps, ref) {
     desc
   } = props, other = _objectWithoutPropertiesLoose(props, _excluded8);
   const svgView = _extends({
-    width,
-    height,
+    width: width2,
+    height: height2,
     x: 0,
     y: 0
   }, viewBox);
   useAxisEvents(disableAxisListener);
   return (0, import_jsx_runtime15.jsxs)(ChartChartsSurfaceStyles, _extends({
-    width,
-    height,
+    width: width2,
+    height: height2,
     viewBox: `${svgView.x} ${svgView.y} ${svgView.width} ${svgView.height}`,
     ref,
     className
@@ -10748,13 +10760,13 @@ function ChartsContinuousGradient(props) {
         return null;
       }
       const offset = isReversed ? 1 - x2 / size : x2 / size;
-      const color2 = colorScale(value);
-      if (color2 === null) {
+      const color3 = colorScale(value);
+      if (color3 === null) {
         return null;
       }
       return (0, import_jsx_runtime17.jsx)("stop", {
         offset,
-        stopColor: color2,
+        stopColor: color3,
         stopOpacity: 1
       }, keyPrefix + index2);
     })
@@ -10771,15 +10783,15 @@ function useChartGradient() {
 }
 function ChartsAxesGradients() {
   const {
-    top,
-    height,
-    bottom,
-    left,
-    width,
-    right
+    top: top2,
+    height: height2,
+    bottom: bottom2,
+    left: left2,
+    width: width2,
+    right: right2
   } = useDrawingArea();
-  const svgHeight = top + height + bottom;
-  const svgWidth = left + width + right;
+  const svgHeight = top2 + height2 + bottom2;
+  const svgWidth = left2 + width2 + right2;
   const getGradientId = useChartGradient();
   const {
     xAxisIds,
@@ -10891,10 +10903,10 @@ var useDefaultizeAxis = (inXAxis, inYAxis, dataset) => {
 var _excluded9 = ["width", "height", "series", "margin", "xAxis", "yAxis", "zAxis", "colors", "dataset", "sx", "title", "desc", "disableAxisListener", "highlightedItem", "onHighlightChange", "plugins", "children", "skipAnimation"];
 var useChartContainerProps = (props, ref) => {
   const {
-    width,
-    height,
+    width: width2,
+    height: height2,
     series,
-    margin,
+    margin: margin2,
     xAxis,
     yAxis,
     zAxis,
@@ -10914,9 +10926,9 @@ var useChartContainerProps = (props, ref) => {
   const chartSurfaceRef = useForkRef(ref, svgRef);
   const [defaultizedXAxis, defaultizedYAxis] = useDefaultizeAxis(xAxis, yAxis, dataset);
   const drawingProviderProps = {
-    width,
-    height,
-    margin,
+    width: width2,
+    height: height2,
+    margin: margin2,
     svgRef
   };
   const animationProviderProps = {
@@ -10944,8 +10956,8 @@ var useChartContainerProps = (props, ref) => {
     onHighlightChange
   };
   const chartsSurfaceProps = _extends({}, other, {
-    width,
-    height,
+    width: width2,
+    height: height2,
     ref: chartSurfaceRef,
     sx,
     title,
@@ -11250,8 +11262,8 @@ var useChartContainerDimensions = (inWidth, inHeight, resolveSizeBeforeRender) =
     computeRun: 0
   });
   const rootRef = React48.useRef(null);
-  const [width, setWidth] = React48.useState(0);
-  const [height, setHeight] = React48.useState(0);
+  const [width2, setWidth] = React48.useState(0);
+  const [height2, setHeight] = React48.useState(0);
   const computeSize = React48.useCallback(() => {
     const mainEl = rootRef == null ? void 0 : rootRef.current;
     if (!mainEl) {
@@ -11276,12 +11288,12 @@ var useChartContainerDimensions = (inWidth, inHeight, resolveSizeBeforeRender) =
       return;
     }
     const computedSize = computeSize();
-    if (computedSize.width !== width || computedSize.height !== height) {
+    if (computedSize.width !== width2 || computedSize.height !== height2) {
       stateRef.current.computeRun += 1;
     } else if (stateRef.current.initialCompute) {
       stateRef.current.initialCompute = false;
     }
-  }, [width, height, computeSize, resolveSizeBeforeRender]);
+  }, [width2, height2, computeSize, resolveSizeBeforeRender]);
   useEnhancedEffect_default(() => {
     if (inWidth !== void 0 && inHeight !== void 0) {
       return () => {
@@ -11312,19 +11324,19 @@ var useChartContainerDimensions = (inWidth, inHeight, resolveSizeBeforeRender) =
     };
   }, [computeSize, inHeight, inWidth]);
   if (true) {
-    if (stateRef.current.displayError && inWidth === void 0 && width === 0) {
+    if (stateRef.current.displayError && inWidth === void 0 && width2 === 0) {
       console.error(`MUI X: ChartContainer does not have \`width\` prop, and its container has no \`width\` defined.`);
       stateRef.current.displayError = false;
     }
-    if (stateRef.current.displayError && inHeight === void 0 && height === 0) {
+    if (stateRef.current.displayError && inHeight === void 0 && height2 === 0) {
       console.error(`MUI X: ChartContainer does not have \`height\` prop, and its container has no \`height\` defined.`);
       stateRef.current.displayError = false;
     }
   }
   return {
     containerRef: rootRef,
-    width: inWidth ?? width,
-    height: inHeight ?? height
+    width: inWidth ?? width2,
+    height: inHeight ?? height2
   };
 };
 
@@ -11332,10 +11344,10 @@ var useChartContainerDimensions = (inWidth, inHeight, resolveSizeBeforeRender) =
 var _excluded10 = ["width", "height", "resolveSizeBeforeRender", "margin", "children", "series", "colors", "dataset", "desc", "disableAxisListener", "highlightedItem", "onHighlightChange", "plugins", "sx", "title", "viewBox", "xAxis", "yAxis", "zAxis", "skipAnimation"];
 var useResponsiveChartContainerProps = (props, ref) => {
   const {
-    width,
-    height,
+    width: width2,
+    height: height2,
     resolveSizeBeforeRender,
-    margin,
+    margin: margin2,
     children,
     series,
     colors: colors3,
@@ -11357,16 +11369,16 @@ var useResponsiveChartContainerProps = (props, ref) => {
     containerRef,
     width: dWidth,
     height: dHeight
-  } = useChartContainerDimensions(width, height, resolveSizeBeforeRender);
+  } = useChartContainerDimensions(width2, height2, resolveSizeBeforeRender);
   const resizableChartContainerProps = _extends({}, other, {
     ownerState: {
-      width,
-      height
+      width: width2,
+      height: height2
     },
     ref: containerRef
   });
   const chartContainerProps = {
-    margin,
+    margin: margin2,
     children,
     series,
     colors: colors3,
@@ -11633,8 +11645,8 @@ true ? ResponsiveChartContainer.propTypes = {
 
 // node_modules/@mui/x-charts/ChartsAxis/ChartsAxis.js
 init_extends();
-var React54 = __toESM(require_react());
-var import_prop_types13 = __toESM(require_prop_types());
+var React55 = __toESM(require_react());
+var import_prop_types14 = __toESM(require_prop_types());
 
 // node_modules/@mui/x-charts/ChartsXAxis/ChartsXAxis.js
 init_extends();
@@ -11718,9 +11730,9 @@ function camelToMiddleLine(text) {
   }, []);
   return formatStrs.join("");
 }
-var getStyleString = (style) => Object.keys(style).sort().reduce((result, s2) => `${result}${camelToMiddleLine(s2)}:${autoCompleteStyle(s2, style[s2])};`, "");
+var getStyleString = (style4) => Object.keys(style4).sort().reduce((result, s2) => `${result}${camelToMiddleLine(s2)}:${autoCompleteStyle(s2, style4[s2])};`, "");
 var domCleanTimeout;
-var getStringSize = (text, style = {}) => {
+var getStringSize = (text, style4 = {}) => {
   if (text === void 0 || text === null || isSsr()) {
     return {
       width: 0,
@@ -11728,7 +11740,7 @@ var getStringSize = (text, style = {}) => {
     };
   }
   const str = `${text}`;
-  const styleString = getStyleString(style);
+  const styleString = getStyleString(style4);
   const cacheKey2 = `${str}-${styleString}`;
   if (stringCache.widthCache[cacheKey2]) {
     return stringCache.widthCache[cacheKey2];
@@ -11741,7 +11753,7 @@ var getStringSize = (text, style = {}) => {
       measurementSpan.setAttribute("aria-hidden", "true");
       document.body.appendChild(measurementSpan);
     }
-    const measurementSpanStyle = _extends({}, SPAN_STYLE, style);
+    const measurementSpanStyle = _extends({}, SPAN_STYLE, style4);
     Object.keys(measurementSpanStyle).map((styleKey) => {
       measurementSpan.style[camelToMiddleLine(styleKey)] = autoCompleteStyle(styleKey, measurementSpanStyle[styleKey]);
       return styleKey;
@@ -11776,13 +11788,13 @@ var getStringSize = (text, style = {}) => {
 
 // node_modules/@mui/x-charts/internals/getWordsByLines.js
 function getWordsByLines({
-  style,
+  style: style4,
   needsComputation,
   text
 }) {
   return text.split("\n").map((subText) => _extends({
     text: subText
-  }, needsComputation ? getStringSize(subText, style) : {
+  }, needsComputation ? getStringSize(subText, style4) : {
     width: 0,
     height: 0
   }));
@@ -11803,12 +11815,12 @@ function ChartsText(props) {
     angle,
     textAnchor,
     dominantBaseline
-  } = _ref, style = _objectWithoutPropertiesLoose(_ref, _excluded23);
+  } = _ref, style4 = _objectWithoutPropertiesLoose(_ref, _excluded23);
   const wordsByLines = React50.useMemo(() => getWordsByLines({
-    style,
+    style: style4,
     needsComputation: text.includes("\n"),
     text
-  }), [style, text]);
+  }), [style4, text]);
   let startDy;
   switch (dominantBaseline) {
     case "hanging":
@@ -11831,7 +11843,7 @@ function ChartsText(props) {
     y: y2,
     textAnchor,
     dominantBaseline,
-    style,
+    style: style4,
     children: wordsByLines.map((line, index2) => (0, import_jsx_runtime21.jsx)("tspan", {
       x: x2,
       dy: `${index2 === 0 ? startDy : wordsByLines[0].height}px`,
@@ -11867,7 +11879,7 @@ true ? ChartsText.propTypes = {
 
 // node_modules/@mui/x-charts/internals/geometry.js
 var ANGLE_APPROX = 5;
-function getMinXTranslation(width, height, angle = 0) {
+function getMinXTranslation(width2, height2, angle = 0) {
   if (true) {
     if (angle > 90 && angle < -90) {
       warnOnce([`MUI X: It seems you applied an angle larger than 90° or smaller than -90° to an axis text.`, `This could cause some text overlapping.`, `If you encounter a use case where it's needed, please open an issue.`]);
@@ -11875,17 +11887,17 @@ function getMinXTranslation(width, height, angle = 0) {
   }
   const standardAngle = Math.min(Math.abs(angle) % 180, Math.abs(Math.abs(angle) % 180 - 180) % 180);
   if (standardAngle < ANGLE_APPROX) {
-    return width;
+    return width2;
   }
   if (standardAngle > 90 - ANGLE_APPROX) {
-    return height;
+    return height2;
   }
   const radAngle = standardAngle * Math.PI / 180;
-  const angleSwich = Math.atan2(height, width);
+  const angleSwich = Math.atan2(height2, width2);
   if (radAngle < angleSwich) {
-    return width / Math.cos(radAngle);
+    return width2 / Math.cos(radAngle);
   }
-  return height / Math.sin(radAngle);
+  return height2 / Math.sin(radAngle);
 }
 
 // node_modules/@mui/x-charts/hooks/useMounted.js
@@ -11911,10 +11923,10 @@ var _excluded12 = ["scale", "tickNumber", "reverse"];
 var useUtilityClasses3 = (ownerState) => {
   const {
     classes,
-    position
+    position: position2
   } = ownerState;
   const slots = {
-    root: ["root", "directionX", position],
+    root: ["root", "directionX", position2],
     line: ["line"],
     tickContainer: ["tickContainer"],
     tick: ["tick"],
@@ -11924,7 +11936,7 @@ var useUtilityClasses3 = (ownerState) => {
   return composeClasses(slots, getAxisUtilityClass, classes);
 };
 function addLabelDimension(xTicks, {
-  tickLabelStyle: style,
+  tickLabelStyle: style4,
   tickLabelInterval,
   reverse: reverse2,
   isMounted
@@ -11937,7 +11949,7 @@ function addLabelDimension(xTicks, {
       });
     }
     const tickSizes = getWordsByLines({
-      style,
+      style: style4,
       needsComputation: true,
       text: tick.formattedValue
     });
@@ -11956,12 +11968,12 @@ function addLabelDimension(xTicks, {
   const direction = reverse2 ? -1 : 1;
   return withDimension.map((item, labelIndex) => {
     const {
-      width,
+      width: width2,
       offset,
       labelOffset,
-      height
+      height: height2
     } = item;
-    const distance = getMinXTranslation(width, height, style == null ? void 0 : style.angle);
+    const distance = getMinXTranslation(width2, height2, style4 == null ? void 0 : style4.angle);
     const textPosition = offset + labelOffset;
     const gapRatio = 1.2;
     currentTextLimit = textPosition - direction * (gapRatio * distance) / 2;
@@ -12002,7 +12014,7 @@ function ChartsXAxis(inProps) {
   });
   const defaultizedProps = _extends({}, defaultProps, themedProps);
   const {
-    position,
+    position: position2,
     disableLine,
     disableTicks,
     tickLabelStyle,
@@ -12025,14 +12037,14 @@ function ChartsXAxis(inProps) {
     theme
   }));
   const {
-    left,
-    top,
-    width,
-    height,
+    left: left2,
+    top: top2,
+    width: width2,
+    height: height2,
     isPointInside
   } = useDrawingArea();
   const tickSize = disableTicks ? 4 : tickSizeProp;
-  const positionSign = position === "bottom" ? 1 : -1;
+  const positionSign = position2 === "bottom" ? 1 : -1;
   const Line = (slots == null ? void 0 : slots.axisLine) ?? "line";
   const Tick = (slots == null ? void 0 : slots.axisTick) ?? "line";
   const TickLabel = (slots == null ? void 0 : slots.axisTickLabel) ?? ChartsText;
@@ -12043,7 +12055,7 @@ function ChartsXAxis(inProps) {
     additionalProps: {
       style: _extends({
         textAnchor: "middle",
-        dominantBaseline: position === "bottom" ? "hanging" : "auto",
+        dominantBaseline: position2 === "bottom" ? "hanging" : "auto",
         fontSize: tickFontSize ?? 12
       }, tickLabelStyle)
     },
@@ -12065,7 +12077,7 @@ function ChartsXAxis(inProps) {
     isMounted
   });
   const labelRefPoint = {
-    x: left + width / 2,
+    x: left2 + width2 / 2,
     y: positionSign * (tickSize + 22)
   };
   const axisLabelProps = useSlotProps_default({
@@ -12075,7 +12087,7 @@ function ChartsXAxis(inProps) {
       style: _extends({
         fontSize: labelFontSize ?? 14,
         textAnchor: "middle",
-        dominantBaseline: position === "bottom" ? "hanging" : "auto"
+        dominantBaseline: position2 === "bottom" ? "hanging" : "auto"
       }, labelStyle)
     },
     ownerState: {}
@@ -12086,12 +12098,12 @@ function ChartsXAxis(inProps) {
     return null;
   }
   return (0, import_jsx_runtime22.jsxs)(XAxisRoot, {
-    transform: `translate(0, ${position === "bottom" ? top + height : top})`,
+    transform: `translate(0, ${position2 === "bottom" ? top2 + height2 : top2})`,
     className: classes.root,
     sx,
     children: [!disableLine && (0, import_jsx_runtime22.jsx)(Line, _extends({
-      x1: left,
-      x2: left + width,
+      x1: left2,
+      x2: left2 + width2,
       className: classes.line
     }, slotProps == null ? void 0 : slotProps.axisLine)), xTicksWithDimension.map(({
       formattedValue,
@@ -12262,17 +12274,43 @@ true ? ChartsXAxis.propTypes = {
 
 // node_modules/@mui/x-charts/ChartsYAxis/ChartsYAxis.js
 init_extends();
+var React54 = __toESM(require_react());
+var import_prop_types13 = __toESM(require_prop_types());
+
+// node_modules/@mui/system/esm/RtlProvider/index.js
 var React53 = __toESM(require_react());
 var import_prop_types12 = __toESM(require_prop_types());
 var import_jsx_runtime23 = __toESM(require_jsx_runtime());
+var RtlContext = React53.createContext();
+function RtlProvider({
+  value,
+  ...props
+}) {
+  return (0, import_jsx_runtime23.jsx)(RtlContext.Provider, {
+    value: value ?? true,
+    ...props
+  });
+}
+true ? RtlProvider.propTypes = {
+  children: import_prop_types12.default.node,
+  value: import_prop_types12.default.bool
+} : void 0;
+var useRtl = () => {
+  const value = React53.useContext(RtlContext);
+  return value ?? false;
+};
+var RtlProvider_default = RtlProvider;
+
+// node_modules/@mui/x-charts/ChartsYAxis/ChartsYAxis.js
+var import_jsx_runtime24 = __toESM(require_jsx_runtime());
 var _excluded13 = ["scale", "tickNumber"];
 var useUtilityClasses4 = (ownerState) => {
   const {
     classes,
-    position
+    position: position2
   } = ownerState;
   const slots = {
-    root: ["root", "directionY", position],
+    root: ["root", "directionY", position2],
     line: ["line"],
     tickContainer: ["tickContainer"],
     tick: ["tick"],
@@ -12309,7 +12347,7 @@ function ChartsYAxis(inProps) {
   });
   const defaultizedProps = _extends({}, defaultProps2, themedProps);
   const {
-    position,
+    position: position2,
     disableLine,
     disableTicks,
     tickFontSize,
@@ -12333,10 +12371,10 @@ function ChartsYAxis(inProps) {
     theme
   }));
   const {
-    left,
-    top,
-    width,
-    height,
+    left: left2,
+    top: top2,
+    width: width2,
+    height: height2,
     isPointInside
   } = useDrawingArea();
   const tickSize = disableTicks ? 4 : tickSizeProp;
@@ -12348,16 +12386,16 @@ function ChartsYAxis(inProps) {
     tickLabelPlacement,
     tickInterval
   });
-  const positionSign = position === "right" ? 1 : -1;
+  const positionSign = position2 === "right" ? 1 : -1;
   const labelRefPoint = {
     x: positionSign * (tickFontSize + tickSize + 10),
-    y: top + height / 2
+    y: top2 + height2 / 2
   };
   const Line = (slots == null ? void 0 : slots.axisLine) ?? "line";
   const Tick = (slots == null ? void 0 : slots.axisTick) ?? "line";
   const TickLabel = (slots == null ? void 0 : slots.axisTickLabel) ?? ChartsText;
   const Label = (slots == null ? void 0 : slots.axisLabel) ?? ChartsText;
-  const revertAnchor = !isRtl && position === "right" || isRtl && position !== "right";
+  const revertAnchor = !isRtl && position2 === "right" || isRtl && position2 !== "right";
   const axisTickLabelProps = useSlotProps_default({
     elementType: TickLabel,
     externalSlotProps: slotProps == null ? void 0 : slotProps.axisTickLabel,
@@ -12397,13 +12435,13 @@ function ChartsYAxis(inProps) {
   if (ordinalAxis && domain.length === 0 || !ordinalAxis && domain.some(isInfinity)) {
     return null;
   }
-  return (0, import_jsx_runtime23.jsxs)(YAxisRoot, {
-    transform: `translate(${position === "right" ? left + width : left}, 0)`,
+  return (0, import_jsx_runtime24.jsxs)(YAxisRoot, {
+    transform: `translate(${position2 === "right" ? left2 + width2 : left2}, 0)`,
     className: classes.root,
     sx,
-    children: [!disableLine && (0, import_jsx_runtime23.jsx)(Line, _extends({
-      y1: top,
-      y2: top + height,
+    children: [!disableLine && (0, import_jsx_runtime24.jsx)(Line, _extends({
+      y1: top2,
+      y2: top2 + height2,
       className: classes.line
     }, lineSlotProps)), yTicks.map(({
       formattedValue,
@@ -12423,21 +12461,21 @@ function ChartsYAxis(inProps) {
       if (!showLabel) {
         return null;
       }
-      return (0, import_jsx_runtime23.jsxs)("g", {
+      return (0, import_jsx_runtime24.jsxs)("g", {
         transform: `translate(0, ${offset})`,
         className: classes.tickContainer,
-        children: [!disableTicks && (0, import_jsx_runtime23.jsx)(Tick, _extends({
+        children: [!disableTicks && (0, import_jsx_runtime24.jsx)(Tick, _extends({
           x2: positionSign * tickSize,
           className: classes.tick
-        }, slotProps == null ? void 0 : slotProps.axisTick)), formattedValue !== void 0 && !skipLabel && (0, import_jsx_runtime23.jsx)(TickLabel, _extends({
+        }, slotProps == null ? void 0 : slotProps.axisTick)), formattedValue !== void 0 && !skipLabel && (0, import_jsx_runtime24.jsx)(TickLabel, _extends({
           x: xTickLabel,
           y: yTickLabel,
           text: formattedValue.toString()
         }, axisTickLabelProps))]
       }, index2);
-    }), label && (0, import_jsx_runtime23.jsx)("g", {
+    }), label && (0, import_jsx_runtime24.jsx)("g", {
       className: classes.label,
-      children: (0, import_jsx_runtime23.jsx)(Label, _extends({}, labelRefPoint, axisLabelProps, {
+      children: (0, import_jsx_runtime24.jsx)(Label, _extends({}, labelRefPoint, axisLabelProps, {
         text: label
       }))
     })]
@@ -12452,66 +12490,66 @@ true ? ChartsYAxis.propTypes = {
    * The id of the axis to render.
    * If undefined, it will be the first defined axis.
    */
-  axisId: import_prop_types12.default.oneOfType([import_prop_types12.default.number, import_prop_types12.default.string]),
+  axisId: import_prop_types13.default.oneOfType([import_prop_types13.default.number, import_prop_types13.default.string]),
   /**
    * Override or extend the styles applied to the component.
    */
-  classes: import_prop_types12.default.object,
+  classes: import_prop_types13.default.object,
   /**
    * If true, the axis line is disabled.
    * @default false
    */
-  disableLine: import_prop_types12.default.bool,
+  disableLine: import_prop_types13.default.bool,
   /**
    * If true, the ticks are disabled.
    * @default false
    */
-  disableTicks: import_prop_types12.default.bool,
+  disableTicks: import_prop_types13.default.bool,
   /**
    * The fill color of the axis text.
    * @default 'currentColor'
    */
-  fill: import_prop_types12.default.string,
+  fill: import_prop_types13.default.string,
   /**
    * The label of the axis.
    */
-  label: import_prop_types12.default.string,
+  label: import_prop_types13.default.string,
   /**
    * The font size of the axis label.
    * @default 14
    * @deprecated Consider using `labelStyle.fontSize` instead.
    */
-  labelFontSize: import_prop_types12.default.number,
+  labelFontSize: import_prop_types13.default.number,
   /**
    * The style applied to the axis label.
    */
-  labelStyle: import_prop_types12.default.object,
+  labelStyle: import_prop_types13.default.object,
   /**
    * Position of the axis.
    */
-  position: import_prop_types12.default.oneOf(["left", "right"]),
+  position: import_prop_types13.default.oneOf(["left", "right"]),
   /**
    * The props used for each component slot.
    * @default {}
    */
-  slotProps: import_prop_types12.default.object,
+  slotProps: import_prop_types13.default.object,
   /**
    * Overridable component slots.
    * @default {}
    */
-  slots: import_prop_types12.default.object,
+  slots: import_prop_types13.default.object,
   /**
    * The stroke color of the axis line.
    * @default 'currentColor'
    */
-  stroke: import_prop_types12.default.string,
-  sx: import_prop_types12.default.oneOfType([import_prop_types12.default.arrayOf(import_prop_types12.default.oneOfType([import_prop_types12.default.func, import_prop_types12.default.object, import_prop_types12.default.bool])), import_prop_types12.default.func, import_prop_types12.default.object]),
+  stroke: import_prop_types13.default.string,
+  sx: import_prop_types13.default.oneOfType([import_prop_types13.default.arrayOf(import_prop_types13.default.oneOfType([import_prop_types13.default.func, import_prop_types13.default.object, import_prop_types13.default.bool])), import_prop_types13.default.func, import_prop_types13.default.object]),
   /**
    * The font size of the axis ticks text.
    * @default 12
    * @deprecated Consider using `tickLabelStyle.fontSize` instead.
    */
-  tickFontSize: import_prop_types12.default.number,
+  tickFontSize: import_prop_types13.default.number,
   /**
    * Defines which ticks are displayed.
    * Its value can be:
@@ -12521,56 +12559,56 @@ true ? ChartsYAxis.propTypes = {
    * @see See {@link https://mui.com/x/react-charts/axis/#fixed-tick-positions}
    * @default 'auto'
    */
-  tickInterval: import_prop_types12.default.oneOfType([import_prop_types12.default.oneOf(["auto"]), import_prop_types12.default.array, import_prop_types12.default.func]),
+  tickInterval: import_prop_types13.default.oneOfType([import_prop_types13.default.oneOf(["auto"]), import_prop_types13.default.array, import_prop_types13.default.func]),
   /**
    * Defines which ticks get its label displayed. Its value can be:
    * - 'auto' In such case, labels are displayed if they do not overlap with the previous one.
    * - a filtering function of the form (value, index) => boolean. Warning: the index is tick index, not data ones.
    * @default 'auto'
    */
-  tickLabelInterval: import_prop_types12.default.oneOfType([import_prop_types12.default.oneOf(["auto"]), import_prop_types12.default.func]),
+  tickLabelInterval: import_prop_types13.default.oneOfType([import_prop_types13.default.oneOf(["auto"]), import_prop_types13.default.func]),
   /**
    * The placement of ticks label. Can be the middle of the band, or the tick position.
    * Only used if scale is 'band'.
    * @default 'middle'
    */
-  tickLabelPlacement: import_prop_types12.default.oneOf(["middle", "tick"]),
+  tickLabelPlacement: import_prop_types13.default.oneOf(["middle", "tick"]),
   /**
    * The style applied to ticks text.
    */
-  tickLabelStyle: import_prop_types12.default.object,
+  tickLabelStyle: import_prop_types13.default.object,
   /**
    * Maximal step between two ticks.
    * When using time data, the value is assumed to be in ms.
    * Not supported by categorical axis (band, points).
    */
-  tickMaxStep: import_prop_types12.default.number,
+  tickMaxStep: import_prop_types13.default.number,
   /**
    * Minimal step between two ticks.
    * When using time data, the value is assumed to be in ms.
    * Not supported by categorical axis (band, points).
    */
-  tickMinStep: import_prop_types12.default.number,
+  tickMinStep: import_prop_types13.default.number,
   /**
    * The number of ticks. This number is not guaranteed.
    * Not supported by categorical axis (band, points).
    */
-  tickNumber: import_prop_types12.default.number,
+  tickNumber: import_prop_types13.default.number,
   /**
    * The placement of ticks in regard to the band interval.
    * Only used if scale is 'band'.
    * @default 'extremities'
    */
-  tickPlacement: import_prop_types12.default.oneOf(["end", "extremities", "middle", "start"]),
+  tickPlacement: import_prop_types13.default.oneOf(["end", "extremities", "middle", "start"]),
   /**
    * The size of the ticks.
    * @default 6
    */
-  tickSize: import_prop_types12.default.number
+  tickSize: import_prop_types13.default.number
 } : void 0;
 
 // node_modules/@mui/x-charts/ChartsAxis/ChartsAxis.js
-var import_jsx_runtime24 = __toESM(require_jsx_runtime());
+var import_jsx_runtime25 = __toESM(require_jsx_runtime());
 var getAxisId = (propsValue, defaultAxisId) => {
   if (propsValue == null) {
     return null;
@@ -12624,17 +12662,17 @@ function ChartsAxis(props) {
   const bottomAxisProps = mergeProps(bottomAxis, slots, slotProps);
   const leftAxisProps = mergeProps(leftAxis, slots, slotProps);
   const rightAxisProps = mergeProps(rightAxis, slots, slotProps);
-  return (0, import_jsx_runtime24.jsxs)(React54.Fragment, {
-    children: [topId && (0, import_jsx_runtime24.jsx)(ChartsXAxis, _extends({}, topAxisProps, {
+  return (0, import_jsx_runtime25.jsxs)(React55.Fragment, {
+    children: [topId && (0, import_jsx_runtime25.jsx)(ChartsXAxis, _extends({}, topAxisProps, {
       position: "top",
       axisId: topId
-    })), bottomId && (0, import_jsx_runtime24.jsx)(ChartsXAxis, _extends({}, bottomAxisProps, {
+    })), bottomId && (0, import_jsx_runtime25.jsx)(ChartsXAxis, _extends({}, bottomAxisProps, {
       position: "bottom",
       axisId: bottomId
-    })), leftId && (0, import_jsx_runtime24.jsx)(ChartsYAxis, _extends({}, leftAxisProps, {
+    })), leftId && (0, import_jsx_runtime25.jsx)(ChartsYAxis, _extends({}, leftAxisProps, {
       position: "left",
       axisId: leftId
-    })), rightId && (0, import_jsx_runtime24.jsx)(ChartsYAxis, _extends({}, rightAxisProps, {
+    })), rightId && (0, import_jsx_runtime25.jsx)(ChartsYAxis, _extends({}, rightAxisProps, {
       position: "right",
       axisId: rightId
     }))]
@@ -12650,45 +12688,45 @@ true ? ChartsAxis.propTypes = {
    * Can be a string (the id of the axis) or an object `ChartsXAxisProps`.
    * @default xAxisIds[0] The id of the first provided axis
    */
-  bottomAxis: import_prop_types13.default.oneOfType([import_prop_types13.default.object, import_prop_types13.default.string]),
+  bottomAxis: import_prop_types14.default.oneOfType([import_prop_types14.default.object, import_prop_types14.default.string]),
   /**
    * Indicate which axis to display the left of the charts.
    * Can be a string (the id of the axis) or an object `ChartsYAxisProps`.
    * @default yAxisIds[0] The id of the first provided axis
    */
-  leftAxis: import_prop_types13.default.oneOfType([import_prop_types13.default.object, import_prop_types13.default.string]),
+  leftAxis: import_prop_types14.default.oneOfType([import_prop_types14.default.object, import_prop_types14.default.string]),
   /**
    * Indicate which axis to display the right of the charts.
    * Can be a string (the id of the axis) or an object `ChartsYAxisProps`.
    * @default null
    */
-  rightAxis: import_prop_types13.default.oneOfType([import_prop_types13.default.object, import_prop_types13.default.string]),
+  rightAxis: import_prop_types14.default.oneOfType([import_prop_types14.default.object, import_prop_types14.default.string]),
   /**
    * The props used for each component slot.
    * @default {}
    */
-  slotProps: import_prop_types13.default.object,
+  slotProps: import_prop_types14.default.object,
   /**
    * Overridable component slots.
    * @default {}
    */
-  slots: import_prop_types13.default.object,
+  slots: import_prop_types14.default.object,
   /**
    * Indicate which axis to display the top of the charts.
    * Can be a string (the id of the axis) or an object `ChartsXAxisProps`.
    * @default null
    */
-  topAxis: import_prop_types13.default.oneOfType([import_prop_types13.default.object, import_prop_types13.default.string])
+  topAxis: import_prop_types14.default.oneOfType([import_prop_types14.default.object, import_prop_types14.default.string])
 } : void 0;
 
 // node_modules/@mui/x-charts/ChartsTooltip/ChartsTooltip.js
 init_extends();
-var React60 = __toESM(require_react());
-var import_prop_types16 = __toESM(require_prop_types());
+var React95 = __toESM(require_react());
+var import_prop_types36 = __toESM(require_prop_types());
 
 // node_modules/@mui/x-charts/ChartsTooltip/utils.js
 init_extends();
-var React55 = __toESM(require_react());
+var React56 = __toESM(require_react());
 function generateVirtualElement(mousePosition) {
   if (mousePosition === null) {
     return {
@@ -12727,8 +12765,8 @@ function generateVirtualElement(mousePosition) {
 }
 function useMouseTracker() {
   const svgRef = useSvgRef();
-  const [mousePosition, setMousePosition] = React55.useState(null);
-  React55.useEffect(() => {
+  const [mousePosition, setMousePosition] = React56.useState(null);
+  React56.useEffect(() => {
     const element = svgRef.current;
     if (element === null) {
       return () => {
@@ -12775,12 +12813,3659 @@ function utcFormatter(v) {
 
 // node_modules/@mui/x-charts/ChartsTooltip/ChartsItemTooltipContent.js
 init_extends();
-var React57 = __toESM(require_react());
+var React92 = __toESM(require_react());
 
 // node_modules/@mui/x-charts/ChartsTooltip/DefaultChartsItemTooltipContent.js
 init_extends();
-var React56 = __toESM(require_react());
-var import_prop_types14 = __toESM(require_prop_types());
+var React91 = __toESM(require_react());
+var import_prop_types34 = __toESM(require_prop_types());
+
+// node_modules/@mui/styled-engine/index.js
+init_emotion_styled_browser_development_esm();
+init_emotion_serialize_development_esm();
+init_emotion_react_browser_development_esm();
+
+// node_modules/@mui/styled-engine/StyledEngineProvider/StyledEngineProvider.js
+var React57 = __toESM(require_react());
+var import_prop_types15 = __toESM(require_prop_types());
+init_emotion_react_browser_development_esm();
+init_emotion_cache_browser_development_esm();
+init_emotion_sheet_development_esm();
+var import_jsx_runtime26 = __toESM(require_jsx_runtime());
+var createEmotionCache = (options, CustomSheet) => {
+  const cache2 = createCache(options);
+  cache2.sheet = new CustomSheet({
+    key: cache2.key,
+    nonce: cache2.sheet.nonce,
+    container: cache2.sheet.container,
+    speedy: cache2.sheet.isSpeedy,
+    prepend: cache2.sheet.prepend,
+    insertionPoint: cache2.sheet.insertionPoint
+  });
+  return cache2;
+};
+var cache;
+if (typeof document === "object") {
+  let insertionPoint = document.querySelector('[name="emotion-insertion-point"]');
+  if (!insertionPoint) {
+    insertionPoint = document.createElement("meta");
+    insertionPoint.setAttribute("name", "emotion-insertion-point");
+    insertionPoint.setAttribute("content", "");
+    const head = document.querySelector("head");
+    if (head) {
+      head.prepend(insertionPoint);
+    }
+  }
+  class MyStyleSheet extends StyleSheet {
+    insert(rule, options) {
+      if (this.key && this.key.endsWith("global")) {
+        this.before = insertionPoint;
+      }
+      return super.insert(rule, options);
+    }
+  }
+  cache = createEmotionCache({
+    key: "css",
+    insertionPoint
+  }, MyStyleSheet);
+}
+function StyledEngineProvider(props) {
+  const {
+    injectFirst,
+    children
+  } = props;
+  return injectFirst && cache ? (0, import_jsx_runtime26.jsx)(CacheProvider, {
+    value: cache,
+    children
+  }) : children;
+}
+true ? StyledEngineProvider.propTypes = {
+  /**
+   * Your component tree.
+   */
+  children: import_prop_types15.default.node,
+  /**
+   * By default, the styles are injected last in the <head> element of the page.
+   * As a result, they gain more specificity than any other style sheet.
+   * If you want to override MUI's styles, set this prop.
+   */
+  injectFirst: import_prop_types15.default.bool
+} : void 0;
+
+// node_modules/@mui/styled-engine/GlobalStyles/GlobalStyles.js
+var React58 = __toESM(require_react());
+var import_prop_types16 = __toESM(require_prop_types());
+init_emotion_react_browser_development_esm();
+var import_jsx_runtime27 = __toESM(require_jsx_runtime());
+function isEmpty(obj) {
+  return obj === void 0 || obj === null || Object.keys(obj).length === 0;
+}
+function GlobalStyles(props) {
+  const {
+    styles,
+    defaultTheme: defaultTheme4 = {}
+  } = props;
+  const globalStyles = typeof styles === "function" ? (themeInput) => styles(isEmpty(themeInput) ? defaultTheme4 : themeInput) : styles;
+  return (0, import_jsx_runtime27.jsx)(Global, {
+    styles: globalStyles
+  });
+}
+true ? GlobalStyles.propTypes = {
+  defaultTheme: import_prop_types16.default.object,
+  styles: import_prop_types16.default.oneOfType([import_prop_types16.default.array, import_prop_types16.default.string, import_prop_types16.default.object, import_prop_types16.default.func])
+} : void 0;
+
+// node_modules/@mui/styled-engine/index.js
+function styled(tag, options) {
+  const stylesFactory = newStyled(tag, options);
+  if (true) {
+    return (...styles) => {
+      const component = typeof tag === "string" ? `"${tag}"` : "component";
+      if (styles.length === 0) {
+        console.error([`MUI: Seems like you called \`styled(${component})()\` without a \`style\` argument.`, 'You must provide a `styles` argument: `styled("div")(styleYouForgotToPass)`.'].join("\n"));
+      } else if (styles.some((style4) => style4 === void 0)) {
+        console.error(`MUI: the styled(${component})(...args) API requires all its args to be defined.`);
+      }
+      return stylesFactory(...styles);
+    };
+  }
+  return stylesFactory;
+}
+function internal_mutateStyles(tag, processor) {
+  if (Array.isArray(tag.__emotion_styles)) {
+    tag.__emotion_styles = processor(tag.__emotion_styles);
+  }
+}
+var wrapper = [];
+function internal_serializeStyles(styles) {
+  wrapper[0] = styles;
+  return serializeStyles(wrapper);
+}
+
+// node_modules/@mui/system/esm/GlobalStyles/GlobalStyles.js
+var React61 = __toESM(require_react());
+var import_prop_types19 = __toESM(require_prop_types());
+
+// node_modules/@mui/system/node_modules/@mui/utils/esm/deepmerge/deepmerge.js
+var React59 = __toESM(require_react());
+function isPlainObject(item) {
+  if (typeof item !== "object" || item === null) {
+    return false;
+  }
+  const prototype = Object.getPrototypeOf(item);
+  return (prototype === null || prototype === Object.prototype || Object.getPrototypeOf(prototype) === null) && !(Symbol.toStringTag in item) && !(Symbol.iterator in item);
+}
+function deepClone(source) {
+  if (React59.isValidElement(source) || !isPlainObject(source)) {
+    return source;
+  }
+  const output = {};
+  Object.keys(source).forEach((key) => {
+    output[key] = deepClone(source[key]);
+  });
+  return output;
+}
+function deepmerge(target, source, options = {
+  clone: true
+}) {
+  const output = options.clone ? {
+    ...target
+  } : target;
+  if (isPlainObject(target) && isPlainObject(source)) {
+    Object.keys(source).forEach((key) => {
+      if (React59.isValidElement(source[key])) {
+        output[key] = source[key];
+      } else if (isPlainObject(source[key]) && // Avoid prototype pollution
+      Object.prototype.hasOwnProperty.call(target, key) && isPlainObject(target[key])) {
+        output[key] = deepmerge(target[key], source[key], options);
+      } else if (options.clone) {
+        output[key] = isPlainObject(source[key]) ? deepClone(source[key]) : source[key];
+      } else {
+        output[key] = source[key];
+      }
+    });
+  }
+  return output;
+}
+
+// node_modules/@mui/system/esm/createBreakpoints/createBreakpoints.js
+var sortBreakpointsValues = (values2) => {
+  const breakpointsAsArray = Object.keys(values2).map((key) => ({
+    key,
+    val: values2[key]
+  })) || [];
+  breakpointsAsArray.sort((breakpoint1, breakpoint2) => breakpoint1.val - breakpoint2.val);
+  return breakpointsAsArray.reduce((acc, obj) => {
+    return {
+      ...acc,
+      [obj.key]: obj.val
+    };
+  }, {});
+};
+function createBreakpoints(breakpoints) {
+  const {
+    // The breakpoint **start** at this value.
+    // For instance with the first breakpoint xs: [xs, sm).
+    values: values2 = {
+      xs: 0,
+      // phone
+      sm: 600,
+      // tablet
+      md: 900,
+      // small laptop
+      lg: 1200,
+      // desktop
+      xl: 1536
+      // large screen
+    },
+    unit: unit2 = "px",
+    step = 5,
+    ...other
+  } = breakpoints;
+  const sortedValues = sortBreakpointsValues(values2);
+  const keys = Object.keys(sortedValues);
+  function up(key) {
+    const value = typeof values2[key] === "number" ? values2[key] : key;
+    return `@media (min-width:${value}${unit2})`;
+  }
+  function down(key) {
+    const value = typeof values2[key] === "number" ? values2[key] : key;
+    return `@media (max-width:${value - step / 100}${unit2})`;
+  }
+  function between(start2, end) {
+    const endIndex = keys.indexOf(end);
+    return `@media (min-width:${typeof values2[start2] === "number" ? values2[start2] : start2}${unit2}) and (max-width:${(endIndex !== -1 && typeof values2[keys[endIndex]] === "number" ? values2[keys[endIndex]] : end) - step / 100}${unit2})`;
+  }
+  function only(key) {
+    if (keys.indexOf(key) + 1 < keys.length) {
+      return between(key, keys[keys.indexOf(key) + 1]);
+    }
+    return up(key);
+  }
+  function not(key) {
+    const keyIndex = keys.indexOf(key);
+    if (keyIndex === 0) {
+      return up(keys[1]);
+    }
+    if (keyIndex === keys.length - 1) {
+      return down(keys[keyIndex]);
+    }
+    return between(key, keys[keys.indexOf(key) + 1]).replace("@media", "@media not all and");
+  }
+  return {
+    keys,
+    values: sortedValues,
+    up,
+    down,
+    between,
+    only,
+    not,
+    unit: unit2,
+    ...other
+  };
+}
+
+// node_modules/@mui/system/esm/cssContainerQueries/cssContainerQueries.js
+function sortContainerQueries(theme, css2) {
+  if (!theme.containerQueries) {
+    return css2;
+  }
+  const sorted = Object.keys(css2).filter((key) => key.startsWith("@container")).sort((a2, b) => {
+    var _a, _b;
+    const regex = /min-width:\s*([0-9.]+)/;
+    return +(((_a = a2.match(regex)) == null ? void 0 : _a[1]) || 0) - +(((_b = b.match(regex)) == null ? void 0 : _b[1]) || 0);
+  });
+  if (!sorted.length) {
+    return css2;
+  }
+  return sorted.reduce((acc, key) => {
+    const value = css2[key];
+    delete acc[key];
+    acc[key] = value;
+    return acc;
+  }, {
+    ...css2
+  });
+}
+function isCqShorthand(breakpointKeys, value) {
+  return value === "@" || value.startsWith("@") && (breakpointKeys.some((key) => value.startsWith(`@${key}`)) || !!value.match(/^@\d/));
+}
+function getContainerQuery(theme, shorthand) {
+  const matches = shorthand.match(/^@([^/]+)?\/?(.+)?$/);
+  if (!matches) {
+    if (true) {
+      throw new Error(true ? `MUI: The provided shorthand ${`(${shorthand})`} is invalid. The format should be \`@<breakpoint | number>\` or \`@<breakpoint | number>/<container>\`.
+For example, \`@sm\` or \`@600\` or \`@40rem/sidebar\`.` : formatMuiErrorMessage(18, `(${shorthand})`));
+    }
+    return null;
+  }
+  const [, containerQuery, containerName] = matches;
+  const value = Number.isNaN(+containerQuery) ? containerQuery || 0 : +containerQuery;
+  return theme.containerQueries(containerName).up(value);
+}
+function cssContainerQueries(themeInput) {
+  const toContainerQuery = (mediaQuery, name) => mediaQuery.replace("@media", name ? `@container ${name}` : "@container");
+  function attachCq(node2, name) {
+    node2.up = (...args) => toContainerQuery(themeInput.breakpoints.up(...args), name);
+    node2.down = (...args) => toContainerQuery(themeInput.breakpoints.down(...args), name);
+    node2.between = (...args) => toContainerQuery(themeInput.breakpoints.between(...args), name);
+    node2.only = (...args) => toContainerQuery(themeInput.breakpoints.only(...args), name);
+    node2.not = (...args) => {
+      const result = toContainerQuery(themeInput.breakpoints.not(...args), name);
+      if (result.includes("not all and")) {
+        return result.replace("not all and ", "").replace("min-width:", "width<").replace("max-width:", "width>").replace("and", "or");
+      }
+      return result;
+    };
+  }
+  const node = {};
+  const containerQueries = (name) => {
+    attachCq(node, name);
+    return node;
+  };
+  attachCq(containerQueries);
+  return {
+    ...themeInput,
+    containerQueries
+  };
+}
+
+// node_modules/@mui/system/esm/createTheme/shape.js
+var shape = {
+  borderRadius: 4
+};
+var shape_default = shape;
+
+// node_modules/@mui/system/esm/responsivePropType/responsivePropType.js
+var import_prop_types17 = __toESM(require_prop_types());
+var responsivePropType = true ? import_prop_types17.default.oneOfType([import_prop_types17.default.number, import_prop_types17.default.string, import_prop_types17.default.object, import_prop_types17.default.array]) : {};
+var responsivePropType_default = responsivePropType;
+
+// node_modules/@mui/system/esm/breakpoints/breakpoints.js
+var import_prop_types18 = __toESM(require_prop_types());
+
+// node_modules/@mui/system/esm/merge/merge.js
+function merge2(acc, item) {
+  if (!item) {
+    return acc;
+  }
+  return deepmerge(acc, item, {
+    clone: false
+    // No need to clone deep, it's way faster.
+  });
+}
+var merge_default = merge2;
+
+// node_modules/@mui/system/esm/breakpoints/breakpoints.js
+var values = {
+  xs: 0,
+  // phone
+  sm: 600,
+  // tablet
+  md: 900,
+  // small laptop
+  lg: 1200,
+  // desktop
+  xl: 1536
+  // large screen
+};
+var defaultBreakpoints = {
+  // Sorted ASC by size. That's important.
+  // It can't be configured as it's used statically for propTypes.
+  keys: ["xs", "sm", "md", "lg", "xl"],
+  up: (key) => `@media (min-width:${values[key]}px)`
+};
+var defaultContainerQueries = {
+  containerQueries: (containerName) => ({
+    up: (key) => {
+      let result = typeof key === "number" ? key : values[key] || key;
+      if (typeof result === "number") {
+        result = `${result}px`;
+      }
+      return containerName ? `@container ${containerName} (min-width:${result})` : `@container (min-width:${result})`;
+    }
+  })
+};
+function handleBreakpoints(props, propValue, styleFromPropValue) {
+  const theme = props.theme || {};
+  if (Array.isArray(propValue)) {
+    const themeBreakpoints = theme.breakpoints || defaultBreakpoints;
+    return propValue.reduce((acc, item, index2) => {
+      acc[themeBreakpoints.up(themeBreakpoints.keys[index2])] = styleFromPropValue(propValue[index2]);
+      return acc;
+    }, {});
+  }
+  if (typeof propValue === "object") {
+    const themeBreakpoints = theme.breakpoints || defaultBreakpoints;
+    return Object.keys(propValue).reduce((acc, breakpoint) => {
+      if (isCqShorthand(themeBreakpoints.keys, breakpoint)) {
+        const containerKey = getContainerQuery(theme.containerQueries ? theme : defaultContainerQueries, breakpoint);
+        if (containerKey) {
+          acc[containerKey] = styleFromPropValue(propValue[breakpoint], breakpoint);
+        }
+      } else if (Object.keys(themeBreakpoints.values || values).includes(breakpoint)) {
+        const mediaKey = themeBreakpoints.up(breakpoint);
+        acc[mediaKey] = styleFromPropValue(propValue[breakpoint], breakpoint);
+      } else {
+        const cssKey = breakpoint;
+        acc[cssKey] = propValue[cssKey];
+      }
+      return acc;
+    }, {});
+  }
+  const output = styleFromPropValue(propValue);
+  return output;
+}
+function createEmptyBreakpointObject(breakpointsInput = {}) {
+  var _a;
+  const breakpointsInOrder = (_a = breakpointsInput.keys) == null ? void 0 : _a.reduce((acc, key) => {
+    const breakpointStyleKey = breakpointsInput.up(key);
+    acc[breakpointStyleKey] = {};
+    return acc;
+  }, {});
+  return breakpointsInOrder || {};
+}
+function removeUnusedBreakpoints(breakpointKeys, style4) {
+  return breakpointKeys.reduce((acc, key) => {
+    const breakpointOutput = acc[key];
+    const isBreakpointUnused = !breakpointOutput || Object.keys(breakpointOutput).length === 0;
+    if (isBreakpointUnused) {
+      delete acc[key];
+    }
+    return acc;
+  }, style4);
+}
+function mergeBreakpointsInOrder(breakpointsInput, ...styles) {
+  const emptyBreakpoints = createEmptyBreakpointObject(breakpointsInput);
+  const mergedOutput = [emptyBreakpoints, ...styles].reduce((prev, next) => deepmerge(prev, next), {});
+  return removeUnusedBreakpoints(Object.keys(emptyBreakpoints), mergedOutput);
+}
+function computeBreakpointsBase(breakpointValues, themeBreakpoints) {
+  if (typeof breakpointValues !== "object") {
+    return {};
+  }
+  const base = {};
+  const breakpointsKeys = Object.keys(themeBreakpoints);
+  if (Array.isArray(breakpointValues)) {
+    breakpointsKeys.forEach((breakpoint, i) => {
+      if (i < breakpointValues.length) {
+        base[breakpoint] = true;
+      }
+    });
+  } else {
+    breakpointsKeys.forEach((breakpoint) => {
+      if (breakpointValues[breakpoint] != null) {
+        base[breakpoint] = true;
+      }
+    });
+  }
+  return base;
+}
+function resolveBreakpointValues({
+  values: breakpointValues,
+  breakpoints: themeBreakpoints,
+  base: customBase
+}) {
+  const base = customBase || computeBreakpointsBase(breakpointValues, themeBreakpoints);
+  const keys = Object.keys(base);
+  if (keys.length === 0) {
+    return breakpointValues;
+  }
+  let previous;
+  return keys.reduce((acc, breakpoint, i) => {
+    if (Array.isArray(breakpointValues)) {
+      acc[breakpoint] = breakpointValues[i] != null ? breakpointValues[i] : breakpointValues[previous];
+      previous = i;
+    } else if (typeof breakpointValues === "object") {
+      acc[breakpoint] = breakpointValues[breakpoint] != null ? breakpointValues[breakpoint] : breakpointValues[previous];
+      previous = breakpoint;
+    } else {
+      acc[breakpoint] = breakpointValues;
+    }
+    return acc;
+  }, {});
+}
+
+// node_modules/@mui/system/node_modules/@mui/utils/esm/capitalize/capitalize.js
+function capitalize(string) {
+  if (typeof string !== "string") {
+    throw new Error(true ? "MUI: `capitalize(string)` expects a string argument." : formatMuiErrorMessage(7));
+  }
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+// node_modules/@mui/system/esm/style/style.js
+function getPath(obj, path2, checkVars = true) {
+  if (!path2 || typeof path2 !== "string") {
+    return null;
+  }
+  if (obj && obj.vars && checkVars) {
+    const val = `vars.${path2}`.split(".").reduce((acc, item) => acc && acc[item] ? acc[item] : null, obj);
+    if (val != null) {
+      return val;
+    }
+  }
+  return path2.split(".").reduce((acc, item) => {
+    if (acc && acc[item] != null) {
+      return acc[item];
+    }
+    return null;
+  }, obj);
+}
+function getStyleValue(themeMapping, transform, propValueFinal, userValue = propValueFinal) {
+  let value;
+  if (typeof themeMapping === "function") {
+    value = themeMapping(propValueFinal);
+  } else if (Array.isArray(themeMapping)) {
+    value = themeMapping[propValueFinal] || userValue;
+  } else {
+    value = getPath(themeMapping, propValueFinal) || userValue;
+  }
+  if (transform) {
+    value = transform(value, userValue, themeMapping);
+  }
+  return value;
+}
+function style(options) {
+  const {
+    prop,
+    cssProperty = options.prop,
+    themeKey,
+    transform
+  } = options;
+  const fn = (props) => {
+    if (props[prop] == null) {
+      return null;
+    }
+    const propValue = props[prop];
+    const theme = props.theme;
+    const themeMapping = getPath(theme, themeKey) || {};
+    const styleFromPropValue = (propValueFinal) => {
+      let value = getStyleValue(themeMapping, transform, propValueFinal);
+      if (propValueFinal === value && typeof propValueFinal === "string") {
+        value = getStyleValue(themeMapping, transform, `${prop}${propValueFinal === "default" ? "" : capitalize(propValueFinal)}`, propValueFinal);
+      }
+      if (cssProperty === false) {
+        return value;
+      }
+      return {
+        [cssProperty]: value
+      };
+    };
+    return handleBreakpoints(props, propValue, styleFromPropValue);
+  };
+  fn.propTypes = true ? {
+    [prop]: responsivePropType_default
+  } : {};
+  fn.filterProps = [prop];
+  return fn;
+}
+var style_default = style;
+
+// node_modules/@mui/system/esm/memoize/memoize.js
+function memoize(fn) {
+  const cache2 = {};
+  return (arg) => {
+    if (cache2[arg] === void 0) {
+      cache2[arg] = fn(arg);
+    }
+    return cache2[arg];
+  };
+}
+
+// node_modules/@mui/system/esm/spacing/spacing.js
+var properties = {
+  m: "margin",
+  p: "padding"
+};
+var directions = {
+  t: "Top",
+  r: "Right",
+  b: "Bottom",
+  l: "Left",
+  x: ["Left", "Right"],
+  y: ["Top", "Bottom"]
+};
+var aliases = {
+  marginX: "mx",
+  marginY: "my",
+  paddingX: "px",
+  paddingY: "py"
+};
+var getCssProperties = memoize((prop) => {
+  if (prop.length > 2) {
+    if (aliases[prop]) {
+      prop = aliases[prop];
+    } else {
+      return [prop];
+    }
+  }
+  const [a2, b] = prop.split("");
+  const property = properties[a2];
+  const direction = directions[b] || "";
+  return Array.isArray(direction) ? direction.map((dir) => property + dir) : [property + direction];
+});
+var marginKeys = ["m", "mt", "mr", "mb", "ml", "mx", "my", "margin", "marginTop", "marginRight", "marginBottom", "marginLeft", "marginX", "marginY", "marginInline", "marginInlineStart", "marginInlineEnd", "marginBlock", "marginBlockStart", "marginBlockEnd"];
+var paddingKeys = ["p", "pt", "pr", "pb", "pl", "px", "py", "padding", "paddingTop", "paddingRight", "paddingBottom", "paddingLeft", "paddingX", "paddingY", "paddingInline", "paddingInlineStart", "paddingInlineEnd", "paddingBlock", "paddingBlockStart", "paddingBlockEnd"];
+var spacingKeys = [...marginKeys, ...paddingKeys];
+function createUnaryUnit(theme, themeKey, defaultValue, propName) {
+  const themeSpacing = getPath(theme, themeKey, true) ?? defaultValue;
+  if (typeof themeSpacing === "number" || typeof themeSpacing === "string") {
+    return (val) => {
+      if (typeof val === "string") {
+        return val;
+      }
+      if (true) {
+        if (typeof val !== "number") {
+          console.error(`MUI: Expected ${propName} argument to be a number or a string, got ${val}.`);
+        }
+      }
+      if (typeof themeSpacing === "string") {
+        return `calc(${val} * ${themeSpacing})`;
+      }
+      return themeSpacing * val;
+    };
+  }
+  if (Array.isArray(themeSpacing)) {
+    return (val) => {
+      if (typeof val === "string") {
+        return val;
+      }
+      const abs2 = Math.abs(val);
+      if (true) {
+        if (!Number.isInteger(abs2)) {
+          console.error([`MUI: The \`theme.${themeKey}\` array type cannot be combined with non integer values.You should either use an integer value that can be used as index, or define the \`theme.${themeKey}\` as a number.`].join("\n"));
+        } else if (abs2 > themeSpacing.length - 1) {
+          console.error([`MUI: The value provided (${abs2}) overflows.`, `The supported values are: ${JSON.stringify(themeSpacing)}.`, `${abs2} > ${themeSpacing.length - 1}, you need to add the missing values.`].join("\n"));
+        }
+      }
+      const transformed = themeSpacing[abs2];
+      if (val >= 0) {
+        return transformed;
+      }
+      if (typeof transformed === "number") {
+        return -transformed;
+      }
+      return `-${transformed}`;
+    };
+  }
+  if (typeof themeSpacing === "function") {
+    return themeSpacing;
+  }
+  if (true) {
+    console.error([`MUI: The \`theme.${themeKey}\` value (${themeSpacing}) is invalid.`, "It should be a number, an array or a function."].join("\n"));
+  }
+  return () => void 0;
+}
+function createUnarySpacing(theme) {
+  return createUnaryUnit(theme, "spacing", 8, "spacing");
+}
+function getValue(transformer3, propValue) {
+  if (typeof propValue === "string" || propValue == null) {
+    return propValue;
+  }
+  return transformer3(propValue);
+}
+function getStyleFromPropValue(cssProperties, transformer3) {
+  return (propValue) => cssProperties.reduce((acc, cssProperty) => {
+    acc[cssProperty] = getValue(transformer3, propValue);
+    return acc;
+  }, {});
+}
+function resolveCssProperty(props, keys, prop, transformer3) {
+  if (!keys.includes(prop)) {
+    return null;
+  }
+  const cssProperties = getCssProperties(prop);
+  const styleFromPropValue = getStyleFromPropValue(cssProperties, transformer3);
+  const propValue = props[prop];
+  return handleBreakpoints(props, propValue, styleFromPropValue);
+}
+function style2(props, keys) {
+  const transformer3 = createUnarySpacing(props.theme);
+  return Object.keys(props).map((prop) => resolveCssProperty(props, keys, prop, transformer3)).reduce(merge_default, {});
+}
+function margin(props) {
+  return style2(props, marginKeys);
+}
+margin.propTypes = true ? marginKeys.reduce((obj, key) => {
+  obj[key] = responsivePropType_default;
+  return obj;
+}, {}) : {};
+margin.filterProps = marginKeys;
+function padding(props) {
+  return style2(props, paddingKeys);
+}
+padding.propTypes = true ? paddingKeys.reduce((obj, key) => {
+  obj[key] = responsivePropType_default;
+  return obj;
+}, {}) : {};
+padding.filterProps = paddingKeys;
+function spacing(props) {
+  return style2(props, spacingKeys);
+}
+spacing.propTypes = true ? spacingKeys.reduce((obj, key) => {
+  obj[key] = responsivePropType_default;
+  return obj;
+}, {}) : {};
+spacing.filterProps = spacingKeys;
+var spacing_default = spacing;
+
+// node_modules/@mui/system/esm/createTheme/createSpacing.js
+function createSpacing(spacingInput = 8, transform = createUnarySpacing({
+  spacing: spacingInput
+})) {
+  if (spacingInput.mui) {
+    return spacingInput;
+  }
+  const spacing2 = (...argsInput) => {
+    if (true) {
+      if (!(argsInput.length <= 4)) {
+        console.error(`MUI: Too many arguments provided, expected between 0 and 4, got ${argsInput.length}`);
+      }
+    }
+    const args = argsInput.length === 0 ? [1] : argsInput;
+    return args.map((argument) => {
+      const output = transform(argument);
+      return typeof output === "number" ? `${output}px` : output;
+    }).join(" ");
+  };
+  spacing2.mui = true;
+  return spacing2;
+}
+
+// node_modules/@mui/system/esm/compose/compose.js
+function compose(...styles) {
+  const handlers = styles.reduce((acc, style4) => {
+    style4.filterProps.forEach((prop) => {
+      acc[prop] = style4;
+    });
+    return acc;
+  }, {});
+  const fn = (props) => {
+    return Object.keys(props).reduce((acc, prop) => {
+      if (handlers[prop]) {
+        return merge_default(acc, handlers[prop](props));
+      }
+      return acc;
+    }, {});
+  };
+  fn.propTypes = true ? styles.reduce((acc, style4) => Object.assign(acc, style4.propTypes), {}) : {};
+  fn.filterProps = styles.reduce((acc, style4) => acc.concat(style4.filterProps), []);
+  return fn;
+}
+var compose_default = compose;
+
+// node_modules/@mui/system/esm/borders/borders.js
+function borderTransform(value) {
+  if (typeof value !== "number") {
+    return value;
+  }
+  return `${value}px solid`;
+}
+function createBorderStyle(prop, transform) {
+  return style_default({
+    prop,
+    themeKey: "borders",
+    transform
+  });
+}
+var border = createBorderStyle("border", borderTransform);
+var borderTop = createBorderStyle("borderTop", borderTransform);
+var borderRight = createBorderStyle("borderRight", borderTransform);
+var borderBottom = createBorderStyle("borderBottom", borderTransform);
+var borderLeft = createBorderStyle("borderLeft", borderTransform);
+var borderColor = createBorderStyle("borderColor");
+var borderTopColor = createBorderStyle("borderTopColor");
+var borderRightColor = createBorderStyle("borderRightColor");
+var borderBottomColor = createBorderStyle("borderBottomColor");
+var borderLeftColor = createBorderStyle("borderLeftColor");
+var outline = createBorderStyle("outline", borderTransform);
+var outlineColor = createBorderStyle("outlineColor");
+var borderRadius = (props) => {
+  if (props.borderRadius !== void 0 && props.borderRadius !== null) {
+    const transformer3 = createUnaryUnit(props.theme, "shape.borderRadius", 4, "borderRadius");
+    const styleFromPropValue = (propValue) => ({
+      borderRadius: getValue(transformer3, propValue)
+    });
+    return handleBreakpoints(props, props.borderRadius, styleFromPropValue);
+  }
+  return null;
+};
+borderRadius.propTypes = true ? {
+  borderRadius: responsivePropType_default
+} : {};
+borderRadius.filterProps = ["borderRadius"];
+var borders = compose_default(border, borderTop, borderRight, borderBottom, borderLeft, borderColor, borderTopColor, borderRightColor, borderBottomColor, borderLeftColor, borderRadius, outline, outlineColor);
+var borders_default = borders;
+
+// node_modules/@mui/system/esm/cssGrid/cssGrid.js
+var gap = (props) => {
+  if (props.gap !== void 0 && props.gap !== null) {
+    const transformer3 = createUnaryUnit(props.theme, "spacing", 8, "gap");
+    const styleFromPropValue = (propValue) => ({
+      gap: getValue(transformer3, propValue)
+    });
+    return handleBreakpoints(props, props.gap, styleFromPropValue);
+  }
+  return null;
+};
+gap.propTypes = true ? {
+  gap: responsivePropType_default
+} : {};
+gap.filterProps = ["gap"];
+var columnGap = (props) => {
+  if (props.columnGap !== void 0 && props.columnGap !== null) {
+    const transformer3 = createUnaryUnit(props.theme, "spacing", 8, "columnGap");
+    const styleFromPropValue = (propValue) => ({
+      columnGap: getValue(transformer3, propValue)
+    });
+    return handleBreakpoints(props, props.columnGap, styleFromPropValue);
+  }
+  return null;
+};
+columnGap.propTypes = true ? {
+  columnGap: responsivePropType_default
+} : {};
+columnGap.filterProps = ["columnGap"];
+var rowGap = (props) => {
+  if (props.rowGap !== void 0 && props.rowGap !== null) {
+    const transformer3 = createUnaryUnit(props.theme, "spacing", 8, "rowGap");
+    const styleFromPropValue = (propValue) => ({
+      rowGap: getValue(transformer3, propValue)
+    });
+    return handleBreakpoints(props, props.rowGap, styleFromPropValue);
+  }
+  return null;
+};
+rowGap.propTypes = true ? {
+  rowGap: responsivePropType_default
+} : {};
+rowGap.filterProps = ["rowGap"];
+var gridColumn = style_default({
+  prop: "gridColumn"
+});
+var gridRow = style_default({
+  prop: "gridRow"
+});
+var gridAutoFlow = style_default({
+  prop: "gridAutoFlow"
+});
+var gridAutoColumns = style_default({
+  prop: "gridAutoColumns"
+});
+var gridAutoRows = style_default({
+  prop: "gridAutoRows"
+});
+var gridTemplateColumns = style_default({
+  prop: "gridTemplateColumns"
+});
+var gridTemplateRows = style_default({
+  prop: "gridTemplateRows"
+});
+var gridTemplateAreas = style_default({
+  prop: "gridTemplateAreas"
+});
+var gridArea = style_default({
+  prop: "gridArea"
+});
+var grid = compose_default(gap, columnGap, rowGap, gridColumn, gridRow, gridAutoFlow, gridAutoColumns, gridAutoRows, gridTemplateColumns, gridTemplateRows, gridTemplateAreas, gridArea);
+var cssGrid_default = grid;
+
+// node_modules/@mui/system/esm/palette/palette.js
+function paletteTransform(value, userValue) {
+  if (userValue === "grey") {
+    return userValue;
+  }
+  return value;
+}
+var color2 = style_default({
+  prop: "color",
+  themeKey: "palette",
+  transform: paletteTransform
+});
+var bgcolor = style_default({
+  prop: "bgcolor",
+  cssProperty: "backgroundColor",
+  themeKey: "palette",
+  transform: paletteTransform
+});
+var backgroundColor = style_default({
+  prop: "backgroundColor",
+  themeKey: "palette",
+  transform: paletteTransform
+});
+var palette = compose_default(color2, bgcolor, backgroundColor);
+var palette_default = palette;
+
+// node_modules/@mui/system/esm/sizing/sizing.js
+function sizingTransform(value) {
+  return value <= 1 && value !== 0 ? `${value * 100}%` : value;
+}
+var width = style_default({
+  prop: "width",
+  transform: sizingTransform
+});
+var maxWidth = (props) => {
+  if (props.maxWidth !== void 0 && props.maxWidth !== null) {
+    const styleFromPropValue = (propValue) => {
+      var _a, _b, _c, _d, _e;
+      const breakpoint = ((_c = (_b = (_a = props.theme) == null ? void 0 : _a.breakpoints) == null ? void 0 : _b.values) == null ? void 0 : _c[propValue]) || values[propValue];
+      if (!breakpoint) {
+        return {
+          maxWidth: sizingTransform(propValue)
+        };
+      }
+      if (((_e = (_d = props.theme) == null ? void 0 : _d.breakpoints) == null ? void 0 : _e.unit) !== "px") {
+        return {
+          maxWidth: `${breakpoint}${props.theme.breakpoints.unit}`
+        };
+      }
+      return {
+        maxWidth: breakpoint
+      };
+    };
+    return handleBreakpoints(props, props.maxWidth, styleFromPropValue);
+  }
+  return null;
+};
+maxWidth.filterProps = ["maxWidth"];
+var minWidth = style_default({
+  prop: "minWidth",
+  transform: sizingTransform
+});
+var height = style_default({
+  prop: "height",
+  transform: sizingTransform
+});
+var maxHeight = style_default({
+  prop: "maxHeight",
+  transform: sizingTransform
+});
+var minHeight = style_default({
+  prop: "minHeight",
+  transform: sizingTransform
+});
+var sizeWidth = style_default({
+  prop: "size",
+  cssProperty: "width",
+  transform: sizingTransform
+});
+var sizeHeight = style_default({
+  prop: "size",
+  cssProperty: "height",
+  transform: sizingTransform
+});
+var boxSizing = style_default({
+  prop: "boxSizing"
+});
+var sizing = compose_default(width, maxWidth, minWidth, height, maxHeight, minHeight, boxSizing);
+var sizing_default = sizing;
+
+// node_modules/@mui/system/esm/styleFunctionSx/defaultSxConfig.js
+var defaultSxConfig = {
+  // borders
+  border: {
+    themeKey: "borders",
+    transform: borderTransform
+  },
+  borderTop: {
+    themeKey: "borders",
+    transform: borderTransform
+  },
+  borderRight: {
+    themeKey: "borders",
+    transform: borderTransform
+  },
+  borderBottom: {
+    themeKey: "borders",
+    transform: borderTransform
+  },
+  borderLeft: {
+    themeKey: "borders",
+    transform: borderTransform
+  },
+  borderColor: {
+    themeKey: "palette"
+  },
+  borderTopColor: {
+    themeKey: "palette"
+  },
+  borderRightColor: {
+    themeKey: "palette"
+  },
+  borderBottomColor: {
+    themeKey: "palette"
+  },
+  borderLeftColor: {
+    themeKey: "palette"
+  },
+  outline: {
+    themeKey: "borders",
+    transform: borderTransform
+  },
+  outlineColor: {
+    themeKey: "palette"
+  },
+  borderRadius: {
+    themeKey: "shape.borderRadius",
+    style: borderRadius
+  },
+  // palette
+  color: {
+    themeKey: "palette",
+    transform: paletteTransform
+  },
+  bgcolor: {
+    themeKey: "palette",
+    cssProperty: "backgroundColor",
+    transform: paletteTransform
+  },
+  backgroundColor: {
+    themeKey: "palette",
+    transform: paletteTransform
+  },
+  // spacing
+  p: {
+    style: padding
+  },
+  pt: {
+    style: padding
+  },
+  pr: {
+    style: padding
+  },
+  pb: {
+    style: padding
+  },
+  pl: {
+    style: padding
+  },
+  px: {
+    style: padding
+  },
+  py: {
+    style: padding
+  },
+  padding: {
+    style: padding
+  },
+  paddingTop: {
+    style: padding
+  },
+  paddingRight: {
+    style: padding
+  },
+  paddingBottom: {
+    style: padding
+  },
+  paddingLeft: {
+    style: padding
+  },
+  paddingX: {
+    style: padding
+  },
+  paddingY: {
+    style: padding
+  },
+  paddingInline: {
+    style: padding
+  },
+  paddingInlineStart: {
+    style: padding
+  },
+  paddingInlineEnd: {
+    style: padding
+  },
+  paddingBlock: {
+    style: padding
+  },
+  paddingBlockStart: {
+    style: padding
+  },
+  paddingBlockEnd: {
+    style: padding
+  },
+  m: {
+    style: margin
+  },
+  mt: {
+    style: margin
+  },
+  mr: {
+    style: margin
+  },
+  mb: {
+    style: margin
+  },
+  ml: {
+    style: margin
+  },
+  mx: {
+    style: margin
+  },
+  my: {
+    style: margin
+  },
+  margin: {
+    style: margin
+  },
+  marginTop: {
+    style: margin
+  },
+  marginRight: {
+    style: margin
+  },
+  marginBottom: {
+    style: margin
+  },
+  marginLeft: {
+    style: margin
+  },
+  marginX: {
+    style: margin
+  },
+  marginY: {
+    style: margin
+  },
+  marginInline: {
+    style: margin
+  },
+  marginInlineStart: {
+    style: margin
+  },
+  marginInlineEnd: {
+    style: margin
+  },
+  marginBlock: {
+    style: margin
+  },
+  marginBlockStart: {
+    style: margin
+  },
+  marginBlockEnd: {
+    style: margin
+  },
+  // display
+  displayPrint: {
+    cssProperty: false,
+    transform: (value) => ({
+      "@media print": {
+        display: value
+      }
+    })
+  },
+  display: {},
+  overflow: {},
+  textOverflow: {},
+  visibility: {},
+  whiteSpace: {},
+  // flexbox
+  flexBasis: {},
+  flexDirection: {},
+  flexWrap: {},
+  justifyContent: {},
+  alignItems: {},
+  alignContent: {},
+  order: {},
+  flex: {},
+  flexGrow: {},
+  flexShrink: {},
+  alignSelf: {},
+  justifyItems: {},
+  justifySelf: {},
+  // grid
+  gap: {
+    style: gap
+  },
+  rowGap: {
+    style: rowGap
+  },
+  columnGap: {
+    style: columnGap
+  },
+  gridColumn: {},
+  gridRow: {},
+  gridAutoFlow: {},
+  gridAutoColumns: {},
+  gridAutoRows: {},
+  gridTemplateColumns: {},
+  gridTemplateRows: {},
+  gridTemplateAreas: {},
+  gridArea: {},
+  // positions
+  position: {},
+  zIndex: {
+    themeKey: "zIndex"
+  },
+  top: {},
+  right: {},
+  bottom: {},
+  left: {},
+  // shadows
+  boxShadow: {
+    themeKey: "shadows"
+  },
+  // sizing
+  width: {
+    transform: sizingTransform
+  },
+  maxWidth: {
+    style: maxWidth
+  },
+  minWidth: {
+    transform: sizingTransform
+  },
+  height: {
+    transform: sizingTransform
+  },
+  maxHeight: {
+    transform: sizingTransform
+  },
+  minHeight: {
+    transform: sizingTransform
+  },
+  boxSizing: {},
+  // typography
+  font: {
+    themeKey: "font"
+  },
+  fontFamily: {
+    themeKey: "typography"
+  },
+  fontSize: {
+    themeKey: "typography"
+  },
+  fontStyle: {
+    themeKey: "typography"
+  },
+  fontWeight: {
+    themeKey: "typography"
+  },
+  letterSpacing: {},
+  textTransform: {},
+  lineHeight: {},
+  textAlign: {},
+  typography: {
+    cssProperty: false,
+    themeKey: "typography"
+  }
+};
+var defaultSxConfig_default = defaultSxConfig;
+
+// node_modules/@mui/system/esm/styleFunctionSx/styleFunctionSx.js
+function objectsHaveSameKeys(...objects) {
+  const allKeys = objects.reduce((keys, object) => keys.concat(Object.keys(object)), []);
+  const union2 = new Set(allKeys);
+  return objects.every((object) => union2.size === Object.keys(object).length);
+}
+function callIfFn(maybeFn, arg) {
+  return typeof maybeFn === "function" ? maybeFn(arg) : maybeFn;
+}
+function unstable_createStyleFunctionSx() {
+  function getThemeValue(prop, val, theme, config2) {
+    const props = {
+      [prop]: val,
+      theme
+    };
+    const options = config2[prop];
+    if (!options) {
+      return {
+        [prop]: val
+      };
+    }
+    const {
+      cssProperty = prop,
+      themeKey,
+      transform,
+      style: style4
+    } = options;
+    if (val == null) {
+      return null;
+    }
+    if (themeKey === "typography" && val === "inherit") {
+      return {
+        [prop]: val
+      };
+    }
+    const themeMapping = getPath(theme, themeKey) || {};
+    if (style4) {
+      return style4(props);
+    }
+    const styleFromPropValue = (propValueFinal) => {
+      let value = getStyleValue(themeMapping, transform, propValueFinal);
+      if (propValueFinal === value && typeof propValueFinal === "string") {
+        value = getStyleValue(themeMapping, transform, `${prop}${propValueFinal === "default" ? "" : capitalize(propValueFinal)}`, propValueFinal);
+      }
+      if (cssProperty === false) {
+        return value;
+      }
+      return {
+        [cssProperty]: value
+      };
+    };
+    return handleBreakpoints(props, val, styleFromPropValue);
+  }
+  function styleFunctionSx2(props) {
+    const {
+      sx,
+      theme = {}
+    } = props || {};
+    if (!sx) {
+      return null;
+    }
+    const config2 = theme.unstable_sxConfig ?? defaultSxConfig_default;
+    function traverse(sxInput) {
+      let sxObject = sxInput;
+      if (typeof sxInput === "function") {
+        sxObject = sxInput(theme);
+      } else if (typeof sxInput !== "object") {
+        return sxInput;
+      }
+      if (!sxObject) {
+        return null;
+      }
+      const emptyBreakpoints = createEmptyBreakpointObject(theme.breakpoints);
+      const breakpointsKeys = Object.keys(emptyBreakpoints);
+      let css2 = emptyBreakpoints;
+      Object.keys(sxObject).forEach((styleKey) => {
+        const value = callIfFn(sxObject[styleKey], theme);
+        if (value !== null && value !== void 0) {
+          if (typeof value === "object") {
+            if (config2[styleKey]) {
+              css2 = merge_default(css2, getThemeValue(styleKey, value, theme, config2));
+            } else {
+              const breakpointsValues = handleBreakpoints({
+                theme
+              }, value, (x2) => ({
+                [styleKey]: x2
+              }));
+              if (objectsHaveSameKeys(breakpointsValues, value)) {
+                css2[styleKey] = styleFunctionSx2({
+                  sx: value,
+                  theme
+                });
+              } else {
+                css2 = merge_default(css2, breakpointsValues);
+              }
+            }
+          } else {
+            css2 = merge_default(css2, getThemeValue(styleKey, value, theme, config2));
+          }
+        }
+      });
+      return sortContainerQueries(theme, removeUnusedBreakpoints(breakpointsKeys, css2));
+    }
+    return Array.isArray(sx) ? sx.map(traverse) : traverse(sx);
+  }
+  return styleFunctionSx2;
+}
+var styleFunctionSx = unstable_createStyleFunctionSx();
+styleFunctionSx.filterProps = ["sx"];
+var styleFunctionSx_default = styleFunctionSx;
+
+// node_modules/@mui/system/esm/createTheme/applyStyles.js
+function applyStyles(key, styles) {
+  var _a;
+  const theme = this;
+  if (theme.vars) {
+    if (!((_a = theme.colorSchemes) == null ? void 0 : _a[key]) || typeof theme.getColorSchemeSelector !== "function") {
+      return {};
+    }
+    let selector = theme.getColorSchemeSelector(key);
+    if (selector === "&") {
+      return styles;
+    }
+    if (selector.includes("data-") || selector.includes(".")) {
+      selector = `*:where(${selector.replace(/\s*&$/, "")}) &`;
+    }
+    return {
+      [selector]: styles
+    };
+  }
+  if (theme.palette.mode === key) {
+    return styles;
+  }
+  return {};
+}
+
+// node_modules/@mui/system/esm/createTheme/createTheme.js
+function createTheme(options = {}, ...args) {
+  const {
+    breakpoints: breakpointsInput = {},
+    palette: paletteInput = {},
+    spacing: spacingInput,
+    shape: shapeInput = {},
+    ...other
+  } = options;
+  const breakpoints = createBreakpoints(breakpointsInput);
+  const spacing2 = createSpacing(spacingInput);
+  let muiTheme = deepmerge({
+    breakpoints,
+    direction: "ltr",
+    components: {},
+    // Inject component definitions.
+    palette: {
+      mode: "light",
+      ...paletteInput
+    },
+    spacing: spacing2,
+    shape: {
+      ...shape_default,
+      ...shapeInput
+    }
+  }, other);
+  muiTheme = cssContainerQueries(muiTheme);
+  muiTheme.applyStyles = applyStyles;
+  muiTheme = args.reduce((acc, argument) => deepmerge(acc, argument), muiTheme);
+  muiTheme.unstable_sxConfig = {
+    ...defaultSxConfig_default,
+    ...other == null ? void 0 : other.unstable_sxConfig
+  };
+  muiTheme.unstable_sx = function sx(props) {
+    return styleFunctionSx_default({
+      sx: props,
+      theme: this
+    });
+  };
+  return muiTheme;
+}
+var createTheme_default = createTheme;
+
+// node_modules/@mui/system/esm/useThemeWithoutDefault/useThemeWithoutDefault.js
+var React60 = __toESM(require_react());
+function isObjectEmpty(obj) {
+  return Object.keys(obj).length === 0;
+}
+function useTheme2(defaultTheme4 = null) {
+  const contextTheme = React60.useContext(ThemeContext);
+  return !contextTheme || isObjectEmpty(contextTheme) ? defaultTheme4 : contextTheme;
+}
+var useThemeWithoutDefault_default = useTheme2;
+
+// node_modules/@mui/system/esm/useTheme/useTheme.js
+var systemDefaultTheme = createTheme_default();
+function useTheme3(defaultTheme4 = systemDefaultTheme) {
+  return useThemeWithoutDefault_default(defaultTheme4);
+}
+var useTheme_default = useTheme3;
+
+// node_modules/@mui/system/esm/GlobalStyles/GlobalStyles.js
+var import_jsx_runtime28 = __toESM(require_jsx_runtime());
+function GlobalStyles2({
+  styles,
+  themeId,
+  defaultTheme: defaultTheme4 = {}
+}) {
+  const upperTheme = useTheme_default(defaultTheme4);
+  const globalStyles = typeof styles === "function" ? styles(themeId ? upperTheme[themeId] || upperTheme : upperTheme) : styles;
+  return (0, import_jsx_runtime28.jsx)(GlobalStyles, {
+    styles: globalStyles
+  });
+}
+true ? GlobalStyles2.propTypes = {
+  // ┌────────────────────────────── Warning ──────────────────────────────┐
+  // │ These PropTypes are generated from the TypeScript type definitions. │
+  // │ To update them, edit the TypeScript types and run `pnpm proptypes`. │
+  // └─────────────────────────────────────────────────────────────────────┘
+  /**
+   * @ignore
+   */
+  defaultTheme: import_prop_types19.default.object,
+  /**
+   * @ignore
+   */
+  styles: import_prop_types19.default.oneOfType([import_prop_types19.default.array, import_prop_types19.default.func, import_prop_types19.default.number, import_prop_types19.default.object, import_prop_types19.default.string, import_prop_types19.default.bool]),
+  /**
+   * @ignore
+   */
+  themeId: import_prop_types19.default.string
+} : void 0;
+
+// node_modules/@mui/system/esm/display/display.js
+var displayPrint = style_default({
+  prop: "displayPrint",
+  cssProperty: false,
+  transform: (value) => ({
+    "@media print": {
+      display: value
+    }
+  })
+});
+var displayRaw = style_default({
+  prop: "display"
+});
+var overflow = style_default({
+  prop: "overflow"
+});
+var textOverflow = style_default({
+  prop: "textOverflow"
+});
+var visibility = style_default({
+  prop: "visibility"
+});
+var whiteSpace = style_default({
+  prop: "whiteSpace"
+});
+var display_default = compose_default(displayPrint, displayRaw, overflow, textOverflow, visibility, whiteSpace);
+
+// node_modules/@mui/system/esm/flexbox/flexbox.js
+var flexBasis = style_default({
+  prop: "flexBasis"
+});
+var flexDirection = style_default({
+  prop: "flexDirection"
+});
+var flexWrap = style_default({
+  prop: "flexWrap"
+});
+var justifyContent = style_default({
+  prop: "justifyContent"
+});
+var alignItems = style_default({
+  prop: "alignItems"
+});
+var alignContent = style_default({
+  prop: "alignContent"
+});
+var order = style_default({
+  prop: "order"
+});
+var flex = style_default({
+  prop: "flex"
+});
+var flexGrow = style_default({
+  prop: "flexGrow"
+});
+var flexShrink = style_default({
+  prop: "flexShrink"
+});
+var alignSelf = style_default({
+  prop: "alignSelf"
+});
+var justifyItems = style_default({
+  prop: "justifyItems"
+});
+var justifySelf = style_default({
+  prop: "justifySelf"
+});
+var flexbox = compose_default(flexBasis, flexDirection, flexWrap, justifyContent, alignItems, alignContent, order, flex, flexGrow, flexShrink, alignSelf, justifyItems, justifySelf);
+var flexbox_default = flexbox;
+
+// node_modules/@mui/system/esm/positions/positions.js
+var position = style_default({
+  prop: "position"
+});
+var zIndex = style_default({
+  prop: "zIndex",
+  themeKey: "zIndex"
+});
+var top = style_default({
+  prop: "top"
+});
+var right = style_default({
+  prop: "right"
+});
+var bottom = style_default({
+  prop: "bottom"
+});
+var left = style_default({
+  prop: "left"
+});
+var positions_default = compose_default(position, zIndex, top, right, bottom, left);
+
+// node_modules/@mui/system/esm/shadows/shadows.js
+var boxShadow = style_default({
+  prop: "boxShadow",
+  themeKey: "shadows"
+});
+var shadows_default = boxShadow;
+
+// node_modules/@mui/system/esm/typography/typography.js
+var fontFamily = style_default({
+  prop: "fontFamily",
+  themeKey: "typography"
+});
+var fontSize = style_default({
+  prop: "fontSize",
+  themeKey: "typography"
+});
+var fontStyle = style_default({
+  prop: "fontStyle",
+  themeKey: "typography"
+});
+var fontWeight = style_default({
+  prop: "fontWeight",
+  themeKey: "typography"
+});
+var letterSpacing = style_default({
+  prop: "letterSpacing"
+});
+var textTransform = style_default({
+  prop: "textTransform"
+});
+var lineHeight = style_default({
+  prop: "lineHeight"
+});
+var textAlign = style_default({
+  prop: "textAlign"
+});
+var typographyVariant = style_default({
+  prop: "typography",
+  cssProperty: false,
+  themeKey: "typography"
+});
+var typography = compose_default(typographyVariant, fontFamily, fontSize, fontStyle, fontWeight, letterSpacing, lineHeight, textAlign, textTransform);
+var typography_default = typography;
+
+// node_modules/@mui/system/esm/styleFunctionSx/extendSxProp.js
+var splitProps = (props) => {
+  var _a;
+  const result = {
+    systemProps: {},
+    otherProps: {}
+  };
+  const config2 = ((_a = props == null ? void 0 : props.theme) == null ? void 0 : _a.unstable_sxConfig) ?? defaultSxConfig_default;
+  Object.keys(props).forEach((prop) => {
+    if (config2[prop]) {
+      result.systemProps[prop] = props[prop];
+    } else {
+      result.otherProps[prop] = props[prop];
+    }
+  });
+  return result;
+};
+function extendSxProp(props) {
+  const {
+    sx: inSx,
+    ...other
+  } = props;
+  const {
+    systemProps,
+    otherProps
+  } = splitProps(other);
+  let finalSx;
+  if (Array.isArray(inSx)) {
+    finalSx = [systemProps, ...inSx];
+  } else if (typeof inSx === "function") {
+    finalSx = (...args) => {
+      const result = inSx(...args);
+      if (!isPlainObject(result)) {
+        return systemProps;
+      }
+      return {
+        ...systemProps,
+        ...result
+      };
+    };
+  } else {
+    finalSx = {
+      ...systemProps,
+      ...inSx
+    };
+  }
+  return {
+    ...otherProps,
+    sx: finalSx
+  };
+}
+
+// node_modules/@mui/system/esm/getThemeValue/getThemeValue.js
+var filterPropsMapping = {
+  borders: borders_default.filterProps,
+  display: display_default.filterProps,
+  flexbox: flexbox_default.filterProps,
+  grid: cssGrid_default.filterProps,
+  positions: positions_default.filterProps,
+  palette: palette_default.filterProps,
+  shadows: shadows_default.filterProps,
+  sizing: sizing_default.filterProps,
+  spacing: spacing_default.filterProps,
+  typography: typography_default.filterProps
+};
+var styleFunctionMapping = {
+  borders: borders_default,
+  display: display_default,
+  flexbox: flexbox_default,
+  grid: cssGrid_default,
+  positions: positions_default,
+  palette: palette_default,
+  shadows: shadows_default,
+  sizing: sizing_default,
+  spacing: spacing_default,
+  typography: typography_default
+};
+var propToStyleFunction = Object.keys(filterPropsMapping).reduce((acc, styleFnName) => {
+  filterPropsMapping[styleFnName].forEach((propName) => {
+    acc[propName] = styleFunctionMapping[styleFnName];
+  });
+  return acc;
+}, {});
+
+// node_modules/@mui/system/esm/Box/Box.js
+var import_prop_types20 = __toESM(require_prop_types());
+
+// node_modules/@mui/system/node_modules/@mui/utils/esm/ClassNameGenerator/ClassNameGenerator.js
+var defaultGenerator = (componentName) => componentName;
+var createClassNameGenerator = () => {
+  let generate = defaultGenerator;
+  return {
+    configure(generator) {
+      generate = generator;
+    },
+    generate(componentName) {
+      return generate(componentName);
+    },
+    reset() {
+      generate = defaultGenerator;
+    }
+  };
+};
+var ClassNameGenerator = createClassNameGenerator();
+var ClassNameGenerator_default = ClassNameGenerator;
+
+// node_modules/@mui/system/esm/createBox/createBox.js
+var React62 = __toESM(require_react());
+var import_jsx_runtime29 = __toESM(require_jsx_runtime());
+function createBox(options = {}) {
+  const {
+    themeId,
+    defaultTheme: defaultTheme4,
+    defaultClassName = "MuiBox-root",
+    generateClassName
+  } = options;
+  const BoxRoot = styled("div", {
+    shouldForwardProp: (prop) => prop !== "theme" && prop !== "sx" && prop !== "as"
+  })(styleFunctionSx_default);
+  const Box2 = React62.forwardRef(function Box3(inProps, ref) {
+    const theme = useTheme_default(defaultTheme4);
+    const {
+      className,
+      component = "div",
+      ...other
+    } = extendSxProp(inProps);
+    return (0, import_jsx_runtime29.jsx)(BoxRoot, {
+      as: component,
+      ref,
+      className: clsx_default(className, generateClassName ? generateClassName(defaultClassName) : defaultClassName),
+      theme: themeId ? theme[themeId] || theme : theme,
+      ...other
+    });
+  });
+  return Box2;
+}
+
+// node_modules/@mui/system/node_modules/@mui/utils/esm/generateUtilityClass/generateUtilityClass.js
+var globalStateClasses = {
+  active: "active",
+  checked: "checked",
+  completed: "completed",
+  disabled: "disabled",
+  error: "error",
+  expanded: "expanded",
+  focused: "focused",
+  focusVisible: "focusVisible",
+  open: "open",
+  readOnly: "readOnly",
+  required: "required",
+  selected: "selected"
+};
+function generateUtilityClass2(componentName, slot, globalStatePrefix = "Mui") {
+  const globalStateClass = globalStateClasses[slot];
+  return globalStateClass ? `${globalStatePrefix}-${globalStateClass}` : `${ClassNameGenerator_default.generate(componentName)}-${slot}`;
+}
+
+// node_modules/@mui/system/node_modules/@mui/utils/esm/generateUtilityClasses/generateUtilityClasses.js
+function generateUtilityClasses2(componentName, slots, globalStatePrefix = "Mui") {
+  const result = {};
+  slots.forEach((slot) => {
+    result[slot] = generateUtilityClass2(componentName, slot, globalStatePrefix);
+  });
+  return result;
+}
+
+// node_modules/@mui/system/esm/Box/boxClasses.js
+var boxClasses = generateUtilityClasses2("MuiBox", ["root"]);
+var boxClasses_default = boxClasses;
+
+// node_modules/@mui/system/esm/Box/Box.js
+var Box = createBox({
+  defaultClassName: boxClasses_default.root,
+  generateClassName: ClassNameGenerator_default.generate
+});
+true ? Box.propTypes = {
+  // ┌────────────────────────────── Warning ──────────────────────────────┐
+  // │ These PropTypes are generated from the TypeScript type definitions. │
+  // │    To update them, edit the d.ts file and run `pnpm proptypes`.     │
+  // └─────────────────────────────────────────────────────────────────────┘
+  /**
+   * @ignore
+   */
+  children: import_prop_types20.default.node,
+  /**
+   * The component used for the root node.
+   * Either a string to use a HTML element or a component.
+   */
+  component: import_prop_types20.default.elementType,
+  /**
+   * The system prop that allows defining system overrides as well as additional CSS styles.
+   */
+  sx: import_prop_types20.default.oneOfType([import_prop_types20.default.arrayOf(import_prop_types20.default.oneOfType([import_prop_types20.default.func, import_prop_types20.default.object, import_prop_types20.default.bool])), import_prop_types20.default.func, import_prop_types20.default.object])
+} : void 0;
+
+// node_modules/@mui/system/node_modules/@mui/utils/esm/getDisplayName/getDisplayName.js
+var import_react_is = __toESM(require_react_is());
+function getFunctionComponentName(Component, fallback = "") {
+  return Component.displayName || Component.name || fallback;
+}
+function getWrappedName(outerType, innerType, wrapperName) {
+  const functionName = getFunctionComponentName(innerType);
+  return outerType.displayName || (functionName !== "" ? `${wrapperName}(${functionName})` : wrapperName);
+}
+function getDisplayName2(Component) {
+  if (Component == null) {
+    return void 0;
+  }
+  if (typeof Component === "string") {
+    return Component;
+  }
+  if (typeof Component === "function") {
+    return getFunctionComponentName(Component, "Component");
+  }
+  if (typeof Component === "object") {
+    switch (Component.$$typeof) {
+      case import_react_is.ForwardRef:
+        return getWrappedName(Component, Component.render, "ForwardRef");
+      case import_react_is.Memo:
+        return getWrappedName(Component, Component.type, "memo");
+      default:
+        return void 0;
+    }
+  }
+  return void 0;
+}
+
+// node_modules/@mui/system/esm/preprocessStyles.js
+function preprocessStyles(input) {
+  const {
+    variants,
+    ...style4
+  } = input;
+  const result = {
+    variants,
+    style: internal_serializeStyles(style4),
+    isProcessed: true
+  };
+  if (result.style === style4) {
+    return result;
+  }
+  if (variants) {
+    variants.forEach((variant) => {
+      if (typeof variant.style !== "function") {
+        variant.style = internal_serializeStyles(variant.style);
+      }
+    });
+  }
+  return result;
+}
+
+// node_modules/@mui/system/esm/createStyled/createStyled.js
+var systemDefaultTheme2 = createTheme_default();
+function shouldForwardProp(prop) {
+  return prop !== "ownerState" && prop !== "theme" && prop !== "sx" && prop !== "as";
+}
+function defaultOverridesResolver(slot) {
+  if (!slot) {
+    return null;
+  }
+  return (_props, styles) => styles[slot];
+}
+function attachTheme(props, themeId, defaultTheme4) {
+  props.theme = isObjectEmpty2(props.theme) ? defaultTheme4 : props.theme[themeId] || props.theme;
+}
+function processStyle(props, style4) {
+  const resolvedStyle = typeof style4 === "function" ? style4(props) : style4;
+  if (Array.isArray(resolvedStyle)) {
+    return resolvedStyle.flatMap((subStyle) => processStyle(props, subStyle));
+  }
+  if (Array.isArray(resolvedStyle == null ? void 0 : resolvedStyle.variants)) {
+    let rootStyle;
+    if (resolvedStyle.isProcessed) {
+      rootStyle = resolvedStyle.style;
+    } else {
+      const {
+        variants,
+        ...otherStyles
+      } = resolvedStyle;
+      rootStyle = otherStyles;
+    }
+    return processStyleVariants(props, resolvedStyle.variants, [rootStyle]);
+  }
+  if (resolvedStyle == null ? void 0 : resolvedStyle.isProcessed) {
+    return resolvedStyle.style;
+  }
+  return resolvedStyle;
+}
+function processStyleVariants(props, variants, results = []) {
+  var _a;
+  let mergedState;
+  variantLoop: for (let i = 0; i < variants.length; i += 1) {
+    const variant = variants[i];
+    if (typeof variant.props === "function") {
+      mergedState ?? (mergedState = {
+        ...props,
+        ...props.ownerState,
+        ownerState: props.ownerState
+      });
+      if (!variant.props(mergedState)) {
+        continue;
+      }
+    } else {
+      for (const key in variant.props) {
+        if (props[key] !== variant.props[key] && ((_a = props.ownerState) == null ? void 0 : _a[key]) !== variant.props[key]) {
+          continue variantLoop;
+        }
+      }
+    }
+    if (typeof variant.style === "function") {
+      mergedState ?? (mergedState = {
+        ...props,
+        ...props.ownerState,
+        ownerState: props.ownerState
+      });
+      results.push(variant.style(mergedState));
+    } else {
+      results.push(variant.style);
+    }
+  }
+  return results;
+}
+function createStyled(input = {}) {
+  const {
+    themeId,
+    defaultTheme: defaultTheme4 = systemDefaultTheme2,
+    rootShouldForwardProp = shouldForwardProp,
+    slotShouldForwardProp = shouldForwardProp
+  } = input;
+  function styleAttachTheme(props) {
+    attachTheme(props, themeId, defaultTheme4);
+  }
+  const styled3 = (tag, inputOptions = {}) => {
+    internal_mutateStyles(tag, (styles) => styles.filter((style4) => style4 !== styleFunctionSx_default));
+    const {
+      name: componentName,
+      slot: componentSlot,
+      skipVariantsResolver: inputSkipVariantsResolver,
+      skipSx: inputSkipSx,
+      // TODO v6: remove `lowercaseFirstLetter()` in the next major release
+      // For more details: https://github.com/mui/material-ui/pull/37908
+      overridesResolver = defaultOverridesResolver(lowercaseFirstLetter(componentSlot)),
+      ...options
+    } = inputOptions;
+    const skipVariantsResolver = inputSkipVariantsResolver !== void 0 ? inputSkipVariantsResolver : (
+      // TODO v6: remove `Root` in the next major release
+      // For more details: https://github.com/mui/material-ui/pull/37908
+      componentSlot && componentSlot !== "Root" && componentSlot !== "root" || false
+    );
+    const skipSx = inputSkipSx || false;
+    let shouldForwardPropOption = shouldForwardProp;
+    if (componentSlot === "Root" || componentSlot === "root") {
+      shouldForwardPropOption = rootShouldForwardProp;
+    } else if (componentSlot) {
+      shouldForwardPropOption = slotShouldForwardProp;
+    } else if (isStringTag(tag)) {
+      shouldForwardPropOption = void 0;
+    }
+    const defaultStyledResolver = styled(tag, {
+      shouldForwardProp: shouldForwardPropOption,
+      label: generateStyledLabel(componentName, componentSlot),
+      ...options
+    });
+    const transformStyle = (style4) => {
+      if (typeof style4 === "function" && style4.__emotion_real !== style4) {
+        return function styleFunctionProcessor(props) {
+          return processStyle(props, style4);
+        };
+      }
+      if (isPlainObject(style4)) {
+        const serialized = preprocessStyles(style4);
+        if (!serialized.variants) {
+          return serialized.style;
+        }
+        return function styleObjectProcessor(props) {
+          return processStyle(props, serialized);
+        };
+      }
+      return style4;
+    };
+    const muiStyledResolver = (...expressionsInput) => {
+      const expressionsHead = [];
+      const expressionsBody = expressionsInput.map(transformStyle);
+      const expressionsTail = [];
+      expressionsHead.push(styleAttachTheme);
+      if (componentName && overridesResolver) {
+        expressionsTail.push(function styleThemeOverrides(props) {
+          var _a, _b;
+          const theme = props.theme;
+          const styleOverrides = (_b = (_a = theme.components) == null ? void 0 : _a[componentName]) == null ? void 0 : _b.styleOverrides;
+          if (!styleOverrides) {
+            return null;
+          }
+          const resolvedStyleOverrides = {};
+          for (const slotKey in styleOverrides) {
+            resolvedStyleOverrides[slotKey] = processStyle(props, styleOverrides[slotKey]);
+          }
+          return overridesResolver(props, resolvedStyleOverrides);
+        });
+      }
+      if (componentName && !skipVariantsResolver) {
+        expressionsTail.push(function styleThemeVariants(props) {
+          var _a, _b;
+          const theme = props.theme;
+          const themeVariants = (_b = (_a = theme == null ? void 0 : theme.components) == null ? void 0 : _a[componentName]) == null ? void 0 : _b.variants;
+          if (!themeVariants) {
+            return null;
+          }
+          return processStyleVariants(props, themeVariants);
+        });
+      }
+      if (!skipSx) {
+        expressionsTail.push(styleFunctionSx_default);
+      }
+      if (Array.isArray(expressionsBody[0])) {
+        const inputStrings = expressionsBody.shift();
+        const placeholdersHead = new Array(expressionsHead.length).fill("");
+        const placeholdersTail = new Array(expressionsTail.length).fill("");
+        let outputStrings;
+        {
+          outputStrings = [...placeholdersHead, ...inputStrings, ...placeholdersTail];
+          outputStrings.raw = [...placeholdersHead, ...inputStrings.raw, ...placeholdersTail];
+        }
+        expressionsHead.unshift(outputStrings);
+      }
+      const expressions = [...expressionsHead, ...expressionsBody, ...expressionsTail];
+      const Component = defaultStyledResolver(...expressions);
+      if (tag.muiName) {
+        Component.muiName = tag.muiName;
+      }
+      if (true) {
+        Component.displayName = generateDisplayName(componentName, componentSlot, tag);
+      }
+      return Component;
+    };
+    if (defaultStyledResolver.withConfig) {
+      muiStyledResolver.withConfig = defaultStyledResolver.withConfig;
+    }
+    return muiStyledResolver;
+  };
+  return styled3;
+}
+function generateDisplayName(componentName, componentSlot, tag) {
+  if (componentName) {
+    return `${componentName}${capitalize(componentSlot || "")}`;
+  }
+  return `Styled(${getDisplayName2(tag)})`;
+}
+function generateStyledLabel(componentName, componentSlot) {
+  let label;
+  if (true) {
+    if (componentName) {
+      label = `${componentName}-${lowercaseFirstLetter(componentSlot || "Root")}`;
+    }
+  }
+  return label;
+}
+function isObjectEmpty2(object) {
+  for (const _ in object) {
+    return false;
+  }
+  return true;
+}
+function isStringTag(tag) {
+  return typeof tag === "string" && // 96 is one less than the char code
+  // for "a" so this is checking that
+  // it's a lowercase character
+  tag.charCodeAt(0) > 96;
+}
+function lowercaseFirstLetter(string) {
+  if (!string) {
+    return string;
+  }
+  return string.charAt(0).toLowerCase() + string.slice(1);
+}
+
+// node_modules/@mui/system/esm/styled/styled.js
+var styled2 = createStyled();
+var styled_default2 = styled2;
+
+// node_modules/@mui/system/node_modules/@mui/utils/esm/resolveProps/resolveProps.js
+function resolveProps(defaultProps3, props) {
+  const output = {
+    ...props
+  };
+  for (const key in defaultProps3) {
+    if (Object.prototype.hasOwnProperty.call(defaultProps3, key)) {
+      const propName = key;
+      if (propName === "components" || propName === "slots") {
+        output[propName] = {
+          ...defaultProps3[propName],
+          ...output[propName]
+        };
+      } else if (propName === "componentsProps" || propName === "slotProps") {
+        const defaultSlotProps = defaultProps3[propName];
+        const slotProps = props[propName];
+        if (!slotProps) {
+          output[propName] = defaultSlotProps || {};
+        } else if (!defaultSlotProps) {
+          output[propName] = slotProps;
+        } else {
+          output[propName] = {
+            ...slotProps
+          };
+          for (const slotKey in defaultSlotProps) {
+            if (Object.prototype.hasOwnProperty.call(defaultSlotProps, slotKey)) {
+              const slotPropName = slotKey;
+              output[propName][slotPropName] = resolveProps(defaultSlotProps[slotPropName], slotProps[slotPropName]);
+            }
+          }
+        }
+      } else if (output[propName] === void 0) {
+        output[propName] = defaultProps3[propName];
+      }
+    }
+  }
+  return output;
+}
+
+// node_modules/@mui/system/esm/useThemeProps/getThemeProps.js
+function getThemeProps(params) {
+  const {
+    theme,
+    name,
+    props
+  } = params;
+  if (!theme || !theme.components || !theme.components[name] || !theme.components[name].defaultProps) {
+    return props;
+  }
+  return resolveProps(theme.components[name].defaultProps, props);
+}
+
+// node_modules/@mui/system/esm/useThemeProps/useThemeProps.js
+function useThemeProps2({
+  props,
+  name,
+  defaultTheme: defaultTheme4,
+  themeId
+}) {
+  let theme = useTheme_default(defaultTheme4);
+  if (themeId) {
+    theme = theme[themeId] || theme;
+  }
+  return getThemeProps({
+    theme,
+    name,
+    props
+  });
+}
+
+// node_modules/@mui/system/esm/useMediaQuery/useMediaQuery.js
+var React64 = __toESM(require_react());
+
+// node_modules/@mui/system/node_modules/@mui/utils/esm/useEnhancedEffect/useEnhancedEffect.js
+var React63 = __toESM(require_react());
+var useEnhancedEffect = typeof window !== "undefined" ? React63.useLayoutEffect : React63.useEffect;
+var useEnhancedEffect_default2 = useEnhancedEffect;
+
+// node_modules/@mui/system/esm/useMediaQuery/useMediaQuery.js
+function useMediaQueryOld(query, defaultMatches, matchMedia, ssrMatchMedia, noSsr) {
+  const [match, setMatch] = React64.useState(() => {
+    if (noSsr && matchMedia) {
+      return matchMedia(query).matches;
+    }
+    if (ssrMatchMedia) {
+      return ssrMatchMedia(query).matches;
+    }
+    return defaultMatches;
+  });
+  useEnhancedEffect_default2(() => {
+    if (!matchMedia) {
+      return void 0;
+    }
+    const queryList = matchMedia(query);
+    const updateMatch = () => {
+      setMatch(queryList.matches);
+    };
+    updateMatch();
+    queryList.addEventListener("change", updateMatch);
+    return () => {
+      queryList.removeEventListener("change", updateMatch);
+    };
+  }, [query, matchMedia]);
+  return match;
+}
+var safeReact = {
+  ...React64
+};
+var maybeReactUseSyncExternalStore = safeReact.useSyncExternalStore;
+function useMediaQueryNew(query, defaultMatches, matchMedia, ssrMatchMedia, noSsr) {
+  const getDefaultSnapshot = React64.useCallback(() => defaultMatches, [defaultMatches]);
+  const getServerSnapshot = React64.useMemo(() => {
+    if (noSsr && matchMedia) {
+      return () => matchMedia(query).matches;
+    }
+    if (ssrMatchMedia !== null) {
+      const {
+        matches
+      } = ssrMatchMedia(query);
+      return () => matches;
+    }
+    return getDefaultSnapshot;
+  }, [getDefaultSnapshot, query, ssrMatchMedia, noSsr, matchMedia]);
+  const [getSnapshot, subscribe] = React64.useMemo(() => {
+    if (matchMedia === null) {
+      return [getDefaultSnapshot, () => () => {
+      }];
+    }
+    const mediaQueryList = matchMedia(query);
+    return [() => mediaQueryList.matches, (notify) => {
+      mediaQueryList.addEventListener("change", notify);
+      return () => {
+        mediaQueryList.removeEventListener("change", notify);
+      };
+    }];
+  }, [getDefaultSnapshot, matchMedia, query]);
+  const match = maybeReactUseSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
+  return match;
+}
+function unstable_createUseMediaQuery(params = {}) {
+  const {
+    themeId
+  } = params;
+  return function useMediaQuery2(queryInput, options = {}) {
+    let theme = useThemeWithoutDefault_default();
+    if (theme && themeId) {
+      theme = theme[themeId] || theme;
+    }
+    const supportMatchMedia = typeof window !== "undefined" && typeof window.matchMedia !== "undefined";
+    const {
+      defaultMatches = false,
+      matchMedia = supportMatchMedia ? window.matchMedia : null,
+      ssrMatchMedia = null,
+      noSsr = false
+    } = getThemeProps({
+      name: "MuiUseMediaQuery",
+      props: options,
+      theme
+    });
+    if (true) {
+      if (typeof queryInput === "function" && theme === null) {
+        console.error(["MUI: The `query` argument provided is invalid.", "You are providing a function without a theme in the context.", "One of the parent elements needs to use a ThemeProvider."].join("\n"));
+      }
+    }
+    let query = typeof queryInput === "function" ? queryInput(theme) : queryInput;
+    query = query.replace(/^@media( ?)/m, "");
+    const useMediaQueryImplementation = maybeReactUseSyncExternalStore !== void 0 ? useMediaQueryNew : useMediaQueryOld;
+    const match = useMediaQueryImplementation(query, defaultMatches, matchMedia, ssrMatchMedia, noSsr);
+    if (true) {
+      React64.useDebugValue({
+        query,
+        match
+      });
+    }
+    return match;
+  };
+}
+var useMediaQuery = unstable_createUseMediaQuery();
+
+// node_modules/@mui/system/esm/ThemeProvider/ThemeProvider.js
+var React83 = __toESM(require_react());
+var import_prop_types26 = __toESM(require_prop_types());
+
+// node_modules/@mui/private-theming/ThemeProvider/ThemeProvider.js
+var React81 = __toESM(require_react());
+var import_prop_types24 = __toESM(require_prop_types());
+
+// node_modules/@mui/private-theming/node_modules/@mui/utils/esm/chainPropTypes/chainPropTypes.js
+function chainPropTypes(propType1, propType2) {
+  if (false) {
+    return () => null;
+  }
+  return function validate(...args) {
+    return propType1(...args) || propType2(...args);
+  };
+}
+
+// node_modules/@mui/private-theming/node_modules/@mui/utils/esm/deepmerge/deepmerge.js
+var React65 = __toESM(require_react());
+
+// node_modules/@mui/private-theming/node_modules/@mui/utils/esm/elementAcceptingRef/elementAcceptingRef.js
+var import_prop_types21 = __toESM(require_prop_types());
+function isClassComponent(elementType) {
+  const {
+    prototype = {}
+  } = elementType;
+  return Boolean(prototype.isReactComponent);
+}
+function acceptingRef(props, propName, componentName, location, propFullName) {
+  const element = props[propName];
+  const safePropName = propFullName || propName;
+  if (element == null || // When server-side rendering React doesn't warn either.
+  // This is not an accurate check for SSR.
+  // This is only in place for Emotion compat.
+  // TODO: Revisit once https://github.com/facebook/react/issues/20047 is resolved.
+  typeof window === "undefined") {
+    return null;
+  }
+  let warningHint;
+  const elementType = element.type;
+  if (typeof elementType === "function" && !isClassComponent(elementType)) {
+    warningHint = "Did you accidentally use a plain function component for an element instead?";
+  }
+  if (warningHint !== void 0) {
+    return new Error(`Invalid ${location} \`${safePropName}\` supplied to \`${componentName}\`. Expected an element that can hold a ref. ${warningHint} For more information see https://mui.com/r/caveat-with-refs-guide`);
+  }
+  return null;
+}
+var elementAcceptingRef = chainPropTypes(import_prop_types21.default.element, acceptingRef);
+elementAcceptingRef.isRequired = chainPropTypes(import_prop_types21.default.element.isRequired, acceptingRef);
+
+// node_modules/@mui/private-theming/node_modules/@mui/utils/esm/elementTypeAcceptingRef/elementTypeAcceptingRef.js
+var import_prop_types22 = __toESM(require_prop_types());
+function isClassComponent2(elementType) {
+  const {
+    prototype = {}
+  } = elementType;
+  return Boolean(prototype.isReactComponent);
+}
+function elementTypeAcceptingRef(props, propName, componentName, location, propFullName) {
+  const propValue = props[propName];
+  const safePropName = propFullName || propName;
+  if (propValue == null || // When server-side rendering React doesn't warn either.
+  // This is not an accurate check for SSR.
+  // This is only in place for emotion compat.
+  // TODO: Revisit once https://github.com/facebook/react/issues/20047 is resolved.
+  typeof window === "undefined") {
+    return null;
+  }
+  let warningHint;
+  if (typeof propValue === "function" && !isClassComponent2(propValue)) {
+    warningHint = "Did you accidentally provide a plain function component instead?";
+  }
+  if (warningHint !== void 0) {
+    return new Error(`Invalid ${location} \`${safePropName}\` supplied to \`${componentName}\`. Expected an element type that can hold a ref. ${warningHint} For more information see https://mui.com/r/caveat-with-refs-guide`);
+  }
+  return null;
+}
+var elementTypeAcceptingRef_default = chainPropTypes(import_prop_types22.default.elementType, elementTypeAcceptingRef);
+
+// node_modules/@mui/private-theming/node_modules/@mui/utils/esm/exactProp/exactProp.js
+var specialProperty = "exact-prop: ​";
+function exactProp(propTypes) {
+  if (false) {
+    return propTypes;
+  }
+  return {
+    ...propTypes,
+    [specialProperty]: (props) => {
+      const unsupportedProps = Object.keys(props).filter((prop) => !propTypes.hasOwnProperty(prop));
+      if (unsupportedProps.length > 0) {
+        return new Error(`The following props are not supported: ${unsupportedProps.map((prop) => `\`${prop}\``).join(", ")}. Please remove them.`);
+      }
+      return null;
+    }
+  };
+}
+
+// node_modules/@mui/private-theming/node_modules/@mui/utils/esm/getDisplayName/getDisplayName.js
+var import_react_is2 = __toESM(require_react_is());
+
+// node_modules/@mui/private-theming/node_modules/@mui/utils/esm/ponyfillGlobal/ponyfillGlobal.js
+var ponyfillGlobal_default = typeof window != "undefined" && window.Math == Math ? window : typeof self != "undefined" && self.Math == Math ? self : Function("return this")();
+
+// node_modules/@mui/private-theming/node_modules/@mui/utils/esm/refType/refType.js
+var import_prop_types23 = __toESM(require_prop_types());
+var refType = import_prop_types23.default.oneOfType([import_prop_types23.default.func, import_prop_types23.default.object]);
+
+// node_modules/@mui/private-theming/node_modules/@mui/utils/esm/isMuiElement/isMuiElement.js
+var React66 = __toESM(require_react());
+
+// node_modules/@mui/private-theming/node_modules/@mui/utils/esm/useEnhancedEffect/useEnhancedEffect.js
+var React67 = __toESM(require_react());
+
+// node_modules/@mui/private-theming/node_modules/@mui/utils/esm/useId/useId.js
+var React68 = __toESM(require_react());
+var safeReact2 = {
+  ...React68
+};
+var maybeReactUseId = safeReact2.useId;
+
+// node_modules/@mui/private-theming/node_modules/@mui/utils/esm/useControlled/useControlled.js
+var React69 = __toESM(require_react());
+
+// node_modules/@mui/private-theming/node_modules/@mui/utils/esm/useEventCallback/useEventCallback.js
+var React70 = __toESM(require_react());
+
+// node_modules/@mui/private-theming/node_modules/@mui/utils/esm/useForkRef/useForkRef.js
+var React71 = __toESM(require_react());
+
+// node_modules/@mui/private-theming/node_modules/@mui/utils/esm/useLazyRef/useLazyRef.js
+var React72 = __toESM(require_react());
+
+// node_modules/@mui/private-theming/node_modules/@mui/utils/esm/useOnMount/useOnMount.js
+var React73 = __toESM(require_react());
+
+// node_modules/@mui/private-theming/node_modules/@mui/utils/esm/useTimeout/useTimeout.js
+var Timeout = class _Timeout {
+  constructor() {
+    __publicField(this, "currentId", null);
+    __publicField(this, "clear", () => {
+      if (this.currentId !== null) {
+        clearTimeout(this.currentId);
+        this.currentId = null;
+      }
+    });
+    __publicField(this, "disposeEffect", () => {
+      return this.clear;
+    });
+  }
+  static create() {
+    return new _Timeout();
+  }
+  /**
+   * Executes `fn` after `delay`, clearing any previously scheduled call.
+   */
+  start(delay, fn) {
+    this.clear();
+    this.currentId = setTimeout(() => {
+      this.currentId = null;
+      fn();
+    }, delay);
+  }
+};
+
+// node_modules/@mui/private-theming/node_modules/@mui/utils/esm/useIsFocusVisible/useIsFocusVisible.js
+var React74 = __toESM(require_react());
+var hadFocusVisibleRecentlyTimeout = new Timeout();
+
+// node_modules/@mui/private-theming/node_modules/@mui/utils/esm/usePreviousProps/usePreviousProps.js
+var React75 = __toESM(require_react());
+
+// node_modules/@mui/private-theming/node_modules/@mui/utils/esm/getValidReactChildren/getValidReactChildren.js
+var React76 = __toESM(require_react());
+
+// node_modules/@mui/private-theming/node_modules/@mui/utils/esm/integerPropType/integerPropType.js
+function getTypeByValue(value) {
+  const valueType = typeof value;
+  switch (valueType) {
+    case "number":
+      if (Number.isNaN(value)) {
+        return "NaN";
+      }
+      if (!Number.isFinite(value)) {
+        return "Infinity";
+      }
+      if (value !== Math.floor(value)) {
+        return "float";
+      }
+      return "number";
+    case "object":
+      if (value === null) {
+        return "null";
+      }
+      return value.constructor.name;
+    default:
+      return valueType;
+  }
+}
+function requiredInteger(props, propName, componentName, location) {
+  const propValue = props[propName];
+  if (propValue == null || !Number.isInteger(propValue)) {
+    const propType = getTypeByValue(propValue);
+    return new RangeError(`Invalid ${location} \`${propName}\` of type \`${propType}\` supplied to \`${componentName}\`, expected \`integer\`.`);
+  }
+  return null;
+}
+function validator(props, propName, ...other) {
+  const propValue = props[propName];
+  if (propValue === void 0) {
+    return null;
+  }
+  return requiredInteger(props, propName, ...other);
+}
+function validatorNoop() {
+  return null;
+}
+validator.isRequired = requiredInteger;
+validatorNoop.isRequired = validatorNoop;
+
+// node_modules/@mui/private-theming/node_modules/@mui/utils/esm/ClassNameGenerator/ClassNameGenerator.js
+var defaultGenerator2 = (componentName) => componentName;
+var createClassNameGenerator2 = () => {
+  let generate = defaultGenerator2;
+  return {
+    configure(generator) {
+      generate = generator;
+    },
+    generate(componentName) {
+      return generate(componentName);
+    },
+    reset() {
+      generate = defaultGenerator2;
+    }
+  };
+};
+var ClassNameGenerator2 = createClassNameGenerator2();
+
+// node_modules/@mui/private-theming/node_modules/@mui/utils/esm/getReactNodeRef/getReactNodeRef.js
+var React77 = __toESM(require_react());
+
+// node_modules/@mui/private-theming/node_modules/@mui/utils/esm/getReactElementRef/getReactElementRef.js
+var React78 = __toESM(require_react());
+
+// node_modules/@mui/private-theming/useTheme/ThemeContext.js
+var React79 = __toESM(require_react());
+var ThemeContext2 = React79.createContext(null);
+if (true) {
+  ThemeContext2.displayName = "ThemeContext";
+}
+var ThemeContext_default = ThemeContext2;
+
+// node_modules/@mui/private-theming/useTheme/useTheme.js
+var React80 = __toESM(require_react());
+function useTheme4() {
+  const theme = React80.useContext(ThemeContext_default);
+  if (true) {
+    React80.useDebugValue(theme);
+  }
+  return theme;
+}
+
+// node_modules/@mui/private-theming/ThemeProvider/nested.js
+var hasSymbol = typeof Symbol === "function" && Symbol.for;
+var nested_default = hasSymbol ? Symbol.for("mui.nested") : "__THEME_NESTED__";
+
+// node_modules/@mui/private-theming/ThemeProvider/ThemeProvider.js
+var import_jsx_runtime30 = __toESM(require_jsx_runtime());
+function mergeOuterLocalTheme(outerTheme, localTheme) {
+  if (typeof localTheme === "function") {
+    const mergedTheme = localTheme(outerTheme);
+    if (true) {
+      if (!mergedTheme) {
+        console.error(["MUI: You should return an object from your theme function, i.e.", "<ThemeProvider theme={() => ({})} />"].join("\n"));
+      }
+    }
+    return mergedTheme;
+  }
+  return {
+    ...outerTheme,
+    ...localTheme
+  };
+}
+function ThemeProvider(props) {
+  const {
+    children,
+    theme: localTheme
+  } = props;
+  const outerTheme = useTheme4();
+  if (true) {
+    if (outerTheme === null && typeof localTheme === "function") {
+      console.error(["MUI: You are providing a theme function prop to the ThemeProvider component:", "<ThemeProvider theme={outerTheme => outerTheme} />", "", "However, no outer theme is present.", "Make sure a theme is already injected higher in the React tree or provide a theme object."].join("\n"));
+    }
+  }
+  const theme = React81.useMemo(() => {
+    const output = outerTheme === null ? {
+      ...localTheme
+    } : mergeOuterLocalTheme(outerTheme, localTheme);
+    if (output != null) {
+      output[nested_default] = outerTheme !== null;
+    }
+    return output;
+  }, [localTheme, outerTheme]);
+  return (0, import_jsx_runtime30.jsx)(ThemeContext_default.Provider, {
+    value: theme,
+    children
+  });
+}
+true ? ThemeProvider.propTypes = {
+  /**
+   * Your component tree.
+   */
+  children: import_prop_types24.default.node,
+  /**
+   * A theme object. You can provide a function to extend the outer theme.
+   */
+  theme: import_prop_types24.default.oneOfType([import_prop_types24.default.object, import_prop_types24.default.func]).isRequired
+} : void 0;
+if (true) {
+  true ? ThemeProvider.propTypes = exactProp(ThemeProvider.propTypes) : void 0;
+}
+var ThemeProvider_default = ThemeProvider;
+
+// node_modules/@mui/system/node_modules/@mui/utils/esm/exactProp/exactProp.js
+var specialProperty2 = "exact-prop: ​";
+function exactProp2(propTypes) {
+  if (false) {
+    return propTypes;
+  }
+  return {
+    ...propTypes,
+    [specialProperty2]: (props) => {
+      const unsupportedProps = Object.keys(props).filter((prop) => !propTypes.hasOwnProperty(prop));
+      if (unsupportedProps.length > 0) {
+        return new Error(`The following props are not supported: ${unsupportedProps.map((prop) => `\`${prop}\``).join(", ")}. Please remove them.`);
+      }
+      return null;
+    }
+  };
+}
+
+// node_modules/@mui/system/esm/DefaultPropsProvider/DefaultPropsProvider.js
+var React82 = __toESM(require_react());
+var import_prop_types25 = __toESM(require_prop_types());
+var import_jsx_runtime31 = __toESM(require_jsx_runtime());
+var PropsContext = React82.createContext(void 0);
+function DefaultPropsProvider({
+  value,
+  children
+}) {
+  return (0, import_jsx_runtime31.jsx)(PropsContext.Provider, {
+    value,
+    children
+  });
+}
+true ? DefaultPropsProvider.propTypes = {
+  // ┌────────────────────────────── Warning ──────────────────────────────┐
+  // │ These PropTypes are generated from the TypeScript type definitions. │
+  // │ To update them, edit the TypeScript types and run `pnpm proptypes`. │
+  // └─────────────────────────────────────────────────────────────────────┘
+  /**
+   * @ignore
+   */
+  children: import_prop_types25.default.node,
+  /**
+   * @ignore
+   */
+  value: import_prop_types25.default.object
+} : void 0;
+var DefaultPropsProvider_default = DefaultPropsProvider;
+
+// node_modules/@mui/system/esm/ThemeProvider/ThemeProvider.js
+var import_jsx_runtime32 = __toESM(require_jsx_runtime());
+var EMPTY_THEME = {};
+function useThemeScoping(themeId, upperTheme, localTheme, isPrivate = false) {
+  return React83.useMemo(() => {
+    const resolvedTheme = themeId ? upperTheme[themeId] || upperTheme : upperTheme;
+    if (typeof localTheme === "function") {
+      const mergedTheme = localTheme(resolvedTheme);
+      const result = themeId ? {
+        ...upperTheme,
+        [themeId]: mergedTheme
+      } : mergedTheme;
+      if (isPrivate) {
+        return () => result;
+      }
+      return result;
+    }
+    return themeId ? {
+      ...upperTheme,
+      [themeId]: localTheme
+    } : {
+      ...upperTheme,
+      ...localTheme
+    };
+  }, [themeId, upperTheme, localTheme, isPrivate]);
+}
+function ThemeProvider2(props) {
+  const {
+    children,
+    theme: localTheme,
+    themeId
+  } = props;
+  const upperTheme = useThemeWithoutDefault_default(EMPTY_THEME);
+  const upperPrivateTheme = useTheme4() || EMPTY_THEME;
+  if (true) {
+    if (upperTheme === null && typeof localTheme === "function" || themeId && upperTheme && !upperTheme[themeId] && typeof localTheme === "function") {
+      console.error(["MUI: You are providing a theme function prop to the ThemeProvider component:", "<ThemeProvider theme={outerTheme => outerTheme} />", "", "However, no outer theme is present.", "Make sure a theme is already injected higher in the React tree or provide a theme object."].join("\n"));
+    }
+  }
+  const engineTheme = useThemeScoping(themeId, upperTheme, localTheme);
+  const privateTheme = useThemeScoping(themeId, upperPrivateTheme, localTheme, true);
+  const rtlValue = (themeId ? engineTheme[themeId] : engineTheme).direction === "rtl";
+  return (0, import_jsx_runtime32.jsx)(ThemeProvider_default, {
+    theme: privateTheme,
+    children: (0, import_jsx_runtime32.jsx)(ThemeContext.Provider, {
+      value: engineTheme,
+      children: (0, import_jsx_runtime32.jsx)(RtlProvider_default, {
+        value: rtlValue,
+        children: (0, import_jsx_runtime32.jsx)(DefaultPropsProvider_default, {
+          value: themeId ? engineTheme[themeId].components : engineTheme.components,
+          children
+        })
+      })
+    })
+  });
+}
+true ? ThemeProvider2.propTypes = {
+  // ┌────────────────────────────── Warning ──────────────────────────────┐
+  // │ These PropTypes are generated from the TypeScript type definitions. │
+  // │    To update them, edit the d.ts file and run `pnpm proptypes`.     │
+  // └─────────────────────────────────────────────────────────────────────┘
+  /**
+   * Your component tree.
+   */
+  children: import_prop_types26.default.node,
+  /**
+   * A theme object. You can provide a function to extend the outer theme.
+   */
+  theme: import_prop_types26.default.oneOfType([import_prop_types26.default.func, import_prop_types26.default.object]).isRequired,
+  /**
+   * The design system's unique id for getting the corresponded theme when there are multiple design systems.
+   */
+  themeId: import_prop_types26.default.string
+} : void 0;
+if (true) {
+  true ? ThemeProvider2.propTypes = exactProp2(ThemeProvider2.propTypes) : void 0;
+}
+
+// node_modules/@mui/system/esm/cssVars/createCssVarsProvider.js
+var React86 = __toESM(require_react());
+var import_prop_types27 = __toESM(require_prop_types());
+
+// node_modules/@mui/system/esm/InitColorSchemeScript/InitColorSchemeScript.js
+var React84 = __toESM(require_react());
+var import_jsx_runtime33 = __toESM(require_jsx_runtime());
+
+// node_modules/@mui/system/esm/cssVars/useCurrentColorScheme.js
+var React85 = __toESM(require_react());
+
+// node_modules/@mui/system/esm/cssVars/createCssVarsProvider.js
+var import_jsx_runtime34 = __toESM(require_jsx_runtime());
+
+// node_modules/@mui/system/esm/version/index.js
+var major = Number("6");
+var minor = Number("3");
+var patch = Number("1");
+
+// node_modules/@mui/system/esm/Container/createContainer.js
+var React87 = __toESM(require_react());
+var import_prop_types28 = __toESM(require_prop_types());
+
+// node_modules/@mui/system/node_modules/@mui/utils/esm/composeClasses/composeClasses.js
+function composeClasses3(slots, getUtilityClass, classes = void 0) {
+  const output = {};
+  for (const slotName in slots) {
+    const slot = slots[slotName];
+    let buffer = "";
+    let start2 = true;
+    for (let i = 0; i < slot.length; i += 1) {
+      const value = slot[i];
+      if (value) {
+        buffer += (start2 === true ? "" : " ") + getUtilityClass(value);
+        start2 = false;
+        if (classes && classes[value]) {
+          buffer += " " + classes[value];
+        }
+      }
+    }
+    output[slotName] = buffer;
+  }
+  return output;
+}
+
+// node_modules/@mui/system/esm/Container/createContainer.js
+var import_jsx_runtime35 = __toESM(require_jsx_runtime());
+var defaultTheme = createTheme_default();
+var defaultCreateStyledComponent = styled_default2("div", {
+  name: "MuiContainer",
+  slot: "Root",
+  overridesResolver: (props, styles) => {
+    const {
+      ownerState
+    } = props;
+    return [styles.root, styles[`maxWidth${capitalize(String(ownerState.maxWidth))}`], ownerState.fixed && styles.fixed, ownerState.disableGutters && styles.disableGutters];
+  }
+});
+var useThemePropsDefault = (inProps) => useThemeProps2({
+  props: inProps,
+  name: "MuiContainer",
+  defaultTheme
+});
+var useUtilityClasses5 = (ownerState, componentName) => {
+  const getContainerUtilityClass = (slot) => {
+    return generateUtilityClass2(componentName, slot);
+  };
+  const {
+    classes,
+    fixed,
+    disableGutters,
+    maxWidth: maxWidth2
+  } = ownerState;
+  const slots = {
+    root: ["root", maxWidth2 && `maxWidth${capitalize(String(maxWidth2))}`, fixed && "fixed", disableGutters && "disableGutters"]
+  };
+  return composeClasses3(slots, getContainerUtilityClass, classes);
+};
+function createContainer(options = {}) {
+  const {
+    // This will allow adding custom styled fn (for example for custom sx style function)
+    createStyledComponent = defaultCreateStyledComponent,
+    useThemeProps: useThemeProps3 = useThemePropsDefault,
+    componentName = "MuiContainer"
+  } = options;
+  const ContainerRoot = createStyledComponent(({
+    theme,
+    ownerState
+  }) => ({
+    width: "100%",
+    marginLeft: "auto",
+    boxSizing: "border-box",
+    marginRight: "auto",
+    ...!ownerState.disableGutters && {
+      paddingLeft: theme.spacing(2),
+      paddingRight: theme.spacing(2),
+      // @ts-ignore module augmentation fails if custom breakpoints are used
+      [theme.breakpoints.up("sm")]: {
+        paddingLeft: theme.spacing(3),
+        paddingRight: theme.spacing(3)
+      }
+    }
+  }), ({
+    theme,
+    ownerState
+  }) => ownerState.fixed && Object.keys(theme.breakpoints.values).reduce((acc, breakpointValueKey) => {
+    const breakpoint = breakpointValueKey;
+    const value = theme.breakpoints.values[breakpoint];
+    if (value !== 0) {
+      acc[theme.breakpoints.up(breakpoint)] = {
+        maxWidth: `${value}${theme.breakpoints.unit}`
+      };
+    }
+    return acc;
+  }, {}), ({
+    theme,
+    ownerState
+  }) => ({
+    // @ts-ignore module augmentation fails if custom breakpoints are used
+    ...ownerState.maxWidth === "xs" && {
+      // @ts-ignore module augmentation fails if custom breakpoints are used
+      [theme.breakpoints.up("xs")]: {
+        // @ts-ignore module augmentation fails if custom breakpoints are used
+        maxWidth: Math.max(theme.breakpoints.values.xs, 444)
+      }
+    },
+    ...ownerState.maxWidth && // @ts-ignore module augmentation fails if custom breakpoints are used
+    ownerState.maxWidth !== "xs" && {
+      // @ts-ignore module augmentation fails if custom breakpoints are used
+      [theme.breakpoints.up(ownerState.maxWidth)]: {
+        // @ts-ignore module augmentation fails if custom breakpoints are used
+        maxWidth: `${theme.breakpoints.values[ownerState.maxWidth]}${theme.breakpoints.unit}`
+      }
+    }
+  }));
+  const Container2 = React87.forwardRef(function Container3(inProps, ref) {
+    const props = useThemeProps3(inProps);
+    const {
+      className,
+      component = "div",
+      disableGutters = false,
+      fixed = false,
+      maxWidth: maxWidth2 = "lg",
+      classes: classesProp,
+      ...other
+    } = props;
+    const ownerState = {
+      ...props,
+      component,
+      disableGutters,
+      fixed,
+      maxWidth: maxWidth2
+    };
+    const classes = useUtilityClasses5(ownerState, componentName);
+    return (
+      // @ts-ignore theme is injected by the styled util
+      (0, import_jsx_runtime35.jsx)(ContainerRoot, {
+        as: component,
+        ownerState,
+        className: clsx_default(classes.root, className),
+        ref,
+        ...other
+      })
+    );
+  });
+  true ? Container2.propTypes = {
+    children: import_prop_types28.default.node,
+    classes: import_prop_types28.default.object,
+    className: import_prop_types28.default.string,
+    component: import_prop_types28.default.elementType,
+    disableGutters: import_prop_types28.default.bool,
+    fixed: import_prop_types28.default.bool,
+    maxWidth: import_prop_types28.default.oneOfType([import_prop_types28.default.oneOf(["xs", "sm", "md", "lg", "xl", false]), import_prop_types28.default.string]),
+    sx: import_prop_types28.default.oneOfType([import_prop_types28.default.arrayOf(import_prop_types28.default.oneOfType([import_prop_types28.default.func, import_prop_types28.default.object, import_prop_types28.default.bool])), import_prop_types28.default.func, import_prop_types28.default.object])
+  } : void 0;
+  return Container2;
+}
+
+// node_modules/@mui/system/esm/Container/Container.js
+var import_prop_types29 = __toESM(require_prop_types());
+var Container = createContainer();
+true ? Container.propTypes = {
+  // ┌────────────────────────────── Warning ──────────────────────────────┐
+  // │ These PropTypes are generated from the TypeScript type definitions. │
+  // │ To update them, edit the TypeScript types and run `pnpm proptypes`. │
+  // └─────────────────────────────────────────────────────────────────────┘
+  /**
+   * @ignore
+   */
+  children: import_prop_types29.default.node,
+  /**
+   * Override or extend the styles applied to the component.
+   */
+  classes: import_prop_types29.default.object,
+  /**
+   * The component used for the root node.
+   * Either a string to use a HTML element or a component.
+   */
+  component: import_prop_types29.default.elementType,
+  /**
+   * If `true`, the left and right padding is removed.
+   * @default false
+   */
+  disableGutters: import_prop_types29.default.bool,
+  /**
+   * Set the max-width to match the min-width of the current breakpoint.
+   * This is useful if you'd prefer to design for a fixed set of sizes
+   * instead of trying to accommodate a fully fluid viewport.
+   * It's fluid by default.
+   * @default false
+   */
+  fixed: import_prop_types29.default.bool,
+  /**
+   * Determine the max-width of the container.
+   * The container width grows with the size of the screen.
+   * Set to `false` to disable `maxWidth`.
+   * @default 'lg'
+   */
+  maxWidth: import_prop_types29.default.oneOfType([import_prop_types29.default.oneOf(["xs", "sm", "md", "lg", "xl", false]), import_prop_types29.default.string]),
+  /**
+   * The system prop that allows defining system overrides as well as additional CSS styles.
+   */
+  sx: import_prop_types29.default.oneOfType([import_prop_types29.default.arrayOf(import_prop_types29.default.oneOfType([import_prop_types29.default.func, import_prop_types29.default.object, import_prop_types29.default.bool])), import_prop_types29.default.func, import_prop_types29.default.object])
+} : void 0;
+
+// node_modules/@mui/system/esm/Container/containerClasses.js
+var containerClasses = generateUtilityClasses2("MuiContainer", ["root", "disableGutters", "fixed", "maxWidthXs", "maxWidthSm", "maxWidthMd", "maxWidthLg", "maxWidthXl"]);
+
+// node_modules/@mui/system/esm/Grid/Grid.js
+var import_prop_types31 = __toESM(require_prop_types());
+
+// node_modules/@mui/system/esm/Grid/createGrid.js
+var React89 = __toESM(require_react());
+var import_prop_types30 = __toESM(require_prop_types());
+
+// node_modules/@mui/system/node_modules/@mui/utils/esm/isMuiElement/isMuiElement.js
+var React88 = __toESM(require_react());
+function isMuiElement2(element, muiNames) {
+  var _a, _b, _c;
+  return React88.isValidElement(element) && muiNames.indexOf(
+    // For server components `muiName` is avaialble in element.type._payload.value.muiName
+    // relevant info - https://github.com/facebook/react/blob/2807d781a08db8e9873687fccc25c0f12b4fb3d4/packages/react/src/ReactLazy.js#L45
+    // eslint-disable-next-line no-underscore-dangle
+    element.type.muiName ?? ((_c = (_b = (_a = element.type) == null ? void 0 : _a._payload) == null ? void 0 : _b.value) == null ? void 0 : _c.muiName)
+  ) !== -1;
+}
+
+// node_modules/@mui/system/esm/Grid/traverseBreakpoints.js
+var filterBreakpointKeys = (breakpointsKeys, responsiveKeys) => breakpointsKeys.filter((key) => responsiveKeys.includes(key));
+var traverseBreakpoints = (breakpoints, responsive, iterator) => {
+  const smallestBreakpoint = breakpoints.keys[0];
+  if (Array.isArray(responsive)) {
+    responsive.forEach((breakpointValue, index2) => {
+      iterator((responsiveStyles, style4) => {
+        if (index2 <= breakpoints.keys.length - 1) {
+          if (index2 === 0) {
+            Object.assign(responsiveStyles, style4);
+          } else {
+            responsiveStyles[breakpoints.up(breakpoints.keys[index2])] = style4;
+          }
+        }
+      }, breakpointValue);
+    });
+  } else if (responsive && typeof responsive === "object") {
+    const keys = Object.keys(responsive).length > breakpoints.keys.length ? breakpoints.keys : filterBreakpointKeys(breakpoints.keys, Object.keys(responsive));
+    keys.forEach((key) => {
+      if (breakpoints.keys.includes(key)) {
+        const breakpointValue = responsive[key];
+        if (breakpointValue !== void 0) {
+          iterator((responsiveStyles, style4) => {
+            if (smallestBreakpoint === key) {
+              Object.assign(responsiveStyles, style4);
+            } else {
+              responsiveStyles[breakpoints.up(key)] = style4;
+            }
+          }, breakpointValue);
+        }
+      }
+    });
+  } else if (typeof responsive === "number" || typeof responsive === "string") {
+    iterator((responsiveStyles, style4) => {
+      Object.assign(responsiveStyles, style4);
+    }, responsive);
+  }
+};
+
+// node_modules/@mui/system/esm/Grid/gridGenerator.js
+function getSelfSpacingVar(axis) {
+  return `--Grid-${axis}Spacing`;
+}
+function getParentSpacingVar(axis) {
+  return `--Grid-parent-${axis}Spacing`;
+}
+var selfColumnsVar = "--Grid-columns";
+var parentColumnsVar = "--Grid-parent-columns";
+var generateGridSizeStyles = ({
+  theme,
+  ownerState
+}) => {
+  const styles = {};
+  traverseBreakpoints(theme.breakpoints, ownerState.size, (appendStyle, value) => {
+    let style4 = {};
+    if (value === "grow") {
+      style4 = {
+        flexBasis: 0,
+        flexGrow: 1,
+        maxWidth: "100%"
+      };
+    }
+    if (value === "auto") {
+      style4 = {
+        flexBasis: "auto",
+        flexGrow: 0,
+        flexShrink: 0,
+        maxWidth: "none",
+        width: "auto"
+      };
+    }
+    if (typeof value === "number") {
+      style4 = {
+        flexGrow: 0,
+        flexBasis: "auto",
+        width: `calc(100% * ${value} / var(${parentColumnsVar}) - (var(${parentColumnsVar}) - ${value}) * (var(${getParentSpacingVar("column")}) / var(${parentColumnsVar})))`
+      };
+    }
+    appendStyle(styles, style4);
+  });
+  return styles;
+};
+var generateGridOffsetStyles = ({
+  theme,
+  ownerState
+}) => {
+  const styles = {};
+  traverseBreakpoints(theme.breakpoints, ownerState.offset, (appendStyle, value) => {
+    let style4 = {};
+    if (value === "auto") {
+      style4 = {
+        marginLeft: "auto"
+      };
+    }
+    if (typeof value === "number") {
+      style4 = {
+        marginLeft: value === 0 ? "0px" : `calc(100% * ${value} / var(${parentColumnsVar}) + var(${getParentSpacingVar("column")}) * ${value} / var(${parentColumnsVar}))`
+      };
+    }
+    appendStyle(styles, style4);
+  });
+  return styles;
+};
+var generateGridColumnsStyles = ({
+  theme,
+  ownerState
+}) => {
+  if (!ownerState.container) {
+    return {};
+  }
+  const styles = {
+    [selfColumnsVar]: 12
+  };
+  traverseBreakpoints(theme.breakpoints, ownerState.columns, (appendStyle, value) => {
+    const columns = value ?? 12;
+    appendStyle(styles, {
+      [selfColumnsVar]: columns,
+      "> *": {
+        [parentColumnsVar]: columns
+      }
+    });
+  });
+  return styles;
+};
+var generateGridRowSpacingStyles = ({
+  theme,
+  ownerState
+}) => {
+  if (!ownerState.container) {
+    return {};
+  }
+  const styles = {};
+  traverseBreakpoints(theme.breakpoints, ownerState.rowSpacing, (appendStyle, value) => {
+    var _a;
+    const spacing2 = typeof value === "string" ? value : (_a = theme.spacing) == null ? void 0 : _a.call(theme, value);
+    appendStyle(styles, {
+      [getSelfSpacingVar("row")]: spacing2,
+      "> *": {
+        [getParentSpacingVar("row")]: spacing2
+      }
+    });
+  });
+  return styles;
+};
+var generateGridColumnSpacingStyles = ({
+  theme,
+  ownerState
+}) => {
+  if (!ownerState.container) {
+    return {};
+  }
+  const styles = {};
+  traverseBreakpoints(theme.breakpoints, ownerState.columnSpacing, (appendStyle, value) => {
+    var _a;
+    const spacing2 = typeof value === "string" ? value : (_a = theme.spacing) == null ? void 0 : _a.call(theme, value);
+    appendStyle(styles, {
+      [getSelfSpacingVar("column")]: spacing2,
+      "> *": {
+        [getParentSpacingVar("column")]: spacing2
+      }
+    });
+  });
+  return styles;
+};
+var generateGridDirectionStyles = ({
+  theme,
+  ownerState
+}) => {
+  if (!ownerState.container) {
+    return {};
+  }
+  const styles = {};
+  traverseBreakpoints(theme.breakpoints, ownerState.direction, (appendStyle, value) => {
+    appendStyle(styles, {
+      flexDirection: value
+    });
+  });
+  return styles;
+};
+var generateGridStyles = ({
+  ownerState
+}) => {
+  return {
+    minWidth: 0,
+    boxSizing: "border-box",
+    ...ownerState.container && {
+      display: "flex",
+      flexWrap: "wrap",
+      ...ownerState.wrap && ownerState.wrap !== "wrap" && {
+        flexWrap: ownerState.wrap
+      },
+      gap: `var(${getSelfSpacingVar("row")}) var(${getSelfSpacingVar("column")})`
+    }
+  };
+};
+var generateSizeClassNames = (size) => {
+  const classNames = [];
+  Object.entries(size).forEach(([key, value]) => {
+    if (value !== false && value !== void 0) {
+      classNames.push(`grid-${key}-${String(value)}`);
+    }
+  });
+  return classNames;
+};
+var generateSpacingClassNames = (spacing2, smallestBreakpoint = "xs") => {
+  function isValidSpacing(val) {
+    if (val === void 0) {
+      return false;
+    }
+    return typeof val === "string" && !Number.isNaN(Number(val)) || typeof val === "number" && val > 0;
+  }
+  if (isValidSpacing(spacing2)) {
+    return [`spacing-${smallestBreakpoint}-${String(spacing2)}`];
+  }
+  if (typeof spacing2 === "object" && !Array.isArray(spacing2)) {
+    const classNames = [];
+    Object.entries(spacing2).forEach(([key, value]) => {
+      if (isValidSpacing(value)) {
+        classNames.push(`spacing-${key}-${String(value)}`);
+      }
+    });
+    return classNames;
+  }
+  return [];
+};
+var generateDirectionClasses = (direction) => {
+  if (direction === void 0) {
+    return [];
+  }
+  if (typeof direction === "object") {
+    return Object.entries(direction).map(([key, value]) => `direction-${key}-${value}`);
+  }
+  return [`direction-xs-${String(direction)}`];
+};
+
+// node_modules/@mui/system/esm/Grid/createGrid.js
+var import_jsx_runtime36 = __toESM(require_jsx_runtime());
+var defaultTheme2 = createTheme_default();
+var defaultCreateStyledComponent2 = styled_default2("div", {
+  name: "MuiGrid",
+  slot: "Root",
+  overridesResolver: (props, styles) => styles.root
+});
+function useThemePropsDefault2(props) {
+  return useThemeProps2({
+    props,
+    name: "MuiGrid",
+    defaultTheme: defaultTheme2
+  });
+}
+function createGrid(options = {}) {
+  const {
+    // This will allow adding custom styled fn (for example for custom sx style function)
+    createStyledComponent = defaultCreateStyledComponent2,
+    useThemeProps: useThemeProps3 = useThemePropsDefault2,
+    useTheme: useTheme5 = useTheme_default,
+    componentName = "MuiGrid"
+  } = options;
+  const useUtilityClasses10 = (ownerState, theme) => {
+    const {
+      container,
+      direction,
+      spacing: spacing2,
+      wrap,
+      size
+    } = ownerState;
+    const slots = {
+      root: ["root", container && "container", wrap !== "wrap" && `wrap-xs-${String(wrap)}`, ...generateDirectionClasses(direction), ...generateSizeClassNames(size), ...container ? generateSpacingClassNames(spacing2, theme.breakpoints.keys[0]) : []]
+    };
+    return composeClasses3(slots, (slot) => generateUtilityClass2(componentName, slot), {});
+  };
+  function parseResponsiveProp(propValue, breakpoints, shouldUseValue = () => true) {
+    const parsedProp = {};
+    if (propValue === null) {
+      return parsedProp;
+    }
+    if (Array.isArray(propValue)) {
+      propValue.forEach((value, index2) => {
+        if (value !== null && shouldUseValue(value) && breakpoints.keys[index2]) {
+          parsedProp[breakpoints.keys[index2]] = value;
+        }
+      });
+    } else if (typeof propValue === "object") {
+      Object.keys(propValue).forEach((key) => {
+        const value = propValue[key];
+        if (value !== null && value !== void 0 && shouldUseValue(value)) {
+          parsedProp[key] = value;
+        }
+      });
+    } else {
+      parsedProp[breakpoints.keys[0]] = propValue;
+    }
+    return parsedProp;
+  }
+  const GridRoot2 = createStyledComponent(generateGridColumnsStyles, generateGridColumnSpacingStyles, generateGridRowSpacingStyles, generateGridSizeStyles, generateGridDirectionStyles, generateGridStyles, generateGridOffsetStyles);
+  const Grid2 = React89.forwardRef(function Grid3(inProps, ref) {
+    const theme = useTheme5();
+    const themeProps = useThemeProps3(inProps);
+    const props = extendSxProp(themeProps);
+    const {
+      className,
+      children,
+      columns: columnsProp = 12,
+      container = false,
+      component = "div",
+      direction = "row",
+      wrap = "wrap",
+      size: sizeProp = {},
+      offset: offsetProp = {},
+      spacing: spacingProp = 0,
+      rowSpacing: rowSpacingProp = spacingProp,
+      columnSpacing: columnSpacingProp = spacingProp,
+      unstable_level: level = 0,
+      ...other
+    } = props;
+    const size = parseResponsiveProp(sizeProp, theme.breakpoints, (val) => val !== false);
+    const offset = parseResponsiveProp(offsetProp, theme.breakpoints);
+    const columns = inProps.columns ?? (level ? void 0 : columnsProp);
+    const spacing2 = inProps.spacing ?? (level ? void 0 : spacingProp);
+    const rowSpacing = inProps.rowSpacing ?? inProps.spacing ?? (level ? void 0 : rowSpacingProp);
+    const columnSpacing = inProps.columnSpacing ?? inProps.spacing ?? (level ? void 0 : columnSpacingProp);
+    const ownerState = {
+      ...props,
+      level,
+      columns,
+      container,
+      direction,
+      wrap,
+      spacing: spacing2,
+      rowSpacing,
+      columnSpacing,
+      size,
+      offset
+    };
+    const classes = useUtilityClasses10(ownerState, theme);
+    return (0, import_jsx_runtime36.jsx)(GridRoot2, {
+      ref,
+      as: component,
+      ownerState,
+      className: clsx_default(classes.root, className),
+      ...other,
+      children: React89.Children.map(children, (child) => {
+        var _a;
+        if (React89.isValidElement(child) && isMuiElement2(child, ["Grid"]) && container && child.props.container) {
+          return React89.cloneElement(child, {
+            unstable_level: ((_a = child.props) == null ? void 0 : _a.unstable_level) ?? level + 1
+          });
+        }
+        return child;
+      })
+    });
+  });
+  true ? Grid2.propTypes = {
+    children: import_prop_types30.default.node,
+    className: import_prop_types30.default.string,
+    columns: import_prop_types30.default.oneOfType([import_prop_types30.default.arrayOf(import_prop_types30.default.number), import_prop_types30.default.number, import_prop_types30.default.object]),
+    columnSpacing: import_prop_types30.default.oneOfType([import_prop_types30.default.arrayOf(import_prop_types30.default.oneOfType([import_prop_types30.default.number, import_prop_types30.default.string])), import_prop_types30.default.number, import_prop_types30.default.object, import_prop_types30.default.string]),
+    component: import_prop_types30.default.elementType,
+    container: import_prop_types30.default.bool,
+    direction: import_prop_types30.default.oneOfType([import_prop_types30.default.oneOf(["column-reverse", "column", "row-reverse", "row"]), import_prop_types30.default.arrayOf(import_prop_types30.default.oneOf(["column-reverse", "column", "row-reverse", "row"])), import_prop_types30.default.object]),
+    offset: import_prop_types30.default.oneOfType([import_prop_types30.default.string, import_prop_types30.default.number, import_prop_types30.default.arrayOf(import_prop_types30.default.oneOfType([import_prop_types30.default.string, import_prop_types30.default.number])), import_prop_types30.default.object]),
+    rowSpacing: import_prop_types30.default.oneOfType([import_prop_types30.default.arrayOf(import_prop_types30.default.oneOfType([import_prop_types30.default.number, import_prop_types30.default.string])), import_prop_types30.default.number, import_prop_types30.default.object, import_prop_types30.default.string]),
+    size: import_prop_types30.default.oneOfType([import_prop_types30.default.string, import_prop_types30.default.bool, import_prop_types30.default.number, import_prop_types30.default.arrayOf(import_prop_types30.default.oneOfType([import_prop_types30.default.string, import_prop_types30.default.bool, import_prop_types30.default.number])), import_prop_types30.default.object]),
+    spacing: import_prop_types30.default.oneOfType([import_prop_types30.default.arrayOf(import_prop_types30.default.oneOfType([import_prop_types30.default.number, import_prop_types30.default.string])), import_prop_types30.default.number, import_prop_types30.default.object, import_prop_types30.default.string]),
+    sx: import_prop_types30.default.oneOfType([import_prop_types30.default.arrayOf(import_prop_types30.default.oneOfType([import_prop_types30.default.func, import_prop_types30.default.object, import_prop_types30.default.bool])), import_prop_types30.default.func, import_prop_types30.default.object]),
+    wrap: import_prop_types30.default.oneOf(["nowrap", "wrap-reverse", "wrap"])
+  } : void 0;
+  Grid2.muiName = "Grid";
+  return Grid2;
+}
+
+// node_modules/@mui/system/esm/Grid/Grid.js
+var Grid = createGrid();
+true ? Grid.propTypes = {
+  // ┌────────────────────────────── Warning ──────────────────────────────┐
+  // │ These PropTypes are generated from the TypeScript type definitions. │
+  // │ To update them, edit the TypeScript types and run `pnpm proptypes`. │
+  // └─────────────────────────────────────────────────────────────────────┘
+  /**
+   * The content of the component.
+   */
+  children: import_prop_types31.default.node,
+  /**
+   * The number of columns.
+   * @default 12
+   */
+  columns: import_prop_types31.default.oneOfType([import_prop_types31.default.arrayOf(import_prop_types31.default.number), import_prop_types31.default.number, import_prop_types31.default.object]),
+  /**
+   * Defines the horizontal space between the type `item` components.
+   * It overrides the value of the `spacing` prop.
+   */
+  columnSpacing: import_prop_types31.default.oneOfType([import_prop_types31.default.arrayOf(import_prop_types31.default.oneOfType([import_prop_types31.default.number, import_prop_types31.default.string])), import_prop_types31.default.number, import_prop_types31.default.object, import_prop_types31.default.string]),
+  /**
+   * If `true`, the component will have the flex *container* behavior.
+   * You should be wrapping *items* with a *container*.
+   * @default false
+   */
+  container: import_prop_types31.default.bool,
+  /**
+   * Defines the `flex-direction` style property.
+   * It is applied for all screen sizes.
+   * @default 'row'
+   */
+  direction: import_prop_types31.default.oneOfType([import_prop_types31.default.oneOf(["column-reverse", "column", "row-reverse", "row"]), import_prop_types31.default.arrayOf(import_prop_types31.default.oneOf(["column-reverse", "column", "row-reverse", "row"])), import_prop_types31.default.object]),
+  /**
+   * Defines the offset value for the type `item` components.
+   */
+  offset: import_prop_types31.default.oneOfType([import_prop_types31.default.string, import_prop_types31.default.number, import_prop_types31.default.arrayOf(import_prop_types31.default.oneOfType([import_prop_types31.default.string, import_prop_types31.default.number])), import_prop_types31.default.object]),
+  /**
+   * Defines the vertical space between the type `item` components.
+   * It overrides the value of the `spacing` prop.
+   */
+  rowSpacing: import_prop_types31.default.oneOfType([import_prop_types31.default.arrayOf(import_prop_types31.default.oneOfType([import_prop_types31.default.number, import_prop_types31.default.string])), import_prop_types31.default.number, import_prop_types31.default.object, import_prop_types31.default.string]),
+  /**
+   * Defines the size of the the type `item` components.
+   */
+  size: import_prop_types31.default.oneOfType([import_prop_types31.default.string, import_prop_types31.default.bool, import_prop_types31.default.number, import_prop_types31.default.arrayOf(import_prop_types31.default.oneOfType([import_prop_types31.default.string, import_prop_types31.default.bool, import_prop_types31.default.number])), import_prop_types31.default.object]),
+  /**
+   * Defines the space between the type `item` components.
+   * It can only be used on a type `container` component.
+   * @default 0
+   */
+  spacing: import_prop_types31.default.oneOfType([import_prop_types31.default.arrayOf(import_prop_types31.default.oneOfType([import_prop_types31.default.number, import_prop_types31.default.string])), import_prop_types31.default.number, import_prop_types31.default.object, import_prop_types31.default.string]),
+  /**
+   * @ignore
+   */
+  sx: import_prop_types31.default.oneOfType([import_prop_types31.default.arrayOf(import_prop_types31.default.oneOfType([import_prop_types31.default.func, import_prop_types31.default.object, import_prop_types31.default.bool])), import_prop_types31.default.func, import_prop_types31.default.object]),
+  /**
+   * @internal
+   * The level of the grid starts from `0` and increases when the grid nests
+   * inside another grid. Nesting is defined as a container Grid being a direct
+   * child of a container Grid.
+   *
+   * ```js
+   * <Grid container> // level 0
+   *   <Grid container> // level 1
+   *     <Grid container> // level 2
+   * ```
+   *
+   * Only consecutive grid is considered nesting. A grid container will start at
+   * `0` if there are non-Grid container element above it.
+   *
+   * ```js
+   * <Grid container> // level 0
+   *   <div>
+   *     <Grid container> // level 0
+   * ```
+   *
+   * ```js
+   * <Grid container> // level 0
+   *   <Grid>
+   *     <Grid container> // level 0
+   * ```
+   */
+  unstable_level: import_prop_types31.default.number,
+  /**
+   * Defines the `flex-wrap` style property.
+   * It's applied for all screen sizes.
+   * @default 'wrap'
+   */
+  wrap: import_prop_types31.default.oneOf(["nowrap", "wrap-reverse", "wrap"])
+} : void 0;
+
+// node_modules/@mui/system/esm/Grid/gridClasses.js
+var SPACINGS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+var DIRECTIONS = ["column-reverse", "column", "row-reverse", "row"];
+var WRAPS = ["nowrap", "wrap-reverse", "wrap"];
+var GRID_SIZES = ["auto", "grow", 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+var gridClasses = generateUtilityClasses2("MuiGrid", [
+  "root",
+  "container",
+  "item",
+  // spacings
+  ...SPACINGS.map((spacing2) => `spacing-xs-${spacing2}`),
+  // direction values
+  ...DIRECTIONS.map((direction) => `direction-xs-${direction}`),
+  // wrap values
+  ...WRAPS.map((wrap) => `wrap-xs-${wrap}`),
+  // grid sizes for all breakpoints
+  ...GRID_SIZES.map((size) => `grid-xs-${size}`),
+  ...GRID_SIZES.map((size) => `grid-sm-${size}`),
+  ...GRID_SIZES.map((size) => `grid-md-${size}`),
+  ...GRID_SIZES.map((size) => `grid-lg-${size}`),
+  ...GRID_SIZES.map((size) => `grid-xl-${size}`)
+]);
+
+// node_modules/@mui/system/esm/Stack/Stack.js
+var import_prop_types33 = __toESM(require_prop_types());
+
+// node_modules/@mui/system/esm/Stack/createStack.js
+var React90 = __toESM(require_react());
+var import_prop_types32 = __toESM(require_prop_types());
+var import_jsx_runtime37 = __toESM(require_jsx_runtime());
+var defaultTheme3 = createTheme_default();
+var defaultCreateStyledComponent3 = styled_default2("div", {
+  name: "MuiStack",
+  slot: "Root",
+  overridesResolver: (props, styles) => styles.root
+});
+function useThemePropsDefault3(props) {
+  return useThemeProps2({
+    props,
+    name: "MuiStack",
+    defaultTheme: defaultTheme3
+  });
+}
+function joinChildren(children, separator) {
+  const childrenArray = React90.Children.toArray(children).filter(Boolean);
+  return childrenArray.reduce((output, child, index2) => {
+    output.push(child);
+    if (index2 < childrenArray.length - 1) {
+      output.push(React90.cloneElement(separator, {
+        key: `separator-${index2}`
+      }));
+    }
+    return output;
+  }, []);
+}
+var getSideFromDirection = (direction) => {
+  return {
+    row: "Left",
+    "row-reverse": "Right",
+    column: "Top",
+    "column-reverse": "Bottom"
+  }[direction];
+};
+var style3 = ({
+  ownerState,
+  theme
+}) => {
+  let styles = {
+    display: "flex",
+    flexDirection: "column",
+    ...handleBreakpoints({
+      theme
+    }, resolveBreakpointValues({
+      values: ownerState.direction,
+      breakpoints: theme.breakpoints.values
+    }), (propValue) => ({
+      flexDirection: propValue
+    }))
+  };
+  if (ownerState.spacing) {
+    const transformer3 = createUnarySpacing(theme);
+    const base = Object.keys(theme.breakpoints.values).reduce((acc, breakpoint) => {
+      if (typeof ownerState.spacing === "object" && ownerState.spacing[breakpoint] != null || typeof ownerState.direction === "object" && ownerState.direction[breakpoint] != null) {
+        acc[breakpoint] = true;
+      }
+      return acc;
+    }, {});
+    const directionValues = resolveBreakpointValues({
+      values: ownerState.direction,
+      base
+    });
+    const spacingValues = resolveBreakpointValues({
+      values: ownerState.spacing,
+      base
+    });
+    if (typeof directionValues === "object") {
+      Object.keys(directionValues).forEach((breakpoint, index2, breakpoints) => {
+        const directionValue = directionValues[breakpoint];
+        if (!directionValue) {
+          const previousDirectionValue = index2 > 0 ? directionValues[breakpoints[index2 - 1]] : "column";
+          directionValues[breakpoint] = previousDirectionValue;
+        }
+      });
+    }
+    const styleFromPropValue = (propValue, breakpoint) => {
+      if (ownerState.useFlexGap) {
+        return {
+          gap: getValue(transformer3, propValue)
+        };
+      }
+      return {
+        // The useFlexGap={false} implement relies on each child to give up control of the margin.
+        // We need to reset the margin to avoid double spacing.
+        "& > :not(style):not(style)": {
+          margin: 0
+        },
+        "& > :not(style) ~ :not(style)": {
+          [`margin${getSideFromDirection(breakpoint ? directionValues[breakpoint] : ownerState.direction)}`]: getValue(transformer3, propValue)
+        }
+      };
+    };
+    styles = deepmerge(styles, handleBreakpoints({
+      theme
+    }, spacingValues, styleFromPropValue));
+  }
+  styles = mergeBreakpointsInOrder(theme.breakpoints, styles);
+  return styles;
+};
+function createStack(options = {}) {
+  const {
+    // This will allow adding custom styled fn (for example for custom sx style function)
+    createStyledComponent = defaultCreateStyledComponent3,
+    useThemeProps: useThemeProps3 = useThemePropsDefault3,
+    componentName = "MuiStack"
+  } = options;
+  const useUtilityClasses10 = () => {
+    const slots = {
+      root: ["root"]
+    };
+    return composeClasses3(slots, (slot) => generateUtilityClass2(componentName, slot), {});
+  };
+  const StackRoot = createStyledComponent(style3);
+  const Stack2 = React90.forwardRef(function Grid2(inProps, ref) {
+    const themeProps = useThemeProps3(inProps);
+    const props = extendSxProp(themeProps);
+    const {
+      component = "div",
+      direction = "column",
+      spacing: spacing2 = 0,
+      divider,
+      children,
+      className,
+      useFlexGap = false,
+      ...other
+    } = props;
+    const ownerState = {
+      direction,
+      spacing: spacing2,
+      useFlexGap
+    };
+    const classes = useUtilityClasses10();
+    return (0, import_jsx_runtime37.jsx)(StackRoot, {
+      as: component,
+      ownerState,
+      ref,
+      className: clsx_default(classes.root, className),
+      ...other,
+      children: divider ? joinChildren(children, divider) : children
+    });
+  });
+  true ? Stack2.propTypes = {
+    children: import_prop_types32.default.node,
+    direction: import_prop_types32.default.oneOfType([import_prop_types32.default.oneOf(["column-reverse", "column", "row-reverse", "row"]), import_prop_types32.default.arrayOf(import_prop_types32.default.oneOf(["column-reverse", "column", "row-reverse", "row"])), import_prop_types32.default.object]),
+    divider: import_prop_types32.default.node,
+    spacing: import_prop_types32.default.oneOfType([import_prop_types32.default.arrayOf(import_prop_types32.default.oneOfType([import_prop_types32.default.number, import_prop_types32.default.string])), import_prop_types32.default.number, import_prop_types32.default.object, import_prop_types32.default.string]),
+    sx: import_prop_types32.default.oneOfType([import_prop_types32.default.arrayOf(import_prop_types32.default.oneOfType([import_prop_types32.default.func, import_prop_types32.default.object, import_prop_types32.default.bool])), import_prop_types32.default.func, import_prop_types32.default.object])
+  } : void 0;
+  return Stack2;
+}
+
+// node_modules/@mui/system/esm/Stack/Stack.js
+var Stack = createStack();
+true ? Stack.propTypes = {
+  // ┌────────────────────────────── Warning ──────────────────────────────┐
+  // │ These PropTypes are generated from the TypeScript type definitions. │
+  // │ To update them, edit the TypeScript types and run `pnpm proptypes`. │
+  // └─────────────────────────────────────────────────────────────────────┘
+  /**
+   * The content of the component.
+   */
+  children: import_prop_types33.default.node,
+  /**
+   * The component used for the root node.
+   * Either a string to use a HTML element or a component.
+   */
+  component: import_prop_types33.default.elementType,
+  /**
+   * Defines the `flex-direction` style property.
+   * It is applied for all screen sizes.
+   * @default 'column'
+   */
+  direction: import_prop_types33.default.oneOfType([import_prop_types33.default.oneOf(["column-reverse", "column", "row-reverse", "row"]), import_prop_types33.default.arrayOf(import_prop_types33.default.oneOf(["column-reverse", "column", "row-reverse", "row"])), import_prop_types33.default.object]),
+  /**
+   * Add an element between each child.
+   */
+  divider: import_prop_types33.default.node,
+  /**
+   * Defines the space between immediate children.
+   * @default 0
+   */
+  spacing: import_prop_types33.default.oneOfType([import_prop_types33.default.arrayOf(import_prop_types33.default.oneOfType([import_prop_types33.default.number, import_prop_types33.default.string])), import_prop_types33.default.number, import_prop_types33.default.object, import_prop_types33.default.string]),
+  /**
+   * The system prop, which allows defining system overrides as well as additional CSS styles.
+   */
+  sx: import_prop_types33.default.oneOfType([import_prop_types33.default.arrayOf(import_prop_types33.default.oneOfType([import_prop_types33.default.func, import_prop_types33.default.object, import_prop_types33.default.bool])), import_prop_types33.default.func, import_prop_types33.default.object]),
+  /**
+   * If `true`, the CSS flexbox `gap` is used instead of applying `margin` to children.
+   *
+   * While CSS `gap` removes the [known limitations](https://mui.com/joy-ui/react-stack/#limitations),
+   * it is not fully supported in some browsers. We recommend checking https://caniuse.com/?search=flex%20gap before using this flag.
+   *
+   * To enable this flag globally, follow the theme's default props configuration.
+   * @default false
+   */
+  useFlexGap: import_prop_types33.default.bool
+} : void 0;
+
+// node_modules/@mui/system/esm/Stack/stackClasses.js
+var stackClasses = generateUtilityClasses2("MuiStack", ["root"]);
 
 // node_modules/@mui/x-charts/ChartsTooltip/chartsTooltipClasses.js
 function getChartsTooltipUtilityClass(slot) {
@@ -12858,20 +16543,20 @@ var ChartsTooltipMark = styled_default("div", {
   shouldForwardProp: (prop) => shouldForwardProp(prop) && prop !== "color"
 })(({
   theme,
-  color: color2
+  color: color3
 }) => ({
   width: theme.spacing(1),
   height: theme.spacing(1),
   borderRadius: "50%",
   boxShadow: theme.shadows[1],
-  background: color2,
+  background: color3,
   borderColor: (theme.vars || theme).palette.background.paper,
   border: `solid ${(theme.vars || theme).palette.background.paper} ${theme.spacing(0.25)}`,
   boxSizing: "content-box"
 }));
 
 // node_modules/@mui/x-charts/ChartsTooltip/DefaultChartsItemTooltipContent.js
-var import_jsx_runtime25 = __toESM(require_jsx_runtime());
+var import_jsx_runtime38 = __toESM(require_jsx_runtime());
 function DefaultChartsItemTooltipContent(props) {
   var _a;
   const {
@@ -12886,7 +16571,7 @@ function DefaultChartsItemTooltipContent(props) {
   }
   const {
     displayedLabel,
-    color: color2
+    color: color3
   } = series.type === "pie" ? {
     color: getColor5(itemData.dataIndex),
     displayedLabel: getLabel(series.data[itemData.dataIndex].label, "tooltip")
@@ -12900,24 +16585,24 @@ function DefaultChartsItemTooltipContent(props) {
   const formattedValue = (_a = series.valueFormatter) == null ? void 0 : _a.call(series, value, {
     dataIndex: itemData.dataIndex
   });
-  return (0, import_jsx_runtime25.jsx)(ChartsTooltipPaper, {
+  return (0, import_jsx_runtime38.jsx)(ChartsTooltipPaper, {
     sx,
     className: classes.paper,
-    children: (0, import_jsx_runtime25.jsx)(ChartsTooltipTable, {
+    children: (0, import_jsx_runtime38.jsx)(ChartsTooltipTable, {
       className: classes.table,
-      children: (0, import_jsx_runtime25.jsx)("tbody", {
-        children: (0, import_jsx_runtime25.jsxs)(ChartsTooltipRow, {
+      children: (0, import_jsx_runtime38.jsx)("tbody", {
+        children: (0, import_jsx_runtime38.jsxs)(ChartsTooltipRow, {
           className: classes.row,
-          children: [(0, import_jsx_runtime25.jsx)(ChartsTooltipCell, {
+          children: [(0, import_jsx_runtime38.jsx)(ChartsTooltipCell, {
             className: clsx_default(classes.markCell, classes.cell),
-            children: (0, import_jsx_runtime25.jsx)(ChartsTooltipMark, {
-              color: color2,
+            children: (0, import_jsx_runtime38.jsx)(ChartsTooltipMark, {
+              color: color3,
               className: classes.mark
             })
-          }), (0, import_jsx_runtime25.jsx)(ChartsTooltipCell, {
+          }), (0, import_jsx_runtime38.jsx)(ChartsTooltipCell, {
             className: clsx_default(classes.labelCell, classes.cell),
             children: displayedLabel
-          }), (0, import_jsx_runtime25.jsx)(ChartsTooltipCell, {
+          }), (0, import_jsx_runtime38.jsx)(ChartsTooltipCell, {
             className: clsx_default(classes.valueCell, classes.cell),
             children: formattedValue
           })]
@@ -12934,30 +16619,30 @@ true ? DefaultChartsItemTooltipContent.propTypes = {
   /**
    * Override or extend the styles applied to the component.
    */
-  classes: import_prop_types14.default.object.isRequired,
+  classes: import_prop_types34.default.object.isRequired,
   /**
    * Get the color of the item with index `dataIndex`.
    * @param {number} dataIndex The data index of the item.
    * @returns {string} The color to display.
    */
-  getColor: import_prop_types14.default.func.isRequired,
+  getColor: import_prop_types34.default.func.isRequired,
   /**
    * The data used to identify the triggered item.
    */
-  itemData: import_prop_types14.default.shape({
-    dataIndex: import_prop_types14.default.number,
-    seriesId: import_prop_types14.default.oneOfType([import_prop_types14.default.number, import_prop_types14.default.string]).isRequired,
-    type: import_prop_types14.default.oneOf(["bar", "line", "pie", "scatter"]).isRequired
+  itemData: import_prop_types34.default.shape({
+    dataIndex: import_prop_types34.default.number,
+    seriesId: import_prop_types34.default.oneOfType([import_prop_types34.default.number, import_prop_types34.default.string]).isRequired,
+    type: import_prop_types34.default.oneOf(["bar", "line", "pie", "scatter"]).isRequired
   }).isRequired,
   /**
    * The series linked to the triggered axis.
    */
-  series: import_prop_types14.default.object.isRequired,
-  sx: import_prop_types14.default.oneOfType([import_prop_types14.default.arrayOf(import_prop_types14.default.oneOfType([import_prop_types14.default.func, import_prop_types14.default.object, import_prop_types14.default.bool])), import_prop_types14.default.func, import_prop_types14.default.object])
+  series: import_prop_types34.default.object.isRequired,
+  sx: import_prop_types34.default.oneOfType([import_prop_types34.default.arrayOf(import_prop_types34.default.oneOfType([import_prop_types34.default.func, import_prop_types34.default.object, import_prop_types34.default.bool])), import_prop_types34.default.func, import_prop_types34.default.object])
 } : void 0;
 
 // node_modules/@mui/x-charts/ChartsTooltip/ChartsItemTooltipContent.js
-var import_jsx_runtime26 = __toESM(require_jsx_runtime());
+var import_jsx_runtime39 = __toESM(require_jsx_runtime());
 function ChartsItemTooltipContent(props) {
   var _a;
   const {
@@ -12977,7 +16662,7 @@ function ChartsItemTooltipContent(props) {
   const {
     zAxis,
     zAxisIds
-  } = React57.useContext(ZAxisContext);
+  } = React92.useContext(ZAxisContext);
   const colorProcessors = useColorProcessor();
   const xAxisId = series.xAxisId ?? series.xAxisKey ?? xAxisIds[0];
   const yAxisId = series.yAxisId ?? series.yAxisKey ?? yAxisIds[0];
@@ -12996,16 +16681,16 @@ function ChartsItemTooltipContent(props) {
     },
     ownerState: {}
   });
-  return (0, import_jsx_runtime26.jsx)(Content, _extends({}, chartTooltipContentProps));
+  return (0, import_jsx_runtime39.jsx)(Content, _extends({}, chartTooltipContentProps));
 }
 
 // node_modules/@mui/x-charts/ChartsTooltip/ChartsAxisTooltipContent.js
 init_extends();
-var React59 = __toESM(require_react());
+var React94 = __toESM(require_react());
 
 // node_modules/@mui/x-charts/ChartsTooltip/DefaultChartsAxisTooltipContent.js
-var React58 = __toESM(require_react());
-var import_prop_types15 = __toESM(require_prop_types());
+var React93 = __toESM(require_react());
+var import_prop_types35 = __toESM(require_prop_types());
 
 // node_modules/@mui/x-charts/internals/configInit.js
 var instance;
@@ -13038,7 +16723,7 @@ function isCartesianSeries(series) {
 }
 
 // node_modules/@mui/x-charts/ChartsTooltip/DefaultChartsAxisTooltipContent.js
-var import_jsx_runtime27 = __toESM(require_jsx_runtime());
+var import_jsx_runtime40 = __toESM(require_jsx_runtime());
 function DefaultChartsAxisTooltipContent(props) {
   const {
     series,
@@ -13052,23 +16737,23 @@ function DefaultChartsAxisTooltipContent(props) {
     return null;
   }
   const axisFormatter = axis.valueFormatter ?? ((v) => axis.scaleType === "utc" ? utcFormatter(v) : v.toLocaleString());
-  return (0, import_jsx_runtime27.jsx)(ChartsTooltipPaper, {
+  return (0, import_jsx_runtime40.jsx)(ChartsTooltipPaper, {
     sx,
     className: classes.paper,
-    children: (0, import_jsx_runtime27.jsxs)(ChartsTooltipTable, {
+    children: (0, import_jsx_runtime40.jsxs)(ChartsTooltipTable, {
       className: classes.table,
-      children: [axisValue != null && !axis.hideTooltip && (0, import_jsx_runtime27.jsx)("thead", {
-        children: (0, import_jsx_runtime27.jsx)(ChartsTooltipRow, {
-          children: (0, import_jsx_runtime27.jsx)(ChartsTooltipCell, {
+      children: [axisValue != null && !axis.hideTooltip && (0, import_jsx_runtime40.jsx)("thead", {
+        children: (0, import_jsx_runtime40.jsx)(ChartsTooltipRow, {
+          children: (0, import_jsx_runtime40.jsx)(ChartsTooltipCell, {
             colSpan: 3,
-            children: (0, import_jsx_runtime27.jsx)(Typography_default, {
+            children: (0, import_jsx_runtime40.jsx)(Typography_default, {
               children: axisFormatter(axisValue, {
                 location: "tooltip"
               })
             })
           })
         })
-      }), (0, import_jsx_runtime27.jsx)("tbody", {
+      }), (0, import_jsx_runtime40.jsx)("tbody", {
         children: series.filter(isCartesianSeries).map(({
           id,
           label,
@@ -13083,23 +16768,23 @@ function DefaultChartsAxisTooltipContent(props) {
             return null;
           }
           const formattedLabel = getLabel(label, "tooltip");
-          const color2 = getColor5(dataIndex);
-          return (0, import_jsx_runtime27.jsxs)(ChartsTooltipRow, {
+          const color3 = getColor5(dataIndex);
+          return (0, import_jsx_runtime40.jsxs)(ChartsTooltipRow, {
             className: classes.row,
-            children: [(0, import_jsx_runtime27.jsx)(ChartsTooltipCell, {
+            children: [(0, import_jsx_runtime40.jsx)(ChartsTooltipCell, {
               className: clsx_default(classes.markCell, classes.cell),
-              children: color2 && (0, import_jsx_runtime27.jsx)(ChartsTooltipMark, {
-                color: color2,
+              children: color3 && (0, import_jsx_runtime40.jsx)(ChartsTooltipMark, {
+                color: color3,
                 className: classes.mark
               })
-            }), (0, import_jsx_runtime27.jsx)(ChartsTooltipCell, {
+            }), (0, import_jsx_runtime40.jsx)(ChartsTooltipCell, {
               className: clsx_default(classes.labelCell, classes.cell),
-              children: formattedLabel ? (0, import_jsx_runtime27.jsx)(Typography_default, {
+              children: formattedLabel ? (0, import_jsx_runtime40.jsx)(Typography_default, {
                 children: formattedLabel
               }) : null
-            }), (0, import_jsx_runtime27.jsx)(ChartsTooltipCell, {
+            }), (0, import_jsx_runtime40.jsx)(ChartsTooltipCell, {
               className: clsx_default(classes.valueCell, classes.cell),
-              children: (0, import_jsx_runtime27.jsx)(Typography_default, {
+              children: (0, import_jsx_runtime40.jsx)(Typography_default, {
                 children: formattedValue
               })
             })]
@@ -13117,41 +16802,41 @@ true ? DefaultChartsAxisTooltipContent.propTypes = {
   /**
    * The properties of the triggered axis.
    */
-  axis: import_prop_types15.default.object.isRequired,
+  axis: import_prop_types35.default.object.isRequired,
   /**
    * Data identifying the triggered axis.
    */
-  axisData: import_prop_types15.default.shape({
-    x: import_prop_types15.default.shape({
-      index: import_prop_types15.default.number,
-      value: import_prop_types15.default.oneOfType([import_prop_types15.default.instanceOf(Date), import_prop_types15.default.number, import_prop_types15.default.string]).isRequired
+  axisData: import_prop_types35.default.shape({
+    x: import_prop_types35.default.shape({
+      index: import_prop_types35.default.number,
+      value: import_prop_types35.default.oneOfType([import_prop_types35.default.instanceOf(Date), import_prop_types35.default.number, import_prop_types35.default.string]).isRequired
     }),
-    y: import_prop_types15.default.shape({
-      index: import_prop_types15.default.number,
-      value: import_prop_types15.default.oneOfType([import_prop_types15.default.instanceOf(Date), import_prop_types15.default.number, import_prop_types15.default.string]).isRequired
+    y: import_prop_types35.default.shape({
+      index: import_prop_types35.default.number,
+      value: import_prop_types35.default.oneOfType([import_prop_types35.default.instanceOf(Date), import_prop_types35.default.number, import_prop_types35.default.string]).isRequired
     })
   }).isRequired,
   /**
    * The value associated to the current mouse position.
    */
-  axisValue: import_prop_types15.default.oneOfType([import_prop_types15.default.instanceOf(Date), import_prop_types15.default.number, import_prop_types15.default.string]),
+  axisValue: import_prop_types35.default.oneOfType([import_prop_types35.default.instanceOf(Date), import_prop_types35.default.number, import_prop_types35.default.string]),
   /**
    * Override or extend the styles applied to the component.
    */
-  classes: import_prop_types15.default.object.isRequired,
+  classes: import_prop_types35.default.object.isRequired,
   /**
    * The index of the data item triggered.
    */
-  dataIndex: import_prop_types15.default.number,
+  dataIndex: import_prop_types35.default.number,
   /**
    * The series linked to the triggered axis.
    */
-  series: import_prop_types15.default.arrayOf(import_prop_types15.default.object).isRequired,
-  sx: import_prop_types15.default.oneOfType([import_prop_types15.default.arrayOf(import_prop_types15.default.oneOfType([import_prop_types15.default.func, import_prop_types15.default.object, import_prop_types15.default.bool])), import_prop_types15.default.func, import_prop_types15.default.object])
+  series: import_prop_types35.default.arrayOf(import_prop_types35.default.object).isRequired,
+  sx: import_prop_types35.default.oneOfType([import_prop_types35.default.arrayOf(import_prop_types35.default.oneOfType([import_prop_types35.default.func, import_prop_types35.default.object, import_prop_types35.default.bool])), import_prop_types35.default.func, import_prop_types35.default.object])
 } : void 0;
 
 // node_modules/@mui/x-charts/ChartsTooltip/ChartsAxisTooltipContent.js
-var import_jsx_runtime28 = __toESM(require_jsx_runtime());
+var import_jsx_runtime41 = __toESM(require_jsx_runtime());
 function ChartsAxisTooltipContent(props) {
   const {
     content,
@@ -13172,11 +16857,11 @@ function ChartsAxisTooltipContent(props) {
   const {
     zAxisIds,
     zAxis
-  } = React59.useContext(ZAxisContext);
+  } = React94.useContext(ZAxisContext);
   const series = useSeries();
   const colorProcessors = useColorProcessor();
   const USED_AXIS_ID = isXaxis ? xAxisIds[0] : yAxisIds[0];
-  const relevantSeries = React59.useMemo(() => {
+  const relevantSeries = React94.useMemo(() => {
     const rep = [];
     Object.keys(series).filter(isCartesianSeriesType).forEach((seriesType) => {
       series[seriesType].seriesOrder.forEach((seriesId) => {
@@ -13199,7 +16884,7 @@ function ChartsAxisTooltipContent(props) {
     });
     return rep;
   }, [USED_AXIS_ID, colorProcessors, isXaxis, series, xAxis, xAxisIds, yAxis, yAxisIds, zAxis, zAxisIds]);
-  const relevantAxis = React59.useMemo(() => {
+  const relevantAxis = React94.useMemo(() => {
     return isXaxis ? xAxis[USED_AXIS_ID] : yAxis[USED_AXIS_ID];
   }, [USED_AXIS_ID, isXaxis, xAxis, yAxis]);
   const Content = content ?? DefaultChartsAxisTooltipContent;
@@ -13217,12 +16902,12 @@ function ChartsAxisTooltipContent(props) {
     },
     ownerState: {}
   });
-  return (0, import_jsx_runtime28.jsx)(Content, _extends({}, chartTooltipContentProps));
+  return (0, import_jsx_runtime41.jsx)(Content, _extends({}, chartTooltipContentProps));
 }
 
 // node_modules/@mui/x-charts/ChartsTooltip/ChartsTooltip.js
-var import_jsx_runtime29 = __toESM(require_jsx_runtime());
-var useUtilityClasses5 = (ownerState) => {
+var import_jsx_runtime42 = __toESM(require_jsx_runtime());
+var useUtilityClasses6 = (ownerState) => {
   const {
     classes
   } = ownerState;
@@ -13265,11 +16950,11 @@ function ChartsTooltip(inProps) {
   const {
     item,
     axis
-  } = React60.useContext(InteractionContext);
+  } = React95.useContext(InteractionContext);
   const displayedData = trigger === "item" ? item : axis;
   const tooltipHasData = getTooltipHasData(trigger, displayedData);
   const popperOpen = mousePosition !== null && tooltipHasData;
-  const classes = useUtilityClasses5({
+  const classes = useUtilityClasses6({
     classes: props.classes
   });
   const PopperComponent = (slots == null ? void 0 : slots.popper) ?? ChartsTooltipRoot;
@@ -13292,10 +16977,10 @@ function ChartsTooltip(inProps) {
   if (trigger === "none") {
     return null;
   }
-  return (0, import_jsx_runtime29.jsx)(NoSsr_default, {
-    children: popperOpen && (0, import_jsx_runtime29.jsx)(PopperComponent, _extends({}, popperProps, {
+  return (0, import_jsx_runtime42.jsx)(NoSsr_default, {
+    children: popperOpen && (0, import_jsx_runtime42.jsx)(PopperComponent, _extends({}, popperProps, {
       className: classes.root,
-      children: trigger === "item" ? (0, import_jsx_runtime29.jsx)(ChartsItemTooltipContent, {
+      children: trigger === "item" ? (0, import_jsx_runtime42.jsx)(ChartsItemTooltipContent, {
         itemData: displayedData,
         content: (slots == null ? void 0 : slots.itemContent) ?? itemContent,
         contentProps: slotProps == null ? void 0 : slotProps.itemContent,
@@ -13303,7 +16988,7 @@ function ChartsTooltip(inProps) {
           mx: 2
         },
         classes
-      }) : (0, import_jsx_runtime29.jsx)(ChartsAxisTooltipContent, {
+      }) : (0, import_jsx_runtime42.jsx)(ChartsAxisTooltipContent, {
         axisData: displayedData,
         content: (slots == null ? void 0 : slots.axisContent) ?? axisContent,
         contentProps: slotProps == null ? void 0 : slotProps.axisContent,
@@ -13324,26 +17009,26 @@ true ? ChartsTooltip.propTypes = {
    * Component to override the tooltip content when trigger is set to 'axis'.
    * @deprecated Use slots.axisContent instead
    */
-  axisContent: import_prop_types16.default.elementType,
+  axisContent: import_prop_types36.default.elementType,
   /**
    * Override or extend the styles applied to the component.
    */
-  classes: import_prop_types16.default.object,
+  classes: import_prop_types36.default.object,
   /**
    * Component to override the tooltip content when trigger is set to 'item'.
    * @deprecated Use slots.itemContent instead
    */
-  itemContent: import_prop_types16.default.elementType,
+  itemContent: import_prop_types36.default.elementType,
   /**
    * The props used for each component slot.
    * @default {}
    */
-  slotProps: import_prop_types16.default.object,
+  slotProps: import_prop_types36.default.object,
   /**
    * Overridable component slots.
    * @default {}
    */
-  slots: import_prop_types16.default.object,
+  slots: import_prop_types36.default.object,
   /**
    * Select the kind of tooltip to display
    * - 'item': Shows data about the item below the mouse.
@@ -13351,20 +17036,20 @@ true ? ChartsTooltip.propTypes = {
    * - 'none': Does not display tooltip
    * @default 'axis'
    */
-  trigger: import_prop_types16.default.oneOf(["axis", "item", "none"])
+  trigger: import_prop_types36.default.oneOf(["axis", "item", "none"])
 } : void 0;
 
 // node_modules/@mui/x-charts/ChartsTooltip/useItemTooltip.js
 init_extends();
-var React61 = __toESM(require_react());
+var React96 = __toESM(require_react());
 
 // node_modules/@mui/x-charts/ChartsTooltip/useAxisTooltip.js
-var React62 = __toESM(require_react());
+var React97 = __toESM(require_react());
 
 // node_modules/@mui/x-charts/ChartsLegend/ChartsLegend.js
 init_extends();
-var React66 = __toESM(require_react());
-var import_prop_types18 = __toESM(require_prop_types());
+var React101 = __toESM(require_react());
+var import_prop_types38 = __toESM(require_prop_types());
 
 // node_modules/@mui/x-charts/BarChart/legend.js
 var legendGetter = (params) => {
@@ -13479,12 +17164,12 @@ var legendClasses = generateUtilityClasses("MuiChartsLegend", ["root", "series",
 
 // node_modules/@mui/x-charts/ChartsLegend/DefaultChartsLegend.js
 init_extends();
-var React65 = __toESM(require_react());
-var import_prop_types17 = __toESM(require_prop_types());
+var React100 = __toESM(require_react());
+var import_prop_types37 = __toESM(require_prop_types());
 
 // node_modules/@mui/x-charts/ChartsLegend/LegendPerItem.js
 init_extends();
-var React64 = __toESM(require_react());
+var React99 = __toESM(require_react());
 
 // node_modules/@mui/x-charts/ChartsLegend/legendItemsPlacement.js
 init_extends();
@@ -13555,8 +17240,8 @@ function legendItemPlacements(itemsToDisplay, getItemSpace, labelStyle, directio
 
 // node_modules/@mui/x-charts/ChartsLegend/ChartsLegendItem.js
 init_extends();
-var React63 = __toESM(require_react());
-var import_jsx_runtime30 = __toESM(require_jsx_runtime());
+var React98 = __toESM(require_react());
+var import_jsx_runtime43 = __toESM(require_jsx_runtime());
 function ChartsLegendItem(props) {
   const isRTL = useRtl();
   const {
@@ -13567,7 +17252,7 @@ function ChartsLegendItem(props) {
     innerHeight,
     innerWidth,
     legendWidth,
-    color: color2,
+    color: color3,
     gapX,
     gapY,
     itemMarkHeight,
@@ -13577,10 +17262,10 @@ function ChartsLegendItem(props) {
     classes,
     onClick
   } = props;
-  return (0, import_jsx_runtime30.jsxs)("g", {
+  return (0, import_jsx_runtime43.jsxs)("g", {
     className: clsx_default(classes == null ? void 0 : classes.series, `${classes == null ? void 0 : classes.series}-${id}`),
     transform: `translate(${gapX + (isRTL ? legendWidth - positionX : positionX)} ${gapY + positionY})`,
-    children: [(0, import_jsx_runtime30.jsx)("rect", {
+    children: [(0, import_jsx_runtime43.jsx)("rect", {
       x: isRTL ? -(innerWidth + 2) : -2,
       y: -itemMarkHeight / 2 - 2,
       width: innerWidth + 4,
@@ -13592,17 +17277,17 @@ function ChartsLegendItem(props) {
         pointerEvents: onClick ? "all" : "none",
         cursor: onClick ? "pointer" : "unset"
       }
-    }), (0, import_jsx_runtime30.jsx)("rect", {
+    }), (0, import_jsx_runtime43.jsx)("rect", {
       className: classes == null ? void 0 : classes.mark,
       x: isRTL ? -itemMarkWidth : 0,
       y: -itemMarkHeight / 2,
       width: itemMarkWidth,
       height: itemMarkHeight,
-      fill: color2,
+      fill: color3,
       style: {
         pointerEvents: "none"
       }
-    }), (0, import_jsx_runtime30.jsx)(ChartsText, {
+    }), (0, import_jsx_runtime43.jsx)(ChartsText, {
       style: _extends({
         pointerEvents: "none"
       }, labelStyle),
@@ -13614,21 +17299,21 @@ function ChartsLegendItem(props) {
 }
 
 // node_modules/@mui/x-charts/ChartsLegend/LegendPerItem.js
-var import_react15 = __toESM(require_react());
-var import_jsx_runtime31 = __toESM(require_jsx_runtime());
+var import_react18 = __toESM(require_react());
+var import_jsx_runtime44 = __toESM(require_jsx_runtime());
 var _excluded15 = ["rotate", "dominantBaseline"];
 var ChartsLegendRoot = styled_default("g", {
   name: "MuiChartsLegend",
   slot: "Root",
   overridesResolver: (props, styles) => styles.root
 })({});
-var getStandardizedPadding = (padding) => {
-  if (typeof padding === "number") {
+var getStandardizedPadding = (padding2) => {
+  if (typeof padding2 === "number") {
     return {
-      left: padding,
-      right: padding,
-      top: padding,
-      bottom: padding
+      left: padding2,
+      right: padding2,
+      top: padding2,
+      bottom: padding2
     };
   }
   return _extends({
@@ -13636,11 +17321,11 @@ var getStandardizedPadding = (padding) => {
     right: 0,
     top: 0,
     bottom: 0
-  }, padding);
+  }, padding2);
 };
 function LegendPerItem(props) {
   const {
-    position,
+    position: position2,
     direction,
     itemsToDisplay,
     classes,
@@ -13654,7 +17339,7 @@ function LegendPerItem(props) {
   } = props;
   const theme = useTheme();
   const drawingArea = useDrawingArea();
-  const labelStyle = React64.useMemo(
+  const labelStyle = React99.useMemo(
     () => _extends({}, theme.typography.subtitle1, {
       color: "inherit",
       dominantBaseline: "central",
@@ -13665,11 +17350,11 @@ function LegendPerItem(props) {
     // To say to TS that the dominantBaseline and textAnchor are correct
     [inLabelStyle, theme]
   );
-  const padding = React64.useMemo(() => getStandardizedPadding(paddingProps), [paddingProps]);
-  const getItemSpace = React64.useCallback((label, inStyle = {}) => {
-    const style = _objectWithoutPropertiesLoose(inStyle, _excluded15);
+  const padding2 = React99.useMemo(() => getStandardizedPadding(paddingProps), [paddingProps]);
+  const getItemSpace = React99.useCallback((label, inStyle = {}) => {
+    const style4 = _objectWithoutPropertiesLoose(inStyle, _excluded15);
     const linesSize = getWordsByLines({
-      style,
+      style: style4,
       needsComputation: true,
       text: label
     });
@@ -13684,33 +17369,33 @@ function LegendPerItem(props) {
   }, [itemGap, itemMarkHeight, itemMarkWidth, markGap]);
   const totalWidth = drawingArea.left + drawingArea.width + drawingArea.right;
   const totalHeight = drawingArea.top + drawingArea.height + drawingArea.bottom;
-  const availableWidth = totalWidth - padding.left - padding.right;
-  const availableHeight = totalHeight - padding.top - padding.bottom;
-  const [itemsWithPosition, legendWidth, legendHeight] = React64.useMemo(() => legendItemPlacements(itemsToDisplay, getItemSpace, labelStyle, direction, availableWidth, availableHeight, itemGap), [itemsToDisplay, getItemSpace, labelStyle, direction, availableWidth, availableHeight, itemGap]);
-  const gapX = React64.useMemo(() => {
-    switch (position.horizontal) {
+  const availableWidth = totalWidth - padding2.left - padding2.right;
+  const availableHeight = totalHeight - padding2.top - padding2.bottom;
+  const [itemsWithPosition, legendWidth, legendHeight] = React99.useMemo(() => legendItemPlacements(itemsToDisplay, getItemSpace, labelStyle, direction, availableWidth, availableHeight, itemGap), [itemsToDisplay, getItemSpace, labelStyle, direction, availableWidth, availableHeight, itemGap]);
+  const gapX = React99.useMemo(() => {
+    switch (position2.horizontal) {
       case "left":
-        return padding.left;
+        return padding2.left;
       case "right":
-        return totalWidth - padding.right - legendWidth;
+        return totalWidth - padding2.right - legendWidth;
       default:
         return (totalWidth - legendWidth) / 2;
     }
-  }, [position.horizontal, padding.left, padding.right, totalWidth, legendWidth]);
-  const gapY = React64.useMemo(() => {
-    switch (position.vertical) {
+  }, [position2.horizontal, padding2.left, padding2.right, totalWidth, legendWidth]);
+  const gapY = React99.useMemo(() => {
+    switch (position2.vertical) {
       case "top":
-        return padding.top;
+        return padding2.top;
       case "bottom":
-        return totalHeight - padding.bottom - legendHeight;
+        return totalHeight - padding2.bottom - legendHeight;
       default:
         return (totalHeight - legendHeight) / 2;
     }
-  }, [position.vertical, padding.top, padding.bottom, totalHeight, legendHeight]);
-  return (0, import_jsx_runtime31.jsx)(NoSsr_default, {
-    children: (0, import_jsx_runtime31.jsx)(ChartsLegendRoot, {
+  }, [position2.vertical, padding2.top, padding2.bottom, totalHeight, legendHeight]);
+  return (0, import_jsx_runtime44.jsx)(NoSsr_default, {
+    children: (0, import_jsx_runtime44.jsx)(ChartsLegendRoot, {
       className: classes == null ? void 0 : classes.root,
-      children: itemsWithPosition.map((item, i) => (0, import_react15.createElement)(ChartsLegendItem, _extends({}, item, {
+      children: itemsWithPosition.map((item, i) => (0, import_react18.createElement)(ChartsLegendItem, _extends({}, item, {
         key: item.id,
         gapX,
         gapY,
@@ -13727,7 +17412,7 @@ function LegendPerItem(props) {
 }
 
 // node_modules/@mui/x-charts/ChartsLegend/DefaultChartsLegend.js
-var import_jsx_runtime32 = __toESM(require_jsx_runtime());
+var import_jsx_runtime45 = __toESM(require_jsx_runtime());
 var _excluded16 = ["drawingArea", "seriesToDisplay", "hidden", "onItemClick"];
 var seriesContextBuilder = (context) => ({
   type: "series",
@@ -13745,7 +17430,7 @@ function DefaultChartsLegend(props) {
   if (hidden) {
     return null;
   }
-  return (0, import_jsx_runtime32.jsx)(LegendPerItem, _extends({}, other, {
+  return (0, import_jsx_runtime45.jsx)(LegendPerItem, _extends({}, other, {
     itemsToDisplay: seriesToDisplay,
     onItemClick: onItemClick ? (event, i) => onItemClick(event, seriesContextBuilder(seriesToDisplay[i]), i) : void 0
   }));
@@ -13758,94 +17443,94 @@ true ? DefaultChartsLegend.propTypes = {
   /**
    * Override or extend the styles applied to the component.
    */
-  classes: import_prop_types17.default.object,
+  classes: import_prop_types37.default.object,
   /**
    * The direction of the legend layout.
    * The default depends on the chart.
    */
-  direction: import_prop_types17.default.oneOf(["column", "row"]).isRequired,
+  direction: import_prop_types37.default.oneOf(["column", "row"]).isRequired,
   /**
    * @deprecated Use the `useDrawingArea` hook instead.
    */
-  drawingArea: import_prop_types17.default.shape({
-    bottom: import_prop_types17.default.number.isRequired,
-    height: import_prop_types17.default.number.isRequired,
-    left: import_prop_types17.default.number.isRequired,
-    right: import_prop_types17.default.number.isRequired,
-    top: import_prop_types17.default.number.isRequired,
-    width: import_prop_types17.default.number.isRequired
+  drawingArea: import_prop_types37.default.shape({
+    bottom: import_prop_types37.default.number.isRequired,
+    height: import_prop_types37.default.number.isRequired,
+    left: import_prop_types37.default.number.isRequired,
+    right: import_prop_types37.default.number.isRequired,
+    top: import_prop_types37.default.number.isRequired,
+    width: import_prop_types37.default.number.isRequired
   }).isRequired,
   /**
    * Set to true to hide the legend.
    * @default false
    */
-  hidden: import_prop_types17.default.bool,
+  hidden: import_prop_types37.default.bool,
   /**
    * Space between two legend items (in px).
    * @default 10
    */
-  itemGap: import_prop_types17.default.number,
+  itemGap: import_prop_types37.default.number,
   /**
    * Height of the item mark (in px).
    * @default 20
    */
-  itemMarkHeight: import_prop_types17.default.number,
+  itemMarkHeight: import_prop_types37.default.number,
   /**
    * Width of the item mark (in px).
    * @default 20
    */
-  itemMarkWidth: import_prop_types17.default.number,
+  itemMarkWidth: import_prop_types37.default.number,
   /**
    * Style applied to legend labels.
    * @default theme.typography.subtitle1
    */
-  labelStyle: import_prop_types17.default.object,
+  labelStyle: import_prop_types37.default.object,
   /**
    * Space between the mark and the label (in px).
    * @default 5
    */
-  markGap: import_prop_types17.default.number,
+  markGap: import_prop_types37.default.number,
   /**
    * Callback fired when a legend item is clicked.
    * @param {React.MouseEvent<SVGRectElement, MouseEvent>} event The click event.
    * @param {SeriesLegendItemContext} legendItem The legend item data.
    * @param {number} index The index of the clicked legend item.
    */
-  onItemClick: import_prop_types17.default.func,
+  onItemClick: import_prop_types37.default.func,
   /**
    * Legend padding (in px).
    * Can either be a single number, or an object with top, left, bottom, right properties.
    * @default 10
    */
-  padding: import_prop_types17.default.oneOfType([import_prop_types17.default.number, import_prop_types17.default.shape({
-    bottom: import_prop_types17.default.number,
-    left: import_prop_types17.default.number,
-    right: import_prop_types17.default.number,
-    top: import_prop_types17.default.number
+  padding: import_prop_types37.default.oneOfType([import_prop_types37.default.number, import_prop_types37.default.shape({
+    bottom: import_prop_types37.default.number,
+    left: import_prop_types37.default.number,
+    right: import_prop_types37.default.number,
+    top: import_prop_types37.default.number
   })]),
   /**
    * The position of the legend.
    */
-  position: import_prop_types17.default.shape({
-    horizontal: import_prop_types17.default.oneOf(["left", "middle", "right"]).isRequired,
-    vertical: import_prop_types17.default.oneOf(["bottom", "middle", "top"]).isRequired
+  position: import_prop_types37.default.shape({
+    horizontal: import_prop_types37.default.oneOf(["left", "middle", "right"]).isRequired,
+    vertical: import_prop_types37.default.oneOf(["bottom", "middle", "top"]).isRequired
   }).isRequired,
-  series: import_prop_types17.default.object.isRequired,
-  seriesToDisplay: import_prop_types17.default.arrayOf(import_prop_types17.default.shape({
-    color: import_prop_types17.default.string.isRequired,
-    id: import_prop_types17.default.oneOfType([import_prop_types17.default.number, import_prop_types17.default.string]).isRequired,
-    itemId: import_prop_types17.default.oneOfType([import_prop_types17.default.number, import_prop_types17.default.string]),
-    label: import_prop_types17.default.string.isRequired,
-    maxValue: import_prop_types17.default.oneOfType([import_prop_types17.default.instanceOf(Date), import_prop_types17.default.number]),
-    minValue: import_prop_types17.default.oneOfType([import_prop_types17.default.instanceOf(Date), import_prop_types17.default.number]),
-    seriesId: import_prop_types17.default.oneOfType([import_prop_types17.default.number, import_prop_types17.default.string])
+  series: import_prop_types37.default.object.isRequired,
+  seriesToDisplay: import_prop_types37.default.arrayOf(import_prop_types37.default.shape({
+    color: import_prop_types37.default.string.isRequired,
+    id: import_prop_types37.default.oneOfType([import_prop_types37.default.number, import_prop_types37.default.string]).isRequired,
+    itemId: import_prop_types37.default.oneOfType([import_prop_types37.default.number, import_prop_types37.default.string]),
+    label: import_prop_types37.default.string.isRequired,
+    maxValue: import_prop_types37.default.oneOfType([import_prop_types37.default.instanceOf(Date), import_prop_types37.default.number]),
+    minValue: import_prop_types37.default.oneOfType([import_prop_types37.default.instanceOf(Date), import_prop_types37.default.number]),
+    seriesId: import_prop_types37.default.oneOfType([import_prop_types37.default.number, import_prop_types37.default.string])
   })).isRequired
 } : void 0;
 
 // node_modules/@mui/x-charts/ChartsLegend/ChartsLegend.js
-var import_jsx_runtime33 = __toESM(require_jsx_runtime());
+var import_jsx_runtime46 = __toESM(require_jsx_runtime());
 var _excluded17 = ["slots", "slotProps"];
-var useUtilityClasses6 = (ownerState) => {
+var useUtilityClasses7 = (ownerState) => {
   const {
     classes,
     direction
@@ -13877,7 +17562,7 @@ function ChartsLegend(inProps) {
     slotProps
   } = defaultizedProps, other = _objectWithoutPropertiesLoose(defaultizedProps, _excluded17);
   const theme = useTheme();
-  const classes = useUtilityClasses6(_extends({}, defaultizedProps, {
+  const classes = useUtilityClasses7(_extends({}, defaultizedProps, {
     theme
   }));
   const drawingArea = useDrawingArea();
@@ -13895,7 +17580,7 @@ function ChartsLegend(inProps) {
     }),
     ownerState: {}
   });
-  return (0, import_jsx_runtime33.jsx)(ChartLegendRender, _extends({}, chartLegendRenderProps));
+  return (0, import_jsx_runtime46.jsx)(ChartLegendRender, _extends({}, chartLegendRenderProps));
 }
 true ? ChartsLegend.propTypes = {
   // ----------------------------- Warning --------------------------------
@@ -13905,83 +17590,83 @@ true ? ChartsLegend.propTypes = {
   /**
    * Override or extend the styles applied to the component.
    */
-  classes: import_prop_types18.default.object,
+  classes: import_prop_types38.default.object,
   /**
    * The direction of the legend layout.
    * The default depends on the chart.
    */
-  direction: import_prop_types18.default.oneOf(["column", "row"]),
+  direction: import_prop_types38.default.oneOf(["column", "row"]),
   /**
    * Set to true to hide the legend.
    * @default false
    */
-  hidden: import_prop_types18.default.bool,
+  hidden: import_prop_types38.default.bool,
   /**
    * Space between two legend items (in px).
    * @default 10
    */
-  itemGap: import_prop_types18.default.number,
+  itemGap: import_prop_types38.default.number,
   /**
    * Height of the item mark (in px).
    * @default 20
    */
-  itemMarkHeight: import_prop_types18.default.number,
+  itemMarkHeight: import_prop_types38.default.number,
   /**
    * Width of the item mark (in px).
    * @default 20
    */
-  itemMarkWidth: import_prop_types18.default.number,
+  itemMarkWidth: import_prop_types38.default.number,
   /**
    * Style applied to legend labels.
    * @default theme.typography.subtitle1
    */
-  labelStyle: import_prop_types18.default.object,
+  labelStyle: import_prop_types38.default.object,
   /**
    * Space between the mark and the label (in px).
    * @default 5
    */
-  markGap: import_prop_types18.default.number,
+  markGap: import_prop_types38.default.number,
   /**
    * Callback fired when a legend item is clicked.
    * @param {React.MouseEvent<SVGRectElement, MouseEvent>} event The click event.
    * @param {SeriesLegendItemContext} legendItem The legend item data.
    * @param {number} index The index of the clicked legend item.
    */
-  onItemClick: import_prop_types18.default.func,
+  onItemClick: import_prop_types38.default.func,
   /**
    * Legend padding (in px).
    * Can either be a single number, or an object with top, left, bottom, right properties.
    * @default 10
    */
-  padding: import_prop_types18.default.oneOfType([import_prop_types18.default.number, import_prop_types18.default.shape({
-    bottom: import_prop_types18.default.number,
-    left: import_prop_types18.default.number,
-    right: import_prop_types18.default.number,
-    top: import_prop_types18.default.number
+  padding: import_prop_types38.default.oneOfType([import_prop_types38.default.number, import_prop_types38.default.shape({
+    bottom: import_prop_types38.default.number,
+    left: import_prop_types38.default.number,
+    right: import_prop_types38.default.number,
+    top: import_prop_types38.default.number
   })]),
   /**
    * The position of the legend.
    */
-  position: import_prop_types18.default.shape({
-    horizontal: import_prop_types18.default.oneOf(["left", "middle", "right"]).isRequired,
-    vertical: import_prop_types18.default.oneOf(["bottom", "middle", "top"]).isRequired
+  position: import_prop_types38.default.shape({
+    horizontal: import_prop_types38.default.oneOf(["left", "middle", "right"]).isRequired,
+    vertical: import_prop_types38.default.oneOf(["bottom", "middle", "top"]).isRequired
   }),
   /**
    * The props used for each component slot.
    * @default {}
    */
-  slotProps: import_prop_types18.default.object,
+  slotProps: import_prop_types38.default.object,
   /**
    * Overridable component slots.
    * @default {}
    */
-  slots: import_prop_types18.default.object
+  slots: import_prop_types38.default.object
 } : void 0;
 
 // node_modules/@mui/x-charts/ChartsLegend/ContinuousColorLegend.js
 init_extends();
-var React68 = __toESM(require_react());
-var import_prop_types19 = __toESM(require_prop_types());
+var React103 = __toESM(require_react());
+var import_prop_types39 = __toESM(require_prop_types());
 
 // node_modules/@mui/x-charts/internals/getPercentageValue.js
 function getPercentageValue(value, refValue) {
@@ -14007,7 +17692,7 @@ function getPercentageValue(value, refValue) {
 }
 
 // node_modules/@mui/x-charts/ChartsLegend/useAxis.js
-var React67 = __toESM(require_react());
+var React102 = __toESM(require_react());
 function useAxis({
   axisDirection,
   axisId
@@ -14021,7 +17706,7 @@ function useAxis({
   const {
     zAxis,
     zAxisIds
-  } = React67.useContext(ZAxisContext);
+  } = React102.useContext(ZAxisContext);
   switch (axisDirection) {
     case "x": {
       const id = typeof axisId === "string" ? axisId : xAxisIds[axisId ?? 0];
@@ -14040,11 +17725,11 @@ function useAxis({
 }
 
 // node_modules/@mui/x-charts/ChartsLegend/ContinuousColorLegend.js
-var import_jsx_runtime34 = __toESM(require_jsx_runtime());
-function getPositionOffset(position, legendBox, svgBox) {
+var import_jsx_runtime47 = __toESM(require_jsx_runtime());
+function getPositionOffset(position2, legendBox, svgBox) {
   let offsetX = 0;
   let offsetY = 0;
-  switch (position.horizontal) {
+  switch (position2.horizontal) {
     case "left":
       offsetX = 0;
       break;
@@ -14056,7 +17741,7 @@ function getPositionOffset(position, legendBox, svgBox) {
       offsetX = svgBox.width - legendBox.width;
       break;
   }
-  switch (position.vertical) {
+  switch (position2.vertical) {
     case "top":
       offsetY = 0;
       break;
@@ -14223,10 +17908,10 @@ function ContinuousColorLegend(props) {
     direction,
     length = "50%",
     thickness = 5,
-    spacing = 4,
+    spacing: spacing2 = 4,
     align = "middle",
     labelStyle = theme.typography.subtitle1,
-    position,
+    position: position2,
     axisDirection,
     axisId
   } = props;
@@ -14237,14 +17922,14 @@ function ContinuousColorLegend(props) {
     axisId
   });
   const {
-    width,
-    height,
-    left,
-    right,
-    top,
-    bottom
+    width: width2,
+    height: height2,
+    left: left2,
+    right: right2,
+    top: top2,
+    bottom: bottom2
   } = useDrawingArea();
-  const refLength = direction === "column" ? height + top + bottom : width + left + right;
+  const refLength = direction === "column" ? height2 + top2 + bottom2 : width2 + left2 + right2;
   const size = getPercentageValue(length, refLength);
   const isReversed = direction === "column";
   const colorMap = axisItem == null ? void 0 : axisItem.colorMap;
@@ -14281,20 +17966,20 @@ function ContinuousColorLegend(props) {
     height: thickness
   };
   const legendPositions = getElementPositions(text1Box, barBox, text2Box, {
-    spacing,
+    spacing: spacing2,
     align,
     direction
   });
   const svgBoundingBox = {
-    width: width + left + right,
-    height: height + top + bottom
+    width: width2 + left2 + right2,
+    height: height2 + top2 + bottom2
   };
   const positionOffset = getPositionOffset(_extends({
     horizontal: "middle",
     vertical: "top"
-  }, position), legendPositions.boundingBox, svgBoundingBox);
-  return (0, import_jsx_runtime34.jsxs)(React68.Fragment, {
-    children: [(0, import_jsx_runtime34.jsx)(ChartsContinuousGradient, {
+  }, position2), legendPositions.boundingBox, svgBoundingBox);
+  return (0, import_jsx_runtime47.jsxs)(React103.Fragment, {
+    children: [(0, import_jsx_runtime47.jsx)(ChartsContinuousGradient, {
       isReversed,
       gradientId: id,
       size,
@@ -14303,7 +17988,7 @@ function ContinuousColorLegend(props) {
       colorScale,
       colorMap,
       gradientUnits: "objectBoundingBox"
-    }), (0, import_jsx_runtime34.jsx)(ChartsText, {
+    }), (0, import_jsx_runtime47.jsx)(ChartsText, {
       text: text1,
       x: positionOffset.offsetX + legendPositions.text1.x,
       y: positionOffset.offsetY + legendPositions.text1.y,
@@ -14311,12 +17996,12 @@ function ContinuousColorLegend(props) {
         dominantBaseline: legendPositions.text1.dominantBaseline,
         textAnchor: legendPositions.text1.textAnchor
       }, labelStyle)
-    }), (0, import_jsx_runtime34.jsx)("rect", _extends({
+    }), (0, import_jsx_runtime47.jsx)("rect", _extends({
       x: positionOffset.offsetX + legendPositions.bar.x,
       y: positionOffset.offsetY + legendPositions.bar.y
     }, barBox, {
       fill: `url(#${id})`
-    })), (0, import_jsx_runtime34.jsx)(ChartsText, {
+    })), (0, import_jsx_runtime47.jsx)(ChartsText, {
       text: text2,
       x: positionOffset.offsetX + legendPositions.text2.x,
       y: positionOffset.offsetY + legendPositions.text2.y,
@@ -14336,80 +18021,80 @@ true ? ContinuousColorLegend.propTypes = {
    * The alignment of the texts with the gradient bar.
    * @default 'middle'
    */
-  align: import_prop_types19.default.oneOf(["end", "middle", "start"]),
+  align: import_prop_types39.default.oneOf(["end", "middle", "start"]),
   /**
    * The axis direction containing the color configuration to represent.
    * @default 'z'
    */
-  axisDirection: import_prop_types19.default.oneOf(["x", "y", "z"]),
+  axisDirection: import_prop_types39.default.oneOf(["x", "y", "z"]),
   /**
    * The id of the axis item with the color configuration to represent.
    * @default The first axis item.
    */
-  axisId: import_prop_types19.default.oneOfType([import_prop_types19.default.number, import_prop_types19.default.string]),
+  axisId: import_prop_types39.default.oneOfType([import_prop_types39.default.number, import_prop_types39.default.string]),
   /**
    * The direction of the legend layout.
    * The default depends on the chart.
    */
-  direction: import_prop_types19.default.oneOf(["column", "row"]),
+  direction: import_prop_types39.default.oneOf(["column", "row"]),
   /**
    * A unique identifier for the gradient.
    * @default auto-generated id
    */
-  id: import_prop_types19.default.string,
+  id: import_prop_types39.default.string,
   /**
    * The style applied to labels.
    * @default theme.typography.subtitle1
    */
-  labelStyle: import_prop_types19.default.object,
+  labelStyle: import_prop_types39.default.object,
   /**
    * The length of the gradient bar.
    * Can be a number (in px) or a string with a percentage such as '50%'.
    * The '100%' is the length of the svg.
    * @default '50%'
    */
-  length: import_prop_types19.default.oneOfType([import_prop_types19.default.number, import_prop_types19.default.string]),
+  length: import_prop_types39.default.oneOfType([import_prop_types39.default.number, import_prop_types39.default.string]),
   /**
    * The label to display at the maximum side of the gradient.
    * Can either be a string, or a function.
    * If not defined, the formatted maximal value is display.
    * @default ({ formattedValue }) => formattedValue
    */
-  maxLabel: import_prop_types19.default.oneOfType([import_prop_types19.default.func, import_prop_types19.default.string]),
+  maxLabel: import_prop_types39.default.oneOfType([import_prop_types39.default.func, import_prop_types39.default.string]),
   /**
    * The label to display at the minimum side of the gradient.
    * Can either be a string, or a function.
    * @default ({ formattedValue }) => formattedValue
    */
-  minLabel: import_prop_types19.default.oneOfType([import_prop_types19.default.func, import_prop_types19.default.string]),
+  minLabel: import_prop_types39.default.oneOfType([import_prop_types39.default.func, import_prop_types39.default.string]),
   /**
    * The position of the legend.
    */
-  position: import_prop_types19.default.shape({
-    horizontal: import_prop_types19.default.oneOf(["left", "middle", "right"]).isRequired,
-    vertical: import_prop_types19.default.oneOf(["bottom", "middle", "top"]).isRequired
+  position: import_prop_types39.default.shape({
+    horizontal: import_prop_types39.default.oneOf(["left", "middle", "right"]).isRequired,
+    vertical: import_prop_types39.default.oneOf(["bottom", "middle", "top"]).isRequired
   }),
   /**
    * The scale used to display gradient colors.
    * @default 'linear'
    */
-  scaleType: import_prop_types19.default.oneOf(["linear", "log", "pow", "sqrt", "time", "utc"]),
+  scaleType: import_prop_types39.default.oneOf(["linear", "log", "pow", "sqrt", "time", "utc"]),
   /**
    * The space between the gradient bar and the labels.
    * @default 4
    */
-  spacing: import_prop_types19.default.number,
+  spacing: import_prop_types39.default.number,
   /**
    * The thickness of the gradient bar.
    * @default 5
    */
-  thickness: import_prop_types19.default.number
+  thickness: import_prop_types39.default.number
 } : void 0;
 
 // node_modules/@mui/x-charts/ChartsLegend/PiecewiseColorLegend.js
 init_extends();
-var React69 = __toESM(require_react());
-var import_prop_types20 = __toESM(require_prop_types());
+var React104 = __toESM(require_react());
+var import_prop_types40 = __toESM(require_prop_types());
 
 // node_modules/@mui/x-charts/internals/notNull.js
 function notNull(value) {
@@ -14417,7 +18102,7 @@ function notNull(value) {
 }
 
 // node_modules/@mui/x-charts/ChartsLegend/PiecewiseColorLegend.js
-var import_jsx_runtime35 = __toESM(require_jsx_runtime());
+var import_jsx_runtime48 = __toESM(require_jsx_runtime());
 var _excluded18 = ["axisDirection", "axisId", "hideFirst", "hideLast", "labelFormatter", "onItemClick"];
 function defaultLabelFormatter2(params) {
   if (params.min === null) {
@@ -14459,7 +18144,7 @@ function PiecewiseColorLegend(props) {
     })) ?? v.toLocaleString();
   };
   const formattedLabels = colorMap.thresholds.map(valueFormatter);
-  const itemsToDisplay = colorMap.colors.map((color2, index2) => {
+  const itemsToDisplay = colorMap.colors.map((color3, index2) => {
     const isFirst = index2 === 0;
     const isLast = index2 === colorMap.colors.length - 1;
     if (hideFirst && isFirst || hideLast && isLast) {
@@ -14484,13 +18169,13 @@ function PiecewiseColorLegend(props) {
     }
     return {
       id: label,
-      color: color2,
+      color: color3,
       label,
       minValue: data.min,
       maxValue: data.max
     };
   }).filter(notNull);
-  return (0, import_jsx_runtime35.jsx)(LegendPerItem, _extends({}, other, {
+  return (0, import_jsx_runtime48.jsx)(LegendPerItem, _extends({}, other, {
     itemsToDisplay,
     onItemClick: onItemClick ? (event, i) => onItemClick(event, piecewiseColorContextBuilder(itemsToDisplay[i]), i) : void 0
   }));
@@ -14504,99 +18189,99 @@ true ? PiecewiseColorLegend.propTypes = {
    * The axis direction containing the color configuration to represent.
    * @default 'z'
    */
-  axisDirection: import_prop_types20.default.oneOf(["x", "y", "z"]),
+  axisDirection: import_prop_types40.default.oneOf(["x", "y", "z"]),
   /**
    * The id of the axis item with the color configuration to represent.
    * @default The first axis item.
    */
-  axisId: import_prop_types20.default.oneOfType([import_prop_types20.default.number, import_prop_types20.default.string]),
+  axisId: import_prop_types40.default.oneOfType([import_prop_types40.default.number, import_prop_types40.default.string]),
   /**
    * Override or extend the styles applied to the component.
    */
-  classes: import_prop_types20.default.object,
+  classes: import_prop_types40.default.object,
   /**
    * The direction of the legend layout.
    * The default depends on the chart.
    */
-  direction: import_prop_types20.default.oneOf(["column", "row"]).isRequired,
+  direction: import_prop_types40.default.oneOf(["column", "row"]).isRequired,
   /**
    * Hide the first item of the legend, corresponding to the [-infinity, min] piece.
    * @default false
    */
-  hideFirst: import_prop_types20.default.bool,
+  hideFirst: import_prop_types40.default.bool,
   /**
    * Hide the last item of the legend, corresponding to the [max, +infinity] piece.
    * @default false
    */
-  hideLast: import_prop_types20.default.bool,
+  hideLast: import_prop_types40.default.bool,
   /**
    * Space between two legend items (in px).
    * @default 10
    */
-  itemGap: import_prop_types20.default.number,
+  itemGap: import_prop_types40.default.number,
   /**
    * Height of the item mark (in px).
    * @default 20
    */
-  itemMarkHeight: import_prop_types20.default.number,
+  itemMarkHeight: import_prop_types40.default.number,
   /**
    * Width of the item mark (in px).
    * @default 20
    */
-  itemMarkWidth: import_prop_types20.default.number,
+  itemMarkWidth: import_prop_types40.default.number,
   /**
    * Format the legend labels.
    * @param {PiecewiseLabelFormatterParams} params The bound of the piece to format.
    * @returns {string|null} The displayed label, or `null` to skip the item.
    */
-  labelFormatter: import_prop_types20.default.func,
+  labelFormatter: import_prop_types40.default.func,
   /**
    * Style applied to legend labels.
    * @default theme.typography.subtitle1
    */
-  labelStyle: import_prop_types20.default.object,
+  labelStyle: import_prop_types40.default.object,
   /**
    * Space between the mark and the label (in px).
    * @default 5
    */
-  markGap: import_prop_types20.default.number,
+  markGap: import_prop_types40.default.number,
   /**
    * Callback fired when a legend item is clicked.
    * @param {React.MouseEvent<SVGRectElement, MouseEvent>} event The click event.
    * @param {PiecewiseColorLegendItemContext} legendItem The legend item data.
    * @param {number} index The index of the clicked legend item.
    */
-  onItemClick: import_prop_types20.default.func,
+  onItemClick: import_prop_types40.default.func,
   /**
    * Legend padding (in px).
    * Can either be a single number, or an object with top, left, bottom, right properties.
    * @default 10
    */
-  padding: import_prop_types20.default.oneOfType([import_prop_types20.default.number, import_prop_types20.default.shape({
-    bottom: import_prop_types20.default.number,
-    left: import_prop_types20.default.number,
-    right: import_prop_types20.default.number,
-    top: import_prop_types20.default.number
+  padding: import_prop_types40.default.oneOfType([import_prop_types40.default.number, import_prop_types40.default.shape({
+    bottom: import_prop_types40.default.number,
+    left: import_prop_types40.default.number,
+    right: import_prop_types40.default.number,
+    top: import_prop_types40.default.number
   })]),
   /**
    * The position of the legend.
    */
-  position: import_prop_types20.default.shape({
-    horizontal: import_prop_types20.default.oneOf(["left", "middle", "right"]).isRequired,
-    vertical: import_prop_types20.default.oneOf(["bottom", "middle", "top"]).isRequired
+  position: import_prop_types40.default.shape({
+    horizontal: import_prop_types40.default.oneOf(["left", "middle", "right"]).isRequired,
+    vertical: import_prop_types40.default.oneOf(["bottom", "middle", "top"]).isRequired
   }).isRequired
 } : void 0;
 
 // node_modules/@mui/x-charts/ChartsAxisHighlight/ChartsAxisHighlight.js
 init_extends();
-var React70 = __toESM(require_react());
-var import_prop_types21 = __toESM(require_prop_types());
-var import_jsx_runtime36 = __toESM(require_jsx_runtime());
+var React105 = __toESM(require_react());
+var import_prop_types41 = __toESM(require_prop_types());
+var import_jsx_runtime49 = __toESM(require_jsx_runtime());
 function getAxisHighlightUtilityClass(slot) {
   return generateUtilityClass("MuiChartsAxisHighlight", slot);
 }
 var chartsAxisHighlightClasses = generateUtilityClasses("MuiChartsAxisHighlight", ["root"]);
-var useUtilityClasses7 = () => {
+var useUtilityClasses8 = () => {
   const slots = {
     root: ["root"]
   };
@@ -14643,14 +18328,14 @@ function ChartsAxisHighlight(props) {
     yAxisIds,
     yAxis
   } = useCartesianContext();
-  const classes = useUtilityClasses7();
+  const classes = useUtilityClasses8();
   const USED_X_AXIS_ID = xAxisIds[0];
   const USED_Y_AXIS_ID = yAxisIds[0];
   const xScale = xAxis[USED_X_AXIS_ID].scale;
   const yScale = yAxis[USED_Y_AXIS_ID].scale;
   const {
     axis
-  } = React70.useContext(InteractionContext);
+  } = React105.useContext(InteractionContext);
   const getXPosition = getValueToPositionMapper(xScale);
   const getYPosition = getValueToPositionMapper(yScale);
   const axisX = axis.x;
@@ -14664,8 +18349,8 @@ function ChartsAxisHighlight(props) {
       console.error([`MUI X: The position value provided for the axis is not valid for the current scale.`, `This probably means something is wrong with the data passed to the chart.`, `The ChartsAxisHighlight component will not be displayed.`].join("\n"));
     }
   }
-  return (0, import_jsx_runtime36.jsxs)(React70.Fragment, {
-    children: [isBandScaleX && xScale(axisX.value) !== void 0 && (0, import_jsx_runtime36.jsx)(
+  return (0, import_jsx_runtime49.jsxs)(React105.Fragment, {
+    children: [isBandScaleX && xScale(axisX.value) !== void 0 && (0, import_jsx_runtime49.jsx)(
       ChartsAxisHighlightPath,
       {
         d: `M ${xScale(axisX.value) - (xScale.step() - xScale.bandwidth()) / 2} ${yScale.range()[0]} l ${xScale.step()} 0 l 0 ${yScale.range()[1] - yScale.range()[0]} l ${-xScale.step()} 0 Z`,
@@ -14674,20 +18359,20 @@ function ChartsAxisHighlight(props) {
           axisHighlight: "band"
         }
       }
-    ), isBandScaleY && yScale(axisY.value) !== void 0 && (0, import_jsx_runtime36.jsx)(ChartsAxisHighlightPath, {
+    ), isBandScaleY && yScale(axisY.value) !== void 0 && (0, import_jsx_runtime49.jsx)(ChartsAxisHighlightPath, {
       d: `M ${xScale.range()[0]} ${// @ts-expect-error, yScale value is checked in the statement above
       yScale(axisY.value) - (yScale.step() - yScale.bandwidth()) / 2} l 0 ${yScale.step()} l ${xScale.range()[1] - xScale.range()[0]} 0 l 0 ${-yScale.step()} Z`,
       className: classes.root,
       ownerState: {
         axisHighlight: "band"
       }
-    }), xAxisHighlight === "line" && axis.x !== null && (0, import_jsx_runtime36.jsx)(ChartsAxisHighlightPath, {
+    }), xAxisHighlight === "line" && axis.x !== null && (0, import_jsx_runtime49.jsx)(ChartsAxisHighlightPath, {
       d: `M ${getXPosition(axis.x.value)} ${yScale.range()[0]} L ${getXPosition(axis.x.value)} ${yScale.range()[1]}`,
       className: classes.root,
       ownerState: {
         axisHighlight: "line"
       }
-    }), yAxisHighlight === "line" && axis.y !== null && (0, import_jsx_runtime36.jsx)(ChartsAxisHighlightPath, {
+    }), yAxisHighlight === "line" && axis.y !== null && (0, import_jsx_runtime49.jsx)(ChartsAxisHighlightPath, {
       d: `M ${xScale.range()[0]} ${getYPosition(axis.y.value)} L ${xScale.range()[1]} ${getYPosition(axis.y.value)}`,
       className: classes.root,
       ownerState: {
@@ -14701,25 +18386,25 @@ true ? ChartsAxisHighlight.propTypes = {
   // | These PropTypes are generated from the TypeScript type definitions |
   // | To update them edit the TypeScript types and run "pnpm proptypes"  |
   // ----------------------------------------------------------------------
-  x: import_prop_types21.default.oneOf(["band", "line", "none"]),
-  y: import_prop_types21.default.oneOf(["band", "line", "none"])
+  x: import_prop_types41.default.oneOf(["band", "line", "none"]),
+  y: import_prop_types41.default.oneOf(["band", "line", "none"])
 } : void 0;
 
 // node_modules/@mui/x-charts/ChartsClipPath/ChartsClipPath.js
 init_extends();
-var React71 = __toESM(require_react());
-var import_prop_types22 = __toESM(require_prop_types());
-var import_jsx_runtime37 = __toESM(require_jsx_runtime());
+var React106 = __toESM(require_react());
+var import_prop_types42 = __toESM(require_prop_types());
+var import_jsx_runtime50 = __toESM(require_jsx_runtime());
 function ChartsClipPath(props) {
   const {
     id,
     offset: offsetProps
   } = props;
   const {
-    left,
-    top,
-    width,
-    height
+    left: left2,
+    top: top2,
+    width: width2,
+    height: height2
   } = useDrawingArea();
   const offset = _extends({
     top: 0,
@@ -14727,13 +18412,13 @@ function ChartsClipPath(props) {
     bottom: 0,
     left: 0
   }, offsetProps);
-  return (0, import_jsx_runtime37.jsx)("clipPath", {
+  return (0, import_jsx_runtime50.jsx)("clipPath", {
     id,
-    children: (0, import_jsx_runtime37.jsx)("rect", {
-      x: left - offset.left,
-      y: top - offset.top,
-      width: width + offset.left + offset.right,
-      height: height + offset.top + offset.bottom
+    children: (0, import_jsx_runtime50.jsx)("rect", {
+      x: left2 - offset.left,
+      y: top2 - offset.top,
+      width: width2 + offset.left + offset.right,
+      height: height2 + offset.top + offset.bottom
     })
   });
 }
@@ -14742,19 +18427,19 @@ true ? ChartsClipPath.propTypes = {
   // | These PropTypes are generated from the TypeScript type definitions |
   // | To update them edit the TypeScript types and run "pnpm proptypes"  |
   // ----------------------------------------------------------------------
-  id: import_prop_types22.default.string.isRequired,
-  offset: import_prop_types22.default.shape({
-    bottom: import_prop_types22.default.number,
-    left: import_prop_types22.default.number,
-    right: import_prop_types22.default.number,
-    top: import_prop_types22.default.number
+  id: import_prop_types42.default.string.isRequired,
+  offset: import_prop_types42.default.shape({
+    bottom: import_prop_types42.default.number,
+    left: import_prop_types42.default.number,
+    right: import_prop_types42.default.number,
+    top: import_prop_types42.default.number
   })
 } : void 0;
 
 // node_modules/@mui/x-charts/ChartsGrid/ChartsGrid.js
 init_extends();
-var React74 = __toESM(require_react());
-var import_prop_types23 = __toESM(require_prop_types());
+var React109 = __toESM(require_react());
+var import_prop_types43 = __toESM(require_prop_types());
 
 // node_modules/@mui/x-charts/ChartsGrid/chartsGridClasses.js
 function getChartsGridUtilityClass(slot) {
@@ -14785,8 +18470,8 @@ var GridLine = styled_default("line", {
 }));
 
 // node_modules/@mui/x-charts/ChartsGrid/ChartsVerticalGrid.js
-var React72 = __toESM(require_react());
-var import_jsx_runtime38 = __toESM(require_jsx_runtime());
+var React107 = __toESM(require_react());
+var import_jsx_runtime51 = __toESM(require_jsx_runtime());
 function ChartsGridVertical(props) {
   const {
     axis,
@@ -14803,11 +18488,11 @@ function ChartsGridVertical(props) {
     tickNumber,
     tickInterval
   });
-  return (0, import_jsx_runtime38.jsx)(React72.Fragment, {
+  return (0, import_jsx_runtime51.jsx)(React107.Fragment, {
     children: xTicks.map(({
       value,
       offset
-    }) => (0, import_jsx_runtime38.jsx)(GridLine, {
+    }) => (0, import_jsx_runtime51.jsx)(GridLine, {
       y1: drawingArea.top,
       y2: drawingArea.top + drawingArea.height,
       x1: offset,
@@ -14818,8 +18503,8 @@ function ChartsGridVertical(props) {
 }
 
 // node_modules/@mui/x-charts/ChartsGrid/ChartsHorizontalGrid.js
-var React73 = __toESM(require_react());
-var import_jsx_runtime39 = __toESM(require_jsx_runtime());
+var React108 = __toESM(require_react());
+var import_jsx_runtime52 = __toESM(require_jsx_runtime());
 function ChartsGridHorizontal(props) {
   const {
     axis,
@@ -14836,11 +18521,11 @@ function ChartsGridHorizontal(props) {
     tickNumber,
     tickInterval
   });
-  return (0, import_jsx_runtime39.jsx)(React73.Fragment, {
+  return (0, import_jsx_runtime52.jsx)(React108.Fragment, {
     children: yTicks.map(({
       value,
       offset
-    }) => (0, import_jsx_runtime39.jsx)(GridLine, {
+    }) => (0, import_jsx_runtime52.jsx)(GridLine, {
       y1: offset,
       y2: offset,
       x1: drawingArea.left,
@@ -14851,9 +18536,9 @@ function ChartsGridHorizontal(props) {
 }
 
 // node_modules/@mui/x-charts/ChartsGrid/ChartsGrid.js
-var import_jsx_runtime40 = __toESM(require_jsx_runtime());
+var import_jsx_runtime53 = __toESM(require_jsx_runtime());
 var _excluded19 = ["vertical", "horizontal"];
-var useUtilityClasses8 = ({
+var useUtilityClasses9 = ({
   classes
 }) => {
   const slots = {
@@ -14879,16 +18564,16 @@ function ChartsGrid(inProps) {
     yAxis,
     yAxisIds
   } = useCartesianContext();
-  const classes = useUtilityClasses8(props);
+  const classes = useUtilityClasses9(props);
   const horizontalAxis = yAxis[yAxisIds[0]];
   const verticalAxis = xAxis[xAxisIds[0]];
-  return (0, import_jsx_runtime40.jsxs)(GridRoot, _extends({}, other, {
+  return (0, import_jsx_runtime53.jsxs)(GridRoot, _extends({}, other, {
     className: classes.root,
-    children: [vertical && (0, import_jsx_runtime40.jsx)(ChartsGridVertical, {
+    children: [vertical && (0, import_jsx_runtime53.jsx)(ChartsGridVertical, {
       axis: verticalAxis,
       drawingArea,
       classes
-    }), horizontal && (0, import_jsx_runtime40.jsx)(ChartsGridHorizontal, {
+    }), horizontal && (0, import_jsx_runtime53.jsx)(ChartsGridHorizontal, {
       axis: horizontalAxis,
       drawingArea,
       classes
@@ -14903,21 +18588,21 @@ true ? ChartsGrid.propTypes = {
   /**
    * Override or extend the styles applied to the component.
    */
-  classes: import_prop_types23.default.object,
+  classes: import_prop_types43.default.object,
   /**
    * Displays horizontal grid.
    */
-  horizontal: import_prop_types23.default.bool,
+  horizontal: import_prop_types43.default.bool,
   /**
    * Displays vertical grid.
    */
-  vertical: import_prop_types23.default.bool
+  vertical: import_prop_types43.default.bool
 } : void 0;
 
 // node_modules/@mui/x-charts/ChartsOnAxisClickHandler/ChartsOnAxisClickHandler.js
-var React75 = __toESM(require_react());
-var import_prop_types24 = __toESM(require_prop_types());
-var import_jsx_runtime41 = __toESM(require_jsx_runtime());
+var React110 = __toESM(require_react());
+var import_prop_types44 = __toESM(require_prop_types());
+var import_jsx_runtime54 = __toESM(require_jsx_runtime());
 function ChartsOnAxisClickHandler(props) {
   const {
     onAxisClick
@@ -14926,14 +18611,14 @@ function ChartsOnAxisClickHandler(props) {
   const series = useSeries();
   const {
     axis
-  } = React75.useContext(InteractionContext);
+  } = React110.useContext(InteractionContext);
   const {
     xAxisIds,
     xAxis,
     yAxisIds,
     yAxis
   } = useCartesianContext();
-  React75.useEffect(() => {
+  React110.useEffect(() => {
     const element = svgRef.current;
     if (element === null || !onAxisClick) {
       return () => {
@@ -14973,7 +18658,7 @@ function ChartsOnAxisClickHandler(props) {
       element.removeEventListener("click", handleMouseClick);
     };
   }, [axis.x, axis.y, onAxisClick, series, svgRef, xAxis, xAxisIds, yAxis, yAxisIds]);
-  return (0, import_jsx_runtime41.jsx)(React75.Fragment, {});
+  return (0, import_jsx_runtime54.jsx)(React110.Fragment, {});
 }
 true ? ChartsOnAxisClickHandler.propTypes = {
   // ----------------------------- Warning --------------------------------
@@ -14986,17 +18671,17 @@ true ? ChartsOnAxisClickHandler.propTypes = {
    * @param {MouseEvent} event The mouse event recorded on the `<svg/>` element.
    * @param {null | AxisData} data The data about the clicked axis and items associated with it.
    */
-  onAxisClick: import_prop_types24.default.func
+  onAxisClick: import_prop_types44.default.func
 } : void 0;
 
 // node_modules/@mui/x-charts/ChartsOverlay/ChartsOverlay.js
 init_extends();
-var React78 = __toESM(require_react());
+var React113 = __toESM(require_react());
 
 // node_modules/@mui/x-charts/ChartsOverlay/ChartsLoadingOverlay.js
 init_extends();
-var React76 = __toESM(require_react());
-var import_jsx_runtime42 = __toESM(require_jsx_runtime());
+var React111 = __toESM(require_react());
+var import_jsx_runtime55 = __toESM(require_jsx_runtime());
 var _excluded20 = ["message"];
 var StyledText = styled_default("text")(({
   theme
@@ -15012,14 +18697,14 @@ function ChartsLoadingOverlay(props) {
     message
   } = props, other = _objectWithoutPropertiesLoose(props, _excluded20);
   const {
-    top,
-    left,
-    height,
-    width
+    top: top2,
+    left: left2,
+    height: height2,
+    width: width2
   } = useDrawingArea();
-  return (0, import_jsx_runtime42.jsx)(StyledText, _extends({
-    x: left + width / 2,
-    y: top + height / 2
+  return (0, import_jsx_runtime55.jsx)(StyledText, _extends({
+    x: left2 + width2 / 2,
+    y: top2 + height2 / 2
   }, other, {
     children: message ?? "Loading data…"
   }));
@@ -15027,8 +18712,8 @@ function ChartsLoadingOverlay(props) {
 
 // node_modules/@mui/x-charts/ChartsOverlay/ChartsNoDataOverlay.js
 init_extends();
-var React77 = __toESM(require_react());
-var import_jsx_runtime43 = __toESM(require_jsx_runtime());
+var React112 = __toESM(require_react());
+var import_jsx_runtime56 = __toESM(require_jsx_runtime());
 var _excluded21 = ["message"];
 var StyledText2 = styled_default("text")(({
   theme
@@ -15044,21 +18729,21 @@ function ChartsNoDataOverlay(props) {
     message
   } = props, other = _objectWithoutPropertiesLoose(props, _excluded21);
   const {
-    top,
-    left,
-    height,
-    width
+    top: top2,
+    left: left2,
+    height: height2,
+    width: width2
   } = useDrawingArea();
-  return (0, import_jsx_runtime43.jsx)(StyledText2, _extends({
-    x: left + width / 2,
-    y: top + height / 2
+  return (0, import_jsx_runtime56.jsx)(StyledText2, _extends({
+    x: left2 + width2 / 2,
+    y: top2 + height2 / 2
   }, other, {
     children: message ?? "No data to display"
   }));
 }
 
 // node_modules/@mui/x-charts/ChartsOverlay/ChartsOverlay.js
-var import_jsx_runtime44 = __toESM(require_jsx_runtime());
+var import_jsx_runtime57 = __toESM(require_jsx_runtime());
 function useNoData() {
   const seriesPerType = useSeries();
   return Object.values(seriesPerType).every((seriesOfGivenType) => {
@@ -15077,11 +18762,11 @@ function ChartsOverlay(props) {
   const noData = useNoData();
   if (props.loading) {
     const LoadingOverlay = ((_a = props.slots) == null ? void 0 : _a.loadingOverlay) ?? ChartsLoadingOverlay;
-    return (0, import_jsx_runtime44.jsx)(LoadingOverlay, _extends({}, (_b = props.slotProps) == null ? void 0 : _b.loadingOverlay));
+    return (0, import_jsx_runtime57.jsx)(LoadingOverlay, _extends({}, (_b = props.slotProps) == null ? void 0 : _b.loadingOverlay));
   }
   if (noData) {
     const NoDataOverlay = ((_c = props.slots) == null ? void 0 : _c.noDataOverlay) ?? ChartsNoDataOverlay;
-    return (0, import_jsx_runtime44.jsx)(NoDataOverlay, _extends({}, (_d = props.slotProps) == null ? void 0 : _d.noDataOverlay));
+    return (0, import_jsx_runtime57.jsx)(NoDataOverlay, _extends({}, (_d = props.slotProps) == null ? void 0 : _d.noDataOverlay));
   }
   return null;
 }
@@ -15094,9 +18779,9 @@ var useBarChartProps = (props) => {
     xAxis,
     yAxis,
     series,
-    width,
-    height,
-    margin,
+    width: width2,
+    height: height2,
+    margin: margin2,
     colors: colors3,
     dataset,
     sx,
@@ -15104,7 +18789,7 @@ var useBarChartProps = (props) => {
     onAxisClick,
     axisHighlight,
     legend,
-    grid,
+    grid: grid2,
     topAxis,
     leftAxis,
     rightAxis,
@@ -15118,7 +18803,7 @@ var useBarChartProps = (props) => {
     onItemClick,
     highlightedItem,
     onHighlightChange,
-    borderRadius,
+    borderRadius: borderRadius2,
     barLabel,
     className
   } = props, rest = _objectWithoutPropertiesLoose(props, _excluded24);
@@ -15137,9 +18822,9 @@ var useBarChartProps = (props) => {
     }, s2, {
       layout: hasHorizontalSeries ? "horizontal" : "vertical"
     })),
-    width,
-    height,
-    margin,
+    width: width2,
+    height: height2,
+    margin: margin2,
     colors: colors3,
     dataset,
     xAxis: xAxis ?? (hasHorizontalSeries ? void 0 : [_extends({
@@ -15159,15 +18844,15 @@ var useBarChartProps = (props) => {
     onItemClick,
     slots,
     slotProps,
-    borderRadius,
+    borderRadius: borderRadius2,
     barLabel
   };
   const axisClickHandlerProps = {
     onAxisClick
   };
   const gridProps = {
-    vertical: grid == null ? void 0 : grid.vertical,
-    horizontal: grid == null ? void 0 : grid.horizontal
+    vertical: grid2 == null ? void 0 : grid2.vertical,
+    horizontal: grid2 == null ? void 0 : grid2.horizontal
   };
   const clipPathGroupProps = {
     clipPath: `url(#${clipPathId})`
@@ -15218,8 +18903,8 @@ var useBarChartProps = (props) => {
 };
 
 // node_modules/@mui/x-charts/BarChart/BarChart.js
-var import_jsx_runtime45 = __toESM(require_jsx_runtime());
-var BarChart = React79.forwardRef(function BarChart2(inProps, ref) {
+var import_jsx_runtime58 = __toESM(require_jsx_runtime());
+var BarChart = React114.forwardRef(function BarChart2(inProps, ref) {
   const props = useThemeProps({
     props: inProps,
     name: "MuiBarChart"
@@ -15238,12 +18923,12 @@ var BarChart = React79.forwardRef(function BarChart2(inProps, ref) {
     tooltipProps,
     children
   } = useBarChartProps(props);
-  return (0, import_jsx_runtime45.jsxs)(ResponsiveChartContainer, _extends({
+  return (0, import_jsx_runtime58.jsxs)(ResponsiveChartContainer, _extends({
     ref
   }, chartContainerProps, {
-    children: [props.onAxisClick && (0, import_jsx_runtime45.jsx)(ChartsOnAxisClickHandler, _extends({}, axisClickHandlerProps)), (0, import_jsx_runtime45.jsx)(ChartsGrid, _extends({}, gridProps)), (0, import_jsx_runtime45.jsxs)("g", _extends({}, clipPathGroupProps, {
-      children: [(0, import_jsx_runtime45.jsx)(BarPlot, _extends({}, barPlotProps)), (0, import_jsx_runtime45.jsx)(ChartsOverlay, _extends({}, overlayProps)), (0, import_jsx_runtime45.jsx)(ChartsAxisHighlight, _extends({}, axisHighlightProps))]
-    })), (0, import_jsx_runtime45.jsx)(ChartsAxis, _extends({}, chartsAxisProps)), (0, import_jsx_runtime45.jsx)(ChartsLegend, _extends({}, legendProps)), !props.loading && (0, import_jsx_runtime45.jsx)(ChartsTooltip, _extends({}, tooltipProps)), (0, import_jsx_runtime45.jsx)(ChartsClipPath, _extends({}, clipPathProps)), children]
+    children: [props.onAxisClick && (0, import_jsx_runtime58.jsx)(ChartsOnAxisClickHandler, _extends({}, axisClickHandlerProps)), (0, import_jsx_runtime58.jsx)(ChartsGrid, _extends({}, gridProps)), (0, import_jsx_runtime58.jsxs)("g", _extends({}, clipPathGroupProps, {
+      children: [(0, import_jsx_runtime58.jsx)(BarPlot, _extends({}, barPlotProps)), (0, import_jsx_runtime58.jsx)(ChartsOverlay, _extends({}, overlayProps)), (0, import_jsx_runtime58.jsx)(ChartsAxisHighlight, _extends({}, axisHighlightProps))]
+    })), (0, import_jsx_runtime58.jsx)(ChartsAxis, _extends({}, chartsAxisProps)), (0, import_jsx_runtime58.jsx)(ChartsLegend, _extends({}, legendProps)), !props.loading && (0, import_jsx_runtime58.jsx)(ChartsTooltip, _extends({}, tooltipProps)), (0, import_jsx_runtime58.jsx)(ChartsClipPath, _extends({}, clipPathProps)), children]
   }));
 });
 true ? BarChart.propTypes = {
@@ -15257,9 +18942,9 @@ true ? BarChart.propTypes = {
    * Depends on `layout` prop.
    * @see See {@link https://mui.com/x/react-charts/highlighting highlighting docs} for more details.
    */
-  axisHighlight: import_prop_types25.default.shape({
-    x: import_prop_types25.default.oneOf(["band", "line", "none"]),
-    y: import_prop_types25.default.oneOf(["band", "line", "none"])
+  axisHighlight: import_prop_types45.default.shape({
+    x: import_prop_types45.default.oneOf(["band", "line", "none"]),
+    y: import_prop_types45.default.oneOf(["band", "line", "none"])
   }),
   /**
    * If provided, the function will be used to format the label of the bar.
@@ -15268,106 +18953,106 @@ true ? BarChart.propTypes = {
    * @param {BarLabelContext} context data about the bar.
    * @returns {string} The formatted label.
    */
-  barLabel: import_prop_types25.default.oneOfType([import_prop_types25.default.oneOf(["value"]), import_prop_types25.default.func]),
+  barLabel: import_prop_types45.default.oneOfType([import_prop_types45.default.oneOf(["value"]), import_prop_types45.default.func]),
   /**
    * Defines the border radius of the bar element.
    */
-  borderRadius: import_prop_types25.default.number,
+  borderRadius: import_prop_types45.default.number,
   /**
    * Indicate which axis to display the bottom of the charts.
    * Can be a string (the id of the axis) or an object `ChartsXAxisProps`.
    * @default xAxisIds[0] The id of the first provided axis
    */
-  bottomAxis: import_prop_types25.default.oneOfType([import_prop_types25.default.object, import_prop_types25.default.string]),
-  children: import_prop_types25.default.node,
-  className: import_prop_types25.default.string,
+  bottomAxis: import_prop_types45.default.oneOfType([import_prop_types45.default.object, import_prop_types45.default.string]),
+  children: import_prop_types45.default.node,
+  className: import_prop_types45.default.string,
   /**
    * Color palette used to colorize multiple series.
    * @default blueberryTwilightPalette
    */
-  colors: import_prop_types25.default.oneOfType([import_prop_types25.default.arrayOf(import_prop_types25.default.string), import_prop_types25.default.func]),
+  colors: import_prop_types45.default.oneOfType([import_prop_types45.default.arrayOf(import_prop_types45.default.string), import_prop_types45.default.func]),
   /**
    * An array of objects that can be used to populate series and axes data using their `dataKey` property.
    */
-  dataset: import_prop_types25.default.arrayOf(import_prop_types25.default.object),
-  desc: import_prop_types25.default.string,
+  dataset: import_prop_types45.default.arrayOf(import_prop_types45.default.object),
+  desc: import_prop_types45.default.string,
   /**
    * If `true`, the charts will not listen to the mouse move event.
    * It might break interactive features, but will improve performance.
    * @default false
    */
-  disableAxisListener: import_prop_types25.default.bool,
+  disableAxisListener: import_prop_types45.default.bool,
   /**
    * Option to display a cartesian grid in the background.
    */
-  grid: import_prop_types25.default.shape({
-    horizontal: import_prop_types25.default.bool,
-    vertical: import_prop_types25.default.bool
+  grid: import_prop_types45.default.shape({
+    horizontal: import_prop_types45.default.bool,
+    vertical: import_prop_types45.default.bool
   }),
   /**
    * The height of the chart in px. If not defined, it takes the height of the parent element.
    */
-  height: import_prop_types25.default.number,
+  height: import_prop_types45.default.number,
   /**
    * The item currently highlighted. Turns highlighting into a controlled prop.
    */
-  highlightedItem: import_prop_types25.default.shape({
-    dataIndex: import_prop_types25.default.number,
-    seriesId: import_prop_types25.default.oneOfType([import_prop_types25.default.number, import_prop_types25.default.string])
+  highlightedItem: import_prop_types45.default.shape({
+    dataIndex: import_prop_types45.default.number,
+    seriesId: import_prop_types45.default.oneOfType([import_prop_types45.default.number, import_prop_types45.default.string])
   }),
   /**
    * The direction of the bar elements.
    * @default 'vertical'
    */
-  layout: import_prop_types25.default.oneOf(["horizontal", "vertical"]),
+  layout: import_prop_types45.default.oneOf(["horizontal", "vertical"]),
   /**
    * Indicate which axis to display the left of the charts.
    * Can be a string (the id of the axis) or an object `ChartsYAxisProps`.
    * @default yAxisIds[0] The id of the first provided axis
    */
-  leftAxis: import_prop_types25.default.oneOfType([import_prop_types25.default.object, import_prop_types25.default.string]),
+  leftAxis: import_prop_types45.default.oneOfType([import_prop_types45.default.object, import_prop_types45.default.string]),
   /**
    * @deprecated Consider using `slotProps.legend` instead.
    */
-  legend: import_prop_types25.default.shape({
-    classes: import_prop_types25.default.object,
-    direction: import_prop_types25.default.oneOf(["column", "row"]),
-    hidden: import_prop_types25.default.bool,
-    itemGap: import_prop_types25.default.number,
-    itemMarkHeight: import_prop_types25.default.number,
-    itemMarkWidth: import_prop_types25.default.number,
-    labelStyle: import_prop_types25.default.object,
-    markGap: import_prop_types25.default.number,
-    onItemClick: import_prop_types25.default.func,
-    padding: import_prop_types25.default.oneOfType([import_prop_types25.default.number, import_prop_types25.default.shape({
-      bottom: import_prop_types25.default.number,
-      left: import_prop_types25.default.number,
-      right: import_prop_types25.default.number,
-      top: import_prop_types25.default.number
+  legend: import_prop_types45.default.shape({
+    classes: import_prop_types45.default.object,
+    direction: import_prop_types45.default.oneOf(["column", "row"]),
+    hidden: import_prop_types45.default.bool,
+    itemGap: import_prop_types45.default.number,
+    itemMarkHeight: import_prop_types45.default.number,
+    itemMarkWidth: import_prop_types45.default.number,
+    labelStyle: import_prop_types45.default.object,
+    markGap: import_prop_types45.default.number,
+    onItemClick: import_prop_types45.default.func,
+    padding: import_prop_types45.default.oneOfType([import_prop_types45.default.number, import_prop_types45.default.shape({
+      bottom: import_prop_types45.default.number,
+      left: import_prop_types45.default.number,
+      right: import_prop_types45.default.number,
+      top: import_prop_types45.default.number
     })]),
-    position: import_prop_types25.default.shape({
-      horizontal: import_prop_types25.default.oneOf(["left", "middle", "right"]).isRequired,
-      vertical: import_prop_types25.default.oneOf(["bottom", "middle", "top"]).isRequired
+    position: import_prop_types45.default.shape({
+      horizontal: import_prop_types45.default.oneOf(["left", "middle", "right"]).isRequired,
+      vertical: import_prop_types45.default.oneOf(["bottom", "middle", "top"]).isRequired
     }),
-    slotProps: import_prop_types25.default.object,
-    slots: import_prop_types25.default.object
+    slotProps: import_prop_types45.default.object,
+    slots: import_prop_types45.default.object
   }),
   /**
    * If `true`, a loading overlay is displayed.
    * @default false
    */
-  loading: import_prop_types25.default.bool,
+  loading: import_prop_types45.default.bool,
   /**
    * The margin between the SVG and the drawing area.
    * It's used for leaving some space for extra information such as the x- and y-axis or legend.
    * Accepts an object with the optional properties: `top`, `bottom`, `left`, and `right`.
    * @default object Depends on the charts type.
    */
-  margin: import_prop_types25.default.shape({
-    bottom: import_prop_types25.default.number,
-    left: import_prop_types25.default.number,
-    right: import_prop_types25.default.number,
-    top: import_prop_types25.default.number
+  margin: import_prop_types45.default.shape({
+    bottom: import_prop_types45.default.number,
+    left: import_prop_types45.default.number,
+    right: import_prop_types45.default.number,
+    top: import_prop_types45.default.number
   }),
   /**
    * The function called for onClick events.
@@ -15375,19 +19060,19 @@ true ? BarChart.propTypes = {
    * @param {MouseEvent} event The mouse event recorded on the `<svg/>` element.
    * @param {null | AxisData} data The data about the clicked axis and items associated with it.
    */
-  onAxisClick: import_prop_types25.default.func,
+  onAxisClick: import_prop_types45.default.func,
   /**
    * The callback fired when the highlighted item changes.
    *
    * @param {HighlightItemData | null} highlightedItem  The newly highlighted item.
    */
-  onHighlightChange: import_prop_types25.default.func,
+  onHighlightChange: import_prop_types45.default.func,
   /**
    * Callback fired when a bar item is clicked.
    * @param {React.MouseEvent<SVGElement, MouseEvent>} event The event source of the callback.
    * @param {BarItemIdentifier} barItemIdentifier The bar item identifier.
    */
-  onItemClick: import_prop_types25.default.func,
+  onItemClick: import_prop_types45.default.func,
   /**
    * The chart will try to wait for the parent container to resolve its size
    * before it renders for the first time.
@@ -15397,170 +19082,170 @@ true ? BarChart.propTypes = {
    *
    * @default false
    */
-  resolveSizeBeforeRender: import_prop_types25.default.bool,
+  resolveSizeBeforeRender: import_prop_types45.default.bool,
   /**
    * Indicate which axis to display the right of the charts.
    * Can be a string (the id of the axis) or an object `ChartsYAxisProps`.
    * @default null
    */
-  rightAxis: import_prop_types25.default.oneOfType([import_prop_types25.default.object, import_prop_types25.default.string]),
+  rightAxis: import_prop_types45.default.oneOfType([import_prop_types45.default.object, import_prop_types45.default.string]),
   /**
    * The series to display in the bar chart.
    * An array of [[BarSeriesType]] objects.
    */
-  series: import_prop_types25.default.arrayOf(import_prop_types25.default.object).isRequired,
+  series: import_prop_types45.default.arrayOf(import_prop_types45.default.object).isRequired,
   /**
    * If `true`, animations are skipped.
    * If unset or `false`, the animations respects the user's `prefers-reduced-motion` setting.
    */
-  skipAnimation: import_prop_types25.default.bool,
+  skipAnimation: import_prop_types45.default.bool,
   /**
    * The props used for each component slot.
    * @default {}
    */
-  slotProps: import_prop_types25.default.object,
+  slotProps: import_prop_types45.default.object,
   /**
    * Overridable component slots.
    * @default {}
    */
-  slots: import_prop_types25.default.object,
-  sx: import_prop_types25.default.oneOfType([import_prop_types25.default.arrayOf(import_prop_types25.default.oneOfType([import_prop_types25.default.func, import_prop_types25.default.object, import_prop_types25.default.bool])), import_prop_types25.default.func, import_prop_types25.default.object]),
-  title: import_prop_types25.default.string,
+  slots: import_prop_types45.default.object,
+  sx: import_prop_types45.default.oneOfType([import_prop_types45.default.arrayOf(import_prop_types45.default.oneOfType([import_prop_types45.default.func, import_prop_types45.default.object, import_prop_types45.default.bool])), import_prop_types45.default.func, import_prop_types45.default.object]),
+  title: import_prop_types45.default.string,
   /**
    * The configuration of the tooltip.
    * @see See {@link https://mui.com/x/react-charts/tooltip/ tooltip docs} for more details.
    */
-  tooltip: import_prop_types25.default.shape({
-    axisContent: import_prop_types25.default.elementType,
-    classes: import_prop_types25.default.object,
-    itemContent: import_prop_types25.default.elementType,
-    slotProps: import_prop_types25.default.object,
-    slots: import_prop_types25.default.object,
-    trigger: import_prop_types25.default.oneOf(["axis", "item", "none"])
+  tooltip: import_prop_types45.default.shape({
+    axisContent: import_prop_types45.default.elementType,
+    classes: import_prop_types45.default.object,
+    itemContent: import_prop_types45.default.elementType,
+    slotProps: import_prop_types45.default.object,
+    slots: import_prop_types45.default.object,
+    trigger: import_prop_types45.default.oneOf(["axis", "item", "none"])
   }),
   /**
    * Indicate which axis to display the top of the charts.
    * Can be a string (the id of the axis) or an object `ChartsXAxisProps`.
    * @default null
    */
-  topAxis: import_prop_types25.default.oneOfType([import_prop_types25.default.object, import_prop_types25.default.string]),
-  viewBox: import_prop_types25.default.shape({
-    height: import_prop_types25.default.number,
-    width: import_prop_types25.default.number,
-    x: import_prop_types25.default.number,
-    y: import_prop_types25.default.number
+  topAxis: import_prop_types45.default.oneOfType([import_prop_types45.default.object, import_prop_types45.default.string]),
+  viewBox: import_prop_types45.default.shape({
+    height: import_prop_types45.default.number,
+    width: import_prop_types45.default.number,
+    x: import_prop_types45.default.number,
+    y: import_prop_types45.default.number
   }),
   /**
    * The width of the chart in px. If not defined, it takes the width of the parent element.
    */
-  width: import_prop_types25.default.number,
+  width: import_prop_types45.default.number,
   /**
    * The configuration of the x-axes.
    * If not provided, a default axis config is used.
    * An array of [[AxisConfig]] objects.
    */
-  xAxis: import_prop_types25.default.arrayOf(import_prop_types25.default.shape({
-    classes: import_prop_types25.default.object,
-    colorMap: import_prop_types25.default.oneOfType([import_prop_types25.default.shape({
-      colors: import_prop_types25.default.arrayOf(import_prop_types25.default.string).isRequired,
-      type: import_prop_types25.default.oneOf(["ordinal"]).isRequired,
-      unknownColor: import_prop_types25.default.string,
-      values: import_prop_types25.default.arrayOf(import_prop_types25.default.oneOfType([import_prop_types25.default.instanceOf(Date), import_prop_types25.default.number, import_prop_types25.default.string]).isRequired)
-    }), import_prop_types25.default.shape({
-      color: import_prop_types25.default.oneOfType([import_prop_types25.default.arrayOf(import_prop_types25.default.string.isRequired), import_prop_types25.default.func]).isRequired,
-      max: import_prop_types25.default.oneOfType([import_prop_types25.default.instanceOf(Date), import_prop_types25.default.number]),
-      min: import_prop_types25.default.oneOfType([import_prop_types25.default.instanceOf(Date), import_prop_types25.default.number]),
-      type: import_prop_types25.default.oneOf(["continuous"]).isRequired
-    }), import_prop_types25.default.shape({
-      colors: import_prop_types25.default.arrayOf(import_prop_types25.default.string).isRequired,
-      thresholds: import_prop_types25.default.arrayOf(import_prop_types25.default.oneOfType([import_prop_types25.default.instanceOf(Date), import_prop_types25.default.number]).isRequired).isRequired,
-      type: import_prop_types25.default.oneOf(["piecewise"]).isRequired
+  xAxis: import_prop_types45.default.arrayOf(import_prop_types45.default.shape({
+    classes: import_prop_types45.default.object,
+    colorMap: import_prop_types45.default.oneOfType([import_prop_types45.default.shape({
+      colors: import_prop_types45.default.arrayOf(import_prop_types45.default.string).isRequired,
+      type: import_prop_types45.default.oneOf(["ordinal"]).isRequired,
+      unknownColor: import_prop_types45.default.string,
+      values: import_prop_types45.default.arrayOf(import_prop_types45.default.oneOfType([import_prop_types45.default.instanceOf(Date), import_prop_types45.default.number, import_prop_types45.default.string]).isRequired)
+    }), import_prop_types45.default.shape({
+      color: import_prop_types45.default.oneOfType([import_prop_types45.default.arrayOf(import_prop_types45.default.string.isRequired), import_prop_types45.default.func]).isRequired,
+      max: import_prop_types45.default.oneOfType([import_prop_types45.default.instanceOf(Date), import_prop_types45.default.number]),
+      min: import_prop_types45.default.oneOfType([import_prop_types45.default.instanceOf(Date), import_prop_types45.default.number]),
+      type: import_prop_types45.default.oneOf(["continuous"]).isRequired
+    }), import_prop_types45.default.shape({
+      colors: import_prop_types45.default.arrayOf(import_prop_types45.default.string).isRequired,
+      thresholds: import_prop_types45.default.arrayOf(import_prop_types45.default.oneOfType([import_prop_types45.default.instanceOf(Date), import_prop_types45.default.number]).isRequired).isRequired,
+      type: import_prop_types45.default.oneOf(["piecewise"]).isRequired
     })]),
-    data: import_prop_types25.default.array,
-    dataKey: import_prop_types25.default.string,
-    disableLine: import_prop_types25.default.bool,
-    disableTicks: import_prop_types25.default.bool,
-    domainLimit: import_prop_types25.default.oneOfType([import_prop_types25.default.oneOf(["nice", "strict"]), import_prop_types25.default.func]),
-    fill: import_prop_types25.default.string,
-    hideTooltip: import_prop_types25.default.bool,
-    id: import_prop_types25.default.oneOfType([import_prop_types25.default.number, import_prop_types25.default.string]),
-    label: import_prop_types25.default.string,
-    labelFontSize: import_prop_types25.default.number,
-    labelStyle: import_prop_types25.default.object,
-    max: import_prop_types25.default.oneOfType([import_prop_types25.default.instanceOf(Date), import_prop_types25.default.number]),
-    min: import_prop_types25.default.oneOfType([import_prop_types25.default.instanceOf(Date), import_prop_types25.default.number]),
-    position: import_prop_types25.default.oneOf(["bottom", "top"]),
-    reverse: import_prop_types25.default.bool,
-    scaleType: import_prop_types25.default.oneOf(["band", "linear", "log", "point", "pow", "sqrt", "time", "utc"]),
-    slotProps: import_prop_types25.default.object,
-    slots: import_prop_types25.default.object,
-    stroke: import_prop_types25.default.string,
-    sx: import_prop_types25.default.oneOfType([import_prop_types25.default.arrayOf(import_prop_types25.default.oneOfType([import_prop_types25.default.func, import_prop_types25.default.object, import_prop_types25.default.bool])), import_prop_types25.default.func, import_prop_types25.default.object]),
-    tickFontSize: import_prop_types25.default.number,
-    tickInterval: import_prop_types25.default.oneOfType([import_prop_types25.default.oneOf(["auto"]), import_prop_types25.default.array, import_prop_types25.default.func]),
-    tickLabelInterval: import_prop_types25.default.oneOfType([import_prop_types25.default.oneOf(["auto"]), import_prop_types25.default.func]),
-    tickLabelPlacement: import_prop_types25.default.oneOf(["middle", "tick"]),
-    tickLabelStyle: import_prop_types25.default.object,
-    tickMaxStep: import_prop_types25.default.number,
-    tickMinStep: import_prop_types25.default.number,
-    tickNumber: import_prop_types25.default.number,
-    tickPlacement: import_prop_types25.default.oneOf(["end", "extremities", "middle", "start"]),
-    tickSize: import_prop_types25.default.number,
-    valueFormatter: import_prop_types25.default.func
+    data: import_prop_types45.default.array,
+    dataKey: import_prop_types45.default.string,
+    disableLine: import_prop_types45.default.bool,
+    disableTicks: import_prop_types45.default.bool,
+    domainLimit: import_prop_types45.default.oneOfType([import_prop_types45.default.oneOf(["nice", "strict"]), import_prop_types45.default.func]),
+    fill: import_prop_types45.default.string,
+    hideTooltip: import_prop_types45.default.bool,
+    id: import_prop_types45.default.oneOfType([import_prop_types45.default.number, import_prop_types45.default.string]),
+    label: import_prop_types45.default.string,
+    labelFontSize: import_prop_types45.default.number,
+    labelStyle: import_prop_types45.default.object,
+    max: import_prop_types45.default.oneOfType([import_prop_types45.default.instanceOf(Date), import_prop_types45.default.number]),
+    min: import_prop_types45.default.oneOfType([import_prop_types45.default.instanceOf(Date), import_prop_types45.default.number]),
+    position: import_prop_types45.default.oneOf(["bottom", "top"]),
+    reverse: import_prop_types45.default.bool,
+    scaleType: import_prop_types45.default.oneOf(["band", "linear", "log", "point", "pow", "sqrt", "time", "utc"]),
+    slotProps: import_prop_types45.default.object,
+    slots: import_prop_types45.default.object,
+    stroke: import_prop_types45.default.string,
+    sx: import_prop_types45.default.oneOfType([import_prop_types45.default.arrayOf(import_prop_types45.default.oneOfType([import_prop_types45.default.func, import_prop_types45.default.object, import_prop_types45.default.bool])), import_prop_types45.default.func, import_prop_types45.default.object]),
+    tickFontSize: import_prop_types45.default.number,
+    tickInterval: import_prop_types45.default.oneOfType([import_prop_types45.default.oneOf(["auto"]), import_prop_types45.default.array, import_prop_types45.default.func]),
+    tickLabelInterval: import_prop_types45.default.oneOfType([import_prop_types45.default.oneOf(["auto"]), import_prop_types45.default.func]),
+    tickLabelPlacement: import_prop_types45.default.oneOf(["middle", "tick"]),
+    tickLabelStyle: import_prop_types45.default.object,
+    tickMaxStep: import_prop_types45.default.number,
+    tickMinStep: import_prop_types45.default.number,
+    tickNumber: import_prop_types45.default.number,
+    tickPlacement: import_prop_types45.default.oneOf(["end", "extremities", "middle", "start"]),
+    tickSize: import_prop_types45.default.number,
+    valueFormatter: import_prop_types45.default.func
   })),
   /**
    * The configuration of the y-axes.
    * If not provided, a default axis config is used.
    * An array of [[AxisConfig]] objects.
    */
-  yAxis: import_prop_types25.default.arrayOf(import_prop_types25.default.shape({
-    classes: import_prop_types25.default.object,
-    colorMap: import_prop_types25.default.oneOfType([import_prop_types25.default.shape({
-      colors: import_prop_types25.default.arrayOf(import_prop_types25.default.string).isRequired,
-      type: import_prop_types25.default.oneOf(["ordinal"]).isRequired,
-      unknownColor: import_prop_types25.default.string,
-      values: import_prop_types25.default.arrayOf(import_prop_types25.default.oneOfType([import_prop_types25.default.instanceOf(Date), import_prop_types25.default.number, import_prop_types25.default.string]).isRequired)
-    }), import_prop_types25.default.shape({
-      color: import_prop_types25.default.oneOfType([import_prop_types25.default.arrayOf(import_prop_types25.default.string.isRequired), import_prop_types25.default.func]).isRequired,
-      max: import_prop_types25.default.oneOfType([import_prop_types25.default.instanceOf(Date), import_prop_types25.default.number]),
-      min: import_prop_types25.default.oneOfType([import_prop_types25.default.instanceOf(Date), import_prop_types25.default.number]),
-      type: import_prop_types25.default.oneOf(["continuous"]).isRequired
-    }), import_prop_types25.default.shape({
-      colors: import_prop_types25.default.arrayOf(import_prop_types25.default.string).isRequired,
-      thresholds: import_prop_types25.default.arrayOf(import_prop_types25.default.oneOfType([import_prop_types25.default.instanceOf(Date), import_prop_types25.default.number]).isRequired).isRequired,
-      type: import_prop_types25.default.oneOf(["piecewise"]).isRequired
+  yAxis: import_prop_types45.default.arrayOf(import_prop_types45.default.shape({
+    classes: import_prop_types45.default.object,
+    colorMap: import_prop_types45.default.oneOfType([import_prop_types45.default.shape({
+      colors: import_prop_types45.default.arrayOf(import_prop_types45.default.string).isRequired,
+      type: import_prop_types45.default.oneOf(["ordinal"]).isRequired,
+      unknownColor: import_prop_types45.default.string,
+      values: import_prop_types45.default.arrayOf(import_prop_types45.default.oneOfType([import_prop_types45.default.instanceOf(Date), import_prop_types45.default.number, import_prop_types45.default.string]).isRequired)
+    }), import_prop_types45.default.shape({
+      color: import_prop_types45.default.oneOfType([import_prop_types45.default.arrayOf(import_prop_types45.default.string.isRequired), import_prop_types45.default.func]).isRequired,
+      max: import_prop_types45.default.oneOfType([import_prop_types45.default.instanceOf(Date), import_prop_types45.default.number]),
+      min: import_prop_types45.default.oneOfType([import_prop_types45.default.instanceOf(Date), import_prop_types45.default.number]),
+      type: import_prop_types45.default.oneOf(["continuous"]).isRequired
+    }), import_prop_types45.default.shape({
+      colors: import_prop_types45.default.arrayOf(import_prop_types45.default.string).isRequired,
+      thresholds: import_prop_types45.default.arrayOf(import_prop_types45.default.oneOfType([import_prop_types45.default.instanceOf(Date), import_prop_types45.default.number]).isRequired).isRequired,
+      type: import_prop_types45.default.oneOf(["piecewise"]).isRequired
     })]),
-    data: import_prop_types25.default.array,
-    dataKey: import_prop_types25.default.string,
-    disableLine: import_prop_types25.default.bool,
-    disableTicks: import_prop_types25.default.bool,
-    domainLimit: import_prop_types25.default.oneOfType([import_prop_types25.default.oneOf(["nice", "strict"]), import_prop_types25.default.func]),
-    fill: import_prop_types25.default.string,
-    hideTooltip: import_prop_types25.default.bool,
-    id: import_prop_types25.default.oneOfType([import_prop_types25.default.number, import_prop_types25.default.string]),
-    label: import_prop_types25.default.string,
-    labelFontSize: import_prop_types25.default.number,
-    labelStyle: import_prop_types25.default.object,
-    max: import_prop_types25.default.oneOfType([import_prop_types25.default.instanceOf(Date), import_prop_types25.default.number]),
-    min: import_prop_types25.default.oneOfType([import_prop_types25.default.instanceOf(Date), import_prop_types25.default.number]),
-    position: import_prop_types25.default.oneOf(["left", "right"]),
-    reverse: import_prop_types25.default.bool,
-    scaleType: import_prop_types25.default.oneOf(["band", "linear", "log", "point", "pow", "sqrt", "time", "utc"]),
-    slotProps: import_prop_types25.default.object,
-    slots: import_prop_types25.default.object,
-    stroke: import_prop_types25.default.string,
-    sx: import_prop_types25.default.oneOfType([import_prop_types25.default.arrayOf(import_prop_types25.default.oneOfType([import_prop_types25.default.func, import_prop_types25.default.object, import_prop_types25.default.bool])), import_prop_types25.default.func, import_prop_types25.default.object]),
-    tickFontSize: import_prop_types25.default.number,
-    tickInterval: import_prop_types25.default.oneOfType([import_prop_types25.default.oneOf(["auto"]), import_prop_types25.default.array, import_prop_types25.default.func]),
-    tickLabelInterval: import_prop_types25.default.oneOfType([import_prop_types25.default.oneOf(["auto"]), import_prop_types25.default.func]),
-    tickLabelPlacement: import_prop_types25.default.oneOf(["middle", "tick"]),
-    tickLabelStyle: import_prop_types25.default.object,
-    tickMaxStep: import_prop_types25.default.number,
-    tickMinStep: import_prop_types25.default.number,
-    tickNumber: import_prop_types25.default.number,
-    tickPlacement: import_prop_types25.default.oneOf(["end", "extremities", "middle", "start"]),
-    tickSize: import_prop_types25.default.number,
-    valueFormatter: import_prop_types25.default.func
+    data: import_prop_types45.default.array,
+    dataKey: import_prop_types45.default.string,
+    disableLine: import_prop_types45.default.bool,
+    disableTicks: import_prop_types45.default.bool,
+    domainLimit: import_prop_types45.default.oneOfType([import_prop_types45.default.oneOf(["nice", "strict"]), import_prop_types45.default.func]),
+    fill: import_prop_types45.default.string,
+    hideTooltip: import_prop_types45.default.bool,
+    id: import_prop_types45.default.oneOfType([import_prop_types45.default.number, import_prop_types45.default.string]),
+    label: import_prop_types45.default.string,
+    labelFontSize: import_prop_types45.default.number,
+    labelStyle: import_prop_types45.default.object,
+    max: import_prop_types45.default.oneOfType([import_prop_types45.default.instanceOf(Date), import_prop_types45.default.number]),
+    min: import_prop_types45.default.oneOfType([import_prop_types45.default.instanceOf(Date), import_prop_types45.default.number]),
+    position: import_prop_types45.default.oneOf(["left", "right"]),
+    reverse: import_prop_types45.default.bool,
+    scaleType: import_prop_types45.default.oneOf(["band", "linear", "log", "point", "pow", "sqrt", "time", "utc"]),
+    slotProps: import_prop_types45.default.object,
+    slots: import_prop_types45.default.object,
+    stroke: import_prop_types45.default.string,
+    sx: import_prop_types45.default.oneOfType([import_prop_types45.default.arrayOf(import_prop_types45.default.oneOfType([import_prop_types45.default.func, import_prop_types45.default.object, import_prop_types45.default.bool])), import_prop_types45.default.func, import_prop_types45.default.object]),
+    tickFontSize: import_prop_types45.default.number,
+    tickInterval: import_prop_types45.default.oneOfType([import_prop_types45.default.oneOf(["auto"]), import_prop_types45.default.array, import_prop_types45.default.func]),
+    tickLabelInterval: import_prop_types45.default.oneOfType([import_prop_types45.default.oneOf(["auto"]), import_prop_types45.default.func]),
+    tickLabelPlacement: import_prop_types45.default.oneOf(["middle", "tick"]),
+    tickLabelStyle: import_prop_types45.default.object,
+    tickMaxStep: import_prop_types45.default.number,
+    tickMinStep: import_prop_types45.default.number,
+    tickNumber: import_prop_types45.default.number,
+    tickPlacement: import_prop_types45.default.oneOf(["end", "extremities", "middle", "start"]),
+    tickSize: import_prop_types45.default.number,
+    valueFormatter: import_prop_types45.default.func
   }))
 } : void 0;
 export {
@@ -15574,4 +19259,24 @@ export {
   getBarElementUtilityClass,
   getBarLabelUtilityClass
 };
+/*! Bundled license information:
+
+@mui/styled-engine/index.js:
+  (**
+   * @mui/styled-engine v6.3.1
+   *
+   * @license MIT
+   * This source code is licensed under the MIT license found in the
+   * LICENSE file in the root directory of this source tree.
+   *)
+
+@mui/private-theming/index.js:
+  (**
+   * @mui/private-theming v6.3.1
+   *
+   * @license MIT
+   * This source code is licensed under the MIT license found in the
+   * LICENSE file in the root directory of this source tree.
+   *)
+*/
 //# sourceMappingURL=@mui_x-charts_BarChart.js.map

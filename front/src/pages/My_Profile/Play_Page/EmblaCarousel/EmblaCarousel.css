@@ -23,7 +23,7 @@
 .embla {
   position: relative;
   overflow: hidden;
-  width: 100%;
+  width: 80%;
   --slide-size: 55%;
   --slide-height: 19rem;
   --slide-spacing: 1rem;
@@ -42,30 +42,23 @@
 
 .embla__slide {
   flex: 0 0 var(--slide-size);
+  border: 2px solid #000;
   min-width: 0;
   position: relative;
   padding-left: var(--slide-spacing);
 }
 
 .embla__slide img {
-  display: block;
-  width: 100%;
+  display: flex;
+  position: relative;
+  /* top: 50%; */
+  justify-content: center;
+  align-items: center;
+  width: 80%;
   height: auto;
 }
 
-.embla__slide__number {
-  box-shadow: inset 0 0 0 0.2rem var(--detail-medium-contrast);
-  border-radius: 1.8rem;
-  font-size: 4rem;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: var(--slide-height);
-  user-select: none;
-}
 .embla__controls {
-  background-color: red;
   display: grid;
   grid-template-columns: auto 1fr;
   justify-content: space-between;

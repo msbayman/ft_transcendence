@@ -13,7 +13,7 @@ import {
   useEventCallback_default as useEventCallback_default2,
   useForkRef_default,
   useIsFocusVisible_default
-} from "./chunk-3E6OIR2J.js";
+} from "./chunk-KWRNEVTN.js";
 import {
   CssVarsProvider,
   NoSsr_default,
@@ -42,7 +42,7 @@ import {
   useThemeProps,
   withStyles,
   withTheme
-} from "./chunk-6CINOIJK.js";
+} from "./chunk-SVGKHQU4.js";
 import {
   ClassNameGenerator_default,
   GlobalStyles_default,
@@ -90,6 +90,7 @@ import {
   getLuminance,
   getNormalizedScrollLeft,
   getPath,
+  getReactElementRef,
   getScrollbarSize,
   getThemeProps,
   getValidReactChildren,
@@ -119,6 +120,7 @@ import {
   requirePropFactory,
   require_colorManipulator,
   require_prop_types,
+  require_react_is,
   resolveBreakpointValues,
   resolveComponentProps_default,
   resolveProps,
@@ -141,221 +143,26 @@ import {
   useSlotProps_default,
   useTimeout,
   visuallyHidden_default
-} from "./chunk-222HOEAV.js";
+} from "./chunk-5V63FQV4.js";
 import {
   require_react_dom
-} from "./chunk-ZZLBGYQN.js";
+} from "./chunk-BLBKUI5W.js";
 import {
   _extends,
   css,
   init_extends,
   keyframes
-} from "./chunk-IFJDQTR6.js";
+} from "./chunk-73UIML4H.js";
 import {
   require_jsx_runtime
-} from "./chunk-JO3Y3TZY.js";
+} from "./chunk-5HDAWWHN.js";
 import {
   require_react
-} from "./chunk-65KY755N.js";
+} from "./chunk-W4EHDCLL.js";
 import {
-  __commonJS,
   __export,
   __toESM
-} from "./chunk-V4OQ3NZ2.js";
-
-// node_modules/@mui/material/node_modules/react-is/cjs/react-is.development.js
-var require_react_is_development = __commonJS({
-  "node_modules/@mui/material/node_modules/react-is/cjs/react-is.development.js"(exports) {
-    "use strict";
-    if (true) {
-      (function() {
-        "use strict";
-        var REACT_ELEMENT_TYPE = Symbol.for("react.element");
-        var REACT_PORTAL_TYPE = Symbol.for("react.portal");
-        var REACT_FRAGMENT_TYPE = Symbol.for("react.fragment");
-        var REACT_STRICT_MODE_TYPE = Symbol.for("react.strict_mode");
-        var REACT_PROFILER_TYPE = Symbol.for("react.profiler");
-        var REACT_PROVIDER_TYPE = Symbol.for("react.provider");
-        var REACT_CONTEXT_TYPE = Symbol.for("react.context");
-        var REACT_SERVER_CONTEXT_TYPE = Symbol.for("react.server_context");
-        var REACT_FORWARD_REF_TYPE = Symbol.for("react.forward_ref");
-        var REACT_SUSPENSE_TYPE = Symbol.for("react.suspense");
-        var REACT_SUSPENSE_LIST_TYPE = Symbol.for("react.suspense_list");
-        var REACT_MEMO_TYPE = Symbol.for("react.memo");
-        var REACT_LAZY_TYPE = Symbol.for("react.lazy");
-        var REACT_OFFSCREEN_TYPE = Symbol.for("react.offscreen");
-        var enableScopeAPI = false;
-        var enableCacheElement = false;
-        var enableTransitionTracing = false;
-        var enableLegacyHidden = false;
-        var enableDebugTracing = false;
-        var REACT_MODULE_REFERENCE;
-        {
-          REACT_MODULE_REFERENCE = Symbol.for("react.module.reference");
-        }
-        function isValidElementType(type) {
-          if (typeof type === "string" || typeof type === "function") {
-            return true;
-          }
-          if (type === REACT_FRAGMENT_TYPE || type === REACT_PROFILER_TYPE || enableDebugTracing || type === REACT_STRICT_MODE_TYPE || type === REACT_SUSPENSE_TYPE || type === REACT_SUSPENSE_LIST_TYPE || enableLegacyHidden || type === REACT_OFFSCREEN_TYPE || enableScopeAPI || enableCacheElement || enableTransitionTracing) {
-            return true;
-          }
-          if (typeof type === "object" && type !== null) {
-            if (type.$$typeof === REACT_LAZY_TYPE || type.$$typeof === REACT_MEMO_TYPE || type.$$typeof === REACT_PROVIDER_TYPE || type.$$typeof === REACT_CONTEXT_TYPE || type.$$typeof === REACT_FORWARD_REF_TYPE || // This needs to include all possible module reference object
-            // types supported by any Flight configuration anywhere since
-            // we don't know which Flight build this will end up being used
-            // with.
-            type.$$typeof === REACT_MODULE_REFERENCE || type.getModuleId !== void 0) {
-              return true;
-            }
-          }
-          return false;
-        }
-        function typeOf(object) {
-          if (typeof object === "object" && object !== null) {
-            var $$typeof = object.$$typeof;
-            switch ($$typeof) {
-              case REACT_ELEMENT_TYPE:
-                var type = object.type;
-                switch (type) {
-                  case REACT_FRAGMENT_TYPE:
-                  case REACT_PROFILER_TYPE:
-                  case REACT_STRICT_MODE_TYPE:
-                  case REACT_SUSPENSE_TYPE:
-                  case REACT_SUSPENSE_LIST_TYPE:
-                    return type;
-                  default:
-                    var $$typeofType = type && type.$$typeof;
-                    switch ($$typeofType) {
-                      case REACT_SERVER_CONTEXT_TYPE:
-                      case REACT_CONTEXT_TYPE:
-                      case REACT_FORWARD_REF_TYPE:
-                      case REACT_LAZY_TYPE:
-                      case REACT_MEMO_TYPE:
-                      case REACT_PROVIDER_TYPE:
-                        return $$typeofType;
-                      default:
-                        return $$typeof;
-                    }
-                }
-              case REACT_PORTAL_TYPE:
-                return $$typeof;
-            }
-          }
-          return void 0;
-        }
-        var ContextConsumer = REACT_CONTEXT_TYPE;
-        var ContextProvider = REACT_PROVIDER_TYPE;
-        var Element = REACT_ELEMENT_TYPE;
-        var ForwardRef = REACT_FORWARD_REF_TYPE;
-        var Fragment22 = REACT_FRAGMENT_TYPE;
-        var Lazy = REACT_LAZY_TYPE;
-        var Memo = REACT_MEMO_TYPE;
-        var Portal = REACT_PORTAL_TYPE;
-        var Profiler = REACT_PROFILER_TYPE;
-        var StrictMode = REACT_STRICT_MODE_TYPE;
-        var Suspense = REACT_SUSPENSE_TYPE;
-        var SuspenseList = REACT_SUSPENSE_LIST_TYPE;
-        var hasWarnedAboutDeprecatedIsAsyncMode = false;
-        var hasWarnedAboutDeprecatedIsConcurrentMode = false;
-        function isAsyncMode(object) {
-          {
-            if (!hasWarnedAboutDeprecatedIsAsyncMode) {
-              hasWarnedAboutDeprecatedIsAsyncMode = true;
-              console["warn"]("The ReactIs.isAsyncMode() alias has been deprecated, and will be removed in React 18+.");
-            }
-          }
-          return false;
-        }
-        function isConcurrentMode(object) {
-          {
-            if (!hasWarnedAboutDeprecatedIsConcurrentMode) {
-              hasWarnedAboutDeprecatedIsConcurrentMode = true;
-              console["warn"]("The ReactIs.isConcurrentMode() alias has been deprecated, and will be removed in React 18+.");
-            }
-          }
-          return false;
-        }
-        function isContextConsumer(object) {
-          return typeOf(object) === REACT_CONTEXT_TYPE;
-        }
-        function isContextProvider(object) {
-          return typeOf(object) === REACT_PROVIDER_TYPE;
-        }
-        function isElement(object) {
-          return typeof object === "object" && object !== null && object.$$typeof === REACT_ELEMENT_TYPE;
-        }
-        function isForwardRef(object) {
-          return typeOf(object) === REACT_FORWARD_REF_TYPE;
-        }
-        function isFragment12(object) {
-          return typeOf(object) === REACT_FRAGMENT_TYPE;
-        }
-        function isLazy(object) {
-          return typeOf(object) === REACT_LAZY_TYPE;
-        }
-        function isMemo(object) {
-          return typeOf(object) === REACT_MEMO_TYPE;
-        }
-        function isPortal(object) {
-          return typeOf(object) === REACT_PORTAL_TYPE;
-        }
-        function isProfiler(object) {
-          return typeOf(object) === REACT_PROFILER_TYPE;
-        }
-        function isStrictMode(object) {
-          return typeOf(object) === REACT_STRICT_MODE_TYPE;
-        }
-        function isSuspense(object) {
-          return typeOf(object) === REACT_SUSPENSE_TYPE;
-        }
-        function isSuspenseList(object) {
-          return typeOf(object) === REACT_SUSPENSE_LIST_TYPE;
-        }
-        exports.ContextConsumer = ContextConsumer;
-        exports.ContextProvider = ContextProvider;
-        exports.Element = Element;
-        exports.ForwardRef = ForwardRef;
-        exports.Fragment = Fragment22;
-        exports.Lazy = Lazy;
-        exports.Memo = Memo;
-        exports.Portal = Portal;
-        exports.Profiler = Profiler;
-        exports.StrictMode = StrictMode;
-        exports.Suspense = Suspense;
-        exports.SuspenseList = SuspenseList;
-        exports.isAsyncMode = isAsyncMode;
-        exports.isConcurrentMode = isConcurrentMode;
-        exports.isContextConsumer = isContextConsumer;
-        exports.isContextProvider = isContextProvider;
-        exports.isElement = isElement;
-        exports.isForwardRef = isForwardRef;
-        exports.isFragment = isFragment12;
-        exports.isLazy = isLazy;
-        exports.isMemo = isMemo;
-        exports.isPortal = isPortal;
-        exports.isProfiler = isProfiler;
-        exports.isStrictMode = isStrictMode;
-        exports.isSuspense = isSuspense;
-        exports.isSuspenseList = isSuspenseList;
-        exports.isValidElementType = isValidElementType;
-        exports.typeOf = typeOf;
-      })();
-    }
-  }
-});
-
-// node_modules/@mui/material/node_modules/react-is/index.js
-var require_react_is = __commonJS({
-  "node_modules/@mui/material/node_modules/react-is/index.js"(exports, module) {
-    "use strict";
-    if (false) {
-      module.exports = null;
-    } else {
-      module.exports = require_react_is_development();
-    }
-  }
-});
+} from "./chunk-EWTE5DHJ.js";
 
 // node_modules/@mui/material/colors/index.js
 var colors_exports = {};
@@ -2993,6 +2800,7 @@ var defaultIsActiveElementInListbox = (listboxRef) => {
   var _listboxRef$current$p;
   return listboxRef.current !== null && ((_listboxRef$current$p = listboxRef.current.parentElement) == null ? void 0 : _listboxRef$current$p.contains(document.activeElement));
 };
+var MULTIPLE_DEFAULT_VALUE = [];
 function useAutocomplete(props) {
   const {
     // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -3006,7 +2814,7 @@ function useAutocomplete(props) {
     clearOnBlur = !props.freeSolo,
     clearOnEscape = false,
     componentName = "useAutocomplete",
-    defaultValue = props.multiple ? [] : null,
+    defaultValue = props.multiple ? MULTIPLE_DEFAULT_VALUE : null,
     disableClearable = false,
     disableCloseOnSelect = false,
     disabled: disabledProp,
@@ -7115,7 +6923,7 @@ var Fade = React33.forwardRef(function Fade2(props, ref) {
   } = props, other = _objectWithoutPropertiesLoose(props, _excluded20);
   const enableStrictModeCompat = true;
   const nodeRef = React33.useRef(null);
-  const handleRef = useForkRef_default(nodeRef, children.ref, ref);
+  const handleRef = useForkRef_default(nodeRef, getReactElementRef(children), ref);
   const normalizedTransitionCallback = (callback) => (maybeIsAppearing) => {
     if (callback) {
       const node = nodeRef.current;
@@ -10362,11 +10170,7 @@ function ClickAwayListener(props) {
       activatedRef.current = false;
     };
   }, []);
-  const handleRef = useForkRef(
-    // @ts-expect-error TODO upstream fix
-    children.ref,
-    nodeRef
-  );
+  const handleRef = useForkRef(getReactElementRef(children), nodeRef);
   const handleClickAway = useEventCallback_default((event) => {
     const insideReactTree = syntheticEventRef.current;
     syntheticEventRef.current = false;
@@ -10945,7 +10749,7 @@ function FocusTrap(props) {
   const reactFocusEventTarget = React56.useRef(null);
   const activated = React56.useRef(false);
   const rootRef = React56.useRef(null);
-  const handleRef = useForkRef(children.ref, rootRef);
+  const handleRef = useForkRef(getReactElementRef(children), rootRef);
   const lastKeydown = React56.useRef(null);
   React56.useEffect(() => {
     if (!open || !rootRef.current) {
@@ -12753,7 +12557,7 @@ var Slide = React66.forwardRef(function Slide2(props, ref) {
     TransitionComponent = Transition_default
   } = props, other = _objectWithoutPropertiesLoose(props, _excluded49);
   const childrenRef = React66.useRef(null);
-  const handleRef = useForkRef_default(children.ref, childrenRef, ref);
+  const handleRef = useForkRef_default(getReactElementRef(children), childrenRef, ref);
   const normalizedTransitionCallback = (callback) => (isAppearing) => {
     if (callback) {
       if (isAppearing === void 0) {
@@ -15556,7 +15360,7 @@ var Grow = React77.forwardRef(function Grow2(props, ref) {
   const autoTimeout = React77.useRef();
   const theme = useTheme();
   const nodeRef = React77.useRef(null);
-  const handleRef = useForkRef_default(nodeRef, children.ref, ref);
+  const handleRef = useForkRef_default(nodeRef, getReactElementRef(children), ref);
   const normalizedTransitionCallback = (callback) => (maybeIsAppearing) => {
     if (callback) {
       const node = nodeRef.current;
@@ -24400,7 +24204,7 @@ var Select = React127.forwardRef(function Select2(inProps, ref) {
       ownerState
     })
   }[variant];
-  const inputComponentRef = useForkRef_default(ref, InputComponent.ref);
+  const inputComponentRef = useForkRef_default(ref, getReactElementRef(InputComponent));
   return (0, import_jsx_runtime147.jsx)(React127.Fragment, {
     children: React127.cloneElement(InputComponent, _extends({
       // Most of the logic is implemented in `SelectInput`.
@@ -24981,7 +24785,7 @@ function useSlider(parameters) {
     tabIndex,
     value: valueProp
   } = parameters;
-  const touchId = React129.useRef();
+  const touchId = React129.useRef(void 0);
   const [active, setActive] = React129.useState(-1);
   const [open, setOpen] = React129.useState(-1);
   const [dragging, setDragging] = React129.useState(false);
@@ -25017,7 +24821,7 @@ function useSlider(parameters) {
     ref: focusVisibleRef
   } = useIsFocusVisible();
   const [focusedThumbIndex, setFocusedThumbIndex] = React129.useState(-1);
-  const sliderRef = React129.useRef();
+  const sliderRef = React129.useRef(null);
   const handleFocusRef = useForkRef(focusVisibleRef, sliderRef);
   const handleRef = useForkRef(ref, handleFocusRef);
   const createHandleHiddenInputFocus = (otherHandlers) => (event) => {
@@ -25118,7 +24922,7 @@ function useSlider(parameters) {
     (_otherHandlers$onChan = otherHandlers.onChange) == null || _otherHandlers$onChan.call(otherHandlers, event);
     changeValue(event, event.target.valueAsNumber);
   };
-  const previousIndex = React129.useRef();
+  const previousIndex = React129.useRef(void 0);
   let axis = orientation;
   if (isRtl && orientation === "horizontal") {
     axis += "-reverse";
@@ -27090,7 +26894,7 @@ var Zoom = React135.forwardRef(function Zoom2(props, ref) {
     TransitionComponent = Transition_default
   } = props, other = _objectWithoutPropertiesLoose(props, _excluded101);
   const nodeRef = React135.useRef(null);
-  const handleRef = useForkRef_default(nodeRef, children.ref, ref);
+  const handleRef = useForkRef_default(nodeRef, getReactElementRef(children), ref);
   const normalizedTransitionCallback = (callback) => (maybeIsAppearing) => {
     if (callback) {
       const node = nodeRef.current;
@@ -28078,7 +27882,7 @@ var Tooltip = React137.forwardRef(function Tooltip2(inProps, ref) {
       document.removeEventListener("keydown", handleKeyDown);
     };
   }, [handleClose, open]);
-  const handleRef = useForkRef_default(children.ref, focusVisibleRef, setChildNode, ref);
+  const handleRef = useForkRef_default(getReactElementRef(children), focusVisibleRef, setChildNode, ref);
   if (!title && title !== 0) {
     open = false;
   }
@@ -32993,9 +32797,10 @@ function ScrollbarSize(props) {
     onChange(scrollbarHeight.current);
   }, [onChange]);
   return (0, import_jsx_runtime201.jsx)("div", _extends({
-    style: styles6,
+    style: styles6
+  }, other, {
     ref: nodeRef
-  }, other));
+  }));
 }
 true ? ScrollbarSize.propTypes = {
   onChange: import_prop_types132.default.func.isRequired
@@ -34849,10 +34654,10 @@ function useScrollTrigger(options = {}) {
 }
 
 // node_modules/@mui/material/version/index.js
-var version = "5.16.7";
+var version = "5.16.13";
 var major = Number("5");
 var minor = Number("16");
-var patch = Number("7");
+var patch = Number("13");
 var preReleaseLabel = null;
 var preReleaseNumber = Number(void 0) || null;
 export {
@@ -35318,20 +35123,9 @@ export {
 };
 /*! Bundled license information:
 
-react-is/cjs/react-is.development.js:
-  (**
-   * @license React
-   * react-is.development.js
-   *
-   * Copyright (c) Facebook, Inc. and its affiliates.
-   *
-   * This source code is licensed under the MIT license found in the
-   * LICENSE file in the root directory of this source tree.
-   *)
-
 @mui/material/index.js:
   (**
-   * @mui/material v5.16.7
+   * @mui/material v5.16.13
    *
    * @license MIT
    * This source code is licensed under the MIT license found in the
