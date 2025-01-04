@@ -85,9 +85,6 @@ class LoginAPIView(APIView):
 
         if user is not None:
             player = Player.objects.get(username=username)
-            if not player.prov_name:
-                player.prov_name = 'simple'
-                player.save()
             
             if not player.active_2fa:
                 # If 2FA is disabled, proceed to login and generate tokens
