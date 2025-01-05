@@ -23,7 +23,7 @@
 .embla {
   position: relative;
   overflow: hidden;
-  width: 80%;
+  width: 100%;
   --slide-size: 55%;
   --slide-height: 19rem;
   --slide-spacing: 1rem;
@@ -42,7 +42,6 @@
 
 .embla__slide {
   flex: 0 0 var(--slide-size);
-  border: 2px solid #000;
   min-width: 0;
   position: relative;
   padding-left: var(--slide-spacing);
@@ -59,17 +58,17 @@
 }
 
 .embla__controls {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  justify-content: space-between;
+  display: flex;
+  align-items: center;
+  /* grid-template-columns: auto 1fr; */
+  justify-content: space-around;
   gap: 1.2rem;
   margin-top: 1.8rem;
 }
 .embla__buttons {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 0.6rem;
-  align-items: center;
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
 }
 .embla__button {
   -webkit-tap-highlight-color: rgba(var(--text-high-contrast-rgb-value), 0.5);
