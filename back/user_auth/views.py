@@ -14,9 +14,9 @@ from django.utils import timezone
 # Logger setup
 logger = logging.getLogger(__name__)
 
-@api_view(['GET'])
-def index(request):
-    return Response("Hello, world")
+# @api_view(['GET'])
+# def index(request):
+#     return Response("Hello, world")
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
@@ -168,13 +168,20 @@ class VerifyOTP(APIView):
 
 class UserDetailView(APIView):
     permission_classes = [IsAuthenticated]
-
     def get(self, request):
         user = request.user
-        data = {
-            'id': user.id,
-            'username': user.username,
-            'email': user.email,
-            'full_name': user.full_name,
-        }
-        return Response(data)
+        serializer = PlayerSerializer(user , context = {"request": request})
+        return Response( serializer.data )
+
+
+@api_view(['GET'])
+def list_users(request):
+    players = Player.objects.all()
+    serializer = PlayerSerializer(players, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def leaderboard(request):
+    players = Player.objects.all().order_by('-points')
+    serializer = PlayerSerializer(players, many=True)
+    return Response(serializer.data)

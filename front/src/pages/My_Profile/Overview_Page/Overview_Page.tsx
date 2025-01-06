@@ -6,28 +6,27 @@ import The_Leaderboard from "./Leaderboard"
 import Online_Friends_Overview from "./Online_Friends_Overview";
 import Button_Play from "../Images/Button_Play.svg"
 import { useNavigate } from "react-router-dom";
+import { usePlayer } from "../PlayerContext";
 // import axios from "axios";
 
 export const Overview_Page: React.FC = () => {
-  // interface player_data {
-  //   full_name: string;
-  //   username: string;
-  //   email: string;
-  // }
-  // const [player_data, setplayer_data] = React.useState<player_data>();
 
   const navigate = useNavigate();
+  const dataPlayer = usePlayer();
+
+  // console.log(dataPlayer.playerData?.cover_image)
 
   const Onclick = () => {
     navigate("/Play");
   } 
+  // console.log(dataPlayer.playerData?.cover_image)
   return (
     <div className="Overview_Page">
       <div className="Part_1">
         <div className="part_welcome">
           <div className="Welcome_Back">Welcome Back !</div>
         </div>
-        <div className="Background_Profile">
+        <div style={{ backgroundImage: `url(${dataPlayer.playerData?.cover_image})`}} className="Background_Profile" >
           <div className="States_Profile">
             <State_of_Profile />
           </div>

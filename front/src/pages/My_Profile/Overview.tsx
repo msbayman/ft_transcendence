@@ -1,8 +1,14 @@
 import { useState, useEffect } from "react";
 import "./Overview.css";
-import axios from "axios";
+// import axios from "axios";
 import Cookies from "js-cookie";
-import { NavLink, Route, Routes, useLocation } from "react-router-dom";
+import {
+  NavLink,
+  Route,
+  Routes,
+  useLocation,
+  useParams,
+} from "react-router-dom";
 import OpenNavbar from "./assets/Open_Navbar.svg";
 import CloseNavbar from "./assets/Close_Navbar.svg";
 import Logo_ping from "./assets/Logo_ping.svg";
@@ -16,22 +22,23 @@ import Notifications from "./assets/Notifications.svg";
 import Settings from "./assets/Settings.svg";
 import Logout from "./assets/Logout.svg";
 import Overview_Page from "./Overview_Page/Overview_Page";
-import Profile_Page from "./Profile_Page/Other_Profile/Profile_Page";
+import Profile_Page from "./Profile_Page/Profile_Page";
+import Other_Profile_Page from "./Profile_Page/Other_Profile/Profile_Page";
 import Play_Page from "./Play_Page/Play_Page";
 import Friends_Page from "./Friends_Page/Friends_Page";
 import Shop_Page from "./Shop_Page/Shop_Page";
 import Settings_Page from "./Settings_Page/Settings_Page";
 import The_Leaderboard from "./Overview_Page/Leaderboard_Page/The_Leaderboard";
-
+import { usePlayer } from "./PlayerContext";
 
 function Overview() {
-  interface player_data {
-    full_name: string;
-    username: string;
-    email: string;
-  }
+  // interface player_data {
+  //   full_name: string;
+  //   username: string;
+  //   email: string;
+  // }
   const location = useLocation();
-  const [player_data, setplayer_data] = useState<player_data>();
+  // const [player_data, setplayer_data] = useState<player_data>();
   useEffect(() => {
     const state = location.state as { fromOAuth?: boolean }; // Access the state from the previous navigation
     const searchParams = new URLSearchParams(location.search);
@@ -48,38 +55,47 @@ function Overview() {
     }
 
     // console.log("Overview:", Cookies.get("access_token"));
-    const storedToken = Cookies.get("access_token");
-    if (storedToken) {
-      fetchData(storedToken);
-    } else {
-      console.log("No token found. Please log in.");
-    }
+    // const storedToken = Cookies.get("access_token");
+    // if (storedToken) {
+    //   fetchData(storedToken);
+    // } else {
+    //   console.log("No token found. Please log in.");
+    // }
   }, []);
 
-  const fetchData = async (token: string) => {
-    try {
-      const response = await axios.get<player_data>(
-        "http://127.0.0.1:8000/user_auth/UserDetailView",
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      setplayer_data(response.data);
-    } catch (error) {
-      console.error(error);
-    }
+  // const fetchData = async (token: string) => {
+  //   try {
+  //     const response = await axios.get<player_data>(
+  //       "http://127.0.0.1:8000/user_auth/UserDetailView",
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${token}`,
+  //         },
+  //       }
+  //     );
+  //     setplayer_data(response.data);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
+  const dataPlayer = usePlayer();
+  const Choose_Profile = () => {
+    const { username } = useParams<{ username: string }>();
+    return dataPlayer.playerData?.username === username ? (
+      <Profile_Page />
+    ) : (
+      <Other_Profile_Page />
+    );
   };
   const localistation = useLocation();
 
   const getNavLink = (path: string) => {
     if (path === "/Overview") {
-      return '/' + localistation.pathname.split("/")[1] === path
+      return "/" + localistation.pathname.split("/")[1] === path
         ? "navbar_item1 nav_color1 Overview"
         : "navbar_item1";
     } else if (path === "/Profile") {
-      return '/' + localistation.pathname.split("/")[1] === path
+      return "/" + localistation.pathname.split("/")[1] === path
         ? "navbar_item1 nav_color1 Profile"
         : "navbar_item1";
     } else if (path === "/Play") {
@@ -98,9 +114,11 @@ function Overview() {
   };
   const getNavLinkBar = (path: string) => {
     if (path === "/Settings") {
-      return '/' + localistation.pathname.split("/")[1] === path ? "selected1" : "selected_hide";
+      return "/" + localistation.pathname.split("/")[1] === path
+        ? "selected1"
+        : "selected_hide";
     } else {
-      return '/' + localistation.pathname.split("/")[1] === path
+      return "/" + localistation.pathname.split("/")[1] === path
         ? "selected"
         : "selected_hide";
     }
@@ -152,7 +170,10 @@ function Overview() {
             <span className="hidden_name"> Overview </span>
             <div className={getNavLinkBar("/Overview")}> </div>
           </NavLink>
-          <NavLink to="Profile" className={getNavLink("/Profile")}>
+          <NavLink
+            to={`Profile/${dataPlayer.playerData?.username}`}
+            className={getNavLink("/Profile")}
+          >
             <img src={Profile} className="imgg" />
             <span className="hidden_name"> Profile </span>
             <div className={getNavLinkBar("/Profile")}> </div>
@@ -186,7 +207,14 @@ function Overview() {
             <span className="hidden_name"> Settings </span>
             <div className={getNavLinkBar("/Settings")}></div>
           </NavLink>
-          <NavLink to="/logout" className=" navbar_item2 Logout">
+          <NavLink
+            to="/logout"
+            onClick={() => {
+              Cookies.remove("access_token");
+              Cookies.remove("refresh_token");
+            }}
+            className=" navbar_item2 Logout"
+          >
             <img src={Logout} className="imgg" />
             <span className="hidden_name">Logout</span>
           </NavLink>
@@ -196,7 +224,7 @@ function Overview() {
         <Routes>
           <Route path="/Overview" element={<Overview_Page />} />
           <Route path="/Overview/Leadearboard" element={<The_Leaderboard />} />
-          <Route path="/Profile" element={<Profile_Page />} />
+          <Route path="/Profile/:username" element={<Choose_Profile />} />
           <Route path="/Play" element={<Play_Page />} />
           <Route path="/Friends" element={<Friends_Page />} />
           <Route path="/Shop" element={<Shop_Page />} />

@@ -95,16 +95,16 @@
     padding-right: 20px;
 }
 
-
+/* 
 .ss1 {
     color: aliceblue;
     font-size: large;
-}
+} */
 
 .every_columns1 {
     width: 100%;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     gap: 30px;
 }
 
@@ -129,6 +129,7 @@
 .class_img1 {
     width: 60px;
     height: 60px;
+    border-radius: 50%;
 }
 
 .class_player1 {

@@ -13,11 +13,12 @@ import Login_Page from "./pages/Login_Page/Login_Page";
 import Signup_Page from "./pages/Signup_Page/Signup_Page";
 import Valid_otp from "./pages/Valid_otp/Valid_otp";
 import Overview from "./pages/My_Profile/Overview";
-import ValidOtp from "./pages/Valid_otp/Valid_otp";
+import { PlayerProvider, usePlayer } from "./pages/My_Profile/PlayerContext";
 
-function App() {
+function AppContent() {
   const navigate = useNavigate();
   const location = useLocation();
+  const { fetchPlayerData, clearPlayerData } = usePlayer();
 
   useEffect(() => {
     const accessToken = Cookies.get("access_token");
@@ -47,7 +48,10 @@ function App() {
       ) {
         const isValidToken = await validateAccessToken();
         if (!isValidToken) {
+          clearPlayerData();
           navigate("/login");
+        } else {
+          fetchPlayerData();
         }
       }
     };
@@ -58,11 +62,12 @@ function App() {
       location.pathname !== "/signup" &&
       location.pathname !== "/Valid_otp"
     ) {
+      clearPlayerData();
       navigate("/login");
     } else {
       checkToken();
     }
-  }, [location.pathname, navigate]);
+  }, [location.pathname, navigate, fetchPlayerData, clearPlayerData]);
 
   return (
     <Fragment>
@@ -76,6 +81,14 @@ function App() {
         </Routes>
       </main>
     </Fragment>
+  );
+}
+
+function App() {
+  return (
+    <PlayerProvider>
+      <AppContent />
+    </PlayerProvider>
   );
 }
 
