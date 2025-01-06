@@ -8,6 +8,10 @@ from django.conf import settings
 from user_auth.otp_view import generate_otp , send_otp_via_email
 from django.utils import timezone
 
+from django.core.files.base import ContentFile
+from io import BytesIO
+import requests
+
 # 42 OAuth2 URL
 def login(request: HttpRequest) -> HttpResponse:
     authorization_url = (
@@ -52,18 +56,20 @@ def exchange_code_for_token_42(code: str) -> dict:
 
 
 def handle_oauth_user_42(request: HttpRequest, user_info: dict) -> HttpResponse:
-
-    email         = user_info.get('email')
-    username     = user_info.get('login')
-    full_name    = user_info.get('usual_full_name', username)
+    picture_url = user_info.get('image', {}).get('link')  # Adjust based on the API response structure
+    email = user_info.get('email')
+    username = user_info.get('login')
+    full_name = user_info.get('usual_full_name', username)
     user_id_prov = user_info.get('id')
 
-    if not(all([email, username, full_name, user_id_prov])):
+    if not all([email, username, full_name, user_id_prov]):
         login_url = f"http://localhost:5173/login?error=Failed to retrieve user data"
         return redirect(login_url)
+
     if Player.objects.filter(email__iexact=email).exclude(prov_name="42").exists():
         login_url = f"http://localhost:5173/login?error=email already exists"
         return redirect(login_url)
+
     try:
         user = Player.objects.get(email=email)
         user.prov_name = "42"
@@ -75,6 +81,7 @@ def handle_oauth_user_42(request: HttpRequest, user_info: dict) -> HttpResponse:
             username = f"{base_username}_{counter}"
             counter += 1
 
+        # Create the user with the profile image
         serializer = PlayerSerializer(data={
             'full_name': full_name,
             'email': email,
@@ -82,9 +89,18 @@ def handle_oauth_user_42(request: HttpRequest, user_info: dict) -> HttpResponse:
             'id_prov': user_id_prov,
             'prov_name': "42",
         })
+
         if serializer.is_valid():
             user = serializer.save()
             user.set_unusable_password()
+
+            # Fetch and save the profile image if a URL is provided
+            if picture_url:
+                response = requests.get(picture_url)
+                if response.status_code == 200:
+                    image_name = picture_url.split("/")[-1]  # Extract the image name from the URL
+                    user.profile_image.save(image_name, ContentFile(response.content), save=True)
+
             user.save()
         else:
             return JsonResponse({"error": "Failed to create or update user"}, status=500)
@@ -94,7 +110,7 @@ def handle_oauth_user_42(request: HttpRequest, user_info: dict) -> HttpResponse:
         # Generate and send OTP
         otp_code = generate_otp()
         send_otp_via_email(user.email, otp_code)
-        
+
         # Store OTP in the player's record
         user.otp_code = otp_code
         user.created_at = timezone.now()
@@ -113,6 +129,5 @@ def handle_oauth_user_42(request: HttpRequest, user_info: dict) -> HttpResponse:
 
         frontend_url = "http://localhost:5173/Overview"
         redirect_url = f"{frontend_url}?access_token={access_token}&refresh_token={refresh_token}"
-        
 
         return redirect(redirect_url)
