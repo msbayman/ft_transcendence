@@ -207,17 +207,20 @@ function Overview() {
             <span className="hidden_name"> Settings </span>
             <div className={getNavLinkBar("/Settings")}></div>
           </NavLink>
-          <NavLink
-            to="/logout"
-            onClick={() => {
-              Cookies.remove("access_token");
-              Cookies.remove("refresh_token");
-            }}
-            className=" navbar_item2 Logout"
-          >
-            <img src={Logout} className="imgg" />
-            <span className="hidden_name">Logout</span>
-          </NavLink>
+<NavLink
+  to="/logout"
+  onClick={() => {
+    Cookies.remove("access_token");
+    Cookies.remove("refresh_token");
+ 
+    console.log("---------------------------------------");
+  }}
+  className="navbar_item2 Logout"
+>
+  <img src={Logout} className="imgg" />
+  <span className="hidden_name">Logout</span>
+</NavLink>
+
         </div>
       </div>
       <div className={ActiveNavbar ? "left_side" : "left_side_update"}>

@@ -59,8 +59,11 @@ def handle_oauth_user_42(request: HttpRequest, user_info: dict) -> HttpResponse:
     user_id_prov = user_info.get('id')
 
     if not(all([email, username, full_name, user_id_prov])):
-        return JsonResponse({"error": "Failed to retrieve user data"}, status = 403)
-
+        login_url = f"http://localhost:5173/login?error=Failed to retrieve user data"
+        return redirect(login_url)
+    if Player.objects.filter(email__iexact=email).exclude(prov_name="42").exists():
+        login_url = f"http://localhost:5173/login?error=email already exists"
+        return redirect(login_url)
     try:
         user = Player.objects.get(email=email)
         user.prov_name = "42"
