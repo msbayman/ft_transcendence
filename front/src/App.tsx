@@ -16,6 +16,7 @@ import Overview from "./pages/My_Profile/Overview";
 import ValidOtp from "./pages/Valid_otp/Valid_otp";
 import Game_Local from "./pages/Game_Page/Game_Local";
 import Game_Bot from "./pages/Game_Page/Game_Bot";
+import Test from "./pages/Game_Page/Test.tsx";
 
 function App() {
   const navigate = useNavigate();
@@ -76,7 +77,9 @@ function App() {
           <Route path="/*" element={<Overview />} />
           <Route path="/local_game" element={<Game_Local />} />
           <Route path="/local_bot" element={<Game_Bot />} />
+          <Route path="/remote_game" element={<Test />} />
           <Route path="Valid_otp" element={<Valid_otp />} />
+          <Route path="/test" element={<Test />} />
         </Routes>
       </main>
     </Fragment>
