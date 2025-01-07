@@ -56,6 +56,7 @@ def exchange_code_for_token_42(code: str) -> dict:
 
 
 def handle_oauth_user_42(request: HttpRequest, user_info: dict) -> HttpResponse:
+    
     picture_url = user_info.get('image', {}).get('link')  # Adjust based on the API response structure
     email = user_info.get('email')
     username = user_info.get('login')
