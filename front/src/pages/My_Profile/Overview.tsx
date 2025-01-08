@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import "./Overview.css";
-// import axios from "axios";
+import axios from "axios";
 import Cookies from "js-cookie";
 import {
   NavLink,
@@ -78,6 +78,28 @@ function Overview() {
   //     console.error(error);
   //   }
   // };
+
+  const check_logout = async () => {
+    const refreshToken = Cookies.get("refresh_token");
+    const accessToken = Cookies.get("access_token");
+    Cookies.remove("access_token");
+    Cookies.remove("refresh_token");
+    
+    // Make the request before removing tokens
+    try {
+      await axios.post(
+        "http://127.0.0.1:8000/user_auth/LogoutAPIView/",
+        { refresh_token: refreshToken },
+        {
+          headers: accessToken ? { Authorization: `Bearer ${accessToken}` } : {}
+        }
+      );
+    } finally {
+      // Clear tokens after the request
+      Cookies.remove("access_token");
+      Cookies.remove("refresh_token");
+    }
+  }
   const dataPlayer = usePlayer();
   const Choose_Profile = () => {
     const { username } = useParams<{ username: string }>();
@@ -209,12 +231,7 @@ function Overview() {
           </NavLink>
 <NavLink
   to="/logout"
-  onClick={() => {
-    Cookies.remove("access_token");
-    Cookies.remove("refresh_token");
- 
-    console.log("---------------------------------------");
-  }}
+  onClick={check_logout}
   className="navbar_item2 Logout"
 >
   <img src={Logout} className="imgg" />
@@ -238,4 +255,4 @@ function Overview() {
   );
 }
 
-export default Overview;
+export default Overview

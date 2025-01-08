@@ -9,7 +9,6 @@ interface PlayerData {
   profile_image: string;
   cover_image: string;
   points:number;
-  //lvl_exp
 }
 
 interface PlayerContextType {

@@ -15,6 +15,7 @@ class Player(AbstractUser):
     profile_image = models.ImageField(upload_to='profile_images/', default='profile_images/default_profile.jpeg')
     cover_image = models.ImageField(upload_to='cover_pictures/', default='cover_pictures/cover_picture_1.png')
     points = models.IntegerField(default=0)
+    is_online = models.BooleanField(default=False)
 
 
     def is_expired(self):

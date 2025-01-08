@@ -10,6 +10,7 @@ from rest_framework.permissions import IsAuthenticated
 from .serializers import PlayerSerializer
 from .otp_view import generate_otp , send_otp_via_email
 from django.utils import timezone
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
 # Logger setup
 logger = logging.getLogger(__name__)
@@ -96,6 +97,8 @@ class LoginAPIView(APIView):
 
         if user is not None:
             player = Player.objects.get(username=username)
+            player.is_online = True
+            player.save()
             if not player.prov_name:
                 player.prov_name = 'simple'
                 player.save()
@@ -154,6 +157,7 @@ class VerifyOTP(APIView):
 
             # Clear the OTP after successful verification
             player.otp_code = 0
+            player.is_online = True
             player.save()
 
             return Response({
@@ -169,8 +173,11 @@ class VerifyOTP(APIView):
 class UserDetailView(APIView):
     permission_classes = [IsAuthenticated]
     def get(self, request):
-        user = request.user
-        serializer = PlayerSerializer(user , context = {"request": request})
+        users = request.user
+        users.is_online = True
+        users.save();
+        # print(users)
+        serializer = PlayerSerializer(users , context = {"request": request})
         return Response( serializer.data )
 
 
@@ -182,6 +189,39 @@ def list_users(request):
 
 @api_view(['GET'])
 def leaderboard(request):
-    players = Player.objects.all().order_by('-points')
+    players = Player.objects.all().exclude(username='admin').order_by('-points')
     serializer = PlayerSerializer(players, many=True)
     return Response(serializer.data)
+
+# @api_view(['GET'])
+class is_online(APIView):
+    authentication_classes = [JWTAuthentication]
+    def get(self, request):
+        players = Player.objects.all().filter(is_online=True)
+        serializer = PlayerSerializer(players, many=True)
+        return Response(serializer.data)
+
+
+class LogoutAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        try:
+            user = request.user
+            player = Player.objects.get(username=user.username)  # Get the Player instance
+            player.is_online = False  # Set is_online to False
+            player.save()  # Save the changes
+
+
+            # # Blacklist the refresh token (optional, if using JWT)
+            # refresh_token = request.data.get('refresh_token')
+            # if refresh_token:
+            #     token = RefreshToken(refresh_token)
+            #     token.blacklist()
+
+            return Response({"detail": "Successfully logged out."}, status=status.HTTP_200_OK)
+        except Player.DoesNotExist:
+            return Response({"detail": "User not found."}, status=status.HTTP_404_NOT_FOUND)
+        except Exception as e:
+            logger.error(f"Error during logout: {e}")
+            return Response({"detail": "An error occurred during logout."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

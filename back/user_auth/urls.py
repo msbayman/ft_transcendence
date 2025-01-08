@@ -14,4 +14,6 @@ urlpatterns = [
      path('UserDetailView', views.UserDetailView.as_view(), name='UserDetailView'),
      path("make_req_otp/<str:email_to_send>/", otp_view.send_otp_via_email, name="make_req_otp"),
      path('leaderboard', views.leaderboard, name='leaderboard'),
+     path('is_online/', views.is_online.as_view(), name='is_online'),
+     path('LogoutAPIView/', views.LogoutAPIView.as_view(), name='LogoutAPIView'),
 ]

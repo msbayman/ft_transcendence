@@ -13,7 +13,7 @@ class PlayerSerializer(serializers.ModelSerializer):
         fields = [
             'username', 'full_name', 'email', 'password', 
             're_password', 'id_prov', 'prov_name', 'provider_identifier',
-            'profile_image', 'cover_image', 'points',
+            'profile_image', 'cover_image', 'points','is_online'
         ]
         extra_kwargs = {
             'username': {'required': True},

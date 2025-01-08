@@ -93,6 +93,7 @@
     width: 100%;
     overflow-y: scroll;
     padding-right: 20px;
+    gap:20px;
 }
 
 /* 
@@ -105,20 +106,11 @@
     width: 100%;
     display: flex;
     flex-direction: row;
-    gap: 30px;
-}
-
-
-.dd11 {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    /* justify-content: space-between; */
     align-items: center;
     gap: 30px;
 }
 
-.class_id1 {
+.index {
     font-family: "Luckiest Guy", cursive;
     color: aliceblue;
     font-size: x-large;
@@ -126,38 +118,22 @@
     width: 50px;
 }
 
-.class_img1 {
+.photo_Profile {
     width: 60px;
     height: 60px;
     border-radius: 50%;
 }
 
-.class_player1 {
+.the_name {
     font-size: x-large;
     font-family: "Alexandria", sans-serif;
     color: aliceblue;
-    font-weight: 500;
-    width: 190px;
-    padding-left: 7px;
-    flex-grow: 4;
+    font-weight: 800;
+    /* width: 190px; */
 
 }
-.class_score1 {
-    /* width: 180px; */
-    font-size: large;
-    font-family: "Alexandria", sans-serif;
-    color: aliceblue;
-    font-weight: 100;
-    /* justify-content: end; */
-    /* align-self: flex-end; */
-}
 
-
-.view_Profile {
-    width: 180px;
-    height: 60px;
-    background-color: #300488;
-    border: white solid 1px;
-    border-radius: 50px;
-    color: aliceblue;
+.points {
+    position: absolute;
+    right: 20px;
 }
