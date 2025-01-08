@@ -6,11 +6,8 @@ import {
   EmblaOptionsType
 } from 'embla-carousel'
 import useEmblaCarousel from 'embla-carousel-react'
-import {
-  NextButton,
-  PrevButton,
-  usePrevNextButtons
-} from './EmblaCarouselArrowButtons'
+import { DotButton, useDotButton } from './EmblaCarouselArrowButtons'
+
 
 const TWEEN_FACTOR_BASE = 0.52
 
@@ -20,21 +17,17 @@ const numberWithinRange = (number: number, min: number, max: number): number =>
 type PropType = {
   options?: EmblaOptionsType
   slidesmaps: {mapPath: string, id: number}[]
+  setCurrentSlideIndex: (index: number) => void;
 }
 
 const EmblaCarousel: React.FC<PropType> = (props) => {
-  const { slidesmaps, options } = props
+  const { slidesmaps, options, setCurrentSlideIndex } = props
   console.log('slidesmaps:', slidesmaps); // Log slidesmaps to verify the prop
   const [emblaRef, emblaApi] = useEmblaCarousel(options)
+
   const tweenFactor = useRef(0)
   const tweenNodes = useRef<HTMLElement[]>([])
 
-  const {
-    prevBtnDisabled,
-    nextBtnDisabled,
-    onPrevButtonClick,
-    onNextButtonClick
-  } = usePrevNextButtons(emblaApi)
 
   const setTweenNodes = useCallback((emblaApi: EmblaCarouselType): void => {
     tweenNodes.current = emblaApi.slideNodes().map((slideNode) => {
@@ -87,20 +80,27 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
     []
   )
 
-  useEffect(() => {
-    if (!emblaApi) return
+  const { selectedIndex, scrollSnaps, onDotButtonClick } =
+    useDotButton(emblaApi)
 
-    setTweenNodes(emblaApi)
-    setTweenFactor(emblaApi)
-    tweenScale(emblaApi)
-
-    emblaApi
-      .on('reInit', setTweenNodes)
-      .on('reInit', setTweenFactor)
-      .on('reInit', tweenScale)
-      .on('scroll', tweenScale)
-      .on('slideFocus', tweenScale)
-  }, [emblaApi, tweenScale])
+    useEffect(() => {
+      if (!emblaApi) return;
+  
+      setTweenNodes(emblaApi);
+      setTweenFactor(emblaApi);
+      tweenScale(emblaApi);
+  
+      emblaApi
+        .on('reInit', setTweenNodes)
+        .on('reInit', setTweenFactor)
+        .on('reInit', tweenScale)
+        .on('scroll', tweenScale)
+        .on('slideFocus', tweenScale)
+        .on('select', () => {
+          const selectedIndex = emblaApi.selectedScrollSnap();
+          setCurrentSlideIndex(selectedIndex);
+        });
+    }, [emblaApi, tweenScale, setCurrentSlideIndex]);
 
   return (
     <div className="embla">
@@ -115,12 +115,17 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
         </div>
       </div>
 
-      <div className="embla__controls">
-        <div className="embla__buttons">
-          <PrevButton onClick={onPrevButtonClick} disabled={prevBtnDisabled} />
-          <NextButton onClick={onNextButtonClick} disabled={nextBtnDisabled} />
+      <div className="embla__dots">
+          {scrollSnaps.map((_, index) => (
+            <DotButton
+              key={index}
+              onClick={() => onDotButtonClick(index)}
+              className={'embla__dot'.concat(
+                index === selectedIndex ? ' embla__dot--selected' : ''
+              )}
+            />
+          ))}
         </div>
-      </div>
     </div>
   )
 }
