@@ -1,4 +1,4 @@
- import * as React from "react"
+import * as React from "react"
 import "./Table_Leaderboard.css"
 import { useTable } from "react-table"
 import FakeTable from "../Fake_Table.json"

@@ -1,139 +1,133 @@
 {
-  "hash": "284e679e",
+  "hash": "bb6733ae",
   "configHash": "6e577991",
-  "lockfileHash": "6bcf9a36",
-  "browserHash": "1d78b6d6",
+  "lockfileHash": "fa43de31",
+  "browserHash": "c2bd0804",
   "optimized": {
     "react": {
       "src": "../../node_modules/react/index.js",
       "file": "react.js",
-      "fileHash": "4a743d13",
+      "fileHash": "881c9429",
       "needsInterop": true
     },
     "react-dom": {
       "src": "../../node_modules/react-dom/index.js",
       "file": "react-dom.js",
-      "fileHash": "eb98c6bf",
+      "fileHash": "65e9d2d6",
       "needsInterop": true
     },
     "react-router-dom": {
       "src": "../../node_modules/react-router-dom/dist/index.js",
       "file": "react-router-dom.js",
-      "fileHash": "a2a29d71",
+      "fileHash": "1058c60d",
       "needsInterop": false
     },
     "js-cookie": {
       "src": "../../node_modules/js-cookie/dist/js.cookie.mjs",
       "file": "js-cookie.js",
-      "fileHash": "3a2265e5",
+      "fileHash": "0ddea70b",
       "needsInterop": false
     },
     "axios": {
       "src": "../../node_modules/axios/index.js",
       "file": "axios.js",
-      "fileHash": "306e9c15",
+      "fileHash": "5bb03fe2",
       "needsInterop": false
     },
     "react/jsx-dev-runtime": {
       "src": "../../node_modules/react/jsx-dev-runtime.js",
       "file": "react_jsx-dev-runtime.js",
-      "fileHash": "88beb27a",
+      "fileHash": "cd21ccc3",
       "needsInterop": true
     },
     "react/jsx-runtime": {
       "src": "../../node_modules/react/jsx-runtime.js",
       "file": "react_jsx-runtime.js",
-      "fileHash": "ca4dd97e",
+      "fileHash": "9cf6e8d0",
       "needsInterop": true
     },
     "@chakra-ui/progress": {
       "src": "../../node_modules/@chakra-ui/progress/dist/index.mjs",
       "file": "@chakra-ui_progress.js",
-      "fileHash": "7e2c2fe6",
-      "needsInterop": false
-    },
-    "@fortawesome/free-solid-svg-icons": {
-      "src": "../../node_modules/@fortawesome/free-solid-svg-icons/index.mjs",
-      "file": "@fortawesome_free-solid-svg-icons.js",
-      "fileHash": "ce598396",
-      "needsInterop": false
-    },
-    "@fortawesome/react-fontawesome": {
-      "src": "../../node_modules/@fortawesome/react-fontawesome/index.es.js",
-      "file": "@fortawesome_react-fontawesome.js",
-      "fileHash": "e1b26ff2",
+      "fileHash": "e658fbd2",
       "needsInterop": false
     },
     "@hookform/resolvers/zod": {
       "src": "../../node_modules/@hookform/resolvers/zod/dist/zod.mjs",
       "file": "@hookform_resolvers_zod.js",
-      "fileHash": "2b662c4b",
+      "fileHash": "55bf8b48",
       "needsInterop": false
     },
     "@mui/material": {
       "src": "../../node_modules/@mui/material/index.js",
       "file": "@mui_material.js",
-      "fileHash": "c65c7ecc",
+      "fileHash": "1fc6ec65",
       "needsInterop": false
     },
     "@mui/material/Button": {
       "src": "../../node_modules/@mui/material/Button/index.js",
       "file": "@mui_material_Button.js",
-      "fileHash": "b45a59ea",
+      "fileHash": "8104234f",
+      "needsInterop": false
+    },
+    "@mui/x-charts/BarChart": {
+      "src": "../../node_modules/@mui/x-charts/BarChart/index.js",
+      "file": "@mui_x-charts_BarChart.js",
+      "fileHash": "ff4cc651",
       "needsInterop": false
     },
     "framer-motion": {
       "src": "../../node_modules/framer-motion/dist/es/index.mjs",
       "file": "framer-motion.js",
-      "fileHash": "e9c9246e",
+      "fileHash": "189b061d",
       "needsInterop": false
     },
     "react-dom/client": {
       "src": "../../node_modules/react-dom/client.js",
       "file": "react-dom_client.js",
-      "fileHash": "f845de8e",
+      "fileHash": "7c400901",
       "needsInterop": true
     },
     "react-hook-form": {
       "src": "../../node_modules/react-hook-form/dist/index.esm.mjs",
       "file": "react-hook-form.js",
-      "fileHash": "8e0d8ff1",
+      "fileHash": "049e2de1",
       "needsInterop": false
     },
     "react-table": {
       "src": "../../node_modules/react-table/index.js",
       "file": "react-table.js",
-      "fileHash": "b962889d",
+      "fileHash": "580658b8",
       "needsInterop": true
     },
     "zod": {
       "src": "../../node_modules/zod/lib/index.mjs",
       "file": "zod.js",
-      "fileHash": "95bf6a31",
+      "fileHash": "1192c044",
       "needsInterop": false
     }
   },
   "chunks": {
-    "chunk-OQY5HTSM": {
-      "file": "chunk-OQY5HTSM.js"
-    },
-    "chunk-3VNAYI5H": {
-      "file": "chunk-3VNAYI5H.js"
-    },
     "chunk-ZF2HZRFU": {
       "file": "chunk-ZF2HZRFU.js"
+    },
+    "chunk-DMNENYXP": {
+      "file": "chunk-DMNENYXP.js"
+    },
+    "chunk-5G6KBVR2": {
+      "file": "chunk-5G6KBVR2.js"
+    },
+    "chunk-RTLT3PUQ": {
+      "file": "chunk-RTLT3PUQ.js"
+    },
+    "chunk-YANMOUHQ": {
+      "file": "chunk-YANMOUHQ.js"
     },
     "chunk-ZZLBGYQN": {
       "file": "chunk-ZZLBGYQN.js"
     },
     "chunk-JO3Y3TZY": {
       "file": "chunk-JO3Y3TZY.js"
-    },
-    "chunk-DFIHBIIW": {
-      "file": "chunk-DFIHBIIW.js"
-    },
-    "chunk-K7E3GE6C": {
-      "file": "chunk-K7E3GE6C.js"
     },
     "chunk-65KY755N": {
       "file": "chunk-65KY755N.js"

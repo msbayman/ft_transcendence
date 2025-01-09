@@ -14,6 +14,8 @@ import Signup_Page from "./pages/Signup_Page/Signup_Page";
 import Valid_otp from "./pages/Valid_otp/Valid_otp";
 import Overview from "./pages/My_Profile/Overview";
 import ValidOtp from "./pages/Valid_otp/Valid_otp";
+import Game_Local from "./pages/Game_Page/Game_Local";
+import Game_Bot from "./pages/Game_Page/Game_Bot";
 
 function App() {
   const navigate = useNavigate();
@@ -72,6 +74,8 @@ function App() {
           <Route path="login" element={<Login_Page />} />
           <Route path="signup" element={<Signup_Page />} />
           <Route path="/*" element={<Overview />} />
+          <Route path="/local_game" element={<Game_Local />} />
+          <Route path="/local_bot" element={<Game_Bot />} />
           <Route path="Valid_otp" element={<Valid_otp />} />
         </Routes>
       </main>

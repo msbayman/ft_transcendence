@@ -1,4 +1,3 @@
-# views.py
 from django.shortcuts import render
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
@@ -40,57 +39,58 @@ def chat_view(request, username):
     }
     return render(request, 'chat/chat.html', context)
 
-@api_view(['GET'])
-def user_list_view(request):
-    players = Player.objects.all()  # Fetch all users from the Player model
-    serializer = PlayerSerializer(players, many=True)
-    return Response(serializer.data)
+# @api_view(['GET'])
+class user_list_view(APIView):
+    authentication_classes = [JWTAuthentication]
+    def get(self, request):
+        players = Player.objects.all().exclude(username=request.user.username)  # Fetch all users from the Player model
+        serializer = PlayerSerializer(players, many=True)
+        return Response(serializer.data, status=200)
 
 logger = logging.getLogger(__name__)
 
-class LastMessageView(APIView):  # Remove LoginRequiredMixin
+class LastMessageView(APIView):
     """
-    Last msg between two users 
+    Returns an array of the last message between the logged-in user and all other users.
     """
     authentication_classes = [JWTAuthentication]
-    # permission_classes = [IsAuthenticated]
 
     def get(self, request):
         try:
             logged_in_user = request.user
-            # Add debug logging
-            logger.debug(f"Logged in user ID: {logged_in_user.id}")
-            
-            all_users = Player.objects.exclude(id=logged_in_user.id)
-            logger.debug(f"Found {all_users.count()} other users")
-            
-            last_messages = []
+            logger.debug(f"Logged-in user ID: {logged_in_user.id}")
 
-            for user in all_users:
-                last_message = Message.objects.filter(
-                    Q(sender=user, receiver=logged_in_user) | 
-                    Q(sender=logged_in_user, receiver=user)
-                ).order_by('-timestamp').first()
+            # Fetch all relevant messages involving the logged-in user
+            messages = Message.objects.filter(
+                Q(sender=logged_in_user) | Q(receiver=logged_in_user)
+            ).order_by('-timestamp')
 
-                if last_message:
-                    serialized_message = MessageSerializer(last_message).data
-                    last_messages.append({
+            # Group messages by the other user
+            last_messages = {}
+            for message in messages:
+                other_user = message.sender if message.sender != logged_in_user else message.receiver
+                if other_user.id not in last_messages:
+                    # Add the latest message to the dictionary
+                    last_messages[other_user.id] = {
                         "user1": logged_in_user.username,
-                        "user2": user.username,
-                        "last_message": serialized_message
-                    })
-                    logger.debug(f"Added message between {logged_in_user.username} and {user.username}")
+                        "user2": other_user.username,
+                        "last_message": MessageSerializer(message).data
+                    }
 
-            if last_messages:
-                logger.debug(f"Returning {len(last_messages)} messages")
-                return Response(last_messages)
+            # Convert the grouped messages into an array
+            last_messages_list = list(last_messages.values())
+
+            if last_messages_list:
+                logger.debug(f"Returning {len(last_messages_list)} messages")
+                return Response(last_messages_list, status=200)
             else:
                 logger.debug("No messages found")
                 return Response({"message": "No messages found with other users"}, status=404)
 
         except Exception as e:
-            logger.error(f"Error in LastMessageView: {e}")
-            return Response({"error": str(e)}, status=500)
+            logger.error(f"Error in LastMessageView: {str(e)}")
+            return Response({"error": "An unexpected error occurred."}, status=500)
+
 
 class TestAuthView(APIView):
     authentication_classes = [JWTAuthentication]
@@ -108,10 +108,11 @@ class GetConversation(APIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
 
-    def get(self, request):
+    def get(self, request, username):
         try:
             receiver = request.user
-            sender_username = request.headers.get('Username')
+            sender_username = username
+            
 
             # If the username header is not provided, return an error
             if not sender_username:

@@ -99,7 +99,7 @@ function Overview() {
   };
   const getNavLinkBar = (path: string) => {
     if (path === "/Settings") {
-      return localistation.pathname === path ? "selected1" : "selected_hide";
+      return '/' + localistation.pathname.split("/")[1] === path ? "selected1" : "selected_hide";
     } else {
       return '/' + localistation.pathname.split("/")[1] === path
         ? "selected"
@@ -182,10 +182,10 @@ function Overview() {
             <img src={Notifications} className="imgg" />
             <span className="hidden_name">Notifications</span>
           </NavLink>
-          <NavLink to="/settings" className=" navbar_item2 Settings">
+          <NavLink to="/Settings" className=" navbar_item2 Settings">
             <img src={Settings} className="imgg" />
             <span className="hidden_name"> Settings </span>
-            <div className={getNavLinkBar("/settings")}></div>
+            <div className={getNavLinkBar("/Settings")}></div>
           </NavLink>
           <NavLink to="/logout" className=" navbar_item2 Logout">
             <img src={Logout} className="imgg" />

@@ -4,9 +4,10 @@ import os
 # from django.contrib.auth.models import User  # Ensure no unexpected indentation here
 
 
+
 # 42 OAuth Configuration
 OAUTH_42_CLIENT_ID = "u-s4t2ud-a4ca19d4122b0c8776673be4adb941c09df86f136d15c2be0d6cf1670894fa0e"
-OAUTH_42_CLIENT_SECRET = "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"
+OAUTH_42_CLIENT_SECRET = "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"
 OAUTH_42_REDIRECT_URI = 'http://127.0.0.1:8000/42/login_redirect'
 OAUTH_42_AUTHORIZATION_URL = 'https://api.intra.42.fr/oauth/authorize'
 OAUTH_42_TOKEN_URL = 'https://api.intra.42.fr/oauth/token'
@@ -68,8 +69,9 @@ INSTALLED_APPS = [
     'user_auth',
     'oauth2_discord',
     'oauth2_42',
-    'chat',
+    'game',
     'channels',
+    'chat',
 ]
 
 CORS_ALLOWED_ORIGINS = [
@@ -80,9 +82,9 @@ CSRF_TRUSTED_ORIGINS = [
     'http://localhost:5173',
 ]
 
-CSRF_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = False  # Set to True in production
 CSRF_COOKIE_HTTPONLY = True
-CSRF_COOKIE_SAMESITE = 'Strict'
+CSRF_COOKIE_SAMESITE = 'Lax'  # Can be 'Strict' in production if appropriate
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -162,27 +164,3 @@ CHANNEL_LAYERS = {
         },
     },
 }
-
-CORS_ALLOW_CREDENTIALS = True
-
-CORS_ALLOW_METHODS = [
-    'DELETE',
-    'GET',
-    'OPTIONS',
-    'PATCH',
-    'POST',
-    'PUT',
-]
-
-CORS_ALLOW_HEADERS = [
-    'Username',
-    'accept',
-    'accept-encoding',
-    'authorization',
-    'content-type',
-    'dnt',
-    'origin',
-    'user-agent',
-    'x-csrftoken',
-    'x-requested-with',
-]

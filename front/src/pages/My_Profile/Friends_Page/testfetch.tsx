@@ -2,8 +2,8 @@
 
 import gojo from "../assets/gojo.png";
 import { useState, useEffect, useRef } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFaceSmile, faPaperPlane } from "@fortawesome/free-solid-svg-icons";
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import { faFaceSmile, faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 import "./test.css";
 import Cookies from "js-cookie";
 
@@ -184,14 +184,14 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
             className="text-gray-500 p-2 rounded-full hover:bg-gray-200 transition"
             aria-label="Emoji"
           >
-            <FontAwesomeIcon icon={faFaceSmile} className="h-5 w-5" />
+            {/* <FontAwesomeIcon icon={faFaceSmile} className="h-5 w-5" /> */}
           </button>
           <button
             className="p-2 bg-[#5D3FD3] text-white rounded-full hover:bg-[#4B32A6] transition"
             onClick={handleSend}
             aria-label="Send"
           >
-            <FontAwesomeIcon icon={faPaperPlane} className="h-5 w-5" />
+            {/* <FontAwesomeIcon icon={faPaperPlane} className="h-5 w-5" /> */}
           </button>
         </div>
       </div>

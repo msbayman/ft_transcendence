@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import gojo from "../assets/gojo.png";
 import Cookies from "js-cookie";
+import axios from "axios";
+import { useWebSocket } from "./WebSocketContext";
 
 interface Friend {
   id: string;
@@ -11,53 +13,101 @@ interface Friend {
   timestamp: string;
 }
 
+interface OnlineFriends {
+  id: string;
+  name: string;
+  avatar: string;
+  online: boolean;
+}
+
 interface SelectedUser {
   onClick: (newUser: string) => void;
 }
-//  fields = ['id', 'sender', 'receiver', 'Conversation', 'timestamp',]
+
 const FriendsList: React.FC<SelectedUser> = ({ onClick }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [friends, setFriends] = useState<Friend[]>([]);
-  
+  const [onlineFriends, setOnlineFriends] = useState<OnlineFriends[]>([]);
+  const { messages } = useWebSocket();
+
+  const fetchUsersAndMessages = async () => {
+    try {
+      const token = Cookies.get("access_token");
+
+      // Fetch last messages
+      const response1 = await axios.get("http://127.0.0.1:8000/chat/last-message/", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      const lastMessages = response1.data;
+      const updatedFriends: Friend[] = lastMessages.map((user: any, index: number) => ({
+        id: index.toString(),
+        name: user.user2,
+        avatar: user.avatar || gojo,
+        online: index < 4,
+        content: user.last_message.content,
+        timestamp: user.timestamp,
+      }));
+
+      setFriends(updatedFriends);
+
+      // Fetch online users
+      const response2 = await axios.get("http://127.0.0.1:8000/chat/api/users/", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      const onlineUsersList = response2.data;
+      const updatedOnlineFriends: OnlineFriends[] = onlineUsersList.map((user: any, index: number) => ({
+        id: index.toString(),
+        name: user.username,
+        avatar: user.avatar || gojo,
+        online: index < 4,
+      }));
+
+      setOnlineFriends(updatedOnlineFriends);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  // Initial fetch
   useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const token = Cookies.get("access_token");
-        const response = await fetch('http://127.0.0.1:8000/chat/last-message/', {
-          method: 'GET',
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
-        });
-
-        if (!response.ok) {
-          if (response.status === 404) {
-            console.log('No messages found');
-            setFriends([]);
-            return;
-          }
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const users = await response.json();
-        const friends: Friend[] = users.map((user: any, index: number) => ({
-          id: index.toString(),
-          name: user.user2,
-          avatar: user.avatar || gojo,
-          online: index < 4, // Example logic for "online" status
-          content: user.last_message.content,
-          timestamp: user.timestamp,
-        }));
-
-        setFriends(friends);
-      } catch (error) {
-        console.error('Error fetching friends:', error);
-      }
-    };
-
-    fetchUsers();
+    fetchUsersAndMessages();
   }, []);
+
+  // Update when new messages arrive
+  useEffect(() => {
+    if (messages.length > 0) {
+      // const lastMessage = messages[messages.length - 1];
+      
+      // Immediately update the specific friend's last message
+      // setFriends(prevFriends => {
+      //   return prevFriends.map(friend => {
+      //     if (friend.name === lastMessage.sender || friend.name === lastMessage.receiver) {
+      //       return {
+      //         ...friend,
+      //         content: lastMessage.text,
+      //         timestamp: new Date(lastMessage.timestamp * 1000).toLocaleString()
+      //       };
+      //     }
+      //     return friend;
+      //   });
+      // });
+
+      // Refresh the entire list after a short delay
+      // const timeoutId = setTimeout(() => {
+        fetchUsersAndMessages();
+      // }, 1000);
+
+      // return () => clearTimeout(timeoutId);
+    }
+  }, [messages]);
 
   const handleClick = (friendName: string) => {
     onClick(friendName);
@@ -87,9 +137,15 @@ const FriendsList: React.FC<SelectedUser> = ({ onClick }) => {
       <section className="mb-6">
         <h2 className="text-2xl mb-4">Friends</h2>
         <div className="flex overflow-x-auto pb-4 gap-4">
-          {friends.map((friend) => (
-            <div key={friend.id} className="flex flex-col items-center justify-center flex-shrink-0 w-[61px] h-[86px] bg-[#5012C4] rounded-lg">
-              <div className="relative ">
+          {onlineFriends.map((friend) => (
+            <button 
+              key={friend.id} 
+              className="flex flex-col items-center justify-center flex-shrink-0 w-[61px] h-[86px] bg-[#5012C4] rounded-lg"
+            >
+              <div 
+                className="relative"
+                onClick={() => handleClick(friend.name)}
+              >
                 <img
                   src={friend.avatar}
                   alt={friend.name}
@@ -100,7 +156,7 @@ const FriendsList: React.FC<SelectedUser> = ({ onClick }) => {
                 )}
               </div>
               <span className="text-sm mt-1">{friend.name}</span>
-            </div>
+            </button>
           ))}
         </div>
       </section>
@@ -152,7 +208,7 @@ const FriendsList: React.FC<SelectedUser> = ({ onClick }) => {
                   <h3 className="font-semibold">{friend.name}</h3>
                   <p className="text-sm text-gray-300 truncate">{friend.content}</p>
                 </div>
-                <span className="text-sm text-gray-300">{friend.timestamp}</span>
+                {/* <span className="text-sm text-gray-300">{friend.timestamp}</span> */}
               </button>
             ))}
         </div>

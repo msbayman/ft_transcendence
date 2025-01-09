@@ -2,18 +2,7 @@ import React from "react";
 import "./Info-Profile.css";
 import Ph_pro from "../../Images/profile.png";
 import etoile from "../../Images/Etoile.svg";
-import { LinearProgress, Slider } from '@mui/material';
-import { styled } from '@mui/material/styles';
-
-// const CustomLinearProgress = styled(LinearProgress)(() => ({
-//   height: 12,
-//   borderRadius: 12,
-//   backgroundColor: '#ffffff', // Track color
-//   '& .MuiLinearProgress-bar': {
-//     backgroundColor: '#4caf50', // Progress bar color
-//   },
-//   value:32,
-// }));
+import { LinearProgress } from '@mui/material';
 
 const Info_Profile = () => {
   return (

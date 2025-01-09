@@ -7,7 +7,7 @@ COMPOSE_FILE = docker-compose.yml
 # Start the containers
 up:
 	@echo "Starting containers..."
-	docker-compose -f $(COMPOSE_FILE) up -d
+	docker-compose -f $(COMPOSE_FILE) up
 
 # Stop the containers
 down:
@@ -18,12 +18,12 @@ down:
 restart:
 	@echo "Restarting containers..."
 	docker-compose -f $(COMPOSE_FILE) down
-	docker-compose -f $(COMPOSE_FILE) up -d
+	docker-compose -f $(COMPOSE_FILE) up
 
 # Build or rebuild the containers
 build:
 	@echo "Building containers..."
-	docker-compose -f $(COMPOSE_FILE) up --build -d
+	docker-compose -f $(COMPOSE_FILE) up --build
 
 # Clean up (stop containers and remove volumes)
 clean:
