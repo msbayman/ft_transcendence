@@ -5,22 +5,32 @@ from user_auth.models import Player
 from django.conf import settings
 from user_auth.serializers import PlayerSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import AllowAny
 from django.contrib.auth import login as auth_login
 from user_auth.otp_view import generate_otp , send_otp_via_email
 from django.utils import timezone
+from rest_framework.request import Request as DRFRequest
 
 # Discord OAuth2 URL
-
+@api_view(['GET'])
+@permission_classes([AllowAny])
 def login(request: HttpRequest) -> HttpResponse:
     return redirect(settings.DISCORD_OAUTH_URL)
 
-def login_redirect(request: HttpRequest) -> JsonResponse:
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def login_redirect(request: DRFRequest) -> JsonResponse:
     code = request.GET.get('code')
     if code:
         user_info = exchange_code_for_token(code)
         if "error" in user_info:
             return JsonResponse({"error": "Failed to retrieve user info"}, status=400)
-        return handle_oauth_user(request, user_info)
+        
+        # Extract the Django HttpRequest object
+        django_request = request._request
+        return handle_oauth_user(django_request, user_info)
     else:
         return JsonResponse({"error": "No code provided"}, status=400)
 
@@ -48,7 +58,8 @@ def exchange_code_for_token(code: str) -> dict:
     else:
         return {"error": "Failed to obtain access token"}
 
-
+@api_view(['GET'])
+@permission_classes([AllowAny])
 def handle_oauth_user(request: HttpRequest, user_info: dict) -> HttpResponse:
     email        = user_info.get('email')
     username     = user_info.get('username')
@@ -92,6 +103,7 @@ def handle_oauth_user(request: HttpRequest, user_info: dict) -> HttpResponse:
     if user.active_2fa:
         # Generate and send OTP
         otp_code = generate_otp()
+        print(otp_code)
         send_otp_via_email(user.email, otp_code)
         
         # Store OTP in the player's record

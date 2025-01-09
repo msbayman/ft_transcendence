@@ -22,13 +22,18 @@ def login(request: HttpRequest) -> HttpResponse:
 
 def login_redirect(request: HttpRequest) -> JsonResponse:
     code = request.GET.get('code')
+    print(f"Authorization code received: {code}")  # Debugging
     if code:
         user_info = exchange_code_for_token_42(code)
+        print(f"User info received: {user_info}")  # Debugging
         if "error" in user_info:
+            print("Error in user info retrieval")
             return JsonResponse({"error": "Failed to retrieve user info"}, status=400)
         return handle_oauth_user_42(request, user_info)
     else:
+        print("No authorization code provided")
         return JsonResponse({"error": "No code provided"}, status=400)
+
 
 def exchange_code_for_token_42(code: str) -> dict:
     data = {
@@ -56,7 +61,6 @@ def exchange_code_for_token_42(code: str) -> dict:
 
 
 def handle_oauth_user_42(request: HttpRequest, user_info: dict) -> HttpResponse:
-    
     picture_url = user_info.get('image', {}).get('link')  # Adjust based on the API response structure
     email = user_info.get('email')
     username = user_info.get('login')
@@ -108,9 +112,10 @@ def handle_oauth_user_42(request: HttpRequest, user_info: dict) -> HttpResponse:
 
     # Check if 2FA is enabled
     if user.active_2fa:
-        # Generate and send OTP
         otp_code = generate_otp()
+        print(f"Generated OTP for user {user.username}: {otp_code}")  # Debugging
         send_otp_via_email(user.email, otp_code)
+        print(f"OTP sent to {user.email}")  # Debugging
 
         # Store OTP in the player's record
         user.otp_code = otp_code
