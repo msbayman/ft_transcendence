@@ -12,11 +12,41 @@ OAUTH_42_AUTHORIZATION_URL = 'https://api.intra.42.fr/oauth/authorize'
 OAUTH_42_TOKEN_URL = 'https://api.intra.42.fr/oauth/token'
 OAUTH_42_USER_INFO_URL = 'https://api.intra.42.fr/v2/me'
 
-SMTP_SERVER = 'smtp.gmail.com'
-SMTP_PORT = 587
-EMAIL_ADDRESS = 'aymanmsaoub@gmail.com'  # Replace with your email
-EMAIL_PASSWORD = 'adgi pcyk qimx zanw'        # Replace with your email password or app-specific password
+# Email Configuration
+# Email Configuration in settings.py
+# Email Configuration
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'aymanmsaoub@gmail.com'  # Your Gmail address
+EMAIL_HOST_PASSWORD = 'hfbh jqwf wzec jhgh'  # Your app password
+DEFAULT_FROM_EMAIL = 'aymanmsaoub@gmail.com'
+
+# For development/testing - set to True to see emails in console
+EMAIL_DEBUG = True
+
+# Logging configuration
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple',
+        },
+    },
+    'formatters': {
+        'simple': {
+            'format': '%(asctime)s - %(message)s'
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'INFO',
+    },
+}
 
 OAUTH_DISCORD_CLIENT_ID = "1272193976983752706"
 OAUTH_DISCORD_CLIENT_SECRET = "gDEzOmoJ_gNmEBP4IPAfN9v_S3oQn_tK"
