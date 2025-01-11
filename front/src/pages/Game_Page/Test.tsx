@@ -10,7 +10,7 @@ function Test(){
   useEffect(() => {
 
     const token = Cookies.get("access_token");
-    const ws = new WebSocket(`ws://127.0.0.1:8000/ws/game/?token=${token}`);
+    const ws = new WebSocket(`ws://127.0.0.1:8000/ws/loby/?token=${token}`);
 
     ws.onopen = () => {
       console.log('Connected to WebSocket');
