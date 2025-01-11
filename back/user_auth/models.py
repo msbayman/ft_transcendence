@@ -16,6 +16,12 @@ class Player(AbstractUser):
     cover_image = models.ImageField(upload_to='cover_pictures/', default='cover_pictures/cover_picture_1.png')
     points = models.IntegerField(default=0)
     is_online = models.BooleanField(default=False)
+    level = models.IntegerField(default=1)
+    total_games = models.IntegerField(default=0)
+    win_games = models.IntegerField(default=0)
+    lose_games = models.IntegerField(default=0)
+    list_users_friends  = models.ManyToManyField('self', blank=True)
+
 
 
     def is_expired(self):

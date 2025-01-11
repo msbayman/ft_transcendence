@@ -19,6 +19,7 @@
 .part_title_leader {
     color: aliceblue;
     display: flex;
+    /* min-width: 1550px; */
     flex-direction: row;
     align-items: center;
     gap: 20px;

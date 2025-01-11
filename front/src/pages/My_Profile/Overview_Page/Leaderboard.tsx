@@ -1,9 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
-// import { useMemo } from "react";
 import lead  from "./Leaderboard.module.css";
-// import FakeTable from "./Fake_Table.json";
-// import { useTable } from "react-table";
 // import { usePlayer } from "../PlayerContext";
 import axios from "axios";
 
@@ -17,7 +14,7 @@ const Leaderboard = () => {
   const navigate = useNavigate();
 
   const onclick = () => {
-    navigate("/Overview/Leadearboard");
+    navigate("/Leadearboard");
   };
 
   const [listPlayers, setListPlayers] = useState<data_Player[]>([]);

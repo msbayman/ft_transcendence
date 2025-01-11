@@ -1,11 +1,57 @@
-import * as React from "react";
+import { useState } from "react";
 import other from "./Action_Friends.module.css";
 
-const Action_Friends = () => {
-  const [SendRequestFriend, SetSendRequestFriend] = React.useState(true);
-  const [SendRequestBlock, SetSendRequestBlock] = React.useState(true);
+const Action_Friends = ({ username }: { username: string }) => {
+  const [SendRequestFriend, SetSendRequestFriend] = useState(true);
+  const [SendRequestBlock, SetSendRequestBlock] = useState(true);
+  // const receiver = username;
+
+  const sendFriendRequest = async (username: string) => {
+    console.log(username + '<<<<<<<----------------')
+    try {
+        const response = await fetch(`http://127.0.0.1:8000/listfriends/send_to_friend/${username}/`, {
+            method: 'POST',
+            // headers: {
+            //     'Authorization': `Bearer ${localStorage.getItem('token')}`,
+            //     'Content-Type': 'application/json',
+            // },
+        });
+
+        if (response.ok) {
+            console.log('Friend request sent successfully');
+        } else {
+            console.error('Failed to send friend request');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
+};
+const acceptFriendRequest = async (username: string) => {
+  try {
+      const response = await fetch(`http://127.0.0.1:8000/listfriends/accept_tobe_friend/${username}/`, {
+          method: 'POST',
+          // headers: {
+          //     'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          //     'Content-Type': 'application/json',
+          // },
+      });
+
+      if (response.ok) {
+          console.log('Friend request accepted successfully');
+      } else {
+          console.error('Failed to accept friend request');
+      }
+  } catch (error) {
+      console.error('Error:', error);
+  }
+};
 
   const Is_Send = () => {
+    sendFriendRequest(username)
+    SetSendRequestFriend(!SendRequestFriend);
+  };
+  const Is_Accept = () => {
+    acceptFriendRequest(username)
     SetSendRequestFriend(!SendRequestFriend);
   };
 
@@ -28,7 +74,7 @@ const Action_Friends = () => {
             </div>
           </button>
         ) : (
-          <button onClick={Is_Send} className={other.cancel_request}>
+          <button onClick={Is_Accept} className={other.cancel_request}>
             <div className={other.cancel_request}>
               <img
                 src="/Icones/icone_add_friend.png"

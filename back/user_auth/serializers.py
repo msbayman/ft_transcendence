@@ -13,7 +13,8 @@ class PlayerSerializer(serializers.ModelSerializer):
         fields = [
             'username', 'full_name', 'email', 'password', 
             're_password', 'id_prov', 'prov_name', 'provider_identifier',
-            'profile_image', 'cover_image', 'points','is_online'
+            'profile_image', 'cover_image', 'points','is_online',
+            'level', 'total_games', 'win_games', 'lose_games'
         ]
         extra_kwargs = {
             'username': {'required': True},
@@ -36,7 +37,7 @@ class PlayerSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("Username must contain only letters, numbers, hyphens, and underscores.")
         if 2 <= len(value) <= 40:
             return value
-        elif prov_name == "Discord" or prov_name == "42":
+        elif 'prov_name' == "Discord" or 'prov_name' == "42":
             return value
         else:
             raise serializers.ValidationError("Username length must be between 3 and 15 characters.")

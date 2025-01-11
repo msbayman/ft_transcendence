@@ -1,6 +1,4 @@
-import * as React from "react";
 import "./State_of_Profile.css";
-import ph_pro from "../Images/profile.png";
 import { CircularProgress, CircularProgressLabel } from "@chakra-ui/progress";
 import {usePlayer} from "../PlayerContext"
 

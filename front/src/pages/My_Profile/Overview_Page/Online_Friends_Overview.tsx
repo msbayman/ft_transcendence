@@ -4,7 +4,6 @@ import Message from '../Images/Message_to_User.svg'
 import Invite_Play from '../Images/Invite_to_play.svg'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
-import Cookies from "js-cookie"
 import { usePlayer } from "../PlayerContext"
 
 
@@ -18,12 +17,7 @@ const Online_Friends_Overview = () => {
 
   const currentUser = usePlayer()
 
-  console.log('----->>>>>   ' + currentUser.playerData?.username)
-
   const navgate = useNavigate();
-
-  // const token = Cookies.get('access_token');
-
 
   const [ListOnline, setListOnline] = useState<User_isOnline[]>([])
   
@@ -37,20 +31,14 @@ const Online_Friends_Overview = () => {
   
   useEffect(() => {
     const fetchOnlineUsers = async () => {
-      // setTimeout(fetchOnlineUsers,10);
       try {
         if (currentUser.playerData) {
-          // Make the GET request with await
           const response = await axios.get("http://127.0.0.1:8000/user_auth/is_online/");
 
-          // Filter out the current user from the response data
-          // console.log("*******", response.data, currentUser.playerData)
           const filteredUsers: User_isOnline [] = response.data.filter(
             (user: User_isOnline) => user.username !== currentUser.playerData?.username
           );
-          // console.log(filteredUsers , '<<<<<<<<<<<')
 
-          // Set the filtered list
           setListOnline(filteredUsers);
         }
       } catch (error) {

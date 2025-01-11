@@ -6,7 +6,7 @@ import States_Profile from "./States_Profile";
 import Recent_Game from "./Recent_Game";
 import Action_Friends from "./Action_Friends";
 
-export const Profile_Page = () => {
+export const Other_Profile_Page = ({ username }: { username: string }) => {
   return (
     <div className={other.Profile_Page_all}>
       <div className={other.all_content_Profile}>
@@ -21,7 +21,7 @@ export const Profile_Page = () => {
           </div>
           <div className={other.Acheivement_and_States}>
             <div className={other.action_to_accept}>
-              <Action_Friends />
+              <Action_Friends username={username}/>
             </div>
             <div className={other.Content_of_Acheievment}>
               <Acheiev_Profile />
@@ -36,4 +36,4 @@ export const Profile_Page = () => {
   );
 };
 
-export default Profile_Page;
+export default Other_Profile_Page;

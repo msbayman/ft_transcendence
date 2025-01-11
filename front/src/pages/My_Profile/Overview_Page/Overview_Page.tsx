@@ -1,4 +1,3 @@
-import * as React from "react";
 import "./Overview_page.css"
 import State_of_Profile from "./State_of_Profile";
 import Top_of_Achievement from "./Top_of_Achievement";
@@ -7,7 +6,6 @@ import Online_Friends_Overview from "./Online_Friends_Overview";
 import Button_Play from "../Images/Button_Play.svg"
 import { useNavigate } from "react-router-dom";
 import { usePlayer } from "../PlayerContext";
-// import axios from "axios";
 
 export const Overview_Page: React.FC = () => {
 

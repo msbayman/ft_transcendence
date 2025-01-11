@@ -15,12 +15,10 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 # Logger setup
 logger = logging.getLogger(__name__)
 
-# @api_view(['GET'])
-# def index(request):
-#     return Response("Hello, world")
-
 @api_view(['GET'])
+
 @permission_classes([IsAuthenticated])
+
 def display_users(request):
     players = Player.objects.all()
     serializer = PlayerSerializer(players, many=True)
@@ -81,8 +79,6 @@ def add_player(request):
 
     # Return validation errors
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
 
 
 class LoginAPIView(APIView):
@@ -176,7 +172,6 @@ class UserDetailView(APIView):
         users = request.user
         users.is_online = True
         users.save();
-        # print(users)
         serializer = PlayerSerializer(users , context = {"request": request})
         return Response( serializer.data )
 
@@ -212,12 +207,6 @@ class LogoutAPIView(APIView):
             player.is_online = False  # Set is_online to False
             player.save()  # Save the changes
 
-
-            # # Blacklist the refresh token (optional, if using JWT)
-            # refresh_token = request.data.get('refresh_token')
-            # if refresh_token:
-            #     token = RefreshToken(refresh_token)
-            #     token.blacklist()
 
             return Response({"detail": "Successfully logged out."}, status=status.HTTP_200_OK)
         except Player.DoesNotExist:

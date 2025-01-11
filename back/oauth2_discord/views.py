@@ -8,6 +8,8 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth import login as auth_login
 from user_auth.otp_view import generate_otp , send_otp_via_email
 from django.utils import timezone
+from django.core.files.base import ContentFile
+
 
 # Discord OAuth2 URL
 
@@ -54,7 +56,7 @@ def handle_oauth_user(request: HttpRequest, user_info: dict) -> HttpResponse:
     username     = user_info.get('username')
     full_name    = user_info.get('global_name', username)
     user_id_prov = user_info.get('id')
-
+    avatar_hash = user_info.get('avatar')
     if not(all([email, username, full_name, user_id_prov])):
         login_url = f"http://localhost:5173/login?error=Failed to retrieve user data"
         return redirect(login_url)
@@ -83,6 +85,15 @@ def handle_oauth_user(request: HttpRequest, user_info: dict) -> HttpResponse:
         if serializer.is_valid(): 
             user = serializer.save()
             user.set_unusable_password()
+
+            if avatar_hash:
+                # Construct the Discord avatar URL
+                picture_url = f"https://cdn.discordapp.com/avatars/{user_id_prov}/{avatar_hash}.png"
+                response = requests.get(picture_url)
+                if response.status_code == 200:
+                    image_name = f"{user_id_prov}_{avatar_hash}.png"  # Unique image name
+                    user.profile_image.save(image_name, ContentFile(response.content), save=True)
+
             user.save()
         else:
             

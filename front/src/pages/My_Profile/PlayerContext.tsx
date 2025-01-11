@@ -8,7 +8,11 @@ interface PlayerData {
   email: string;
   profile_image: string;
   cover_image: string;
-  points:number;
+  points: number;
+  total_games: number;
+  win_games: number;
+  lose_games: number;
+  level: number;
 }
 
 interface PlayerContextType {
