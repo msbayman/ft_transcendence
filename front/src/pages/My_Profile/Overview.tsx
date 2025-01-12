@@ -80,7 +80,7 @@ function Overview() {
     return dataPlayer.playerData?.username === username ? (
       <Profile_Page />
     ) : (
-      <Other_Profile_Page username={username} />
+      <Other_Profile_Page /*username={username}*/ />
     );
   };
   const localistation = useLocation();

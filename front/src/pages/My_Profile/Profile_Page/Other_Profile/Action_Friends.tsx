@@ -1,7 +1,7 @@
 import { useState } from "react";
 import other from "./Action_Friends.module.css";
 
-const Action_Friends = ({ username }: { username: string }) => {
+const Action_Friends = (/*{ username }: { username: string }*/) => {
   const [SendRequestFriend, SetSendRequestFriend] = useState(true);
   const [SendRequestBlock, SetSendRequestBlock] = useState(true);
   // const receiver = username;
@@ -47,11 +47,11 @@ const acceptFriendRequest = async (username: string) => {
 };
 
   const Is_Send = () => {
-    sendFriendRequest(username)
+    // sendFriendRequest(username)
     SetSendRequestFriend(!SendRequestFriend);
   };
   const Is_Accept = () => {
-    acceptFriendRequest(username)
+    // acceptFriendRequest(username)
     SetSendRequestFriend(!SendRequestFriend);
   };
 

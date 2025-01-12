@@ -67,25 +67,20 @@ function Signup_Page() {
     } catch (error: any) {
       if (error.response && error.response.data) {
         const errorData = error.response.data;
-
-        // Display specific error messages
-        if (errorData.error) {
-          setMailUsernameErr(errorData.error);
-        } else if (errorData.non_field_errors) {
+        if (errorData.non_field_errors) {
           setMailUsernameErr(errorData.non_field_errors.join(", "));
         } else if (errorData.username) {
           setMailUsernameErr(errorData.username.join(", "));
         } else if (errorData.email) {
           setMailUsernameErr(errorData.email.join(", "));
         } else {
-          setMailUsernameErr("An unexpected error occurred. Please try again.");
+          setMailUsernameErr("An unknown error occurred. Please try again.");
         }
       } else {
         setMailUsernameErr("An unknown error occurred. Please try again.");
       }
     }
   };
-
 
   const handleOAuthLogin = () => {
     window.location.href = "http://localhost:8000/discord/login";

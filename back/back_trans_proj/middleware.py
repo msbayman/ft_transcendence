@@ -1,4 +1,3 @@
-
 from rest_framework_simplejwt.exceptions import InvalidToken, TokenError, AuthenticationFailed
 from rest_framework_simplejwt.authentication import JWTAuthentication
 

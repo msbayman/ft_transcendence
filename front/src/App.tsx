@@ -14,6 +14,11 @@ import Signup_Page from "./pages/Signup_Page/Signup_Page";
 import Valid_otp from "./pages/Valid_otp/Valid_otp";
 import Overview from "./pages/My_Profile/Overview";
 import { PlayerProvider, usePlayer } from "./pages/My_Profile/PlayerContext";
+import Game_Local from "./pages/Game_Page/Game_Local";
+import Game_Bot from "./pages/Game_Page/Game_Bot";
+import Game_Remot from "./pages/Game_Page/Game_Remot";
+import Test from "./pages/Game_Page/Test";
+import Game_Loby from "./pages/Game_Page/Game_loby";
 
 function AppContent() {
   const navigate = useNavigate();
@@ -78,6 +83,11 @@ function AppContent() {
           <Route path="signup" element={<Signup_Page />} />
           <Route path="/*" element={<Overview />} />
           <Route path="Valid_otp" element={<Valid_otp />} />
+          <Route path="/local_game" element={<Game_Local />} />
+          <Route path="/local_bot" element={<Game_Bot />} />
+          <Route path="/remote_game" element={<Game_Remot />} />
+          <Route path="/test" element={<Test />} />
+          {/* <Route path="/game_loby" element={<Game_Loby />} /> */}
         </Routes>
       </main>
     </Fragment>

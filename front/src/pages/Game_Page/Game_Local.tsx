@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
-import table_game from "../assets/table.svg";
-import table_b from "../assets/table_blue.svg";
-import pause from "../assets/puse.svg";
-import rus from "../assets/rus.svg";
-import name from "../assets/name_hold_game.svg";
-import logo from "../assets/logo_game.svg";
+import { useNavigate } from "react-router-dom";
+import table_game from "../../assets/table.svg";
+import table_b from "../../assets/table_blue.svg";
+import pause from "../../assets/puse.svg";
+import rus from "../../assets/rus.svg";
+// import name from "../../assets/name_hold_game.svg";
+import logo from "../../assets/logo_game.svg";
 
 function Game_Local() {
   const [paddleLeftPosition, setPaddleLeftPosition] = useState(135);
@@ -13,7 +14,13 @@ function Game_Local() {
   const [Ballscore, setBallscore] = useState({ l: 0, r: 0 });
   const [ballDirection, setBallDirection] = useState({ x: 3, y: 3 });
   const [isPaused, setIsPaused] = useState(false);
+  const navigate = useNavigate();
 
+
+  const handleSleep = async () => {
+    await new Promise((resolve) => setTimeout(resolve, 3000));
+    navigate("/overview");
+  };
 
   useEffect(() => {
     if (isPaused) return;
@@ -61,6 +68,12 @@ useEffect(() => {
   const interval = setInterval(() => {
     if (isPaused) return;
 
+    if (Ballscore.l === 3 || Ballscore.r === 3) {
+      handleSleep();
+      clearInterval(interval);
+      return;
+    }
+
     setBallPosition((prev) => {
       let newTop = prev.top + ballDirection.y;
       let newLeft = prev.left + ballDirection.x;
@@ -70,7 +83,7 @@ useEffect(() => {
         setBallDirection({ x: -ballDirection.x, y: ballDirection.y });
       }
 
-      const paddleWidth = 100;
+      const paddleWidth = 155;
 
       // Ball collision with top paddle
       if (
@@ -108,7 +121,7 @@ useEffect(() => {
       }
 
       // Ball crosses the bottom boundary (left player scores)
-      if (newTop > 740) {
+      if (newTop > 725) {
         setBallscore({ l: Ballscore.l + 1, r: Ballscore.r });
         setBallDirection({ x: 3, y: 3 });
         resetBall();
@@ -119,7 +132,7 @@ useEffect(() => {
   }, 20);
 
   return () => clearInterval(interval);
-}, [ballDirection, paddleLeftPosition, paddleRightPosition, isPaused]);
+}, [ballDirection, paddleLeftPosition, paddleRightPosition, isPaused, Ballscore.l, Ballscore.r]);
 
 function togglePause() {
   setIsPaused((prev) => !prev);
@@ -131,29 +144,39 @@ const resetBall = () => {
 
 	return (
 		<div className="bg-custom-bg bg-cover bg-center h-screen w-full">
-		  <div className="relative flex justify-center top-[90px]">
+		  <div className="relative flex justify-center top-[90px] ">
 			{/* Table Images */}
-			<img src={table_game} alt="" className="absolute" />
-			<img src={table_b} alt="" className="absolute mx-auto top-[120px]" />
-	  
+			<img src={table_game} alt="table background " className="absolute"/>
+			<img src={table_b} alt="baorde" className={isPaused || Ballscore.l == 3 || Ballscore.r == 3 ? "absolute mx-auto top-[120px] blur-sm" : "absolute mx-auto top-[120px]"} />
+
 			{/* Game Elements */}
 			<div className="absolute">
 			  <div className="relative w-[510px] h-[740px] mx-auto top-[120px]">
+				{/* pause */}
+				<div className={isPaused ? "relative top-[340px] left-[155px] text-white font-luckiest text-6xl" : "hidden"}>
+					PAUSED
+				</div>
+				<div className={Ballscore.l == 3 ? "relative top-[340px] left-[50px] text-white font-luckiest text-6xl" : "hidden"}>
+					PALYER 1 IS WIN
+				</div>
+				<div className={Ballscore.r == 3 ? "relative top-[340px] left-[50px] text-white font-luckiest text-6xl" : "hidden"}>
+					PALYER 2 IS WIN 
+				</div>
 				{/* Left Paddle */}
 				<div
-				  className="absolute w-[140px] h-[10px] bg-[#0026EB] top-[20px] transition-left duration-100 rounded-lg ease-linear"
+				  className={isPaused || Ballscore.l == 3 || Ballscore.r == 3  ? "absolute w-[140px] h-[10px] bg-[#0026EB] top-[20px] transition-left duration-100 rounded-lg ease-linear blur-sm" : "absolute w-[140px] h-[10px] bg-[#0026EB] top-[20px] transition-left duration-100 rounded-lg ease-linear"}
 				  style={{ left: paddleLeftPosition }}
 				></div>
-	  
+
 				{/* Right Paddle */}
 				<div
-				  className="absolute w-[140px] h-[10px] bg-[#FFE500] transition-left bottom-[20px] duration-100 rounded-lg ease-linear"
+				  className={isPaused || Ballscore.l == 3 || Ballscore.r == 3 ? "absolute w-[140px] h-[10px] bg-[#FFE500] transition-left bottom-[20px] duration-100 rounded-lg ease-linear blur-sm" : "absolute w-[140px] h-[10px] bg-[#FFE500] transition-left bottom-[20px] duration-100 rounded-lg ease-linear"}
 				  style={{ left: paddleRightPosition }}
 				></div>
 	  
 				{/* Ball */}
 				<div
-				  className="absolute w-[15px] h-[15px] bg-red-600 rounded-[50%]"
+				  className={isPaused || Ballscore.l == 3 || Ballscore.r == 3 ? "absolute w-[15px] h-[15px] bg-red-600 rounded-[50%] blur-sm" : "absolute w-[15px] h-[15px] bg-red-600 rounded-[50%]" }
 				  style={{
 					top: ballPosition.top,
 					left: ballPosition.left,
@@ -161,7 +184,7 @@ const resetBall = () => {
 				></div>
 			  </div>
 			</div>
-	  
+
 			{/* Score Display */}
 			<div className="absolute text-6xl top-[920px] text-white z-10 font-luckiest">
 			  {Ballscore.l} - {Ballscore.r}
@@ -170,21 +193,23 @@ const resetBall = () => {
 			{/* Button Positioned Under Table */}
 			<div className="absolute top-[1070px] z-20">
 			<img
-			  src={isPaused ? rus : pause}
+			  src={isPaused ? pause : rus}
 			  alt={isPaused ? "Resume" : "Pause"}
 			  onClick={togglePause}
 			  className="mt-4 cursor-pointer w-[50px] h-[50px]"
 			/>
 			</div>
-          <div className="absolute flex justify-between">
-            <div>
-                <img src={name} alt="name holder" className="transform scale-x-[-1]"/>
+          <div className="absolute flex justify-between items-center top-[30px]">
+            <div className="relative bg-[url('/public/name_hold_game.svg')] h-[70px] w-[250px] bg-cover bg-center transform scale-x-[-1] flex justify-center items-center">
+                <p className="absolute text-white text-4xl transform scale-x-[-1] font-luckiest right-[25px] ">player 1</p>
+                <p className="absolute text-black text-2xl transform scale-x-[-1] font-luckiest left-[9px] bottom-[10px] ">NoN</p>
             </div>
             <div className="flex justify-items-center">
                 <img src={logo} alt="logo"/>
             </div>
-            <div>
-                <img src={name} alt="name holder"/>
+            <div className="relative bg-[url('/public/name_hold_game.svg')] h-[70px] w-[250px] bg-cover bg-center flex justify-center items-center">
+        		<p className="absolute text-white text-4xl font-luckiest right-[25px] ">player 2</p>
+            	<p className="absolute text-black text-2xl font-luckiest left-[9px] bottom-[10px] ">NoN</p>
             </div>
           </div>
 		  </div>
