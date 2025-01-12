@@ -11,7 +11,11 @@ from user_auth.otp_view import generate_otp, send_otp_via_email
 from django.utils import timezone
 from rest_framework.request import Request as DRFRequest
 from django.core.files.base import ContentFile
+import logging
 
+
+
+logger = logging.getLogger('user_auth')
 @api_view(['GET'])
 @permission_classes([AllowAny])
 def login(request: HttpRequest) -> HttpResponse:

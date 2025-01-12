@@ -1,5 +1,5 @@
 from django.urls import path
-from . import views
+from . import views 
 from .import otp_view
 urlpatterns = [
      # path("", views.index, name="index"),
@@ -14,4 +14,5 @@ urlpatterns = [
      path('UserDetailView', views.UserDetailView.as_view(), name='UserDetailView'),
      path("make_req_otp/<str:email_to_send>/", otp_view.send_otp_via_email, name="make_req_otp"),
      path('leaderboard', views.leaderboard, name='leaderboard'),
+     path('health_check',  views.health_check, name='health_check'),  # Use a trailing slash
 ]

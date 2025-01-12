@@ -10,9 +10,19 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from .serializers import PlayerSerializer
 from .otp_view import generate_otp, send_otp_via_email
 from django.utils import timezone
+from django.http import JsonResponse
+
 
 # Logger setup
 logger = logging.getLogger(__name__)
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def health_check(request):
+    return JsonResponse({"status": "ok"})
+
+
+
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])

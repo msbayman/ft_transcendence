@@ -24,27 +24,43 @@ EMAIL_HOST_USER = 'aymanmsaoub@gmail.com'  # Your Gmail address
 EMAIL_HOST_PASSWORD = 'hfbh jqwf wzec jhgh'  # Your app password
 DEFAULT_FROM_EMAIL = 'aymanmsaoub@gmail.com'
 
-# For development/testing - set to True to see emails in console
-EMAIL_DEBUG = True
 
-# Logging configuration
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
+    'formatters': {
+        'json': {
+            'format': '{"timestamp": "%(asctime)s", "level": "%(levelname)s", "message": "%(message)s", "module": "%(module)s", "user": "%(user)s", "event_type": "%(event_type)s"}',
+            'datefmt': '%Y-%m-%d %H:%M:%S'
+        },
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {message} {user} {event_type}',
+            'style': '{',
+        },
+    },
     'handlers': {
         'console': {
             'class': 'logging.StreamHandler',
-            'formatter': 'simple',
+            'formatter': 'json',
+        },
+        'file': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': 'django_debug.log',
+            'formatter': 'json',  # Changed to JSON for better Elasticsearch indexing
         },
     },
-    'formatters': {
-        'simple': {
-            'format': '%(asctime)s - %(message)s'
+    'loggers': {
+        'django': {
+            'handlers': ['console', 'file'],
+            'level': 'INFO',
+            'propagate': True,
         },
-    },
-    'root': {
-        'handlers': ['console'],
-        'level': 'INFO',
+        'user_auth': {  # Add specific logger for your user_auth app
+            'handlers': ['console', 'file'],
+            'level': 'INFO',
+            'propagate': True,
+        },
     },
 }
 
