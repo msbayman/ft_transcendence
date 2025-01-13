@@ -49,6 +49,7 @@ services:
         /app/venv/bin/python manage.py migrate
         echo "from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.create_superuser('admin', 'admin@example.com', 'admin') if not User.objects.filter(username='admin').exists() else None" | /app/venv/bin/python manage.py shell
         /app/venv/bin/python manage.py runserver 0.0.0.0:${BACKEND_PORT}
+       
 
   frontend:
     build:
@@ -132,7 +133,7 @@ services:
       - "${KIBANA_PORT}:${KIBANA_PORT}"
     environment:
       - ELASTICSEARCH_HOSTS=http://elasticsearch:${ELK_PORT}
-      - ELASTICSEARCH_USERNAME=${ELASTICSEARCH_USERNAME}
+      - ELASTICSEARCH_USERNAME=elastic
       - ELASTICSEARCH_PASSWORD=${ELASTIC_PASSWORD}
     depends_on:
       - elasticsearch
