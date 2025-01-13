@@ -76,11 +76,11 @@ function Overview() {
   console.log(dataPlayer)
   const Choose_Profile = () => {
     const { username } = useParams<{ username: string }>();
-    // console.log(dataPlayer.playerData?.username + '-----------' + username)
+    console.log(dataPlayer.playerData?.username + '-----------' + username)
     return dataPlayer.playerData?.username === username ? (
       <Profile_Page />
     ) : (
-      <Other_Profile_Page /*username={username}*/ />
+      <Other_Profile_Page username={username} />
     );
   };
   const localistation = useLocation();

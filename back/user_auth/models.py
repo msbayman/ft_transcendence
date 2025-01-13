@@ -20,7 +20,7 @@ class Player(AbstractUser):
     total_games = models.IntegerField(default=0)
     win_games = models.IntegerField(default=0)
     lose_games = models.IntegerField(default=0)
-    list_users_friends  = models.ManyToManyField('self', blank=True)
+    list_users_friends = models.ManyToManyField('self', blank=True)
 
 
 

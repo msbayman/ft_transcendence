@@ -7,16 +7,16 @@ from user_auth.models import Player
 
 
 class Friend_request(models.Model):
-    my_user             = models.OneToOneField(Player, on_delete=models.CASCADE , related_name='sender')
-    other_user          = models.OneToOneField(Player, on_delete=models.CASCADE , related_name='receiver')
+    my_user         = models.ForeignKey(Player, on_delete=models.CASCADE, related_name='sent_requests')
+    other_user      = models.ForeignKey(Player, on_delete=models.CASCADE, related_name='received_requests')
 
-    STATUS_CHOICES      = [
+    STATUS_CHOICES  = [
         ('pending', 'Pending'),
         ('accepted', 'Accepted'),
         ('denied', 'Denied'),
     ]
 
-    states              = models.CharField(max_length=10, choices=STATUS_CHOICES ,default='pending')        
+    states          = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending')
 
     def __str__(self):
-        return f"List Friends of {self.my_user.username}"
+        return f"Friend request from {self.my_user.username} to {self.other_user.username}"
