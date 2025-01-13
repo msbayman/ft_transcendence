@@ -6,24 +6,31 @@ services:
       context: ./back
       dockerfile: Dockerfile.backend
     container_name: backend
+    env_file:
+      - .env
     volumes:
       - ./back:/app
     ports:
-      - "8000:8000"
+      - "${BACKEND_PORT}:${BACKEND_PORT}"
     environment:
-      - DB_NAME=postgres_db
-      - DB_USER=postgres_user
-      - DB_PASSWORD=postgres_password
-      - DB_HOST=db
-      - DB_PORT=5432
-      - REDIS_PORT=6380
+      - DB_NAME=${DB_NAME}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_HOST=${DB_HOST}
+      - REDIS_PORT=${REDIS_PORT}
     depends_on:
       db:
         condition: service_healthy
       redis:
         condition: service_healthy
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://backend:8000/user_auth/health_check"]
+      test:
+        [
+          "CMD",
+          "curl",
+          "-f",
+          "http://backend:${BACKEND_PORT}/user_auth/health_check",
+        ]
       interval: 10s
       timeout: 5s
       retries: 10
@@ -41,7 +48,7 @@ services:
         /app/venv/bin/pip install -r /app/requirements.txt
         /app/venv/bin/python manage.py migrate
         echo "from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.create_superuser('admin', 'admin@example.com', 'admin') if not User.objects.filter(username='admin').exists() else None" | /app/venv/bin/python manage.py shell
-        /app/venv/bin/python manage.py runserver 0.0.0.0:8000
+        /app/venv/bin/python manage.py runserver 0.0.0.0:${BACKEND_PORT}
 
   frontend:
     build:
@@ -52,7 +59,7 @@ services:
       - ./front:/app
       - /app/node_modules
     ports:
-      - "5173:5173"
+      - "${FRONTEND_PORT}:${FRONTEND_PORT}"
     depends_on:
       backend:
         condition: service_healthy
@@ -61,7 +68,7 @@ services:
       - -c
       - |
         echo "Waiting for backend to be ready..."
-        while ! curl -s http://backend:8000/user_auth/health_check >/dev/null; do
+        while ! curl -s http://backend:${BACKEND_PORT}/user_auth/health_check >/dev/null; do
           sleep 5
         done
         echo "Backend is ready. Starting frontend..."
@@ -71,16 +78,16 @@ services:
     image: postgres:13
     container_name: postgres_db
     environment:
-      POSTGRES_DB: postgres_db
-      POSTGRES_USER: postgres_user
-      POSTGRES_PASSWORD: postgres_password
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
       PGDATA: /var/lib/postgresql/data/pgdata
     volumes:
-      - pgdata:/var/lib/postgresql/data
+      - ${PGDATA}:/var/lib/postgresql/data
     ports:
       - "5432:5432"
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres_user -d postgres_db"]
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
       interval: 5s
       timeout: 5s
       retries: 10
@@ -88,6 +95,8 @@ services:
   redis:
     image: redis:7
     container_name: redis
+    env_file:
+      - .env
     ports:
       - "6380:6379"
     command: ["redis-server"]
@@ -100,15 +109,16 @@ services:
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.15.0
     container_name: elasticsearch
+    env_file:
+      - .env
     ports:
-      - "9200:9200"
-      - "9300:9300"
+      - "${ELK_PORT}:${ELK_PORT}"
     environment:
-      - discovery.type=single-node
-      - xpack.security.enabled=true
-      - ELASTIC_PASSWORD=ayman
+      - discovery.type=${discovery_type}
+      - xpack.security.enabled=${xpack_security_enabled}
+      - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
     volumes:
-      - ./elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+      - ${elk_volume}:/usr/share/elasticsearch/config/elasticsearch.yml
     networks:
       - elk
     restart: on-failure
@@ -116,12 +126,14 @@ services:
   kibana:
     image: docker.elastic.co/kibana/kibana:7.15.0
     container_name: kibana
+    env_file:
+      - .env
     ports:
-      - "5601:5601"
+      - "${KIBANA_PORT}:${KIBANA_PORT}"
     environment:
-      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
-      - ELASTICSEARCH_USERNAME=elastic
-      - ELASTICSEARCH_PASSWORD=ayman
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:${ELK_PORT}
+      - ELASTICSEARCH_USERNAME=${ELASTICSEARCH_USERNAME}
+      - ELASTICSEARCH_PASSWORD=${ELASTIC_PASSWORD}
     depends_on:
       - elasticsearch
     networks:
@@ -133,11 +145,13 @@ services:
       context: .
       dockerfile: logstash/Dockerfile.logstash
     container_name: logstash
+    env_file:
+      - .env
     ports:
-      - "9600:9600"
+      - "${LOGSTASH_PORT}:${LOGSTASH_PORT}"
     environment:
-      - ELASTICSEARCH_USERNAME=elastic
-      - ELASTICSEARCH_PASSWORD=ayman
+      - ELASTICSEARCH_USERNAME=${ELASTICSEARCH_USERNAME}
+      - ELASTICSEARCH_PASSWORD=${ELASTIC_PASSWORD}
     depends_on:
       - elasticsearch
     networks:
@@ -148,7 +162,6 @@ services:
       - ./back:/usr/share/logstash/back
     command: >
       logstash -f /usr/share/logstash/pipeline/logstash.conf
-
 
 networks:
   elk:
