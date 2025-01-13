@@ -47,9 +47,11 @@ services:
         . /app/venv/bin/activate
         /app/venv/bin/pip install -r /app/requirements.txt
         /app/venv/bin/python manage.py migrate
-        echo "from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.create_superuser('admin', 'admin@example.com', 'admin') if not User.objects.filter(username='admin').exists() else None" | /app/venv/bin/python manage.py shell
+        echo "from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.filter(username='admin').delete()" | /app/venv/bin/python manage.py shell
+        echo "Creating superuser with username: ${django_admin_username}, email: ${django_admin_mail}, password: ${django_admin_password}"
+        echo "from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.create_superuser('${django_admin_username}', '${django_admin_mail}', '${django_admin_password}') if not User.objects.filter(username='${django_admin_username}').exists() else None" | /app/venv/bin/python manage.py shell
         /app/venv/bin/python manage.py runserver 0.0.0.0:${BACKEND_PORT}
-       
+        
 
   frontend:
     build:
@@ -133,7 +135,7 @@ services:
       - "${KIBANA_PORT}:${KIBANA_PORT}"
     environment:
       - ELASTICSEARCH_HOSTS=http://elasticsearch:${ELK_PORT}
-      - ELASTICSEARCH_USERNAME=elastic
+      - ELASTICSEARCH_USERNAME=${ELASTICSEARCH_USERNAME}
       - ELASTICSEARCH_PASSWORD=${ELASTIC_PASSWORD}
     depends_on:
       - elasticsearch
