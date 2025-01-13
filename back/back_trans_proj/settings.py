@@ -1,29 +1,37 @@
 from pathlib import Path
 from datetime import timedelta
 import os
+from dotenv import load_dotenv 
 # from django.contrib.auth.models import User  # Ensure no unexpected indentation here
 
+load_dotenv()
 
-# 42 OAuth Configuration
-OAUTH_42_CLIENT_ID = "u-s4t2ud-a4ca19d4122b0c8776673be4adb941c09df86f136d15c2be0d6cf1670894fa0e"
-OAUTH_42_CLIENT_SECRET = "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"
-OAUTH_42_REDIRECT_URI = 'http://127.0.0.1:8000/42/login_redirect'
+
+
+# OAuth 42 Configuration
+OAUTH_42_CLIENT_ID = os.getenv('OAUTH_42_CLIENT_ID')
+OAUTH_42_CLIENT_SECRET = os.getenv('OAUTH_42_CLIENT_SECRET')
+OAUTH_42_REDIRECT_URI = os.getenv('OAUTH_42_REDIRECT_URI')
 OAUTH_42_AUTHORIZATION_URL = 'https://api.intra.42.fr/oauth/authorize'
 OAUTH_42_TOKEN_URL = 'https://api.intra.42.fr/oauth/token'
 OAUTH_42_USER_INFO_URL = 'https://api.intra.42.fr/v2/me'
 
 # Email Configuration
-# Email Configuration in settings.py
-# Email Configuration
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = os.getenv('EMAIL_HOST')
+EMAIL_PORT = int(os.getenv('EMAIL_PORT'))
+EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS', 'True').lower() == 'true'
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL')
 
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'aymanmsaoub@gmail.com'  # Your Gmail address
-EMAIL_HOST_PASSWORD = 'hfbh jqwf wzec jhgh'  # Your app password
-DEFAULT_FROM_EMAIL = 'aymanmsaoub@gmail.com'
-
+# Discord OAuth Configuration
+OAUTH_DISCORD_CLIENT_ID = os.getenv('OAUTH_DISCORD_CLIENT_ID')
+OAUTH_DISCORD_CLIENT_SECRET = os.getenv('OAUTH_DISCORD_CLIENT_SECRET')
+OAUTH_DISCORD_REDIRECT_URI = os.getenv('OAUTH_DISCORD_REDIRECT_URI')
+OAUTH_DISCORD_TOKEN_URL = 'https://discord.com/api/oauth2/token'
+DISCORD_OAUTH_URL = f"https://discord.com/oauth2/authorize?client_id={OAUTH_DISCORD_CLIENT_ID}&response_type=code&redirect_uri={OAUTH_DISCORD_REDIRECT_URI}&scope=email+identify"
+DSCORD_API_V6 = 'https://discord.com/api/v6/users/@me'
 
 LOGGING = {
     'version': 1,
@@ -142,12 +150,12 @@ ROOT_URLCONF = 'back_trans_proj.urls'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres_db',
-        'USER': 'postgres_user',
-        'PASSWORD': 'postgres_password',
-        'HOST': 'db',
-        'PORT': '5432',
+        'ENGINE': os.getenv('ENGINE_db'),  
+        'NAME': os.getenv('DB_NAME'),  
+        'USER': os.getenv('DB_USER'),  
+        'PASSWORD': os.getenv('DB_PASSWORD'),  
+        'HOST': os.getenv('DB_HOST'),  
+        'PORT': os.getenv('DB_PORT'),  
     }
 }
 
