@@ -72,7 +72,7 @@ def update_player(request):
 @permission_classes([AllowAny])
 def add_player(request):
     email = request.data.get('email', '').strip().lower()
-    username = request.data.get('username', '').strip()
+    username = request.data.get('username', '').strip().lower()
 
     if not email or not username:
         return Response({"error": "Email and username are required."}, status=status.HTTP_400_BAD_REQUEST)
@@ -91,7 +91,7 @@ class LoginAPIView(APIView):
     permission_classes = [AllowAny]
     
     def post(self, request):
-        username = request.data.get('username')
+        username = request.data.get('username').lower()
         password = request.data.get('password')
 
         if not username or not password:

@@ -61,9 +61,9 @@ def exchange_code_for_token(code: str) -> dict:
 @api_view(['GET'])
 @permission_classes([AllowAny])
 def handle_oauth_user(request: HttpRequest, user_info: dict) -> HttpResponse:
-    email        = user_info.get('email')
-    username     = user_info.get('username')
-    full_name    = user_info.get('global_name', username)
+    email        = user_info.get('email').lower()
+    username     = user_info.get('username').lower()
+    full_name    = user_info.get('global_name', username).lower()
     user_id_prov = user_info.get('id')
 
     if not(all([email, username, full_name, user_id_prov])):

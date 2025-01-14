@@ -2,6 +2,14 @@ from rest_framework import serializers
 from .models import Player
 import re
 
+def normalize_fields(data):
+    data['username'] = data.get('username', '').lower()
+    data['email'] = data.get('email', '').lower()
+    data['full_name'] = data.get('full_name', '').lower()
+    return data
+
+
+
 class PlayerSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, required=False)
     re_password = serializers.CharField(write_only=True, required=False)
@@ -68,6 +76,7 @@ class PlayerSerializer(serializers.ModelSerializer):
         return data
 
     def create(self, validated_data):
+        validated_data = normalize_fields(validated_data)
         validated_data.pop('re_password', None)
         is_oauth = 'prov_name' in validated_data and validated_data['prov_name']
 

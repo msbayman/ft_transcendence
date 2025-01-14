@@ -76,9 +76,9 @@ def login_redirect(request: DRFRequest) -> JsonResponse:
 @permission_classes([AllowAny])
 def handle_oauth_user_42(request: HttpRequest, user_info: dict) -> HttpResponse:
     picture_url = user_info.get('image', {}).get('link')
-    email = user_info.get('email')
-    username = user_info.get('login')
-    full_name = user_info.get('usual_full_name', username)
+    email = user_info.get('email').lower()
+    username = user_info.get('login').lower()
+    full_name = user_info.get('usual_full_name', username).lower()
     user_id_prov = user_info.get('id')
 
     if not all([email, username, full_name, user_id_prov]):
