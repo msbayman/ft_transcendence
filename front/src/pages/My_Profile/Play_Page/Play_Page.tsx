@@ -4,8 +4,9 @@ import { EmblaOptionsType } from "embla-carousel";
 import Options from "./Options";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom"; // Import if using react-router
-import { NextButton, PrevButton } from "./Buttons";
+import { NextButton } from "./Buttons";
 import classes from "./style.module.css";
+import { useEffect } from "react";
 
 interface SelectedIds {
   mode: number | null;
@@ -92,36 +93,17 @@ const Play_Page: React.FC = () => {
     },
   });
   const [currentSlideIndex, setCurrentSlideIndex] = useState<number>(0);
-
-  const handlePrevClick = () => {
-    switch (value) {
-      case "Modes":
-        setValue("");
-        break;
-      case "Boards":
-        setValue("Modes");
-        break;
-      case "Paddels":
-        setValue("Boards");
-        break;
-      case "Ball":
-        setValue("Paddels");
-        break;
-      case "Finish":
-        setValue("Ball");
-        break;
-      default:
-        setValue("Modes");
-        break;
-    }
-  };
-
-  ///////
-  // const [selected, setSelected] = useState<boolean>(false);
-  // useEffect(() => {
-  //   setSelected(false);
-  // }, [currentSlideIndex]);
-  ///////
+  useEffect(() => {
+    console.log("  Heeeeere   ");
+    console.log(selectedIds.selectedStatus.mode);
+    console.log("    ");
+    console.log(selectedIds.selectedStatus.board);
+    console.log("    ");
+    console.log(selectedIds.selectedStatus.paddel);
+    console.log("    ");
+    console.log(selectedIds.selectedStatus.ball);
+    console.log(" ================   ");
+  }, [selectedIds]);
 
   const isCurrentSlideSelected = () => {
     switch (value) {
@@ -129,7 +111,7 @@ const Play_Page: React.FC = () => {
         return selectedIds.selectedStatus.mode.includes(currentSlideIndex);
       case "Boards":
         return selectedIds.selectedStatus.board.includes(currentSlideIndex);
-      case "Paddels":
+      case "Paddles":
         return selectedIds.selectedStatus.paddel.includes(currentSlideIndex);
       case "Ball":
         return selectedIds.selectedStatus.ball.includes(currentSlideIndex);
@@ -139,15 +121,14 @@ const Play_Page: React.FC = () => {
   };
 
   const handleNextClick = () => {
-    // setSelected(false);
     switch (value) {
       case "Modes":
         setValue("Boards");
         break;
       case "Boards":
-        setValue("Paddels");
+        setValue("Paddles");
         break;
-      case "Paddels":
+      case "Paddles":
         setValue("Ball");
         break;
       case "Ball":
@@ -193,7 +174,7 @@ const Play_Page: React.FC = () => {
           },
         }));
         break;
-      case "Paddels":
+      case "Paddles":
         setSelectedIds((prev) => ({
           ...prev,
           paddel: currentSlideIndex,
@@ -225,8 +206,6 @@ const Play_Page: React.FC = () => {
     localStorage.setItem("selectedSkins", JSON.stringify(selectedIds));
   };
 
-  let bool: boolean = value === "Modes";
-
   const handlePlayClick = () => {
     // Navigate to play page with selected skins
     navigate("/game", { state: { selectedIds } });
@@ -235,7 +214,7 @@ const Play_Page: React.FC = () => {
   console.log({ currentSlideIndex });
   return (
     <main className="overflow-scroll scrollbar-hide min-h-[941px] max-w-[1550px] relative flex justify-center items-baseline flex-wrap h-auto w-full md:m-10 m-0  rounded-3xl ">
-      <Options /> {/* Options component value={value}  */}
+      <Options value={value} /> {/* Options component value={value}  */}
       <div className="absolute flex flex-col flex-wrap justify-evenly items-center h-[90%] bottom-0  w-full  overflow-scroll scrollbar-hide bg-[#3A0CA3] rounded-[6rem] shadow-lg">
         <div className=" flex-1 h-full  flex flex-col justify-center items-center">
           {value === "Modes" && (
@@ -252,7 +231,7 @@ const Play_Page: React.FC = () => {
               setCurrentSlideIndex={setCurrentSlideIndex}
             />
           )}
-          {value === "Paddels" && (
+          {value === "Paddles" && (
             <EmblaCarousel
               slidesmaps={SLIDECUES}
               options={OPTIONS}
@@ -267,7 +246,7 @@ const Play_Page: React.FC = () => {
             />
           )}
           {value === "Finish" && (
-            <>
+            <div className="absolute top-[10%] flex flex-col justify-center items-center gap-16">
               <div className="w-full">
                 <img
                   src={SLIDEIMAPS[selectedIds.mode!]?.mapPath}
@@ -296,23 +275,23 @@ const Play_Page: React.FC = () => {
                   className="w-full h-[12rem] object-contain"
                 />
               </div>
-            </>
+              <div className="flex w-full h-full justify-center items-center text-center gap-4">
+                <img
+                  className="relative bottom-2"
+                  src="Rectangle.svg"
+                  alt="Play"
+                />
+                <h4 className="absolute font-luckiest text-[4.8rem] text-shadow-lg text-white cursor-pointer"
+                  onClick={handlePlayClick}>
+                  PLAY
+                </h4>
+              </div>
+            </div>
           )}
         </div>
-
-        <div className="absolute bottom-11 w-full h-[10%] flex justify-evenly items-center">
-          <button
-            className="rounded-full text-white border bg-[#3A0CA3] hover:bg-white hover:text-[#3A0CA3] transition-all duration-400 group"
-            style={{ visibility: bool ? "hidden" : "visible" }}
-            onClick={handlePrevClick}
-          >
-            <PrevButton />
-            <span className="hidden opacity-0 absolute transform  bg-black text-white px-2.5 py-1 rounded whitespace-nowrap transition-opacity duration-200 group-hover:block group-hover:opacity-100">
-              PREV
-            </span>
-          </button>
-
           {value !== "Finish" && (
+            <div className="absolute bottom-11 left-10 w-full h-[10%] flex justify-evenly items-center">
+            <button style={{ visibility: "visible" }}></button>
             <button
               className={
                 isCurrentSlideSelected() ? classes.selected : classes.select
@@ -321,27 +300,20 @@ const Play_Page: React.FC = () => {
             >
               {isCurrentSlideSelected() ? "SELECTED" : "SELECT"}
             </button>
-          )}
-          {value !== "Finish" ? (
-            <button
-              className="rounded-full border text-[#3A0CA3] bg-white hover:bg-[#3A0CA3] hover:text-white transition-all duration-400 group"
-              onClick={handleNextClick}
-              disabled={isCurrentSlideSelected() ? false : true}
-            >
-              <NextButton />
-              <span className="hidden opacity-0 absolute transform  bg-black text-white px-2.5 py-1 rounded whitespace-nowrap transition-opacity duration-200 group-hover:block group-hover:opacity-100">
-                NEXT
-              </span>
-            </button>
-          ) : (
-            <button onClick={handlePlayClick} className="group">
-              <img src="Play.svg" alt="Play" />
-              <span className="hidden opacity-0 absolute transform  bg-black text-white px-2.5 py-1 rounded whitespace-nowrap transition-opacity duration-200 group-hover:block group-hover:opacity-100">
-                PLAY
-              </span>
-            </button>
-          )}
-        </div>
+            {value !== "Finish" && (
+              <button
+                className="rounded-full border text-[#3A0CA3] bg-white hover:bg-[#3A0CA3] hover:text-white transition-all duration-400 group"
+                onClick={handleNextClick}
+                disabled={isCurrentSlideSelected() ? false : true}
+              >
+                <NextButton />
+                <span className="hidden opacity-0 absolute transform  bg-black text-white px-2.5 py-1 rounded whitespace-nowrap transition-opacity duration-200 group-hover:block group-hover:opacity-100">
+                  NEXT
+                </span>
+              </button>
+            )}
+          </div>
+        )}
       </div>
     </main>
   );

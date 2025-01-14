@@ -1,4 +1,3 @@
-import React from 'react'
 import shape_acheive from '../Images/back_acheiv.svg'
 import best_score from '../Images/best_score.png'
 import  one_win from '../Images/win_one.png'

@@ -13,13 +13,17 @@ import Login_Page from "./pages/Login_Page/Login_Page";
 import Signup_Page from "./pages/Signup_Page/Signup_Page";
 import Valid_otp from "./pages/Valid_otp/Valid_otp";
 import Overview from "./pages/My_Profile/Overview";
-import ValidOtp from "./pages/Valid_otp/Valid_otp";
+import { PlayerProvider, usePlayer } from "./pages/My_Profile/PlayerContext";
 import Game_Local from "./pages/Game_Page/Game_Local";
 import Game_Bot from "./pages/Game_Page/Game_Bot";
+import Game_Remot from "./pages/Game_Page/Game_Remot";
+import Test from "./pages/Game_Page/Test";
+import Game_Loby from "./pages/Game_Page/Game_loby";
 
-function App() {
+function AppContent() {
   const navigate = useNavigate();
   const location = useLocation();
+  const { fetchPlayerData, clearPlayerData } = usePlayer();
 
   useEffect(() => {
     const accessToken = Cookies.get("access_token");
@@ -49,7 +53,10 @@ function App() {
       ) {
         const isValidToken = await validateAccessToken();
         if (!isValidToken) {
+          clearPlayerData();
           navigate("/login");
+        } else {
+          fetchPlayerData();
         }
       }
     };
@@ -60,26 +67,38 @@ function App() {
       location.pathname !== "/signup" &&
       location.pathname !== "/Valid_otp"
     ) {
+      clearPlayerData();
       navigate("/login");
     } else {
       checkToken();
     }
-  }, [location.pathname, navigate]);
+  }, [location.pathname, navigate, fetchPlayerData, clearPlayerData]);
 
   return (
     <Fragment>
-      <main className="scrollbar-hide">
+      <main>
         <Routes>
           <Route path="/" element={<Landing_Page />} />
           <Route path="login" element={<Login_Page />} />
           <Route path="signup" element={<Signup_Page />} />
           <Route path="/*" element={<Overview />} />
+          <Route path="Valid_otp" element={<Valid_otp />} />
           <Route path="/local_game" element={<Game_Local />} />
           <Route path="/local_bot" element={<Game_Bot />} />
-          <Route path="Valid_otp" element={<Valid_otp />} />
+          <Route path="/remote_game" element={<Game_Remot />} />
+          <Route path="/test" element={<Test />} />
+          {/* <Route path="/game_loby" element={<Game_Loby />} /> */}
         </Routes>
       </main>
     </Fragment>
+  );
+}
+
+function App() {
+  return (
+    <PlayerProvider>
+      <AppContent />
+    </PlayerProvider>
   );
 }
 

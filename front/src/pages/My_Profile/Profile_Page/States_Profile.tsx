@@ -1,4 +1,4 @@
-import * as React from "react";
+// import * as React from "react";
 import "./States_Profile.css";
 import { BarChart } from "@mui/x-charts/BarChart";
 
@@ -36,7 +36,7 @@ export const States_Profile = () => {
             ]}
             series={[
               {
-                data: [4, 3, 5, 1, 5],
+                data: [4, 3, 5, 0, 5],
                 color: "#04D100",
               },
               {
@@ -48,13 +48,16 @@ export const States_Profile = () => {
             width={500}
             height={300}
             sx={{
-              stroke:'white', // General text color
-              '& .MuiChartsAxis-line': { // Axis line color
+              stroke:'white',
+              '& .MuiChartsAxis-line': {
                 stroke: 'white',
               },
-              '& .MuiChartsAxis-label': { // Axis label text color (for both x and y axes)
+              '& .MuiChartsAxis-label': {
                 color: 'white',
               },
+              '& .MuiChartsAxis-tick' : {
+                stroke: 'white',
+              }
             }}
           />
         </div>

@@ -1,0 +1,119 @@
+.part11 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    color: aliceblue;
+    padding-top: 30px;
+    gap: 30px;
+}
+
+.Score_style {
+    font-size: xxx-large;
+    text-shadow: 0 3px 5px black;
+}
+
+.Score_style_value {
+    font-size: 40px;
+    font-weight: lighter;
+    margin-top: -20px;
+}
+
+.font-text, .lvl_value {
+    font-family: "Alexandria", sans-serif;
+}
+
+.Photo_dProfile {
+    width: 200px;
+    height: 200px;
+    border-radius: 100%;
+    box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.43);
+}
+
+.Name_of_Profile {
+    font-size: 30px;
+    text-shadow: 0 3px 5px black;
+}
+
+.The_level{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 70%;
+}
+
+.level_Profile {
+    position: relative;
+    width: 100%;
+    height: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: whitesmoke;
+    border-radius: 10px;
+}
+
+.Progress_bar_lvl {
+    height: 12px;
+    width: 93%;
+    margin-left: 5px;
+    color: green;
+    background-color: white;
+    border-radius: 30px;
+}
+
+.lvl_progress {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.Etoile_lvl{
+    position: absolute;
+    height: 50px;
+}
+
+.lvl_value {
+    position: absolute;
+    font-weight: 500;
+    margin-top: 10px;
+    font-size:27px;
+    display: flex;
+    font-family: "Luckiest Guy", cursive;
+    color: black;
+}
+
+.Exp_Level {
+    align-self: self-start;
+    text-shadow: 0 3px 5px black;
+    margin-left: 20px;
+    margin-top: 8px;
+    font-size: 20px;
+    font-family: "Luckiest Guy", cursive;
+}
+
+.part22 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+    padding-bottom: 30px;
+    width: 100%;
+    color: aliceblue;
+}
+.title_static {
+    font-family: "Alexandria", sans-serif;
+    font-size: xx-large;
+    text-shadow: 0 3px 5px black;
+}
+
+.Static_Text {
+    font-family: "Luckiest Guy", cursive;
+    font-size: xx-large;
+    text-shadow: 0 3px 5px black;
+
+}
+
+.Color_Yellow {
+    color: #FFC24F;
+}
