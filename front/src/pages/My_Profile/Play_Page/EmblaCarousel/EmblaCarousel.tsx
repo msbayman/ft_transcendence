@@ -108,7 +108,7 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
         <div className="embla__container">
           {slidesmaps.map((slide) => (
             <div className="embla__slide" key={slide.id}>
-              <img src={slide.mapPath} alt="here" aonError={() => console.error(`Image not found: ${slide.mapPath}`)} />
+              <img src={slide.mapPath} alt="here" onError={() => console.error(`Image not found: ${slide.mapPath}`)} />
               <div className="embla__slide__number"/>
             </div>
           ))}
