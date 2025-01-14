@@ -23,67 +23,66 @@ interface OnlineFriends {
 interface SelectedUser {
   onClick: (newUser: string) => void;
 }
-
+const token = Cookies.get("access_token");
 const FriendsList: React.FC<SelectedUser> = ({ onClick }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [friends, setFriends] = useState<Friend[]>([]);
   const [onlineFriends, setOnlineFriends] = useState<OnlineFriends[]>([]);
   const { messages } = useWebSocket();
 
-  const fetchUsersAndMessages = async () => {
+  const fetchLastMessages = async () => {
     try {
-      const token = Cookies.get("access_token");
-
-      // Fetch last messages
-      const response1 = await axios.get("http://127.0.0.1:8000/chat/last-message/", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
+      const response = await axios.get("http://127.0.0.1:8000/chat/last-message/", {
+        headers: { Authorization: `Bearer ${token}` },
       });
-
-      const lastMessages = response1.data;
-      const updatedFriends: Friend[] = lastMessages.map((user: any, index: number) => ({
-        id: index.toString(),
-        name: user.user2,
-        avatar: user.avatar || gojo,
-        online: index < 4,
-        content: user.last_message.content,
-        timestamp: user.timestamp,
-      }));
-
-      setFriends(updatedFriends);
-
-      // Fetch online users
-      const response2 = await axios.get("http://127.0.0.1:8000/chat/api/users/", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      });
-
-      const onlineUsersList = response2.data;
-      const updatedOnlineFriends: OnlineFriends[] = onlineUsersList.map((user: any, index: number) => ({
-        id: index.toString(),
-        name: user.username,
-        avatar: user.avatar || gojo,
-        online: index < 4,
-      }));
-
-      setOnlineFriends(updatedOnlineFriends);
+      const lastMessages = response.data;
+      setFriends(
+        lastMessages.map((user: any, index: number) => ({
+          id: index.toString(),
+          name: user.user2,
+          avatar: user.avatar || gojo,
+          online: index < 4,
+          content: user.last_message.content,
+          timestamp: user.timestamp,
+        }))
+      );
     } catch (error) {
-      console.error("Error fetching data:", error);
+      console.error("Error fetching last messages:", error);
     }
   };
-
-  // Initial fetch
+  
+  const fetchOnlineFriends = async () => {
+    try {
+      const response = await axios.get("http://127.0.0.1:8000/chat/api/users/", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const onlineUsersList = response.data;
+      setOnlineFriends(
+        onlineUsersList.map((user: any, index: number) => ({
+          id: index.toString(),
+          name: user.username,
+          avatar: user.avatar || gojo,
+          online: index < 4,
+        }))
+      );
+    } catch (error) {
+      console.error("Error fetching online friends:", error);
+    }
+  };
+  
   useEffect(() => {
-    fetchUsersAndMessages();
+    const token = Cookies.get("access_token");
+    if (token) {
+      fetchLastMessages();
+      fetchOnlineFriends();
+    }
   }, []);
+  
 
   // Update when new messages arrive
   useEffect(() => {
     if (messages.length > 0) {
+      // const tokens = Cookies.get("access_token");
       // const lastMessage = messages[messages.length - 1];
       
       // Immediately update the specific friend's last message
@@ -102,7 +101,7 @@ const FriendsList: React.FC<SelectedUser> = ({ onClick }) => {
 
       // Refresh the entire list after a short delay
       // const timeoutId = setTimeout(() => {
-        fetchUsersAndMessages();
+        fetchLastMessages();
       // }, 1000);
 
       // return () => clearTimeout(timeoutId);
