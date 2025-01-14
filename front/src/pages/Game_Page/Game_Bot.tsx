@@ -8,8 +8,8 @@ import logo from "../../assets/logo_game.svg";
 
 function Game_Bot() {
   const [paddleLeftPosition, setPaddleLeftPosition] = useState(135);
-  const [paddleRightPosition, setPaddleRightPosition] = useState(135); 
-  const [ballPosition, setBallPosition] = useState({ top: 240, left: 175 });
+  const [paddleRightPosition, setPaddleRightPosition] = useState(135);
+  const [ballPosition, setBallPosition] = useState({ top: 240, left: 175 });  
   const [Ballscore, setBallscore] = useState({ l: 0, r: 0 });
   const [ballDirection, setBallDirection] = useState({ x: 3, y: 3 });
   const [isPaused, setIsPaused] = useState(false);
@@ -113,26 +113,30 @@ const resetBall = () => {
 		  <div className="relative flex justify-center top-[90px]">
 			{/* Table Images */}
 			<img src={table_game} alt="" className="absolute" />
-			<img src={table_b} alt="" className="absolute mx-auto top-[120px]" />
+			<img src={table_b} alt="" className={isPaused ? "absolute mx-auto top-[120px] blur-sm" : "absolute mx-auto top-[120px]"} />
 	  
 			{/* Game Elements */}
 			<div className="absolute">
 			  <div className="relative w-[510px] h-[740px] mx-auto top-[120px]">
+        {/* pause */}
+        <div className={isPaused ? "relative top-[340px] left-[155px] text-white font-luckiest text-6xl" : "hidden"}>
+					PAUSED
+				</div>
 				{/* Left Paddle */}
 				<div
-				  className="absolute w-[140px] h-[10px] bg-[#0026EB] top-[20px] transition-left duration-100 rounded-lg ease-linear"
+				  className={isPaused ? "absolute w-[140px] h-[10px] bg-[#0026EB] top-[20px] transition-left duration-100 rounded-lg ease-linear blur-sm" : "absolute w-[140px] h-[10px] bg-[#0026EB] top-[20px] transition-left duration-100 rounded-lg ease-linear"}
 				  style={{ left: ballPosition.left }}
 				></div>
 	  
 				{/* Right Paddle */}
 				<div
-				  className="absolute w-[140px] h-[10px] bg-[#FFE500] transition-left bottom-[20px] duration-100 rounded-lg ease-linear"
+				  className={isPaused ? "absolute w-[140px] h-[10px] bg-[#FFE500] transition-left bottom-[20px] duration-100 rounded-lg ease-linear blur-sm": "absolute w-[140px] h-[10px] bg-[#FFE500] transition-left bottom-[20px] duration-100 rounded-lg ease-linear"}
 				  style={{ left: paddleRightPosition }}
 				></div>
 	  
 				{/* Ball */}
 				<div
-				  className="absolute w-[15px] h-[15px] bg-red-600 rounded-[50%]"
+				  className={isPaused ? "absolute w-[15px] h-[15px] bg-red-600 rounded-[50%] blur-sm" : "absolute w-[15px] h-[15px] bg-red-600 rounded-[50%]" }
 				  style={{
 					top: ballPosition.top,
 					left: ballPosition.left,
@@ -155,15 +159,17 @@ const resetBall = () => {
 			  className="mt-4 cursor-pointer w-[50px] h-[50px]"
 			/>
 			</div>
-          <div className="absolute flex justify-between">
-            <div>
-                <img src={name} alt="name holder" className="transform scale-x-[-1]"/>
+        <div className="absolute flex justify-between items-center top-[30px]">
+            <div className="relative bg-[url('/public/name_hold_game.svg')] h-[70px] w-[250px] bg-cover bg-center transform scale-x-[-1] flex justify-center items-center">
+                <p className="absolute text-white text-4xl transform scale-x-[-1] font-luckiest right-[70px] ">YOU</p>
+                <p className="absolute text-black text-2xl transform scale-x-[-1] font-luckiest left-[9px] bottom-[10px] ">NoN</p>
             </div>
             <div className="flex justify-items-center">
                 <img src={logo} alt="logo"/>
-            </div>
-            <div>
-                <img src={name} alt="name holder"/>
+            </div>  
+            <div className="relative bg-[url('/public/name_hold_game.svg')] h-[70px] w-[250px] bg-cover bg-center flex justify-center items-center">
+        		<p className="absolute text-white text-4xl font-luckiest right-[70px] ">BOT</p>
+            	<p className="absolute text-black text-2xl font-luckiest left-[9px] bottom-[10px] ">NoN</p>
             </div>
           </div>
 		  </div>

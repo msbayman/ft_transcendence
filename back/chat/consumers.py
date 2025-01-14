@@ -11,22 +11,40 @@ class ChatConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         self.user = self.scope['user']
         if not self.user.is_authenticated:
+            await self.close()
             return
-            
+        
+        # Initialize user object
+        self.user_obj = await self.get_user_obj(self.user.username)
         self.user1_id = self.user.id
         self.user1_room = f'chat_{self.user1_id}'
         await self.channel_layer.group_add(self.user1_room, self.channel_name)
         await self.accept()
 
     @database_sync_to_async
+    def get_user_obj(self, username):
+        return User.objects.get(username=username)
+    
+    @database_sync_to_async
     def get_user_id_by_username(self, username):
         try:
             return User.objects.get(username=username).id
         except User.DoesNotExist:
             return None
-
+    
+    @database_sync_to_async
+    def check_friendship(self, username_to_check):
+        try:
+            return self.user_obj.list_users_friends.filter(username=username_to_check).exists()
+        except Exception:
+            return False
+        
     @database_sync_to_async
     def get_or_create_conversation(self, user2_id):
+        # Check friendship before creating conversation
+        if not self.user_obj.list_users_friends.filter(id=user2_id).exists():
+            raise ValueError("Users must be friends to create a conversation")
+            
         conversation = Conversation.objects.filter(
             (Q(user1_id=self.user1_id) & Q(user2_id=user2_id)) |
             (Q(user1_id=user2_id) & Q(user2_id=self.user1_id))
@@ -45,9 +63,19 @@ class ChatConsumer(AsyncWebsocketConsumer):
             message = data['message']
             user2_username = data['username']
             
+            # Check if message is empty
             if not message.strip():
                 return
+            
+            # Check if users are friends
+            is_friend = await self.check_friendship(user2_username)
+            if not is_friend:
+                await self.send(text_data=json.dumps({
+                    'error': 'You can only send messages to friends'
+                }))
+                return
                 
+            # Get receiver ID
             self.receiver_id = await self.get_user_id_by_username(user2_username)
             if not self.receiver_id:
                 await self.send(text_data=json.dumps({
@@ -55,9 +83,16 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 }))
                 return
             
-            self.conversation = await self.get_or_create_conversation(self.receiver_id)
+            # Get or create conversation
+            try:
+                self.conversation = await self.get_or_create_conversation(self.receiver_id)
+            except ValueError as e:
+                await self.send(text_data=json.dumps({
+                    'error': str(e)
+                }))
+                return
+                
             user2_room = f'chat_{self.receiver_id}'
-            
             saved_message = await self.save_message(message)
             
             # Send message to both user groups

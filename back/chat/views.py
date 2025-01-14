@@ -42,9 +42,15 @@ def chat_view(request, username):
 # @api_view(['GET'])
 class user_list_view(APIView):
     authentication_classes = [JWTAuthentication]
+    
     def get(self, request):
-        players = Player.objects.all().exclude(username=request.user.username)  # Fetch all users from the Player model
-        serializer = PlayerSerializer(players, many=True)
+        player = Player.objects.get(username=request.user.username)  # Get the logged-in player
+        
+        # Access the list_users_friends field on the player instance
+        friends = player.list_users_friends.all()
+
+        # Serialize the friends list
+        serializer = PlayerSerializer(friends, many=True)  # Serialize all friends
         return Response(serializer.data, status=200)
 
 logger = logging.getLogger(__name__)

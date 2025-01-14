@@ -63,7 +63,7 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
             .map((msg: APIResponse) => ({
               id: msg.id,
               text: msg.content,
-              sent: msg.sender === value,
+              sent: msg.sender !== username,
               avatar: gojo,
               timestamp: msg.timestamp,
               sender: msg.sender,
@@ -90,10 +90,13 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
         messages.forEach(wsMessage => {
           if (wsMessage.sender === value || wsMessage.receiver === value) {
             const existingMessageIndex = newMessages.findIndex(msg => msg.id === wsMessage.id);
+  
+            // Add only if the message doesn't already exist
             if (existingMessageIndex === -1) {
               newMessages.push({
                 ...wsMessage,
-                avatar: gojo
+                avatar: gojo,
+                sent: wsMessage.sender !== username,  // Determine if the message was sent by the current user
               });
             }
           }
@@ -101,7 +104,8 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
         return newMessages.sort((a, b) => a.id - b.id);
       });
     }
-  }, [messages, value]);
+  }, [messages, value, username]);
+  
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });

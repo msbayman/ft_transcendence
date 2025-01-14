@@ -1,4 +1,3 @@
-import React from "react";
 import "./Overview_page.css"
 import State_of_Profile from "./State_of_Profile";
 import Top_of_Achievement from "./Top_of_Achievement";
@@ -6,10 +5,13 @@ import The_Leaderboard from "./Leaderboard"
 import Online_Friends_Overview from "./Online_Friends_Overview";
 import Button_Play from "../Images/Button_Play.svg"
 import { useNavigate } from "react-router-dom";
+import { usePlayer } from "../PlayerContext";
 
 export const Overview_Page: React.FC = () => {
 
   const navigate = useNavigate();
+  const dataPlayer = usePlayer();
+
 
   const Onclick = () => {
     navigate("/Play");
@@ -20,7 +22,7 @@ export const Overview_Page: React.FC = () => {
         <div className="part_welcome">
           <div className="Welcome_Back">Welcome Back !</div>
         </div>
-        <div className="Background_Profile">
+        <div style={{ backgroundImage: `url(${dataPlayer.playerData?.cover_image})`}} className="Background_Profile" >
           <div className="States_Profile">
             <State_of_Profile />
           </div>

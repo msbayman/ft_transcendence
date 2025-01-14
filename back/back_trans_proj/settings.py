@@ -37,7 +37,6 @@ DEBUG = True
 ALLOWED_HOSTS = ['*']
 
 
-
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -72,6 +71,7 @@ INSTALLED_APPS = [
     'game',
     'channels',
     'chat',
+    'listfriends'
 ]
 
 CORS_ALLOWED_ORIGINS = [

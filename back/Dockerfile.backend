@@ -1,5 +1,8 @@
 FROM python:3.9
 
+ENV DJANGO_SETTINGS_MODULE=back_trans_proj.settings
+
+
 # Set the working directory inside the container
 WORKDIR /app
 
@@ -15,11 +18,13 @@ COPY requirements.txt /app/requirements.txt
 COPY . /app
 
 # Create a virtual environment
-RUN python3 -m venv /app/venv  # Create a virtual environment in the /app/venv directory
+# RUN python3 -m venv /app/venv  # Create a virtual environment in the /app/venv directory
 
 # Install Python dependencies in the virtual environment
-RUN /app/venv/bin/pip install --upgrade pip
-RUN /app/venv/bin/pip install -r /app/requirements.txt
+#RUN /app/venv/bin/pip install --upgrade pip
+#RUN /app/venv/bin/pip install -r /app/requirements.txt
+RUN pip install --upgrade pip
+RUN pip install -r /app/requirements.txt
 
 # Install wait-for-it script to ensure the database is ready before Django starts
 RUN curl -sSL https://github.com/vishnubob/wait-for-it/releases/download/v2.5.0/wait-for-it.sh -o /usr/local/bin/wait-for-it && \
