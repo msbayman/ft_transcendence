@@ -82,15 +82,15 @@ const Settings_Page = () => {
 
       <div className="options">
         <div className={`abs${action}`} />
-        <div className="prfl">
-          <a href="#" onClick={() => handleTabs(true)}>
+        <div className="prfl cursor-pointer">
+          <h4  onClick={() => handleTabs(true)}>
             Profile
-          </a>
+          </h4>
         </div>
-        <div className="sec">
-          <a href="#" onClick={() => handleTabs(false)}>
+        <div className="sec cursor-pointer">
+          <h4  onClick={() => handleTabs(false)}>
             Security
-          </a>
+          </h4>
         </div>
       </div>
 
