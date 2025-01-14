@@ -10,16 +10,15 @@ from rest_framework.permissions import IsAuthenticated
 from .serializers import PlayerSerializer
 from .otp_view import generate_otp , send_otp_via_email
 from django.utils import timezone
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
 # Logger setup
 logger = logging.getLogger(__name__)
 
 @api_view(['GET'])
-def index(request):
-    return Response("Hello, world")
 
-@api_view(['GET'])
 @permission_classes([IsAuthenticated])
+
 def display_users(request):
     players = Player.objects.all()
     serializer = PlayerSerializer(players, many=True)
@@ -62,15 +61,24 @@ def update_player(request):
 
 @api_view(['POST'])
 def add_player(request):
+    email = request.data.get('email', '').strip().lower()  # Normalize email
+    username = request.data.get('username', '').strip()  # Normalize username
+
+    if not email or not username:
+        return Response({"error": "Email and username are required."}, status=status.HTTP_400_BAD_REQUEST)
+
+    # Check if the email or username is already in use
+    if Player.objects.filter(email__iexact=email).exists() or Player.objects.filter(username__iexact=username).exists():
+        return Response({"error": "That email or username is already used."}, status=status.HTTP_409_CONFLICT)
+
+    # Validate and save the player
     serializer = PlayerSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+    # Return validation errors
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-
-
 
 
 class LoginAPIView(APIView):
@@ -85,6 +93,11 @@ class LoginAPIView(APIView):
 
         if user is not None:
             player = Player.objects.get(username=username)
+            player.is_online = True
+            player.save()
+            if not player.prov_name:
+                player.prov_name = 'simple'
+                player.save()
             
             if not player.active_2fa:
                 # If 2FA is disabled, proceed to login and generate tokens
@@ -140,6 +153,7 @@ class VerifyOTP(APIView):
 
             # Clear the OTP after successful verification
             player.otp_code = 0
+            player.is_online = True
             player.save()
 
             return Response({
@@ -154,13 +168,49 @@ class VerifyOTP(APIView):
 
 class UserDetailView(APIView):
     permission_classes = [IsAuthenticated]
-
     def get(self, request):
-        user = request.user
-        data = {
-            'id': user.id,
-            'username': user.username,
-            'email': user.email,
-            'full_name': user.full_name,
-        }
-        return Response(data)
+        users = request.user
+        users.is_online = True
+        users.save();
+        serializer = PlayerSerializer(users , context = {"request": request})
+        return Response( serializer.data )
+
+
+@api_view(['GET'])
+def list_users(request):
+    players = Player.objects.all()
+    serializer = PlayerSerializer(players, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def leaderboard(request):
+    players = Player.objects.all().exclude(username='admin').order_by('-points')
+    serializer = PlayerSerializer(players, many=True)
+    return Response(serializer.data)
+
+# @api_view(['GET'])
+class is_online(APIView):
+    authentication_classes = [JWTAuthentication]
+    def get(self, request):
+        players = Player.objects.all().filter(is_online=True)
+        serializer = PlayerSerializer(players, many=True)
+        return Response(serializer.data)
+
+
+class LogoutAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        try:
+            user = request.user
+            player = Player.objects.get(username=user.username)  # Get the Player instance
+            player.is_online = False  # Set is_online to False
+            player.save()  # Save the changes
+
+
+            return Response({"detail": "Successfully logged out."}, status=status.HTTP_200_OK)
+        except Player.DoesNotExist:
+            return Response({"detail": "User not found."}, status=status.HTTP_404_NOT_FOUND)
+        except Exception as e:
+            logger.error(f"Error during logout: {e}")
+            return Response({"detail": "An error occurred during logout."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
