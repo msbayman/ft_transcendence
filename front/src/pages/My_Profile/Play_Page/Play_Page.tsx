@@ -6,7 +6,6 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom"; // Import if using react-router
 import { NextButton } from "./Buttons";
 import classes from "./style.module.css";
-import { useEffect } from "react";
 
 interface SelectedIds {
   mode: number | null;
@@ -93,17 +92,21 @@ const Play_Page: React.FC = () => {
     },
   });
   const [currentSlideIndex, setCurrentSlideIndex] = useState<number>(0);
-  useEffect(() => {
-    console.log("  Heeeeere   ");
-    console.log(selectedIds.selectedStatus.mode);
-    console.log("    ");
-    console.log(selectedIds.selectedStatus.board);
-    console.log("    ");
-    console.log(selectedIds.selectedStatus.paddel);
-    console.log("    ");
-    console.log(selectedIds.selectedStatus.ball);
-    console.log(" ================   ");
-  }, [selectedIds]);
+
+  const isPreviousSlideSelected = () => {
+    switch (value) {
+      case "Modes":
+        return selectedIds.selectedStatus.mode.includes(currentSlideIndex - 1);
+      case "Boards":
+        return selectedIds.selectedStatus.board.includes(currentSlideIndex - 1);
+      case "Paddles":
+        return selectedIds.selectedStatus.paddel.includes(currentSlideIndex - 1);
+      case "Ball":
+        return selectedIds.selectedStatus.ball.includes(currentSlideIndex - 1);
+      default:
+        return false;
+    }
+  }
 
   const isCurrentSlideSelected = () => {
     switch (value) {
@@ -152,11 +155,7 @@ const Play_Page: React.FC = () => {
           mode: currentSlideIndex,
           selectedStatus: {
             ...prev.selectedStatus,
-            mode: isCurrentSlideSelected()
-              ? prev.selectedStatus.mode.filter(
-                  (id) => id !== currentSlideIndex
-                )
-              : [...prev.selectedStatus.mode, currentSlideIndex],
+            mode: [currentSlideIndex], // Only keep the currentSlideIndex
           },
         }));
         break;
@@ -166,11 +165,7 @@ const Play_Page: React.FC = () => {
           board: currentSlideIndex,
           selectedStatus: {
             ...prev.selectedStatus,
-            board: isCurrentSlideSelected()
-              ? prev.selectedStatus.board.filter(
-                  (id) => id !== currentSlideIndex
-                )
-              : [...prev.selectedStatus.board, currentSlideIndex],
+            board: [currentSlideIndex], // Only keep the currentSlideIndex
           },
         }));
         break;
@@ -180,11 +175,7 @@ const Play_Page: React.FC = () => {
           paddel: currentSlideIndex,
           selectedStatus: {
             ...prev.selectedStatus,
-            paddel: isCurrentSlideSelected()
-              ? prev.selectedStatus.paddel.filter(
-                  (id) => id !== currentSlideIndex
-                )
-              : [...prev.selectedStatus.paddel, currentSlideIndex],
+            paddel: [currentSlideIndex], // Only keep the currentSlideIndex
           },
         }));
         break;
@@ -194,26 +185,26 @@ const Play_Page: React.FC = () => {
           ball: currentSlideIndex,
           selectedStatus: {
             ...prev.selectedStatus,
-            ball: isCurrentSlideSelected()
-              ? prev.selectedStatus.ball.filter(
-                  (id) => id !== currentSlideIndex
-                )
-              : [...prev.selectedStatus.ball, currentSlideIndex],
+            ball: [currentSlideIndex], // Only keep the currentSlideIndex
           },
         }));
         break;
+      default:
+        break;
     }
+    // Update localStorage with the new state
     localStorage.setItem("selectedSkins", JSON.stringify(selectedIds));
   };
+  
 
   const handlePlayClick = () => {
     // Navigate to play page with selected skins
     navigate("/game", { state: { selectedIds } });
   };
 
-  console.log({ currentSlideIndex });
   return (
-    <main className="overflow-scroll scrollbar-hide min-h-[941px] max-w-[1550px] relative flex justify-center items-baseline flex-wrap h-auto w-full md:m-10 m-0  rounded-3xl ">
+    <main className="w-full h-full flex justify-center items-center">
+    <div className="overflow-scroll scrollbar-hide max-w-[1660px] relative flex flex-grow justify-center items-center h-full md:m-10 m-0  rounded-3xl ">
       <Options value={value} /> {/* Options component value={value}  */}
       <div className="absolute flex flex-col flex-wrap justify-evenly items-center h-[90%] bottom-0  w-full  overflow-scroll scrollbar-hide bg-[#3A0CA3] rounded-[6rem] shadow-lg">
         <div className=" flex-1 h-full  flex flex-col justify-center items-center">
@@ -281,16 +272,18 @@ const Play_Page: React.FC = () => {
                   src="Rectangle.svg"
                   alt="Play"
                 />
-                <h4 className="absolute font-luckiest text-[4.8rem] text-shadow-lg text-white cursor-pointer"
-                  onClick={handlePlayClick}>
+                <h4
+                  className="absolute font-luckiest text-[4.8rem] text-shadow-lg text-white cursor-pointer"
+                  onClick={handlePlayClick}
+                >
                   PLAY
                 </h4>
               </div>
             </div>
           )}
         </div>
-          {value !== "Finish" && (
-            <div className="absolute bottom-11 left-10 w-full h-[10%] flex justify-evenly items-center">
+        {value !== "Finish" && (
+          <div className="absolute bottom-11 left-10 w-full h-[10%] flex justify-evenly items-center">
             <button style={{ visibility: "visible" }}></button>
             <button
               className={
@@ -304,7 +297,7 @@ const Play_Page: React.FC = () => {
               <button
                 className="rounded-full border text-[#3A0CA3] bg-white hover:bg-[#3A0CA3] hover:text-white transition-all duration-400 group"
                 onClick={handleNextClick}
-                disabled={isCurrentSlideSelected() ? false : true}
+                disabled={(isCurrentSlideSelected() || isPreviousSlideSelected()) ? false : true}
               >
                 <NextButton />
                 <span className="hidden opacity-0 absolute transform  bg-black text-white px-2.5 py-1 rounded whitespace-nowrap transition-opacity duration-200 group-hover:block group-hover:opacity-100">
@@ -315,6 +308,7 @@ const Play_Page: React.FC = () => {
           </div>
         )}
       </div>
+    </div>
     </main>
   );
 };

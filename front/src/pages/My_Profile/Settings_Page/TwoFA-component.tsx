@@ -55,34 +55,6 @@ function TwoFA_Component() {
 			Your account, even if your password is compromised</p>
 		<div className='check-TFA'>
 			<input type="checkbox" id="twoFAChoice1" name="" value="email" onClick={handleClick}/>
-			{/* {
-			showModal && (
-				<div className="modal">
-				<div className="modal-content">
-					<h3>Enter OTP</h3>
-					<div className="otp-inputs">
-					{otp.map((digit, index) => (
-						<input
-						key={index}
-						id={`otp-${index}`}
-						type="text"
-						maxLength={1}
-						value={digit}
-						onChange={(e) => handleOtpChange(index, e.target.value)}
-						/>
-					))}
-					</div>
-					<p>
-					Don't get OTP? <span className="resend" onClick={handleResend}>Resend Code</span>
-					</p>
-					<div className="modal-buttons">
-					<button onClick={() => setShowModal(false)}>Cancel</button>
-					<button onClick={handleVerify}>Verify</button>
-					</div>
-				</div>
-				</div>
-			)
-	  	} */}
 			<label>Activate Two-factor authentication (2FA)</label>
 		</div>
 	</div>

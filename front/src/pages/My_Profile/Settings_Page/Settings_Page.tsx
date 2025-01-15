@@ -5,17 +5,16 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 
+
 const Settings_Page = () => {
   const [action, setAction] = useState("");
   const [tab, setTab] = useState<boolean>(true);
 
   interface player_data {
-    full_name: string;
     username: string;
     email: string;
   }
   const [player_data, setPlayerData] = useState<player_data>({
-    full_name: "",
     username: "",
     email: "",
   });
@@ -47,6 +46,7 @@ const Settings_Page = () => {
   };
 
   // Fetch player data
+
   useEffect(() => {
     const fetchPlayerData = async () => {
       try {
@@ -63,6 +63,7 @@ const Settings_Page = () => {
         );
 
         setPlayerData(response.data);
+        console.log("---------->  Player data fetched:      ", response.data);
       } catch (error) {
         console.error("Failed to fetch player data:", error);
       }
@@ -75,44 +76,43 @@ const Settings_Page = () => {
   // TODO: Implement the following:
   // 1. Handle save
   // 2. Handle update player data
+  
 
   return (
-    <div className="wrapper">
-      <h1 className="w-[90%]">Settings</h1>
+    <div className="w-full h-full flex justify-center items-center">
+      <div className="wrapper">
+        <h1 className="w-[90%]">Settings</h1>
 
-      <div className="options">
-        <div className={`abs${action}`} />
-        <div className="prfl cursor-pointer">
-          <h4  onClick={() => handleTabs(true)}>
-            Profile
-          </h4>
+        <div className="options">
+          <div className={`abs${action}`} />
+          <div className="prfl cursor-pointer">
+            <h4 onClick={() => handleTabs(true)}>Profile</h4>
+          </div>
+          <div className="sec cursor-pointer">
+            <h4 onClick={() => handleTabs(false)}>Security</h4>
+          </div>
         </div>
-        <div className="sec cursor-pointer">
-          <h4  onClick={() => handleTabs(false)}>
-            Security
-          </h4>
+
+        <div className="content overflow-scroll scrollbar-hide">
+          {tab ? (
+            <Profile_side
+              player={player_data}
+              setPlayerData={(updatedData) =>
+                setPlayerData((prev) => ({ ...prev, ...updatedData }))
+              }
+            />
+          ) : (
+            <Security_box />
+          )}
         </div>
-      </div>
 
-      <div className="content overflow-scroll scrollbar-hide">
-        {tab ? (
-          <Profile_side
-            player={player_data}
-            setPlayerData={(updatedData) =>
-              setPlayerData((prev) => ({ ...prev, ...updatedData }))
-            }
-          />
-        ) : (
-          <Security_box />
-        )}
-      </div>
-
-      <div className="save-cancel">
-        <div className="child-btn">
-          <button className="btn cancel">Cancel</button>
-          <button className="btn save" onClick={handleSave}>
-            Save
-          </button>
+        <div className="save-cancel">
+          <div className="child-btn">
+            <button className="btn cancel">Cancel</button>
+            <button className="btn save" onClick={handleSave}>
+              Save
+            </button>
+          </div>
         </div>
       </div>
     </div>

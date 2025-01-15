@@ -51,11 +51,11 @@
 .left_side {
   overflow-y: auto;
   height: 100vh;
-  width: auto;
+  /* width: auto; */
   display: flex;
   /* justify-content: center; */
   flex-grow: 1;
-  /* max-width: calc(100% - 100px); */
+  max-width: calc(100% - 100px);
   padding: 15px;
   box-sizing: border-box;
 }

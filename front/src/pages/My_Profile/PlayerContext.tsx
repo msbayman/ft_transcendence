@@ -13,6 +13,7 @@ interface PlayerData {
   win_games: number;
   lose_games: number;
   level: number;
+  prov_name: string;
 }
 
 interface PlayerContextType {
