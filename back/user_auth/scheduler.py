@@ -1,32 +1,11 @@
 from apscheduler.schedulers.background import BackgroundScheduler
-from django_apscheduler.jobstores import DjangoJobStore
-from django.utils import timezone
-from django.conf import settings
-from user_auth.models import Player
-import logging
+from django.utils.timezone import now
+from your_app.models import User
 
-logger = logging.getLogger(__name__)
+def delete_invalid_users():
+    User.objects.filter(is_validate=False).delete()
 
-def cleanup_unvalidated_users():
-    try:
-        unvalidated_users = Player.objects.filter(is_validate=False)
-        count = unvalidated_users.count()
-        deletion_result = unvalidated_users.delete()
-        logger.info(f'Successfully deleted {count} unvalidated users at {timezone.now()}')
-    except Exception as e:
-        logger.error(f'Error deleting unvalidated users: {str(e)}')
-
-def start():
+def start_scheduler():
     scheduler = BackgroundScheduler()
-    scheduler.add_jobstore(DjangoJobStore(), "default")
-    
-    # Run job every 2 minutes
-    scheduler.add_job(
-        cleanup_unvalidated_users,
-        'interval',
-        minutes=2,
-        name='cleanup_unvalidated_users',
-        jobstore='default'
-    )
-    
+    scheduler.add_job(delete_invalid_users, 'interval', minutes=20)
     scheduler.start()
