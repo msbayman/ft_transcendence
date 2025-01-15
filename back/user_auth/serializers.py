@@ -19,7 +19,7 @@ class PlayerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Player
         fields = [
-            'username', 'full_name', 'email', 'password', 
+            'username', 'full_name', 'email', 'password',  'is_validate' ,
             're_password', 'id_prov', 'prov_name', 'provider_identifier',
             'profile_image', 'cover_image', 'points',
         ]

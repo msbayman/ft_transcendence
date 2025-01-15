@@ -72,13 +72,13 @@ LOGGING = {
     },
 }
 
+
 OAUTH_DISCORD_CLIENT_ID = "1272193976983752706"
 OAUTH_DISCORD_CLIENT_SECRET = "gDEzOmoJ_gNmEBP4IPAfN9v_S3oQn_tK"
 OAUTH_DISCORD_REDIRECT_URI = 'http://127.0.0.1:8000/discord/login_redirect'
 OAUTH_DISCORD_TOKEN_URL = 'https://discord.com/api/oauth2/token'
 DISCORD_OAUTH_URL = "https://discord.com/oauth2/authorize?client_id=1272193976983752706&response_type=code&redirect_uri=http%3A%2F%2F127.0.0.1%3A8000%2Fdiscord%2Flogin_redirect&scope=email+identify"
 DSCORD_API_V6 = 'https://discord.com/api/v6/users/@me'
-
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -117,6 +117,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'django_crontab', 
     'corsheaders',
     'user_auth',
     'oauth2_discord',
@@ -134,6 +135,10 @@ CSRF_TRUSTED_ORIGINS = [
 CSRF_COOKIE_SECURE = False  # Set to True in production
 CSRF_COOKIE_HTTPONLY = True
 CSRF_COOKIE_SAMESITE = 'Lax'  # Can be 'Strict' in production if appropriate
+
+CRONJOBS = [
+    ('0 0 * * *', 'django.core.management.call_command', ['cleanup_unvalidated_users']),
+]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

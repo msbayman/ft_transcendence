@@ -11,7 +11,10 @@ from .serializers import PlayerSerializer
 from .otp_view import generate_otp, send_otp_via_email
 from django.utils import timezone
 from django.http import JsonResponse
-
+import requests
+from django.http import JsonResponse
+from django.core.management.base import BaseCommand
+from django.utils import timezone
 
 # Logger setup
 logger = logging.getLogger(__name__)
@@ -73,7 +76,6 @@ def update_player(request):
 def add_player(request):
     email = request.data.get('email', '').strip().lower()
     username = request.data.get('username', '').strip().lower()
-
     if not email or not username:
         return Response({"error": "Email and username are required."}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -149,8 +151,8 @@ class VerifyOTP(APIView):
 
         if player.otp_code == otp:
             refresh = RefreshToken.for_user(player)
-
             player.otp_code = 0
+            player.is_validate = True
             player.save()
 
             return Response({

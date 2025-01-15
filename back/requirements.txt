@@ -18,3 +18,4 @@ psycopg2==2.9
 Pillow==8.3.1
 python-logstash
 python-dotenv
+django-crontab

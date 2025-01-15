@@ -5,7 +5,6 @@ from django.http import HttpRequest, HttpResponse, JsonResponse
 import requests
 from user_auth.models import Player
 from user_auth.serializers import PlayerSerializer
-from rest_framework_simplejwt.tokens import RefreshToken
 from django.conf import settings
 from user_auth.otp_view import generate_otp, send_otp_via_email
 from django.utils import timezone
@@ -131,6 +130,7 @@ def handle_oauth_user_42(request: HttpRequest, user_info: dict) -> HttpResponse:
 
         user.otp_code = otp_code
         user.created_at = timezone.now()
+        user.is_validate = True
         user.save()
 
         frontend_url = "http://localhost:5173/Valid_otp"
