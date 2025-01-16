@@ -1,5 +1,0 @@
-DEBUG 2024-12-31 10:00:00 views Processing request
-INFO 2024-12-31 10:00:01 models User created successfully
-WARNING 2024-12-31 10:00:02 middleware Slow response time
-ERROR 2024-12-31 10:00:03 database Connection failed
-CRITICAL 2024-12-31 10:00:04 server Server crash detected

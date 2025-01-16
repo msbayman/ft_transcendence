@@ -12,6 +12,7 @@ class Player(AbstractUser):
     otp_code = models.CharField(max_length=6,blank=True)  # OTP code
     created_at = models.DateTimeField(auto_now_add=True)  # Time when the OTP was created
     active_2fa = models.BooleanField(default=True)
+    is_validate = models.BooleanField(default=False)
     profile_image = models.ImageField(upload_to='profile_images/', default='profile_images/default_profile.jpeg')
     cover_image = models.ImageField(upload_to='cover_pictures/', default='cover_pictures/cover_picture_1.png')
     points = models.IntegerField(default=0)

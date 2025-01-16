@@ -3,3 +3,4 @@ venv/
 front/node_modules/
 .DS_Store
 .vite
+.env

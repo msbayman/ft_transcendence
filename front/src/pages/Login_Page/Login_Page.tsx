@@ -55,7 +55,6 @@ function Login_Page() {
           navigate(redirectUrl);
         } else {
           Cookies.set("access_token", response.data.access, { path: "/" });
-          Cookies.set("refresh_token", response.data.refresh, { path: "/" });
           axios.defaults.headers.common[
             "Authorization"
           ] = `Bearer ${Cookies.get("access_token")}`;

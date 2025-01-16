@@ -1,5 +1,5 @@
 from django.urls import path
-from . import views
+from . import views 
 from .import otp_view
 urlpatterns = [
      # path("", views.index, name="index"),
@@ -16,4 +16,5 @@ urlpatterns = [
      path('leaderboard', views.leaderboard, name='leaderboard'),
      path('is_online/', views.is_online.as_view(), name='is_online'),
      path('LogoutAPIView/', views.LogoutAPIView.as_view(), name='LogoutAPIView'),
+     path('health_check',  views.health_check, name='health_check'),  # Use a trailing slash
 ]

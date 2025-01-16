@@ -6,14 +6,29 @@ from rest_framework import status
 from django.contrib.auth import authenticate
 from rest_framework_simplejwt.tokens import RefreshToken
 from .models import Player
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from .serializers import PlayerSerializer
-from .otp_view import generate_otp , send_otp_via_email
+from .otp_view import generate_otp, send_otp_via_email
+from django.utils import timezone
+from django.http import JsonResponse
+from datetime import timedelta
+from django.utils.timezone import now
+import requests
+from django.http import JsonResponse
+from django.core.management.base import BaseCommand
 from django.utils import timezone
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
 # Logger setup
 logger = logging.getLogger(__name__)
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def health_check(request):
+    return JsonResponse({"status": "ok"})
+
+
+
 
 @api_view(['GET'])
 
@@ -25,6 +40,7 @@ def display_users(request):
     return Response(serializer.data)
 
 @api_view(['POST'])
+@permission_classes([IsAuthenticated])
 def delete_player(request):
     username = request.data.get('username')
     if not username:
@@ -41,6 +57,7 @@ def delete_player(request):
         return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 @api_view(['POST'])
+@permission_classes([IsAuthenticated])
 def update_player(request):
     username = request.data.get('username')
     if not username:
@@ -60,30 +77,33 @@ def update_player(request):
         return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 @api_view(['POST'])
+@permission_classes([AllowAny])
 def add_player(request):
-    email = request.data.get('email', '').strip().lower()  # Normalize email
-    username = request.data.get('username', '').strip()  # Normalize username
 
+    one_day_ago = now() - timedelta(minutes=20)
+    Player.objects.filter(is_validate=False, created_at__lt=one_day_ago).delete()
+
+
+    email = request.data.get('email', '').strip().lower()
+    username = request.data.get('username', '').strip().lower()
     if not email or not username:
         return Response({"error": "Email and username are required."}, status=status.HTTP_400_BAD_REQUEST)
 
-    # Check if the email or username is already in use
     if Player.objects.filter(email__iexact=email).exists() or Player.objects.filter(username__iexact=username).exists():
         return Response({"error": "That email or username is already used."}, status=status.HTTP_409_CONFLICT)
 
-    # Validate and save the player
     serializer = PlayerSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-    # Return validation errors
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
 class LoginAPIView(APIView):
+    permission_classes = [AllowAny]
+    
     def post(self, request):
-        username = request.data.get('username')
+        username = request.data.get('username').lower()
         password = request.data.get('password')
 
         if not username or not password:
@@ -100,20 +120,16 @@ class LoginAPIView(APIView):
                 player.save()
             
             if not player.active_2fa:
-                # If 2FA is disabled, proceed to login and generate tokens
                 refresh = RefreshToken.for_user(user)
                 return Response({
-                    'refresh': str(refresh),
                     'access': str(refresh.access_token),
-                    'redirect_to': '/Overview'  # Specify the page to redirect to
+                    'redirect_to': '/Overview'
                 }, status=status.HTTP_200_OK)
             
             else:
-                # If 2FA is enabled, generate and send OTP
                 otp_code = generate_otp()
-                send_otp_via_email(user.email, otp_code)  # Send OTP via email
+                send_otp_via_email(user.email, otp_code)
                 
-                # Store OTP in the player's record
                 player.otp_code = otp_code
                 player.created_at = timezone.now()
                 player.save()
@@ -121,17 +137,17 @@ class LoginAPIView(APIView):
                 return Response({
                     "twofa_required": True,
                     "username": player.username,
-                    "redirect_to": '/Valid_otp'  # Specify the OTP verification page
+                    "redirect_to": '/Valid_otp'
                 }, status=status.HTTP_200_OK)
         else:
             return Response({"detail": "Invalid username or password."}, status=status.HTTP_401_UNAUTHORIZED)
 
-
 class VerifyOTP(APIView):
+    permission_classes = [AllowAny]
+    
     def post(self, request):
         username = request.data.get('username')
         otp = request.data.get('otp')
-        print(otp)
 
         if not username or not otp:
             return Response({"detail": "Username and OTP are required."}, status=status.HTTP_400_BAD_REQUEST)
@@ -141,33 +157,26 @@ class VerifyOTP(APIView):
         except Player.DoesNotExist:
             return Response({"detail": "User not found."}, status=status.HTTP_404_NOT_FOUND)
 
-        # Check if the OTP has expired
         if player.is_expired():
             return Response({"detail": "OTP has expired."}, status=status.HTTP_400_BAD_REQUEST)
 
-        # Verify the OTP
         if player.otp_code == otp:
-            # OTP is correct, proceed to login and generate tokens
-            # Since the OTP is correct, you may directly authenticate the user without checking the password again
-            refresh = RefreshToken.for_user(player)  # Assuming `player` is the user instance
-
-            # Clear the OTP after successful verification
+            refresh = RefreshToken.for_user(player)
             player.otp_code = 0
             player.is_online = True
+            player.is_validate = True
             player.save()
 
             return Response({
-                'refresh': str(refresh),
                 'access': str(refresh.access_token),
-                'redirect_to': '/Overview'  # Redirect to the profile page after successful login
+                'redirect_to': '/Overview'
             }, status=status.HTTP_200_OK)
         else:
             return Response({"detail": "Invalid OTP."}, status=status.HTTP_400_BAD_REQUEST)
 
-
-
 class UserDetailView(APIView):
     permission_classes = [IsAuthenticated]
+    
     def get(self, request):
         users = request.user
         users.is_online = True
@@ -177,12 +186,14 @@ class UserDetailView(APIView):
 
 
 @api_view(['GET'])
+@permission_classes([AllowAny])
 def list_users(request):
     players = Player.objects.all()
     serializer = PlayerSerializer(players, many=True)
     return Response(serializer.data)
 
 @api_view(['GET'])
+@permission_classes([AllowAny])
 def leaderboard(request):
     players = Player.objects.all().exclude(username='admin').order_by('-points')
     serializer = PlayerSerializer(players, many=True)

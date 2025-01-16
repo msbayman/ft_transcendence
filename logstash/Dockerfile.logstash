@@ -1,0 +1,9 @@
+FROM docker.elastic.co/logstash/logstash:7.15.0
+
+# Copy the logstash.conf file into the pipeline directory
+COPY logstash/logstash.conf /usr/share/logstash/pipeline/logstash.conf
+
+
+
+# Set the default command to start Logstash with the specified config file
+CMD ["logstash", "-f", "/usr/share/logstash/pipeline/logstash.conf"]
