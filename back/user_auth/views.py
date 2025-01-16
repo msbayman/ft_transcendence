@@ -77,7 +77,7 @@ def update_player(request):
 @permission_classes([AllowAny])
 def add_player(request):
 
-    one_day_ago = now() - timedelta(minutes=1)
+    one_day_ago = now() - timedelta(minutes=20)
     Player.objects.filter(is_validate=False, created_at__lt=one_day_ago).delete()
 
 
