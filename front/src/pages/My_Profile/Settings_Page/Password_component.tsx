@@ -5,12 +5,13 @@ import { usePlayer } from "../PlayerContext";
 function Password_component() {
   type PasswordFields = "currentPassword" | "newPassword" | "confirmPassword";
 
-  const [passwordVisible, setPasswordVisible] = useState<Record<PasswordFields, boolean>>({
-		currentPassword: false,
-		newPassword: false,
-		confirmPassword: false,
-	});
-
+  const [passwordVisible, setPasswordVisible] = useState<
+    Record<PasswordFields, boolean>
+  >({
+    currentPassword: false,
+    newPassword: false,
+    confirmPassword: false,
+  });
 
   const toggleVisibility = (field: PasswordFields) => {
     setPasswordVisible((prev) => ({
@@ -22,18 +23,20 @@ function Password_component() {
   const somo = usePlayer();
 
   return (
-		
-    <div className="pswd" {...(somo.playerData?.prov_name !== "simple" && { hidden: true })}>
-			<div className="flex">
-				<h1 >Password</h1>
-			</div>
+    <div
+      className="pswd"
+      {...(somo.playerData?.prov_name !== "simple" && { hidden: true })}
+    >
+      <div className="relative right-[37.5%]">
+        <h4 className="relative font-size">Password</h4>
+      </div>
       <div className="inpt">
-        <span className="spn">
+        <div className="spn">
           <label>Current Password</label>
           <i
             className="icon"
             onClick={() => toggleVisibility("currentPassword")}
-						style={{ visibility: "visible" }}
+            style={{ visibility: "visible" }}
           >
             {passwordVisible.currentPassword ? (
               <BsEyeFill />
@@ -45,10 +48,9 @@ function Password_component() {
             type={passwordVisible.currentPassword ? "text" : "password"}
             placeholder="Current Password"
             className="flex flex-row justify-between"
-            {...(somo.playerData?.prov_name !== "simple" && { disabled: true })}
           />
-        </span>
-        <span className="spn">
+        </div>
+        <div className="spn">
           <label>New Password</label>
           <i className="icon" onClick={() => toggleVisibility("newPassword")}>
             {passwordVisible.newPassword ? <BsEyeFill /> : <BsEyeSlashFill />}
@@ -58,8 +60,8 @@ function Password_component() {
             placeholder="New Password"
             className="pass"
           />
-        </span>
-        <span className="spn">
+        </div>
+        <div className="spn">
           <label>Confirm Password</label>
           <i
             className="icon"
@@ -76,7 +78,7 @@ function Password_component() {
             placeholder="Confirme New Password"
             className="pass"
           />
-        </span>
+        </div>
       </div>
     </div>
   );

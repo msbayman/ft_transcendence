@@ -136,8 +136,8 @@ div h1 {
 }
 
 .text-container.TFA{
+  top:2rem;
 
-  top: 4rem;
 }
 
 
@@ -145,13 +145,15 @@ div h1 {
   position: relative;
   font-family: "Alexandria", sans-serif;
   font-size: 20px;
-  border: 1px solid #8051EE;
+  border: 2px solid #8051EE;
   display: flex;
-  flex-direction: column;  
-  margin: 3rem;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
   top: 1rem;
-  left: 2rem;
   height: 30%;
+  min-height: 25%;
   width: 89%;
   border-radius: 7px;
 }
@@ -238,15 +240,14 @@ input[type="checkbox"]:checked::-ms-check {
 {
   position: relative;
   text-align: center;
-  margin: 3rem;
+  margin: 2rem;
   /* top: 1rem; */
 }
 
 .check-TFA {
   display: flex;
   justify-content: center;
-  align-items: flex-end;
-  /* font-family: "Manjari", serif; */
+
   font-weight: 240;
   font-size: larger;
 }
@@ -295,7 +296,11 @@ label {
 
 }
 
-
+.font-size {
+  font-family: "Alexandria", sans-serif;
+  font-size: 36px;
+  font-weight: 570;
+}
 
 .spn {
   font-family: "Alexandria", sans-serif;
@@ -303,6 +308,7 @@ label {
   justify-content: space-between;
   align-items: center;
   flex-direction: row;
+  margin-bottom: 10px;
 }
 
 
@@ -319,8 +325,10 @@ label {
 }
 
 .pswd .icon {
-  position: absolute;
-  left: 71.5%;
+  position: relative;
+  left: 59.5%;
+  display: flex;
+  justify-content: flex-end;
   font-size: 1.5rem;
   color: #fff;
   cursor: pointer;
@@ -386,10 +394,69 @@ span {
   padding: 3rem 0rem 6rem 0rem;
   display: flex;
   flex-direction: column;
-  gap: 10em;
+  gap: 15em;
   margin: 0 auto;
   width: 100%;
 }
+/* .cover-pic {
+  position: relative;
+  border-radius: 31px;
+  background-image: url('../Images/Back1.png');
+  background-size: 100% 88rem;
+  background-repeat: no-repeat;
+  background-position-y: 10%;
+  width: 100%;
+  box-shadow: 0 -2px 15px rgba(0, 0, 0, 0.335);
+  height: 15rem;
+}
+.cover-pic:hover {
+  filter: blur(4px);
+  cursor: pointer;
+}
+
+
+
+.union-bg-pic {
+  position: absolute;
+  background-image: url('../Images/profile.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+
+  width: 15.5rem;
+  height: 15.5rem;
+  top: 5.67rem;
+  left: 8vw;
+  box-shadow: 0 5px 15px black;
+  display: flex;
+  justify-content: center; 
+  padding-top: 0.5rem;
+  border-radius: 50%; 
+}
+.cover-pic:hover::before:not(.union-bg-pic:hover) {
+  filter: blur(4px);
+  cursor: pointer;
+}
+
+.profile-pic {
+  width: 15.5rem;
+  height: 15.5rem;
+  border-radius: 50%;
+  background-image: url('../Images/profile.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+  box-shadow: 0 5px 15px black;
+  z-index: 9999;
+}
+
+.union-bg-pic{
+  pointer-events: none;pointer-events: auto;
+  cursor: pointer;
+} */
+
+
+
+
+
 .cover-pic {
   position: relative;
   border-radius: 31px;
@@ -398,29 +465,30 @@ span {
   background-repeat: no-repeat;
   background-position-y: 10%;
   width: 100%;
-  height: 25rem;
+  box-shadow: 0 -2px 15px rgba(0, 0, 0, 0.335);
+  height: 15rem;
+}
+
+.cover-pic.blur {
+  filter: blur(4px);
+  cursor: pointer;
 }
 
 .union-bg-pic {
   position: absolute;
-  background-image: url('../Images/Union-bg.png');
-  background-repeat: no-repeat;
-  background-size: contain;
-  width: 20rem;
-  height: 20rem;
-  top: 15.63rem;
-  left: 6vw;
-  display: flex;
-  justify-content: center; /* Center horizontally */
-  padding-top: 0.5rem;
-}
-
-.profile-pic {
-  width: 15.5rem;
-  height: 15.5rem;
-  border-radius: 50%; /* Keep it circular */
   background-image: url('../Images/profile.png');
   background-repeat: no-repeat;
   background-size: contain;
+  width: 15.5rem;
+  height: 15.5rem;
+  top: 5.67rem;
+  left: 8vw;
   box-shadow: 0 5px 15px black;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: filter 0.3s ease;
+}
+
+.union-bg-pic.blur {
+  filter: blur(4px);
 }

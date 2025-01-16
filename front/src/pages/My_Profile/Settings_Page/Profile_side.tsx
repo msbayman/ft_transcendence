@@ -18,16 +18,14 @@ function Profile_side({ player, setPlayerData }: ProfileSideProps) {
       ...prev,
       [name]: value,
     }));
-    setPlayerData({...player, [name]: value});
+    setPlayerData({ ...player, [name]: value });
     console.log(value);
   };
   return (
     <div className="from-box profile">
       <div className="prf-pic">
         <div className="cover-pic">
-          <div className="union-bg-pic">
-            <div className="profile-pic"></div>
-          </div>
+          <div className="union-bg-pic"></div>
         </div>
         <div className="params">
           <span className="username">
