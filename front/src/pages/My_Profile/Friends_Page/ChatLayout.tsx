@@ -4,6 +4,10 @@ import gojo from "../assets/gojo.png";
 import "./test.css";
 import Cookies from "js-cookie";
 import axios from 'axios';
+import { boolean } from "zod";
+import blockIcon from "../../../assets/block.svg"
+import viewprofile from "../../../assets/viewprofile.svg"
+import challenge from "../../../assets/challenge.svg"
 
 interface APIResponse {
   id: number;
@@ -31,35 +35,70 @@ interface UserName {
 const ChatInterface: React.FC<UserName> = ({ value }) => {
   const [localMessages, setLocalMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
+  // const [isblock, setIsBlock] = useState(boolean);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const [showDiv, setShowDiv] = useState(false);
   const { messages, sendMessage } = useWebSocket();
-  
+  const token = Cookies.get("access_token");
   const toggleDiv = () => {
     setShowDiv((prevState) => !prevState);
   };
 
+  const [isblock, setIsBlock] = useState(false);  // Initially, not blocked
+  const block = async () => {
+    try {
+      if (!isblock) {
+        // Block the user
+        await axios.post(
+          `http://127.0.0.1:8000/chat/block_user/${value}`,
+          {}, // empty body
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        // Update state to reflect the blocked status
+        setIsBlock(true);
+      } else {
+        // Unblock the user
+        await axios.post(
+          `http://127.0.0.1:8000/chat/unblock_user/${value}`,
+          {}, // empty body
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        // Update state to reflect the unblocked status
+        setIsBlock(false);
+      }
+    } catch (error) {
+      console.log("Error:", error);
+    }
+  };
+  
   const username = Cookies.get("username");
-  const token = Cookies.get("access_token");
-  console.log("test test -------------" + username)
-  // Fetch initial messages
+
   useEffect(() => {
     if (value === "") return;
-
-    const fetchInitialMessages = async () => {
+  
+    const fetchData = async () => {
       try {
-        const response = await axios.get(
+        // Fetch the conversation
+        const conversationResponse = await axios.get(
           `http://127.0.0.1:8000/chat/getconversation/${value}`,
           {
             headers: {
-              "Authorization": `Bearer ${token}`,
+              Authorization: `Bearer ${token}`,
               "Content-Type": "application/json",
             },
           }
         );
-
-        if (response.status === 200) {
-          const initialMessages: Message[] = response.data
+  
+        if (conversationResponse.status === 200) {
+          const initialMessages: Message[] = conversationResponse.data
             .map((msg: APIResponse) => ({
               id: msg.id,
               text: msg.content,
@@ -67,22 +106,40 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
               avatar: gojo,
               timestamp: msg.timestamp,
               sender: msg.sender,
-              receiver: msg.receiver
+              receiver: msg.receiver,
             }))
             .sort((a: Message, b: Message) => a.id - b.id);
-
+  
           setLocalMessages(initialMessages);
         }
       } catch (error) {
-        console.error("Error fetching initial messages:", error);
+        console.error("Error fetching conversation:", error);
         setLocalMessages([]);
       }
     };
-
-    fetchInitialMessages();
+  
+    const fetchBlockStatus = async () => {
+      try {
+        const blockStatusResponse = await axios.get(
+          `http://127.0.0.1:8000/chat/isblocked/${value}/`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        setIsBlock(blockStatusResponse.data.is_blocked)
+      } catch (error) {
+        console.error("Error fetching block status:", error);
+      }
+    };
+  
+    fetchData();
+    fetchBlockStatus();
   }, [value]);
+  
 
-  // Update local messages when new WebSocket messages arrive
   useEffect(() => {
     if (messages.length > 0) {
       setLocalMessages(prevMessages => {
@@ -90,13 +147,12 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
         messages.forEach(wsMessage => {
           if (wsMessage.sender === value || wsMessage.receiver === value) {
             const existingMessageIndex = newMessages.findIndex(msg => msg.id === wsMessage.id);
-  
-            // Add only if the message doesn't already exist
+
             if (existingMessageIndex === -1) {
               newMessages.push({
                 ...wsMessage,
                 avatar: gojo,
-                sent: wsMessage.sender !== username,  // Determine if the message was sent by the current user
+                sent: wsMessage.sender !== username,
               });
             }
           }
@@ -157,6 +213,33 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
             </div>
           </div>
           <hr className="max-w-lg mt-1.5" />
+          <div className="mt-5 grid justify-center text-center gap-2">
+            <img src={gojo} className="rounded-full w-20 h-20" alt="" />
+            <div>
+              <h1 className="text-2xl">{value}</h1>
+              <h1 className="text-2xl text-lime-600">online</h1>
+            </div>
+            <button className="mt-5 flex flex-col items-center justify-center text-white rounded hover:bg-[#8f6edd]">
+              <img src={viewprofile} alt="View Profile" className="w-8 h-8" />
+              <p>View Profile</p>
+            </button>
+          </div>
+          <hr className="max-w-lg mt-1.5" />
+          <div className="flex justify-between align-middle m-5">
+              <button className="w-[100px] flex flex-col items-center justify-center gap-1 rounded hover:bg-[#8f6edd]">
+                <img className="" src={challenge} alt="" />
+                <p>chalenge</p>
+              </button>
+              <button onClick={block} className="w-[100px] flex flex-col items-center justify-center gap-1 rounded hover:bg-[#8f6edd]" >
+                <img src={blockIcon} alt="" />
+                <p> {isblock ? "ubblock user": "block user"}</p>
+              </button>
+          </div>
+          {/* <button onClick={block}>
+            <img src={icon} alt="" />
+            {isblock ? "ubblock user": "block user"}
+          </button> */}
+          
         </div>
       )}
 

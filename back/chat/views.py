@@ -21,6 +21,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import SessionAuthentication
 from rest_framework_simplejwt.authentication import JWTAuthentication
+from django.core.exceptions import ObjectDoesNotExist
+from django.shortcuts import get_object_or_404
 logger = logging.getLogger(__name__)
 User = get_user_model()
 
@@ -91,11 +93,11 @@ class LastMessageView(APIView):
                 return Response(last_messages_list, status=200)
             else:
                 logger.debug("No messages found")
-                return Response({"message": "No messages found with other users"}, status=404)
+                return Response({"message": "No messages found with other users"}, status=200)
 
         except Exception as e:
             logger.error(f"Error in LastMessageView: {str(e)}")
-            return Response({"error": "An unexpected error occurred."}, status=500)
+            return Response({"error": "An unexpected error occurred."}, status=200)
 
 
 class TestAuthView(APIView):
@@ -118,27 +120,22 @@ class GetConversation(APIView):
         try:
             receiver = request.user
             sender_username = username
-            
 
-            # If the username header is not provided, return an error
             if not sender_username:
                 return Response({"error": "Username header is required"}, status=400)
 
-            # Get the sender object using the username from the header
             try:
                 sender = Player.objects.get(username=sender_username)
             except Player.DoesNotExist:
                 return Response({"error": "Sender not found"}, status=404)
 
-            # Fetch all messages where the sender is either the logged-in user or the user provided in the header
+
             conversation = Message.objects.filter(
                 (Q(sender=sender, receiver=receiver) | Q(sender=receiver, receiver=sender))
             ).order_by('-timestamp')
 
-            # Serialize the messages
             serialized_message = MessageSerializer(conversation, many=True).data
 
-            # Return the serialized messages or a message if no messages were found
             if serialized_message:
                 logger.debug(f"Returning {len(serialized_message)} messages")
                 return Response(serialized_message)
@@ -149,3 +146,48 @@ class GetConversation(APIView):
         except Exception as e:
             logger.error(f"Error in conversation: {e}")
             return Response({"error": str(e)}, status=500)
+        
+class BlockUser(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+    
+    def post(self, request, username):
+        try:
+            other_user = get_object_or_404(Player, username=username)
+            user = request.user
+            user.block_user(other_user) 
+            return Response({"message": f"Successfully blocked user {username}"})
+            
+        except ObjectDoesNotExist:
+            return Response({"error": "User not found"}, status=404)
+        except Exception as e:
+            return Response({"error": str(e)}, status=400)
+
+class IsBlocked(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, username):
+        other_user = get_object_or_404(Player, username=username)
+        user = request.user
+
+        status = user.is_blocked(other_user)
+        
+
+        return Response({"is_blocked": status})
+    
+class UnBlockUser(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+    
+    def post(self, request, username):
+        try:
+            other_user = get_object_or_404(Player, username=username)
+            user = request.user
+            user.unblock_user(other_user) 
+            return Response({"message": f"Successfully unblock_user user {username}"})
+            
+        except ObjectDoesNotExist:
+            return Response({"error": "User not found"}, status=404)
+        except Exception as e:
+            return Response({"error": str(e)}, status=400)

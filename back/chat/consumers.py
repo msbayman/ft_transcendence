@@ -21,6 +21,19 @@ class ChatConsumer(AsyncWebsocketConsumer):
         await self.channel_layer.group_add(self.user1_room, self.channel_name)
         await self.accept()
 
+    async def is_blocked(self, sender, receiver):
+        try:
+            sender_player = await database_sync_to_async(User.objects.get)(username=sender)
+            receiver_player = await database_sync_to_async(User.objects.get)(username=receiver)
+            
+            # Check both directions of blocking
+            sender_blocked = await database_sync_to_async(lambda: receiver_player in sender_player.blocked_users.all())()
+            receiver_blocked = await database_sync_to_async(lambda: sender_player in receiver_player.blocked_users.all())()
+            
+            return sender_blocked or receiver_blocked
+        except User.DoesNotExist:
+            return False
+    
     @database_sync_to_async
     def get_user_obj(self, username):
         return User.objects.get(username=username)
@@ -62,7 +75,6 @@ class ChatConsumer(AsyncWebsocketConsumer):
             data = json.loads(text_data)
             message = data['message']
             user2_username = data['username']
-            
             # Check if message is empty
             if not message.strip():
                 return
@@ -74,7 +86,14 @@ class ChatConsumer(AsyncWebsocketConsumer):
                     'error': 'You can only send messages to friends'
                 }))
                 return
-                
+
+            # Check for blocked status in both directions
+            if await self.is_blocked(self.user.username, user2_username):
+                await self.send(text_data=json.dumps({
+                    'type': 'block_error',
+                    'message': 'Cannot send message - this user is either blocked or has blocked you'
+                }))
+                return
             # Get receiver ID
             self.receiver_id = await self.get_user_id_by_username(user2_username)
             if not self.receiver_id:

@@ -1,5 +1,6 @@
-import React, { createContext, useState, useEffect, useContext, useRef } from "react";
+import React, { createContext, useState, useContext, useRef } from "react";
 import Cookies from "js-cookie";
+import Alert from '@mui/material/Alert';
 
 interface Message {
   id: number;
@@ -23,14 +24,10 @@ const WebSocketContext = createContext<WebSocketContextType | undefined>(undefin
 
 export const WebSocketProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [messages, setMessages] = useState<Message[]>([]);
-  const [currentUser, setCurrentUser] = useState<string>();
   const websocketRef = useRef<WebSocket | null>(null);
-
-  useEffect(() => {
-    const username = Cookies.get("username");
-    setCurrentUser(username);
-    // setCurrentUser(token ? "your-username" : undefined);
-  }, []);
+  const [showBlockedPopup, setShowBlockedPopup] = useState(false);
+  const [blockedMessage, setBlockedMessage] = useState('');
+  const currentUser = Cookies.get("username");
 
   const connect = (url: string) => {
     if (websocketRef.current?.readyState === WebSocket.OPEN) return;
@@ -45,31 +42,39 @@ export const WebSocketProvider: React.FC<{ children: React.ReactNode }> = ({ chi
 
     ws.onmessage = (event) => {
       try {
-        console.log("curren user is" + currentUser)
         const data = JSON.parse(event.data);
-        console.log("Received message:", data); // Debug log
+        console.log("Received message is :", data);
 
-        const newMessage: Message = {
-          id: data.id,
-          text: data.message,
-          sent: data.sender === currentUser,
-          avatar: "default-avatar.png",
-          timestamp: data.timestamp,
-          sender: data.sender,
-          receiver: data.receiver
-        };
+        if (data.type === 'block_error' || data.error) {
+          const errorMessage = data.message || data.error;
+          setBlockedMessage(errorMessage);
+          setShowBlockedPopup(true);
+          setTimeout(() => setShowBlockedPopup(false), 3000);
+          return;
+        }
 
-        setMessages((prev) => {
-          const isDuplicate = prev.some(msg => msg.id === newMessage.id);
-          if (isDuplicate) return prev;
-          
-          return [...prev, newMessage].sort((a, b) => a.id - b.id);
-        });
+        if (data.message) {  // Only process if it's a valid message
+          const newMessage: Message = {
+            id: data.id,
+            text: data.message,
+            sent: data.sender === currentUser,
+            avatar: "default-avatar.png",
+            timestamp: data.timestamp,
+            sender: data.sender,
+            receiver: data.receiver
+          };
 
+          setMessages((prev) => {
+            const isDuplicate = prev.some(msg => msg.id === newMessage.id);
+            if (isDuplicate) return prev;
+            return [...prev, newMessage].sort((a, b) => a.id - b.id);
+          });
+        }
       } catch (error) {
         console.error("Error parsing WebSocket message:", error);
       }
     };
+
 
     ws.onclose = () => {
       console.log("WebSocket Disconnected");
@@ -102,9 +107,15 @@ export const WebSocketProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   return (
     <WebSocketContext.Provider value={{ messages, connect, disconnect, sendMessage, currentUser }}>
       {children}
+      {showBlockedPopup && (
+        <Alert  className="fixed top-4 right-4 bg-red-500 text-white px-4 py-2 rounded-md shadow-lg z-50 transition-opacity duration-300" variant="filled" severity="error">
+        <p>{blockedMessage}</p>
+      </Alert>
+      )}
     </WebSocketContext.Provider>
   );
 };
+
 
 export const useWebSocket = (): WebSocketContextType => {
   const context = useContext(WebSocketContext);

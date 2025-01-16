@@ -21,6 +21,22 @@ class Player(AbstractUser):
     win_games = models.IntegerField(default=0)
     lose_games = models.IntegerField(default=0)
     list_users_friends = models.ManyToManyField('self', blank=True)
+    blocked_users = models.ManyToManyField(
+        'self',
+        symmetrical=False,
+        related_name='blocked_by',
+        blank=True,
+    )
+    def block_user(self, user):
+        if user != self:
+            self.blocked_users.add(user)
+
+    def unblock_user(self, user):
+        self.blocked_users.remove(user)
+
+    def is_blocked(self, user):
+        return self.blocked_users.filter(pk=user.pk).exists()
+
 
 
 
