@@ -109,7 +109,7 @@ def handle_oauth_user(request: HttpRequest, user_info: dict) -> HttpResponse:
         # Store OTP in the player's record
         user.otp_code = otp_code
         user.created_at = timezone.now()
-        user.is_validate = True
+        # user.is_validate = True
         user.save()
 
         # Redirect to the OTP verification page

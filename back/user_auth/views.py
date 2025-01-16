@@ -152,7 +152,7 @@ class VerifyOTP(APIView):
         if player.otp_code == otp:
             refresh = RefreshToken.for_user(player)
             player.otp_code = 0
-            player.is_validate = True
+            # player.is_validate = True
             player.save()
 
             return Response({

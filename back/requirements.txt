@@ -16,6 +16,5 @@ typing_extensions==4.12.2
 urllib3==2.2.2
 psycopg2==2.9
 Pillow==8.3.1
-python-logstash
+python-logstash #will turn off kibana if not installed
 python-dotenv
-django-crontab

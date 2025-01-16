@@ -116,8 +116,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework',
-    'django_crontab', 
+    'rest_framework', 
     'corsheaders',
     'user_auth',
     'oauth2_discord',
@@ -136,9 +135,7 @@ CSRF_COOKIE_SECURE = False  # Set to True in production
 CSRF_COOKIE_HTTPONLY = True
 CSRF_COOKIE_SAMESITE = 'Lax'  # Can be 'Strict' in production if appropriate
 
-CRONJOBS = [
-    ('0 0 * * *', 'django.core.management.call_command', ['cleanup_unvalidated_users']),
-]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

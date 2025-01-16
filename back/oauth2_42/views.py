@@ -130,7 +130,7 @@ def handle_oauth_user_42(request: HttpRequest, user_info: dict) -> HttpResponse:
 
         user.otp_code = otp_code
         user.created_at = timezone.now()
-        user.is_validate = True
+        # user.is_validate = True
         user.save()
 
         frontend_url = "http://localhost:5173/Valid_otp"
