@@ -77,7 +77,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'django_crontab', 
     'corsheaders',
     'user_auth',
     'oauth2_discord',
@@ -92,9 +91,6 @@ CSRF_TRUSTED_ORIGINS = [
     'http://localhost:5173',
 ]
 
-CRONJOBS = [
-    ('*/2 * * * *', 'user_auth.management.commands.cleanup_unvalidated_users.Command.handle')
-]
 
 CSRF_COOKIE_SECURE = False  # Set to True in production
 CSRF_COOKIE_HTTPONLY = True

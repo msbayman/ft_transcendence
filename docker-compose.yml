@@ -39,37 +39,19 @@ services:
       - -c
       - |
         # Install required packages
-        apt-get update && apt-get install -y cron postgresql-client || exit 1
-        
-        # Create management command structure if it doesn't exist
-        mkdir -p /app/user_auth/management/commands
-        touch /app/user_auth/management/__init__.py
-        touch /app/user_auth/management/commands/__init__.py
-        
-        # Start cron service with error checking
-        service cron start || exit 1
-        
-        # Verify cron is running
-        pgrep cron || (echo "Cron failed to start" && exit 1)
-        
+        apt-get update && apt-get install -y postgresql-client || exit 1
         # Wait for database
         until pg_isready -h db -p 5432; do 
           echo 'Waiting for database...'
           sleep 5
         done
         echo 'Database is ready'
-        
         # Setup Python environment and dependencies
-        python3 -m venv /app/venv
-        . /app/venv/bin/activate
-        /app/venv/bin/pip install -r /app/requirements.txt
-        
+        pip install -r app/requirements.txt
         # Run migrations
-        /app/venv/bin/python manage.py migrate
-        
+        python manage.py migrate
         # Clean up existing admin user
-        echo "from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.filter(username='admin').delete()" | /app/venv/bin/python manage.py shell
-        
+        echo "from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.filter(username='admin').delete()" | python manage.py shell
         # Create superuser
         echo "Creating superuser with username: ${django_admin_username}, email: ${django_admin_mail}, password: ${django_admin_password}"
         echo "
@@ -83,14 +65,12 @@ services:
             )
             user.is_validate = True
             user.save()
-        " | /app/venv/bin/python manage.py shell
-        
-        # Setup and verify cron jobs
-        /app/venv/bin/python manage.py crontab add
-        /app/venv/bin/python manage.py crontab show
-        
+        " | python manage.py shell  
         # Start the server
-        /app/venv/bin/python manage.py runserver 0.0.0.0:${BACKEND_PORT}
+        python manage.py runserver 0.0.0.0:${BACKEND_PORT}
+    networks:
+      - default
+      - elk
 
   frontend:
     build:
@@ -115,6 +95,8 @@ services:
         done
         echo "Backend is ready. Starting frontend..."
         npm install && npm run dev
+    networks:
+      - default
 
   db:
     image: postgres:13
@@ -133,6 +115,8 @@ services:
       interval: 5s
       timeout: 5s
       retries: 10
+    networks:
+      - default
 
   redis:
     image: redis:7
@@ -147,6 +131,8 @@ services:
       interval: 5s
       timeout: 5s
       retries: 10
+    networks:
+      - default
 
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.15.0
@@ -206,6 +192,8 @@ services:
       logstash -f /usr/share/logstash/pipeline/logstash.conf
 
 networks:
+  default:
+    name: app-network
   elk:
     name: elk
 

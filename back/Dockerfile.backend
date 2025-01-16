@@ -15,7 +15,7 @@ COPY . /app
 
 # Install Python dependencies in the virtual environment
 RUN pip install --upgrade pip
-RUN /pip install -r /app/requirements.txt
+RUN pip install -r /app/requirements.txt
 
 # Install wait-for-it script to ensure the database is ready before Django starts
 RUN curl -sSL https://github.com/vishnubob/wait-for-it/releases/download/v2.5.0/wait-for-it.sh -o /usr/local/bin/wait-for-it && \
