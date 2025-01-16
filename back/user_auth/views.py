@@ -11,6 +11,8 @@ from .serializers import PlayerSerializer
 from .otp_view import generate_otp, send_otp_via_email
 from django.utils import timezone
 from django.http import JsonResponse
+from datetime import timedelta
+from django.utils.timezone import now
 import requests
 from django.http import JsonResponse
 from django.core.management.base import BaseCommand
@@ -74,6 +76,11 @@ def update_player(request):
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def add_player(request):
+
+    one_day_ago = now() - timedelta(minutes=1)
+    Player.objects.filter(is_validate=False, created_at__lt=one_day_ago).delete()
+
+
     email = request.data.get('email', '').strip().lower()
     username = request.data.get('username', '').strip().lower()
     if not email or not username:
