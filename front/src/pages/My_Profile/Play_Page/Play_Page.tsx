@@ -93,16 +93,16 @@ const Play_Page: React.FC = () => {
   });
   const [currentSlideIndex, setCurrentSlideIndex] = useState<number>(0);
 
-  const isPreviousSlideSelected = () => {
+  const isOneOfSlidesSelected = () => {
     switch (value) {
       case "Modes":
-        return selectedIds.selectedStatus.mode.includes(currentSlideIndex - 1);
+        return selectedIds.selectedStatus.mode.length > 0;
       case "Boards":
-        return selectedIds.selectedStatus.board.includes(currentSlideIndex - 1);
+        return selectedIds.selectedStatus.board.length > 0;
       case "Paddles":
-        return selectedIds.selectedStatus.paddel.includes(currentSlideIndex - 1);
+        return selectedIds.selectedStatus.paddel.length > 0;
       case "Ball":
-        return selectedIds.selectedStatus.ball.includes(currentSlideIndex - 1);
+        return selectedIds.selectedStatus.ball.length > 0;
       default:
         return false;
     }
@@ -297,7 +297,7 @@ const Play_Page: React.FC = () => {
               <button
                 className="rounded-full border text-[#3A0CA3] bg-white hover:bg-[#3A0CA3] hover:text-white transition-all duration-400 group"
                 onClick={handleNextClick}
-                disabled={(isCurrentSlideSelected() || isPreviousSlideSelected()) ? false : true}
+                disabled={(isCurrentSlideSelected() || isOneOfSlidesSelected()) ? false : true}
               >
                 <NextButton />
                 <span className="hidden opacity-0 absolute transform  bg-black text-white px-2.5 py-1 rounded whitespace-nowrap transition-opacity duration-200 group-hover:block group-hover:opacity-100">
