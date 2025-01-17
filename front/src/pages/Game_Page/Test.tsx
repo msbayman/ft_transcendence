@@ -3,32 +3,33 @@ import Cookies from "js-cookie";
 
 
 function Test(){
-  const [socket, setSocket] = useState<WebSocket | null>(null);
-  const [connectionStatus, setConnectionStatus] = useState('Disconnected');
-  const [error, setError] = useState<string | null>(null);
 
+  interface Match {
+    id: number;
+    username: string;
+  }
+
+  const [matchs, setmatchs] = useState<Match[]>([])
+
+  const fetchData = async () => {
+    try {
+      const resp = await fetch("http://127.0.0.1:8000/game/getplydata/")
+      const data = await resp.json()
+      setmatchs(data)
+    } catch (e) {
+      console.log(e)
+    }
+  };
   useEffect(() => {
-
-    const token = Cookies.get("access_token");
-    const ws = new WebSocket(`ws://127.0.0.1:8000/ws/loby/?token=${token}`);
-
-    ws.onopen = () => {
-      console.log('Connected to WebSocket');
-      setConnectionStatus('Connected');
-      setError(null);
-    };
-
-    return () => {
-      if (ws) {
-        ws.close();
-      }
-    };
+    fetchData();
   }, []);
 
   return (
     <div>
-      <h2>WebSocket Status: {connectionStatus}</h2>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+      {matchs.map((match) => <div>
+        <p> id: {match.id} </p> 
+        <p> username: {match.username} </p>
+      </div> )}
     </div>
     
   );

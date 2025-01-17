@@ -13,3 +13,10 @@
 --> async
 --> await
 --> coroutine functions
+
+
+TO DO:
+
+--> warn user of his paddel
+--> add a timer in befor lance the game
+--> add a timer after the game 

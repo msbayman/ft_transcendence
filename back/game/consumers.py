@@ -1,44 +1,44 @@
 import json
 from channels.generic.websocket import AsyncWebsocketConsumer
+from django.db import transaction
+from channels.db import database_sync_to_async
+from .models import Match
 
 class MatchMakingConsumer(AsyncWebsocketConsumer):
-
-    rooms = {}
+    
+    players = []
 
     async def connect(self):
-        self.room_name = None
-
-        for room, players in self.rooms.items():
-            if len(players) < 2:
-                self.room_name = room
-                players.append(self)
-                break
-        nbr_room = len(self.rooms) + 1
-        if not self.room_name:
-            self.room_name = f"room_{nbr_room}"
-            self.rooms[self.room_name] = [self]
-
-        await self.channel_layer.group_add(
-            self.room_name,
-            self.channel_name
-        )
-        # print(f'game =======> MatchMakingConsumer: Connected to {self.room_name}')
         await self.accept()
+        self.user = self.scope["user"]
+
+        # if not self.user.is_authenticated:
+        #     await self.close()
+        #     return
+        self.players.append(self.user)
+        await self.creat_match()
 
     async def disconnect(self, close_code):
-        if self.room_name in self.rooms:
-            self.rooms[self.room_name].remove(self) 
-            if not self.rooms[self.room_name]:
-                del self.rooms[self.room_name]
+        if self.user in self.players:
+            self.players.remove(self.user)
 
-    async def receive(self, text_data):
-        text_data_json = json.loads(text_data)
-        message = text_data_json['message']
+    async def creat_match(self):
+        if len(self.players) >= 2:
+            ply1 = self.players.pop(0)
+            ply2 = self.players.pop(0)
+            match_tb = await self.create_match_in_db(ply1, ply2)
+            await self.start_game(ply1, ply2, match_tb)
 
-        await self.channel_layer.group_send(
-            self.room_name,
-            {
-                'type': 'chat_message',
-                'message': message
-            }
-        )
+    @database_sync_to_async
+    def create_match_in_db(self, player1, player2):
+        with transaction.atomic():
+            return Match.objects.create(player1=player1, player2=player2)
+
+    async def start_game(self, player1, player2, match):
+        match_data = {
+            "match_id": match.id,
+            "player1": player1.username,
+            "player2": player2.username,
+        }
+        await self.send(text_data=json.dumps(match_data))
+

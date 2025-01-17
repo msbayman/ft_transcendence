@@ -78,10 +78,9 @@ function App() {
           <Route path="signup" element={<Signup_Page />} />
           <Route path="/*" element={<Overview />} />
           <Route path="Valid_otp" element={<Valid_otp />} />
-
           <Route path="/local_game" element={<Game_Local />} />
           <Route path="/local_bot" element={<Game_Bot />} />
-          <Route path="/remote_game" element={<Game_Remot />} />
+          {/* <Route path="/remote_game/*" element={<Game_Remot />} /> */}
           <Route path="/test" element={<Test />} />
           <Route path="/game_loby" element={<Game_Loby />} />
         </Routes>

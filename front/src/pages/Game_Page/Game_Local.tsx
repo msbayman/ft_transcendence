@@ -10,7 +10,7 @@ import logo from "../../assets/logo_game.svg";
 function Game_Local() {
   const [paddleLeftPosition, setPaddleLeftPosition] = useState(135);
   const [paddleRightPosition, setPaddleRightPosition] = useState(135); 
-  const [ballPosition, setBallPosition] = useState({ top: 240, left: 175 });
+  const [ballPosition, setBallPosition] = useState({ top: 370, left: 255});
   const [Ballscore, setBallscore] = useState({ l: 0, r: 0 });
   const [ballDirection, setBallDirection] = useState({ x: 3, y: 3 });
   const [isPaused, setIsPaused] = useState(false);
@@ -71,7 +71,7 @@ useEffect(() => {
     if (Ballscore.l === 3 || Ballscore.r === 3) {
       handleSleep();
       clearInterval(interval);
-      return;
+      return ;
     }
 
     setBallPosition((prev) => {

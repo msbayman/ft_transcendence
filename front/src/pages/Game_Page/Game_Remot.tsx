@@ -1,26 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
-// import axios from 'axios';
 import table_game from "../../assets/table.svg";
 import table_b from "../../assets/table_blue.svg";
-// import pause from "../../assets/puse.svg";
-// import rus from "../../assets/rus.svg";
-// import name from "../../assets/name_hold_game.svg";
 import logo from "../../assets/logo_game.svg";
 
 function Game_Remot() {
 
 	const [socket, setSocket] = useState<WebSocket | null>(null);
-	const room_name  = 'room_1';
+	// const room_name  = 'room_1';
 	const [gameState, setGameState] = useState({
 		paddles: {left: 100, right: 100},
-		ball: { x: 240, y: 175 },
+		ball: { x: 250, y: 365, dx: 0, dy: 0 },
 		score: { player1: 0, player2: 0 },
 	  });
 
 	useEffect(() => {
 		const token = Cookies.get("access_token");
-		const ws = new WebSocket(`ws://127.0.0.1:8000/ws/game/${room_name}/?token=${token}`);
+		const ws = new WebSocket(`ws://127.0.0.1:8000/ws/game//?token=${token}`);
 
 		ws.onopen = () => {
 			console.log("Connected to WebSocket");
@@ -35,6 +31,14 @@ function Game_Remot() {
 					left: gameState.paddles.up,
 					right: gameState.paddles.down,
 				},
+				ball:{
+					x: gameState.ball.x,
+					y: gameState.ball.y,
+				},
+				score:{
+					player1: gameState.score.p1,
+					player2: gameState.score.p2,
+				}
 			});
 		};
 
@@ -47,7 +51,7 @@ function Game_Remot() {
 			socket?.send(JSON.stringify({ paddle: "upP"}));
 		}
 		if (event.key === "d") {
-			socket?.send(JSON.stringify({ paddle: "upM"}));
+			socket?.send(JSON.stringify({ paddle: "upD"}));
 		}
 		if (event.key === "r") {
 			socket?.send(JSON.stringify({ paddle: "reset"}));
@@ -58,7 +62,7 @@ function Game_Remot() {
 		// Attach key listener
 		const keyListener = (event: KeyboardEvent) => handleKeyPress(event);
 		window.addEventListener("keydown", keyListener);
-		return () => window.removeEventListener("keydown", keyListener); // Cleanup
+		return () => window.removeEventListener("keydown", keyListener);
 	  }, [socket]);
 
 	return (
@@ -91,14 +95,14 @@ function Game_Remot() {
 				{/* Ball */}
 				<div
 				  className="absolute w-[15px] h-[15px] bg-red-600 rounded-[50%]"
-				  style={{ left: "255px", top: "370px" }}
+				  style={{ left: `${gameState.ball.x}px`, top: `${gameState.ball.y}px` }}
 				></div>
 			  </div>
 			</div>
   
 			{/* Score Display */}
 			<div className="absolute text-6xl top-[920px] text-white z-10 font-luckiest">
-			  1 - 1
+			{gameState.score.player1} - {gameState.score.player2}
 			</div>
   
 			{/* Button Positioned Under Table */}
