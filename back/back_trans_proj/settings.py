@@ -86,6 +86,7 @@ INSTALLED_APPS = [
     'oauth2_discord',
     'oauth2_42',
     'listfriends'
+    # 'acheivements'
 ]
 
 CORS_ALLOWED_ORIGINS = [

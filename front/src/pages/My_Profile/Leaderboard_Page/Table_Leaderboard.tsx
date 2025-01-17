@@ -6,8 +6,12 @@ import The_two from "../Images/Leader_2.svg";
 import The_tree from "../Images/Leader_3.svg";
 import { usePlayer } from "../PlayerContext";
 import axios from "axios";
+import Cookies from "js-cookie";
+
 
 const Table_Leaderboard = () => {
+
+  const token = Cookies.get("access_token")
 
   interface list_leaderboard_user {
     username: string;
@@ -30,7 +34,6 @@ const Table_Leaderboard = () => {
       : leader.view_Profile_none;
   };
 
-
   const rankImages = (key: number): JSX.Element | null => {
     switch (key) {
       case 1:
@@ -46,14 +49,18 @@ const Table_Leaderboard = () => {
 
   useEffect(() => {
     axios
-      .get("http://127.0.0.1:8000/user_auth/leaderboard")
+      .get("http://127.0.0.1:8000/user_auth/leaderboard/", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((response) => {
         Setlist_users(response.data);
       })
       .catch((error) => console.error("Error fetching leaderboard:", error));
-  }, []);
+  }, [token]);
 
-  const click_it = (username:string) => {
+  const click_it = (username: string) => {
     navig(`/Profile/${username}`);
   };
 

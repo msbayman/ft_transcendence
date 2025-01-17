@@ -26,8 +26,14 @@ class SendFriendRequest(APIView):
 
         ################################# Check if a friend request already exists
 
-        # if Friend_request.objects.filter(my_user=sender, other_user=receiver, states='accepted').exists():
-        #     return Response({"error": "Friend request already sent"}, status=status.HTTP_400_BAD_REQUEST)
+        if Friend_request.objects.filter(my_user=sender, other_user=receiver, states='accepted').exists():
+            return Response({"error": "Friend request already sent"}, status=status.HTTP_400_BAD_REQUEST)
+        
+        denied = Friend_request.objects.filter(my_user=sender, other_user=receiver, states='denied').exists()
+        if denied:
+            denied.states = 'pending'
+            denied.save()
+            return Response({"error": "Friend Denied request already sent"}, status=status.HTTP_200_OK)
 
         # Create a new friend request
         Friend_request.objects.create(my_user=sender, other_user=receiver, states='pending')
@@ -87,36 +93,34 @@ class DeclineFriendRequest(APIView):
 
         # Find the pending friend request
         try:
-            friend_request = Friend_request.objects.get(my_user=sender, other_user=receiver, states='pending')
+            friend_request = Friend_request.objects.filter( models.Q(my_user=sender, other_user=receiver, states='pending') | models.Q(my_user=receiver, other_user=sender, states='pending') ).first()
         except Friend_request.DoesNotExist:
             return Response({"error": "No pending friend request found"}, status=status.HTTP_404_NOT_FOUND)
 
         # Update the friend request status to 'accepted'
-        friend_request.states = 'denied'
-        friend_request.save()
-
-        # Add each user to the other's friends list
-        # receiver.list_users_friends.add(sender)
-        # sender.list_users_friends.add(receiver)
-        # Friend_request.objects.create(my_user=sender, other_user=receiver, states='pending')
+        friend_request.delete()
 
         return Response({"message": "Friend request denied successfully"}, status=status.HTTP_200_OK)
 
 
 class CheckFriendRequest(APIView):
-    permission_classes = [IsAuthenticated] 
+    permission_classes = [IsAuthenticated]
+
     def get(self, request, username):
         user = request.user
         try:
             other_user = Player.objects.get(username=username)
         except Player.DoesNotExist:
-            return Response({"states": "None"})
+            return Response({"states": "denied"}, status=status.HTTP_404_NOT_FOUND)
 
+        # Retrieve the friend request object (if it exists)
         friend_request = Friend_request.objects.filter( models.Q(my_user=user, other_user=other_user) | models.Q(my_user=other_user, other_user=user) ).first()
 
+        # If no friend request exists, return "denied"
         if not friend_request:
-            return Response({"states": "None"})
-        
+            return Response({"states": "denied"}, status=status.HTTP_200_OK)
+
+        # Return the friend request details
         return Response({
             "my_user": friend_request.my_user.username,
             "other_user": friend_request.other_user.username,

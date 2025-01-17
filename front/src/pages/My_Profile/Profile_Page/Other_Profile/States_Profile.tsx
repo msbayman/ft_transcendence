@@ -1,4 +1,4 @@
-import * as React from "react";
+// import * as React from "react";
 import other from "./States_Profile.module.css";
 import { BarChart } from "@mui/x-charts/BarChart";
 
@@ -33,11 +33,11 @@ export const States_Profile = () => {
             ]}
             series={[
               {
-                data: [4, 3, 5, 0, 5],
+                data: [0, 0, 0, 0, 0],
                 color: "#04D100",
               },
               {
-                data: [1, 60, 3, 0, 1],
+                data: [0, 0, 0, 0, 0],
                 color: "red",
               },
             ]}
@@ -47,9 +47,7 @@ export const States_Profile = () => {
           />
         </div>
         <div className={other.info_table_stats}>
-          <span className={other.win_info}></span>
           <span className={other.text_win}> win</span>
-          <span className={other.lose_info}></span>
           <span className={other.text_lose}> Lose</span>
         </div>
       </div>

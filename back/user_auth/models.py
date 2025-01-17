@@ -21,6 +21,7 @@ class Player(AbstractUser):
     win_games = models.IntegerField(default=0)
     lose_games = models.IntegerField(default=0)
     list_users_friends = models.ManyToManyField('self', blank=True)
+    # nickname = models.CharField('', blank=True)
 
 
 

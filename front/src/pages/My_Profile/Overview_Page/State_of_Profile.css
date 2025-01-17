@@ -9,21 +9,26 @@
     border-radius: 60px;
     background: rgba(255, 255, 255, 0.40);
     backdrop-filter: blur(10px);
-    gap: 30px;
+    gap: 50px;
 }
 .part_1_state {
-    /* height: 50%; */
     display: flex;
-    /* flex-grow: 1; */
     flex-direction: row;
-    gap: 30px;
+    gap: 60px;
+}
+
+.Photo_border {
+    position: absolute;
+    width: 180px;
+    margin-top: -155px;
+    margin-left: -18px;
 }
 
 .Photo_P {
     border-radius: 50%;
-    width: 140px;
+    width: 120px;
     margin-top: -60px;
-    margin-left: 2%;
+    margin-left: 10%;
 }
 .Name_and_online-state {
     display: flex;
@@ -58,11 +63,13 @@
 
 .part_2_state {
     display: flex;
+    /* align-self: flex-end; */
     /* flex-wrap: wrap; */
+    /* width: 160px; */
     flex-direction: row;
     justify-content: space-around;
     align-items: center;
-    gap: 5px;
+    gap: 20px;
 }
 .win_state,.lose_state,.achievement_state,.exp_state {
     display: inline-flex;
