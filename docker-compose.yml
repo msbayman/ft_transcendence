@@ -11,7 +11,7 @@ services:
     volumes:
       - ./back:/app
     ports:
-      - "${BACKEND_PORT}:${BACKEND_PORT}"
+      - "8000:8000"
     environment:
       - DB_NAME=${DB_NAME}
       - DB_USER=${DB_USER}
@@ -31,7 +31,7 @@ services:
           "CMD",
           "curl",
           "-f",
-          "http://backend:${BACKEND_PORT}/user_auth/health_check",
+          "http://backend:8000/user_auth/health_check",
         ]
       interval: 10s
       timeout: 5s
@@ -63,7 +63,7 @@ services:
           user.set_password('$django_admin_password')
           user.save()
       \" | python manage.py shell;
-      python manage.py runserver 0.0.0.0:$BACKEND_PORT
+      python manage.py runserver 0.0.0.0:8000
       "
 
   frontend:
@@ -75,18 +75,23 @@ services:
       - ./front:/app
       - /app/node_modules
     ports:
-      - "${FRONTEND_PORT}:${FRONTEND_PORT}"
+      - "5173:5173"
     depends_on:
       backend:
         condition: service_healthy
     networks:
       - elk
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5173"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
     command:
       - /bin/sh
       - -c
       - |
         echo "Waiting for backend to be ready..."
-        while ! curl -s http://backend:${BACKEND_PORT}/user_auth/health_check >/dev/null; do
+        while ! curl -s http://backend:8000/user_auth/health_check >/dev/null; do
           sleep 5
         done
         echo "Backend is ready. Starting frontend..."
@@ -184,6 +189,22 @@ services:
       - ./back:/usr/share/logstash/back
     command: >
       logstash -f /usr/share/logstash/pipeline/logstash.conf
+
+
+  nginx:
+      image: nginx:latest
+      container_name: nginx
+      volumes:
+        - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      ports:
+        - "80:80"
+      depends_on:
+        frontend:
+          condition: service_healthy
+        backend:
+          condition: service_healthy
+      networks:
+        - elk
 
 networks:
   elk:

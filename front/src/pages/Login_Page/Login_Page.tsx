@@ -72,10 +72,10 @@ function Login_Page() {
   };
 
   const handleOAuthLogin = () => {
-    window.location.href = "http://localhost:8000/discord/login";
+    window.location.href = "http://localhost:8000/api/discord/login";
   };
   const handleOAuthLogin_42 = () => {
-    window.location.href = "http://localhost:8000/42/login";
+    window.location.href = "http://localhost:8000/api/42/login";
   };
 
   return (
