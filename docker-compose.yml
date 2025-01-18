@@ -36,22 +36,35 @@ services:
       interval: 10s
       timeout: 5s
       retries: 10
-    command:
-      - /bin/sh
-      - -c
-      - |
-        until pg_isready -h db -p 5432; do 
-          echo 'Waiting for database...'
-          sleep 5
-        done
-        echo 'Database is ready'
-        pip install -r /app/requirements.txt
-        python manage.py migrate
-        echo "from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.filter(username='admin').delete()" | python manage.py shell
-        echo "Creating superuser with username: ${django_admin_username}, email: ${django_admin_mail}, password: ${django_admin_password}"
-        echo "from django.contrib.auth import get_user_model; User = get_user_model(); user, created = User.objects.get_or_create(username='${django_admin_username}', defaults={'email': '${django_admin_mail}', 'is_superuser': True, 'is_staff': True, 'is_validate': True}); if created: user.set_password('${django_admin_password}'); user.save()" | python manage.py shell
-        python manage.py runserver 0.0.0.0:${BACKEND_PORT}
-        
+    command: >
+      /bin/sh -c "
+      until pg_isready -h db -p 5432; do 
+        echo 'Waiting for database...';
+        sleep 5;
+      done;
+      echo 'Database is ready';
+      pip install -r /app/requirements.txt;
+      python manage.py migrate;
+      echo \"from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.filter(username='admin').delete()\" | python manage.py shell;
+      echo \"Creating superuser with username: $django_admin_username, email: $django_admin_mail\";
+      echo \"
+      from django.contrib.auth import get_user_model
+      User = get_user_model()
+      user, created = User.objects.get_or_create(
+          username='$django_admin_username',
+          defaults={
+              'email': '$django_admin_mail',
+              'full_name': '$django_admin_full_name',
+              'is_superuser': True,
+              'is_staff': True
+          }
+      )
+      if created:
+          user.set_password('$django_admin_password')
+          user.save()
+      \" | python manage.py shell;
+      python manage.py runserver 0.0.0.0:$BACKEND_PORT
+      "
 
   frontend:
     build:
