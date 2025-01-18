@@ -122,6 +122,7 @@ class LoginAPIView(APIView):
             if not player.active_2fa:
                 refresh = RefreshToken.for_user(user)
                 return Response({
+                    'refresh': str(refresh),
                     'access': str(refresh.access_token),
                     'redirect_to': '/Overview'
                 }, status=status.HTTP_200_OK)
@@ -168,6 +169,7 @@ class VerifyOTP(APIView):
             player.save()
 
             return Response({
+                'refresh': str(refresh),
                 'access': str(refresh.access_token),
                 'redirect_to': '/Overview'
             }, status=status.HTTP_200_OK)
