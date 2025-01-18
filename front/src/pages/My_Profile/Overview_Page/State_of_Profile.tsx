@@ -1,15 +1,46 @@
 import "./State_of_Profile.css";
 import { CircularProgress, CircularProgressLabel } from "@chakra-ui/progress";
 import {usePlayer} from "../PlayerContext"
+import border_profile from "../../../assets/border_profile.png"
 
 const State_of_Profile = () => {
   const player = usePlayer();
+
+
+  const percentage = (total: number|undefined, win: number|undefined) => {
+    if (total === undefined || win === undefined || total === 0)
+      return 0
+    const result = (win / total) * 100;
+    return result
+  };
+
+  const percentage_lose = (total: number | undefined, lose: number | undefined) => {
+    if (total === undefined || lose === undefined || total === 0)
+      return 0
+    const result = (lose / total) * 100;
+    return result
+  };
+
+  const percentage_acheiv = (lose: number | undefined) => {
+    if (lose == undefined)
+        return 0
+    const result = (lose / 17) * 100;
+    return result
+  };
+
+  const percentage_exp = () => {
+
+    const result = (50 / 100) * 100;
+    return result
+  };
+
   return (
     <div className="all_content_state">
       <div className="part_1_state">
         <div className="Photo_Profile">
-          <div className="level_player"></div>
+          {/* <div className="level_player"></div> */}
           <img src={player.playerData?.profile_image} className="Photo_P" />
+          <img src={border_profile} className="Photo_border" />
         </div>
         <div className="Name_and_Online-state">
           <div className="Name">{player.playerData?.username}</div>
@@ -22,7 +53,7 @@ const State_of_Profile = () => {
         <div className="win_state hover-container">
           <CircularProgress
             capIsRound
-            value={60}
+            value={percentage(player.playerData?.total_games, player.playerData?.win_games)}
             color="green"
             size="100%"
             sx={{
@@ -32,7 +63,7 @@ const State_of_Profile = () => {
             }}
           >
             <CircularProgressLabel fontSize="calc(100px * 0.2)">
-              60%
+              {percentage(player.playerData?.total_games, player.playerData?.win_games)}%
             </CircularProgressLabel>
           </CircularProgress>
           <span className="hover-text">Win Rate</span>
@@ -40,7 +71,7 @@ const State_of_Profile = () => {
         <div className="lose_state hover-container">
           <CircularProgress
             capIsRound
-            value={30}
+            value={percentage_lose(player.playerData?.total_games, player.playerData?.lose_games)}
             color="red"
             size="100%"
             sx={{
@@ -50,7 +81,7 @@ const State_of_Profile = () => {
             }}
           >
             <CircularProgressLabel fontSize="calc(100px * 0.2)">
-              30%
+              {percentage_lose(player.playerData?.total_games, player.playerData?.lose_games)}%
             </CircularProgressLabel>
           </CircularProgress>
           <span className="hover-text">Lose Rate</span>
@@ -58,7 +89,7 @@ const State_of_Profile = () => {
         <div className="achievement_state hover-container">
           <CircularProgress
             capIsRound
-            value={20}
+            value={percentage_acheiv(player.playerData?.lose_games)}
             color="rebeccapurple"
             size="100%"
             sx={{
@@ -68,7 +99,7 @@ const State_of_Profile = () => {
             }}
           >
             <CircularProgressLabel fontSize="calc(100px * 0.2)">
-              20%
+            {percentage_acheiv(player.playerData?.lose_games)}%
             </CircularProgressLabel>
           </CircularProgress>
           <span className="hover-text">Acheivement Rate</span>
@@ -76,7 +107,7 @@ const State_of_Profile = () => {
         <div className="exp_state hover-container">
           <CircularProgress
             capIsRound
-            value={80}
+            value={percentage_exp()}
             color="yellow"
             size="100%"
             sx={{
@@ -86,9 +117,9 @@ const State_of_Profile = () => {
             }}
           >
             <CircularProgressLabel fontSize="calc(80px * 0.2)">
-              120
+              50
               <br />
-              /320
+              /100
             </CircularProgressLabel>
           </CircularProgress>
           <span className="hover-text">Exp Rate</span>

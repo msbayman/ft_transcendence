@@ -1,0 +1,148 @@
+{
+  "hash": "9bbaff94",
+  "configHash": "6e577991",
+  "lockfileHash": "a359295b",
+  "browserHash": "a6cc8b46",
+  "optimized": {
+    "react": {
+      "src": "../../node_modules/react/index.js",
+      "file": "react.js",
+      "fileHash": "7fc09691",
+      "needsInterop": true
+    },
+    "react-dom": {
+      "src": "../../node_modules/react-dom/index.js",
+      "file": "react-dom.js",
+      "fileHash": "44448fa7",
+      "needsInterop": true
+    },
+    "react-router-dom": {
+      "src": "../../node_modules/react-router-dom/dist/index.js",
+      "file": "react-router-dom.js",
+      "fileHash": "7e57f974",
+      "needsInterop": false
+    },
+    "js-cookie": {
+      "src": "../../node_modules/js-cookie/dist/js.cookie.mjs",
+      "file": "js-cookie.js",
+      "fileHash": "1797f15f",
+      "needsInterop": false
+    },
+    "axios": {
+      "src": "../../node_modules/axios/index.js",
+      "file": "axios.js",
+      "fileHash": "068e02d1",
+      "needsInterop": false
+    },
+    "react/jsx-dev-runtime": {
+      "src": "../../node_modules/react/jsx-dev-runtime.js",
+      "file": "react_jsx-dev-runtime.js",
+      "fileHash": "1cb4fa3c",
+      "needsInterop": true
+    },
+    "react/jsx-runtime": {
+      "src": "../../node_modules/react/jsx-runtime.js",
+      "file": "react_jsx-runtime.js",
+      "fileHash": "cd9f825f",
+      "needsInterop": true
+    },
+    "@chakra-ui/progress": {
+      "src": "../../node_modules/@chakra-ui/progress/dist/index.mjs",
+      "file": "@chakra-ui_progress.js",
+      "fileHash": "c58ac647",
+      "needsInterop": false
+    },
+    "@hookform/resolvers/zod": {
+      "src": "../../node_modules/@hookform/resolvers/zod/dist/zod.mjs",
+      "file": "@hookform_resolvers_zod.js",
+      "fileHash": "567788f3",
+      "needsInterop": false
+    },
+    "@mui/material": {
+      "src": "../../node_modules/@mui/material/index.js",
+      "file": "@mui_material.js",
+      "fileHash": "9baa262a",
+      "needsInterop": false
+    },
+    "@mui/material/Alert": {
+      "src": "../../node_modules/@mui/material/Alert/index.js",
+      "file": "@mui_material_Alert.js",
+      "fileHash": "f5534e78",
+      "needsInterop": false
+    },
+    "@mui/material/Button": {
+      "src": "../../node_modules/@mui/material/Button/index.js",
+      "file": "@mui_material_Button.js",
+      "fileHash": "0c8f7235",
+      "needsInterop": false
+    },
+    "@mui/x-charts/BarChart": {
+      "src": "../../node_modules/@mui/x-charts/BarChart/index.js",
+      "file": "@mui_x-charts_BarChart.js",
+      "fileHash": "a1a4a542",
+      "needsInterop": false
+    },
+    "framer-motion": {
+      "src": "../../node_modules/framer-motion/dist/es/index.mjs",
+      "file": "framer-motion.js",
+      "fileHash": "6b0baf5d",
+      "needsInterop": false
+    },
+    "react-dom/client": {
+      "src": "../../node_modules/react-dom/client.js",
+      "file": "react-dom_client.js",
+      "fileHash": "bd555986",
+      "needsInterop": true
+    },
+    "react-hook-form": {
+      "src": "../../node_modules/react-hook-form/dist/index.esm.mjs",
+      "file": "react-hook-form.js",
+      "fileHash": "d746912e",
+      "needsInterop": false
+    },
+    "zod": {
+      "src": "../../node_modules/zod/lib/index.mjs",
+      "file": "zod.js",
+      "fileHash": "1151ffbc",
+      "needsInterop": false
+    }
+  },
+  "chunks": {
+    "chunk-ZF2HZRFU": {
+      "file": "chunk-ZF2HZRFU.js"
+    },
+    "chunk-WSWV2TF3": {
+      "file": "chunk-WSWV2TF3.js"
+    },
+    "chunk-YAK6Y4RS": {
+      "file": "chunk-YAK6Y4RS.js"
+    },
+    "chunk-MVCQ7LQM": {
+      "file": "chunk-MVCQ7LQM.js"
+    },
+    "chunk-WLQPKP3X": {
+      "file": "chunk-WLQPKP3X.js"
+    },
+    "chunk-CCLCZ4YS": {
+      "file": "chunk-CCLCZ4YS.js"
+    },
+    "chunk-RTLT3PUQ": {
+      "file": "chunk-RTLT3PUQ.js"
+    },
+    "chunk-YANMOUHQ": {
+      "file": "chunk-YANMOUHQ.js"
+    },
+    "chunk-ZZLBGYQN": {
+      "file": "chunk-ZZLBGYQN.js"
+    },
+    "chunk-JO3Y3TZY": {
+      "file": "chunk-JO3Y3TZY.js"
+    },
+    "chunk-65KY755N": {
+      "file": "chunk-65KY755N.js"
+    },
+    "chunk-V4OQ3NZ2": {
+      "file": "chunk-V4OQ3NZ2.js"
+    }
+  }
+}

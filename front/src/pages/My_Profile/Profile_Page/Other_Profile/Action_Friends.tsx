@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import other from "./Action_Friends.module.css";
 import Cookies from "js-cookie";
 import { usePlayer } from "../../PlayerContext";
-import axios from "axios";
 
 interface data_request {
   my_user: string;
@@ -14,13 +13,8 @@ const Action_Friends = ({ username }: { username: string | undefined }) => {
   const mine = usePlayer();
 
   const [SendRequestFriend, SetSendRequestFriend] = useState(true);
-  // const [CheckStates, SetCheckStates] = useState<string>();
   const [Data, SetData] = useState<data_request | null>(null);
-  // const [CheckStatus, SetCheckStatus] = useState(true);
   const [AcceptFriend, SetAcceptFriend] = useState(true);
-  // const [SendRequestBlock, SetSendRequestBlock] = useState(true);
-
-  // const receiver = username;
 
   const token = Cookies.get("access_token");
 
@@ -51,7 +45,7 @@ const Action_Friends = ({ username }: { username: string | undefined }) => {
   }, [Data?.states]);
 
   const if_state = (states: string | undefined) => {
-    if (states === "None")
+    if (states === "denied")
       return (
         <>
           {SendRequestFriend ? (
@@ -127,7 +121,7 @@ const Action_Friends = ({ username }: { username: string | undefined }) => {
           ) : (
             <div className={other.accept_or_decline}>
               <div className={other.accept1}>
-                <button onClick={Is_Accept} className={other.accept1}>
+                {/* <button onClick={Is_Accept} className={other.accept1}> */}
                   <div className={other.add_friend_i}>
                     <img
                       src="/Icones/icone_add_friend.png"
@@ -136,10 +130,10 @@ const Action_Friends = ({ username }: { username: string | undefined }) => {
                     />
                     <span>Friend</span>
                   </div>
-                </button>
+                {/* </button> */}
               </div>
               <div className={other.decline1}>
-                <button onClick={Is_Denied} className={other.decline1}>
+                {/* <button onClick={Is_Denied} className={other.decline1}> */}
                   <div className={other.add_friend_i}>
                     <img
                       src="/Icones/icone_add_friend.png"
@@ -148,7 +142,7 @@ const Action_Friends = ({ username }: { username: string | undefined }) => {
                     />
                     <span>Message</span>
                   </div>
-                </button>
+                {/* </button> */}
               </div>
             </div>
           )}
@@ -158,7 +152,7 @@ const Action_Friends = ({ username }: { username: string | undefined }) => {
       return (
           <div className={other.accept_or_decline}>
             <div className={other.accept1}>
-              <button onClick={Is_Accept} className={other.accept1}>
+              {/* <button onClick={Is_Accept} className={other.accept1}> */}
                 <div className={other.add_friend_i}>
                   <img
                     src="/Icones/icone_add_friend.png"
@@ -167,10 +161,10 @@ const Action_Friends = ({ username }: { username: string | undefined }) => {
                   />
                   <span>Friend</span>
                 </div>
-              </button>
+              {/* </button> */}
             </div>
             <div className={other.decline1}>
-              <button onClick={Is_Denied} className={other.decline1}>
+              {/* <button onClick={Is_Denied} className={other.decline1}> */}
                 <div className={other.add_friend_i}>
                   <img
                     src="/Icones/icone_add_friend.png"
@@ -179,11 +173,13 @@ const Action_Friends = ({ username }: { username: string | undefined }) => {
                   />
                   <span>Message</span>
                 </div>
-              </button>
+              {/* </button> */}
             </div>
           </div>
       );
   };
+
+  // console.log(Data?.states + ' ---- ' + Data?.my_user + ' ---------- ' + Data?.other_user)
 
   const sendFriendRequest = async (username: string | undefined) => {
     try {
@@ -211,7 +207,7 @@ const Action_Friends = ({ username }: { username: string | undefined }) => {
   const deniedFriendRequest = async (username: string | undefined) => {
     try {
       const response = await fetch(
-        `http://127.0.0.1:8000/listfriends/decline-friend-request/${username}/`,
+        `http://127.0.0.1:8000/listfriends/decline-friend-requests/${username}/`,
         {
           method: "POST",
           headers: {
@@ -267,77 +263,7 @@ const Action_Friends = ({ username }: { username: string | undefined }) => {
     // SetSendRequestFriend(!SendRequestFriend);
   };
 
-  // const Is_Block = () => {
-  //   acceptFriendRequest(username)
-  //   SetSendRequestBlock(!SendRequestBlock);
-  // };
-  console.log(Data?.states + "----<><><");
   return <div className={other.All_Action}>{if_state(Data?.states)}</div>;
 };
 
 export default Action_Friends;
-
-{
-  /* <div className={other.Add_container}>
-  {SendRequestFriend ? (
-    <button onClick={Is_Send} className={other.add_friend}>
-      <div className={other.add_friend_i}>
-        <img
-          src="/Icones/icone_add_friend.png"
-          className={other.icone_add}
-          alt="icone_add_friend"
-        />
-        <span>Add Friend</span>
-      </div>
-    </button>
-  ) : (
-    // <button onClick={Is_Accept} className={other.cancel_request}>
-      <div className={other.cancel_request}>
-        <img
-          src="/Icones/icone_add_friend.png"
-          className={other.icone_cancel_request}
-          alt="icone_cancel_request"
-        />
-        <span>Waiting for Accept</span>
-      </div>
-    // </button>
-  )}
-</div>
-{/* <div className={other.Block_container}>
-  <div className={other.add_block}>
-    <img
-      src="/Icones/icone_block_friend.png"
-      className={other.icone_block}
-      alt="icone_block_friend"
-    />
-    <span>Block</span>
-  </div>
-</div> */
-}
-{
-  /* <div className={other.Block_container}> */
-}
-{
-  /* {SendRequestBlock ? (
-    <button onClick={Is_Block} className={other.add_block}>
-      <div className={other.add_block}>
-        <img
-          src="/Icones/icone_block_friend.png"
-          className={other.icone_block}
-          alt="icone_block_friend"
-        />
-        <span>Block</span>
-      </div>
-    </button>
-  ) : (
-      <div className={other.add_block}>
-        <img
-          src="/Icones/icone_block_friend.png"
-          className={other.icone_block}
-          alt="icone_block_friend"
-        />
-        <span>Unblock</span>
-      </div>
-  )} */
-}
-// </div> */}

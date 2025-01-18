@@ -4,6 +4,7 @@ import Cookies from "js-cookie";
 import axios from "axios";
 import { useWebSocket } from "./WebSocketContext";
 
+
 interface Friend {
   id: string;
   name: string;
@@ -39,10 +40,12 @@ const FriendsList: React.FC<SelectedUser> = ({ onClick }) => {
       setFriends(
         lastMessages.map((user: any, index: number) => ({
           id: index.toString(),
-          name: user.user2,
-          avatar: user.avatar || gojo,
+          name: user.user2.username,
+          avatar: user.user2.profile_image || gojo,
           online: index < 4,
-          content: user.last_message.content,
+          content: user.last_message.content.length > 10 
+          ? user.last_message.content.substring(0, 10) + '...' 
+          : user.last_message.content,
           timestamp: user.timestamp,
         }))
       );
@@ -61,7 +64,7 @@ const FriendsList: React.FC<SelectedUser> = ({ onClick }) => {
         onlineUsersList.map((user: any, index: number) => ({
           id: index.toString(),
           name: user.username,
-          avatar: user.avatar || gojo,
+          avatar: user.profile_image,
           online: index < 4,
         }))
       );

@@ -70,15 +70,31 @@ class ChatConsumer(AsyncWebsocketConsumer):
             )
         return conversation
 
+    async def chat_message(self, event):
+        await self.send(text_data=json.dumps({
+            'message': event['message'],
+            'sender': event['sender'],
+            'receiver': event['receiver'],
+            'timestamp': event['timestamp'],
+            'id': event['id']
+        }))
+
     async def receive(self, text_data):
         try:
             data = json.loads(text_data)
             message = data['message']
             user2_username = data['username']
-            # Check if message is empty
+            
+            # Check if message is empty or too long
             if not message.strip():
                 return
             
+            if len(message) > 100:  # Add character limit check
+                await self.send(text_data=json.dumps({
+                    'error': 'Message cannot exceed 100 characters'
+                }))
+                return
+                
             # Check if users are friends
             is_friend = await self.check_friendship(user2_username)
             if not is_friend:
@@ -94,6 +110,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
                     'message': 'Cannot send message - this user is either blocked or has blocked you'
                 }))
                 return
+                
             # Get receiver ID
             self.receiver_id = await self.get_user_id_by_username(user2_username)
             if not self.receiver_id:
@@ -130,14 +147,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         except Exception as e:
             await self.send(text_data=json.dumps({'error': str(e)}))
 
-    async def chat_message(self, event):
-        await self.send(text_data=json.dumps({
-            'message': event['message'],
-            'sender': event['sender'],
-            'receiver': event['receiver'],
-            'timestamp': event['timestamp'],
-            'id': event['id']
-        }))
+
 
     @database_sync_to_async
     def save_message(self, message):

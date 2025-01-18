@@ -125,6 +125,7 @@ INSTALLED_APPS = [
     'channels',
     'chat',
     'listfriends'
+    # 'acheivements'
 ]
 
 CORS_ALLOWED_ORIGINS = [

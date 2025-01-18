@@ -1,6 +1,8 @@
 import React, { createContext, useState, useContext, useRef } from "react";
 import Cookies from "js-cookie";
 import Alert from '@mui/material/Alert';
+import { usePlayer } from '../PlayerContext';
+
 
 interface Message {
   id: number;
@@ -23,11 +25,12 @@ interface WebSocketContextType {
 const WebSocketContext = createContext<WebSocketContextType | undefined>(undefined);
 
 export const WebSocketProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const PlayerInstance = usePlayer()
   const [messages, setMessages] = useState<Message[]>([]);
   const websocketRef = useRef<WebSocket | null>(null);
-  const [showBlockedPopup, setShowBlockedPopup] = useState(false);
+  const [ErrorPopUp, setErrorPopUp] = useState(false);
   const [blockedMessage, setBlockedMessage] = useState('');
-  const currentUser = Cookies.get("username");
+  const currentUser = PlayerInstance.playerData?.username
 
   const connect = (url: string) => {
     if (websocketRef.current?.readyState === WebSocket.OPEN) return;
@@ -48,8 +51,8 @@ export const WebSocketProvider: React.FC<{ children: React.ReactNode }> = ({ chi
         if (data.type === 'block_error' || data.error) {
           const errorMessage = data.message || data.error;
           setBlockedMessage(errorMessage);
-          setShowBlockedPopup(true);
-          setTimeout(() => setShowBlockedPopup(false), 3000);
+          setErrorPopUp(true);
+          setTimeout(() => setErrorPopUp(false), 3000);
           return;
         }
 
@@ -107,7 +110,7 @@ export const WebSocketProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   return (
     <WebSocketContext.Provider value={{ messages, connect, disconnect, sendMessage, currentUser }}>
       {children}
-      {showBlockedPopup && (
+      {ErrorPopUp && (
         <Alert  className="fixed top-4 right-4 bg-red-500 text-white px-4 py-2 rounded-md shadow-lg z-50 transition-opacity duration-300" variant="filled" severity="error">
         <p>{blockedMessage}</p>
       </Alert>
