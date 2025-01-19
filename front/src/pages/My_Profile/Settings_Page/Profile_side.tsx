@@ -1,4 +1,9 @@
 import React from "react";
+import { usePlayer } from "../PlayerContext";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPen } from "@fortawesome/free-solid-svg-icons";
+
+import CustomizedDialogs from "./Dialog";
 
 interface player_data {
   full_name: string;
@@ -12,6 +17,8 @@ interface ProfileSideProps {
 }
 
 function Profile_side({ player, setPlayerData }: ProfileSideProps) {
+  const data_player = usePlayer();
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setPlayerData((prev) => ({
@@ -22,11 +29,31 @@ function Profile_side({ player, setPlayerData }: ProfileSideProps) {
     console.log(value);
   };
   return (
-    <div className="from-box profile">
+    <div className="from-box profile overflow-hidden">
       <div className="prf-pic">
-        <div className="cover-pic">
-          <div className="union-bg-pic"></div>
+        <div className="bannerANDprofile">
+          <div className="cover-pic">
+            <div className="change-cover">
+              <FontAwesomeIcon icon={faPen} />
+              <CustomizedDialogs/>
+              <button>Change Cover</button>
+            </div>
+          </div>
+          <div className="profile-pic">
+            <div>
+              <img
+                src={data_player.playerData?.profile_image}
+                className="Photo"
+              />
+              <input type="file" className="change-profile" id="fileInput" />
+              <label htmlFor="fileInput" className="change-profile">
+                <FontAwesomeIcon icon={faPen} />
+                Change
+              </label>
+            </div>
+          </div>
         </div>
+
         <div className="params">
           <span className="username">
             <label>Username</label>

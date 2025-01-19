@@ -394,7 +394,7 @@ span {
   padding: 3rem 0rem 6rem 0rem;
   display: flex;
   flex-direction: column;
-  gap: 15em;
+  gap: 12em;
   margin: 0 auto;
   width: 100%;
 }
@@ -465,30 +465,97 @@ span {
   background-repeat: no-repeat;
   background-position-y: 10%;
   width: 100%;
-  box-shadow: 0 -2px 15px rgba(0, 0, 0, 0.335);
-  height: 15rem;
+  box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.335);
+  height: 18rem;
 }
 
-.cover-pic.blur {
-  filter: blur(4px);
-  cursor: pointer;
-}
 
-.union-bg-pic {
+.profile-pic {
   position: absolute;
-  background-image: url('../Images/profile.png');
-  background-repeat: no-repeat;
-  background-size: contain;
-  width: 15.5rem;
-  height: 15.5rem;
-  top: 5.67rem;
-  left: 8vw;
-  box-shadow: 0 5px 15px black;
+  display: flex;
+  top: 39rem;
+  justify-content: center;
+  align-items: center;
+  background-color: #612ae2;
+  width: 14.9rem;
+  height: 15rem;
+  right: 50%;
+  max-inline-size: 250px; 
+  max-block-size: 240px;  
   border-radius: 50%;
-  cursor: pointer;
-  transition: filter 0.3s ease;
+  box-shadow: 0 0 10px black;
+  margin-top: -160px;
+  margin-right: 4%;
 }
 
-.union-bg-pic.blur {
-  filter: blur(4px);
+.Photo {
+  border-radius: 50%;
+  width: 10dvw;
+  opacity: 1;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.51);
+}
+.change-profile {
+  position: absolute;
+  left: 1rem;
+  bottom: 1rem;
+  border-radius: 50%;
+  height: 13rem;
+  width: 13rem;
+  gap: 10px;
+  background-color: rgba(34, 42, 51, 0.45);
+  font-weight: 400;
+  text-transform: uppercase;
+  text-align: center;
+  font-size: 17px;
+  color: #fff;
+  opacity: 0;
+  transition: background 0.2s, opacity 0.2s;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+label.change-profile {
+  cursor: pointer;
+  font-weight: bolder;
+}
+
+input[type="file"] {
+  visibility: hidden;
+}
+
+.profile-pic:hover .change-profile {
+  opacity: 1;
+  display: flex;
+}
+
+.change-cover {
+  border-radius: 31px 31px 0 0;
+  display: flex;
+  justify-content:center;
+  gap: 10px;
+  align-items: center;
+  text-align: center;
+  background-color: rgba(37, 46, 56, .5);
+  font-weight: 400;
+  height: 40px;
+  text-transform: uppercase;
+  font-size: 19px;
+  color: #fff;
+  opacity: 0;
+  transition: background .2s, opacity .2s;
+  cursor: pointer;
+}
+
+.cover-pic:hover .change-cover {
+  opacity: 1;
+}
+
+.bannerANDprofile {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
