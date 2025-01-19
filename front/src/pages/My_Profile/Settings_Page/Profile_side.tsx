@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { usePlayer } from "../PlayerContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPen } from "@fortawesome/free-solid-svg-icons";
-
+import { useState } from "react";
 import CustomizedDialogs from "./Dialog";
+import Dialog from "@mui/material/Dialog";
 
 interface player_data {
   full_name: string;
@@ -19,6 +20,21 @@ interface ProfileSideProps {
 function Profile_side({ player, setPlayerData }: ProfileSideProps) {
   const data_player = usePlayer();
 
+
+// const BootstrapDialog = styled(Dialog)(({ theme }: { theme: any }) => ({
+//   "& .MuiDialogContent-root": {
+//     padding: theme.spacing(2),
+//   },
+//   "& .MuiDialogActions-root": {
+//     padding: theme.spacing(1),
+//   },
+//   "& .MuiDialog-paper": {
+//     maxWidth: "80vw", // 80% of viewport width
+//     width: "90em", // maximum width in pixels
+//     minHeight: "600px", // minimum height
+//   },
+// }));
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setPlayerData((prev) => ({
@@ -28,15 +44,28 @@ function Profile_side({ player, setPlayerData }: ProfileSideProps) {
     setPlayerData({ ...player, [name]: value });
     console.log(value);
   };
+  const [selectedCoverId, setSelectedCoverId] = useState(
+    data_player.playerData?.cover_image
+  );
+  useEffect(() => {
+    console.log(selectedCoverId);
+  }, [selectedCoverId]);
   return (
     <div className="from-box profile overflow-hidden">
       <div className="prf-pic">
         <div className="bannerANDprofile">
-          <div className="cover-pic">
+          <div
+            style={{
+              backgroundImage: `url(${data_player.playerData?.cover_image})`,
+            }}
+            className="cover-pic"
+          >
             <div className="change-cover">
               <FontAwesomeIcon icon={faPen} />
-              <CustomizedDialogs/>
-              <button>Change Cover</button>
+              <CustomizedDialogs
+                setSelectedCover={setSelectedCoverId}
+                currentCover={selectedCoverId || ""}
+              />
             </div>
           </div>
           <div className="profile-pic">
@@ -82,3 +111,19 @@ function Profile_side({ player, setPlayerData }: ProfileSideProps) {
 }
 
 export default Profile_side;
+import { styled } from "@mui/material/styles";
+
+const BootstrapDialog = styled(Dialog)(({ theme }) => ({
+  "& .MuiDialogContent-root": {
+    padding: theme.spacing(2),
+  },
+  "& .MuiDialogActions-root": {
+    padding: theme.spacing(1),
+  },
+  "& .MuiDialog-paper": {
+    maxWidth: "80vw", // 80% of viewport width
+    width: "90em", // maximum width in pixels
+    minHeight: "600px", // minimum height
+  },
+}));
+

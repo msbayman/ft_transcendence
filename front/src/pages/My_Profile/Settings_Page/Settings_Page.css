@@ -461,7 +461,6 @@ span {
 .cover-pic {
   position: relative;
   border-radius: 31px;
-  background-image: url('../Images/Back1.png');
   background-size: 100% 88rem;
   background-repeat: no-repeat;
   background-position-y: 10%;
