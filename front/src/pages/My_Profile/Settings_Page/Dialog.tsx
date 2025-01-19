@@ -1,79 +1,119 @@
-import * as React from 'react';
-import Button from '@mui/material/Button';
-import { styled } from '@mui/material/styles';
-import Dialog from '@mui/material/Dialog';
-import DialogTitle from '@mui/material/DialogTitle';
-import DialogContent from '@mui/material/DialogContent';
-import DialogActions from '@mui/material/DialogActions';
-import IconButton from '@mui/material/IconButton';
+import * as React from "react";
+import { styled } from "@mui/material/styles";
+import Dialog from "@mui/material/Dialog";
+import DialogContent from "@mui/material/DialogContent";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCheck } from "@fortawesome/free-solid-svg-icons";
+import { useState } from "react";
+
 // import CloseIcon from '@mui/icons-material/Close';
-import Typography from '@mui/material/Typography';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
-  '& .MuiDialogContent-root': {
+  "& .MuiDialogContent-root": {
     padding: theme.spacing(2),
   },
-  '& .MuiDialogActions-root': {
+  "& .MuiDialogActions-root": {
     padding: theme.spacing(1),
+  },
+  "& .MuiDialog-paper": {
+    maxWidth: "80vw", // 80% of viewport width
+    width: "90em", // maximum width in pixels
+    minHeight: "600px", // minimum height
+    borderRadius: "118px", // rounded corners
+    position: "relative",
+    left: "6%",
   },
 }));
 
-export default function CustomizedDialogs() {
-  const [open, setOpen] = React.useState(false);
+const SLIDEIMAPS = [
+  { mapPath: "1v1.png", id: 0, mapName: "1v1" },
+  { mapPath: "2v2.png", id: 1, mapName: "2v2" },
+  { mapPath: "vsBot.png", id: 2, mapName: "vsBot" },
+  { mapPath: "Tourn.png", id: 3, mapName: "Tournement" },
+];
+
+interface CustomizedDialogsProps {
+  setSelectedCover: (cover: string) => void;
+  currentCover: string;
+}
+
+export default function CustomizedDialogs({
+  setSelectedCover,
+  currentCover,
+}: CustomizedDialogsProps) {
+  const [open, setOpen] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(currentCover);
 
   const handleClickOpen = () => {
     setOpen(true);
   };
+
   const handleClose = () => {
     setOpen(false);
   };
 
+  const handleImageSelect = (imagePath: string) => {
+    setSelectedImage(imagePath);
+  };
+
+  const handleSave = () => {
+    setSelectedCover(selectedImage);
+    handleClose();
+  };
+
   return (
     <React.Fragment>
-      <Button variant="outlined" onClick={handleClickOpen}>
-        Open dialog
-      </Button>
+      <h4 onClick={handleClickOpen}>change cover</h4>
       <BootstrapDialog
         onClose={handleClose}
         aria-labelledby="customized-dialog-title"
         open={open}
+        maxWidth={false}
+        fullWidth
+        className="backdrop-filter backdrop-blur-sm"
       >
-        <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
-          Modal title
-        </DialogTitle>
-        <IconButton
-          aria-label="close"
-          onClick={handleClose}
-          sx={(theme) => ({
-            position: 'absolute',
-            right: 8,
-            top: 8,
-            color: theme.palette.grey[500],
-          })}
+        <DialogContent
+          dividers
+          className="rounded-[118px] bg-white grid grid-cols-1 relative "
         >
-          {/* <Clo/seIcon /> */}
-        </IconButton>
-        <DialogContent dividers>
-          <Typography gutterBottom>
-            Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
-            dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac
-            consectetur ac, vestibulum at eros.
-          </Typography>
-          <Typography gutterBottom>
-            Praesent commodo cursus magna, vel scelerisque nisl consectetur et.
-            Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.
-          </Typography>
-          <Typography gutterBottom>
-            Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus
-            magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec
-            ullamcorper nulla non metus auctor fringilla.
-          </Typography>
+          <h1 className="font-alexandria relative bottom-5">
+            Choose Your Cover
+          </h1>
+          <div className="flex flex-col items-center relative bottom-[3em]">
+            <div className="flex flex-wrap justify-evenly gap-3">
+              {SLIDEIMAPS.map((slide, index) => (
+                <div
+                  key={index}
+                  className={`relative cursor-pointerflex justify-start rounded-xl ${
+                    selectedImage === slide.mapPath
+                      ? "ring-4 ring-[#FF0000]"
+                      : ""
+                  }`}
+                  onClick={() => handleImageSelect(slide.mapPath)}
+                >
+                  <img
+                    src={slide.mapPath}
+                    alt={`Cover option ${index + 1}`}
+                    className="w-[30em] h-auto max-w-xl"
+                  />
+                  {selectedImage === slide.mapPath && (
+                    <div className="absolute top-2 right-2 bg-blue-500 rounded-full p-1">
+                      <FontAwesomeIcon icon={faCheck} className="text-white" />
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+            <div className="w-full flex justify-center relative top-7 items-center h-[90%] ">
+              <button
+                onClick={handleSave}
+                className="bg-blue-500 w-[10%] text-lg relative bottom-2 flex justify-center text-white p-2 rounded"
+              >
+                Save
+              </button>
+            </div>
+          </div>
         </DialogContent>
-        <DialogActions>
-          <Button autoFocus onClick={handleClose}>
-            Save changes
-          </Button>
-        </DialogActions>
       </BootstrapDialog>
     </React.Fragment>
   );
