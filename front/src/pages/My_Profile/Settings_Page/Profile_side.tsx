@@ -4,7 +4,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPen } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 import CustomizedDialogs from "./Dialog";
-import Dialog from "@mui/material/Dialog";
 
 interface player_data {
   full_name: string;
@@ -111,19 +110,4 @@ function Profile_side({ player, setPlayerData }: ProfileSideProps) {
 }
 
 export default Profile_side;
-import { styled } from "@mui/material/styles";
-
-const BootstrapDialog = styled(Dialog)(({ theme }) => ({
-  "& .MuiDialogContent-root": {
-    padding: theme.spacing(2),
-  },
-  "& .MuiDialogActions-root": {
-    padding: theme.spacing(1),
-  },
-  "& .MuiDialog-paper": {
-    maxWidth: "80vw", // 80% of viewport width
-    width: "90em", // maximum width in pixels
-    minHeight: "600px", // minimum height
-  },
-}));
 
