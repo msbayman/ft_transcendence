@@ -168,6 +168,7 @@ input[type="checkbox"] {
   vertical-align: middle;
   margin: 3px;
   -webkit-appearance: none;
+  appearance: none;
   background: none;
   border: 0;
   outline: 0;
