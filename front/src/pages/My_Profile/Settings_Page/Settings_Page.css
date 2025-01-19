@@ -399,64 +399,6 @@ span {
   margin: 0 auto;
   width: 100%;
 }
-/* .cover-pic {
-  position: relative;
-  border-radius: 31px;
-  background-image: url('../Images/Back1.png');
-  background-size: 100% 88rem;
-  background-repeat: no-repeat;
-  background-position-y: 10%;
-  width: 100%;
-  box-shadow: 0 -2px 15px rgba(0, 0, 0, 0.335);
-  height: 15rem;
-}
-.cover-pic:hover {
-  filter: blur(4px);
-  cursor: pointer;
-}
-
-
-
-.union-bg-pic {
-  position: absolute;
-  background-image: url('../Images/profile.png');
-  background-repeat: no-repeat;
-  background-size: contain;
-
-  width: 15.5rem;
-  height: 15.5rem;
-  top: 5.67rem;
-  left: 8vw;
-  box-shadow: 0 5px 15px black;
-  display: flex;
-  justify-content: center; 
-  padding-top: 0.5rem;
-  border-radius: 50%; 
-}
-.cover-pic:hover::before:not(.union-bg-pic:hover) {
-  filter: blur(4px);
-  cursor: pointer;
-}
-
-.profile-pic {
-  width: 15.5rem;
-  height: 15.5rem;
-  border-radius: 50%;
-  background-image: url('../Images/profile.png');
-  background-repeat: no-repeat;
-  background-size: contain;
-  box-shadow: 0 5px 15px black;
-  z-index: 9999;
-}
-
-.union-bg-pic{
-  pointer-events: none;pointer-events: auto;
-  cursor: pointer;
-} */
-
-
-
-
 
 .cover-pic {
   position: relative;
