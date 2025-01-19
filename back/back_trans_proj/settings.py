@@ -1,21 +1,76 @@
 from pathlib import Path
 from datetime import timedelta
 import os
+from dotenv import load_dotenv 
 # from django.contrib.auth.models import User  # Ensure no unexpected indentation here
 
+load_dotenv()
 
-# 42 OAuth Configuration
-OAUTH_42_CLIENT_ID = "u-s4t2ud-a4ca19d4122b0c8776673be4adb941c09df86f136d15c2be0d6cf1670894fa0e"
-OAUTH_42_CLIENT_SECRET = "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"
-OAUTH_42_REDIRECT_URI = 'http://127.0.0.1:8000/42/login_redirect'
+
+
+# OAuth 42 Configuration
+OAUTH_42_CLIENT_ID = os.getenv('OAUTH_42_CLIENT_ID')
+OAUTH_42_CLIENT_SECRET = os.getenv('OAUTH_42_CLIENT_SECRET')
+OAUTH_42_REDIRECT_URI = os.getenv('OAUTH_42_REDIRECT_URI')
 OAUTH_42_AUTHORIZATION_URL = 'https://api.intra.42.fr/oauth/authorize'
 OAUTH_42_TOKEN_URL = 'https://api.intra.42.fr/oauth/token'
 OAUTH_42_USER_INFO_URL = 'https://api.intra.42.fr/v2/me'
 
-SMTP_SERVER = 'smtp.gmail.com'
-SMTP_PORT = 587
-EMAIL_ADDRESS = 'aymanmsaoub@gmail.com'  # Replace with your email
-EMAIL_PASSWORD = 'adgi pcyk qimx zanw'        # Replace with your email password or app-specific password
+# Email Configuration
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = os.getenv('EMAIL_HOST')
+EMAIL_PORT = int(os.getenv('EMAIL_PORT'))
+EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS', 'True').lower() == 'true'
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL')
+
+# Discord OAuth Configuration
+OAUTH_DISCORD_CLIENT_ID = os.getenv('OAUTH_DISCORD_CLIENT_ID')
+OAUTH_DISCORD_CLIENT_SECRET = os.getenv('OAUTH_DISCORD_CLIENT_SECRET')
+OAUTH_DISCORD_REDIRECT_URI = os.getenv('OAUTH_DISCORD_REDIRECT_URI')
+OAUTH_DISCORD_TOKEN_URL = 'https://discord.com/api/oauth2/token'
+DISCORD_OAUTH_URL = f"https://discord.com/oauth2/authorize?client_id={OAUTH_DISCORD_CLIENT_ID}&response_type=code&redirect_uri={OAUTH_DISCORD_REDIRECT_URI}&scope=email+identify"
+DSCORD_API_V6 = 'https://discord.com/api/v6/users/@me'
+
+# LOGGING = {
+#     'version': 1,
+#     'disable_existing_loggers': False,
+#     'formatters': {
+#         'json': {
+#             'format': '{"timestamp": "%(asctime)s", "level": "%(levelname)s", "message": "%(message)s", "module": "%(module)s", "user": "%(user)s", "event_type": "%(event_type)s"}',
+#             'datefmt': '%Y-%m-%d %H:%M:%S'
+#         },
+#         'verbose': {
+#             'format': '{levelname} {asctime} {module} {message} {event_type}',
+#             'style': '{',
+#         },
+#     },
+#     'handlers': {
+#         'console': {
+#             'class': 'logging.StreamHandler',
+#             'formatter': 'json',
+#         },
+#         'file': {
+#             'level': 'INFO',
+#             'class': 'logging.FileHandler',
+#             'filename': 'django_debug.log',
+#             'formatter': 'json',  # Changed to JSON for better Elasticsearch indexing
+#         },
+#     },
+#     'loggers': {
+#         'django': {
+#             'handlers': ['console', 'file'],
+#             'level': 'INFO',
+#             'propagate': True,
+#         },
+#         'user_auth': {  # Add specific logger for your user_auth app
+#             'handlers': ['console', 'file'],
+#             'level': 'INFO',
+#             'propagate': True,
+#         },
+#     },
+# }
 
 
 OAUTH_DISCORD_CLIENT_ID = "1272193976983752706"
@@ -26,7 +81,6 @@ DISCORD_OAUTH_URL = "https://discord.com/oauth2/authorize?client_id=127219397698
 DSCORD_API_V6 = 'https://discord.com/api/v6/users/@me'
 
 
-
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'django-insecure-!9+ns2!3$k!*vdvy1#i+l7$&l67w_4j(x$4ln2ij$+7dorextm')
@@ -35,9 +89,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-CORS_ALLOW_ALL_ORIGINS = True
-
-CORS_ALLOW_CREDENTIALS = True
 
 TEMPLATES = [
     {
@@ -55,19 +106,6 @@ TEMPLATES = [
     },
 ]
 
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'console': {
-            'class': 'logging.StreamHandler',
-        },
-    },
-    'root': {
-        'handlers': ['console'],
-        'level': 'DEBUG',
-    },
-}
 
 
 INSTALLED_APPS = [
@@ -78,13 +116,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'channels',
-    'game',
-    'rest_framework',
+    'rest_framework', 
     'corsheaders',
     'user_auth',
     'oauth2_discord',
     'oauth2_42',
+    'game',
+    'channels',
+    'chat',
+    'listfriends'
 ]
 
 CORS_ALLOWED_ORIGINS = [
@@ -99,6 +139,8 @@ CSRF_COOKIE_SECURE = False  # Set to True in production
 CSRF_COOKIE_HTTPONLY = True
 CSRF_COOKIE_SAMESITE = 'Lax'  # Can be 'Strict' in production if appropriate
 
+
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -110,27 +152,16 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
 ]
 
-ASGI_APPLICATION = "back_trans_proj.asgi.application"
-
-CHANNEL_LAYERS = {
-    'default': {
-        'BACKEND': 'channels_redis.core.RedisChannelLayer',
-        'CONFIG': {
-            "hosts": [("redis", 6379)],
-        },
-    },
-}
-
 ROOT_URLCONF = 'back_trans_proj.urls'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres_db',
-        'USER': 'postgres_user',
-        'PASSWORD': 'postgres_password',
-        'HOST': 'db',
-        'PORT': '5432',
+        'ENGINE': os.getenv('ENGINE_db'),  
+        'NAME': os.getenv('DB_NAME'),  
+        'USER': os.getenv('DB_USER'),  
+        'PASSWORD': os.getenv('DB_PASSWORD'),  
+        'HOST': os.getenv('DB_HOST'),  
+        'PORT': os.getenv('DB_PORT'),  
     }
 }
 
@@ -152,7 +183,13 @@ AUTH_PASSWORD_VALIDATORS = [
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
-    )
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',  # This enforces authentication globally
+    ),
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
+    ),
 }
 
 SIMPLE_JWT = {
@@ -178,3 +215,18 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 AUTH_USER_MODEL = 'user_auth.player'
+
+ASGI_APPLICATION = "back_trans_proj.asgi.application"
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [("redis", 6379)],
+        },
+    },
+}
+# CORS_ALLOW_ALL_ORIGINS = True
+
+MEDIA_URL = '/media/'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

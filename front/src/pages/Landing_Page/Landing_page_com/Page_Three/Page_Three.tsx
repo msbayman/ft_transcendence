@@ -31,7 +31,9 @@ function Page_Three() {
           What are waiting for, upgrade your skills by Join us Now !!
         </p>
         <div className="btn_box">
-          <Button id="str">Play now</Button>
+          <Button id="str">
+          <a href="login">Play now</a>
+          </Button>
         </div>
       </div>
       <div className="empty_footer"></div>

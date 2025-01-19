@@ -11,16 +11,21 @@ class MatchMakingConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         await self.accept()
         self.user = self.scope["user"]
-
-        # if not self.user.is_authenticated:
-        #     await self.close()
-        #     return
+        if not self.user.is_authenticated:
+            await self.close()
+            return
+        if self.user in self.players:
+            return
         self.players.append(self.user)
         await self.creat_match()
 
     async def disconnect(self, close_code):
         if self.user in self.players:
             self.players.remove(self.user)
+        #     match_data = {
+        #         "type": "disconnect",
+        #     }
+        # await self.send(text_data=json.dumps(match_data))
 
     async def creat_match(self):
         if len(self.players) >= 2:
@@ -35,10 +40,28 @@ class MatchMakingConsumer(AsyncWebsocketConsumer):
             return Match.objects.create(player1=player1, player2=player2)
 
     async def start_game(self, player1, player2, match):
+        p1 = await self.get_player_data(player1)
+        p2 = await self.get_player_data(player2)
+        match_id = match.id
         match_data = {
-            "match_id": match.id,
-            "player1": player1.username,
-            "player2": player2.username,
+            "type": "game_start",
+            "match_id": match_id,
+            "player1": p1,
+            "player2": p2,
         }
         await self.send(text_data=json.dumps(match_data))
+
+    @database_sync_to_async
+    def get_player_data(self, player):
+        return {
+            "username": player.full_name,
+            "email": player.email,
+            "profile_image": player.profile_image.url if player.profile_image else None,
+            "points": player.points,
+            "level": player.level,
+            "total_games": player.total_games,
+            "win_games": player.win_games,
+            "lose_games": player.lose_games,
+        }
+
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
 import table_game from "../../assets/table.svg";
 import table_b from "../../assets/table_blue.svg";
@@ -16,7 +16,7 @@ function Game_Remot() {
 
 	useEffect(() => {
 		const token = Cookies.get("access_token");
-		const ws = new WebSocket(`ws://127.0.0.1:8000/ws/game//?token=${token}`);
+		const ws = new WebSocket(`ws://127.0.0.1:8000/ws/game/?token=${token}`);
 
 		ws.onopen = () => {
 			console.log("Connected to WebSocket");

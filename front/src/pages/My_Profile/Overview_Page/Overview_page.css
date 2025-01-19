@@ -19,6 +19,12 @@
         /* height: 100vh; */
         min-height: 940px;
     }
+
+    .Ps_Profile {
+        width: 60px;
+        /* height: 60px; */
+        background-position: center;
+    }
     
     .part_welcome {
         display: flex;
@@ -44,7 +50,7 @@
     }
     
     .Background_Profile {
-        background-image: url(../Images/Back1.png);
+        /* background-image: url(../Images/Back1.png); */
         background-size: cover;
         background-position:top;
         background-repeat: no-repeat;

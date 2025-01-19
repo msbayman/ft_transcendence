@@ -12,6 +12,34 @@ class Player(AbstractUser):
     otp_code = models.CharField(max_length=6,blank=True)  # OTP code
     created_at = models.DateTimeField(auto_now_add=True)  # Time when the OTP was created
     active_2fa = models.BooleanField(default=True)
+    is_validate = models.BooleanField(default=False)
+    profile_image = models.ImageField(upload_to='profile_images/', default='profile_images/default_profile.jpeg')
+    cover_image = models.ImageField(upload_to='cover_pictures/', default='cover_pictures/cover_picture_1.png')
+    points = models.IntegerField(default=0)
+    is_online = models.BooleanField(default=False)
+    level = models.IntegerField(default=1)
+    total_games = models.IntegerField(default=0)
+    win_games = models.IntegerField(default=0)
+    lose_games = models.IntegerField(default=0)
+    list_users_friends = models.ManyToManyField('self', blank=True)
+    blocked_users = models.ManyToManyField(
+        'self',
+        symmetrical=False,
+        related_name='blocked_by',
+        blank=True,
+    )
+    def block_user(self, user):
+        if user != self:
+            self.blocked_users.add(user)
+
+    def unblock_user(self, user):
+        self.blocked_users.remove(user)
+
+    def is_blocked(self, user):
+        return self.blocked_users.filter(pk=user.pk).exists()
+
+
+
 
     def is_expired(self):
         return timezone.now() > self.created_at + timedelta(minutes=5)

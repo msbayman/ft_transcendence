@@ -2,15 +2,27 @@ from rest_framework import serializers
 from .models import Player
 import re
 
+def normalize_fields(data):
+    data['username'] = data.get('username', '').lower()
+    data['email'] = data.get('email', '').lower()
+    data['full_name'] = data.get('full_name', '').lower()
+    return data
+
+
+
 class PlayerSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, required=False)
     re_password = serializers.CharField(write_only=True, required=False)
+    profile_image = serializers.ImageField(default='profile_images/default_profile.jpeg')
+    cover_image = serializers.ImageField(default='cover_pictures/cover_picture_1.png')
 
     class Meta:
         model = Player
         fields = [
-            'username', 'full_name', 'email', 'password', 
-            're_password', 'id_prov', 'prov_name', 'provider_identifier'
+            'username', 'full_name', 'email', 'password',  'is_validate' ,
+            're_password', 'id_prov', 'prov_name', 'provider_identifier',
+            'profile_image', 'cover_image', 'points','is_online',
+            'level', 'total_games', 'win_games', 'lose_games'
         ]
         extra_kwargs = {
             'username': {'required': True},
@@ -33,7 +45,7 @@ class PlayerSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("Username must contain only letters, numbers, hyphens, and underscores.")
         if 2 <= len(value) <= 40:
             return value
-        elif prov_name == "Discord" or prov_name == "42":
+        elif 'prov_name' == "Discord" or 'prov_name' == "42":
             return value
         else:
             raise serializers.ValidationError("Username length must be between 3 and 15 characters.")
@@ -65,6 +77,7 @@ class PlayerSerializer(serializers.ModelSerializer):
         return data
 
     def create(self, validated_data):
+        validated_data = normalize_fields(validated_data)
         validated_data.pop('re_password', None)
         is_oauth = 'prov_name' in validated_data and validated_data['prov_name']
 

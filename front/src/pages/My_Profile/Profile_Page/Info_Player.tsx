@@ -1,16 +1,18 @@
-import * as React from "react";
-import ph_pro from "../Images/profile.png";
 import './Info_Player.css';
 import { LinearProgress } from "@mui/material";
 import etoile from "../Images/Etoile.svg";
 import { CircularProgress, CircularProgressLabel } from "@chakra-ui/progress";
+import { usePlayer } from "../PlayerContext";
 
 export const Info_Player = () => {
+
+  const data_player = usePlayer();
+
   return (
     <div className="details_of_the_profile">
       <div className="Photo_and_state">
         <div className="Photo_of_the_profile">
-          <img src={ph_pro} className="Photo_P2" />
+          <img src={data_player.playerData?.profile_image} className="Photo_P2" />
         </div>
         <div className="States_Profile1">
           <div className="Win_and_Achievem">
@@ -97,7 +99,7 @@ export const Info_Player = () => {
       </div>
       <div className="Info_Player">
         <div className="The_level">
-          <div className="the_name_profile">Kacimo</div>
+          <div className="the_name_profile">{data_player.playerData?.username}</div>
           <div className="level_Profile">
             <div className="Progress_bar_lvl">
               <LinearProgress

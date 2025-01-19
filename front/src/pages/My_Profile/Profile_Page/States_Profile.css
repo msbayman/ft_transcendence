@@ -18,6 +18,7 @@
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+  gap: 30px;
   border-radius: 20px;
   height: 100%;
   width: 100%;
@@ -35,6 +36,12 @@
     stroke: white !important;
     shape-rendering: crispEdges;
     stroke-width: 1;
+}
+
+.MuiChartsAxis-tick{
+  stroke-width: 1;
+  shape-rendering: crispEdges;
+  stroke: white !important;
 }
 
 .the_table_stats {

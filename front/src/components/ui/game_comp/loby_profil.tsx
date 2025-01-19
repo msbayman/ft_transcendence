@@ -4,7 +4,7 @@ import test_profil from "../../../../public/test_profile.svg";
 import lvlHolder from "../../../../public/lvl_holder.svg";
 import nameHolder from "../../../../public/name_hlder.svg";
 
-function Player_Profil() {
+function Player_Profil(props) {
     return (
         <div className="relative h-[500px] w-[500px]">
             <img className="absolute " src={test_profil} alt="" />

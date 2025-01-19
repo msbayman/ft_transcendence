@@ -75,21 +75,21 @@
     max-width: 85px;
 }
 
-.win_state {
-    /* background-color: green; */
-    color: black;
+/* .win_state {
+    backdrop-filter: blur(10px);
+} */
+
+/* .lose_state {
+    backdrop-filter: blur(10px);
+} */
+
+/* .achievement_state {
+    backdrop-filter: blur(10px);
 }
 
-.lose_state {
-    /* background-color: red; */
-}
-
-.achievement_state {
-    /* background-color: rebeccapurple; */
-}
 .exp_state {
-    /* background-color: yellow; */
-}
+    backdrop-filter: blur(10px);
+} */
 
 .hover-container {
     position: relative;

@@ -20,6 +20,8 @@ from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
 )
+from django.conf import settings
+from django.conf.urls.static import static
 
 
 urlpatterns = [
@@ -31,4 +33,11 @@ urlpatterns = [
     path("42/",include("oauth2_42.urls")),
     path("check_csrf_tok/",include("check_csrf_token.urls")),
     path('game/', include('game.urls')),
+    path("chat/",include("chat.urls")),
+    # path("listfriends/",include("listfriends.urls")),
+    path('listfriends/', include('listfriends.urls')),  # Include the app's URLs
+
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
