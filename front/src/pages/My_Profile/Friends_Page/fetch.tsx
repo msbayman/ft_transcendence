@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import gojo from "../assets/gojo.png";
 
 interface Message {
@@ -24,28 +24,32 @@ interface Friend {
 }
 
 export default function Messages() {
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
   const [friends, setFriends] = useState<Friend[]>([]);
 
   useEffect(() => {
     const fetchLastMessages = async () => {
       try {
-        const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM0ODg5MTUyLCJpYXQiOjE3MzQ2Mjk5NTIsImp0aSI6IjAwNWUzMzkyYzNhYjRlYjQ4NzFmZjBkMDZjNGZiN2I3IiwidXNlcl9pZCI6MTN9.JvIy7LzOWsDu_h4D5JpmrSNapBLTKR3UQ2q7YWQp7vw';
-        
-        console.log('Fetching messages...');
-        const response = await fetch('http://127.0.0.1:8000/chat/last-message/', {
-          method: 'GET',
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          }
-        });
+        const token =
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM0ODg5MTUyLCJpYXQiOjE3MzQ2Mjk5NTIsImp0aSI6IjAwNWUzMzkyYzNhYjRlYjQ4NzFmZjBkMDZjNGZiN2I3IiwidXNlcl9pZCI6MTN9.JvIy7LzOWsDu_h4D5JpmrSNapBLTKR3UQ2q7YWQp7vw";
 
-        console.log('Response status:', response.status);
+        console.log("Fetching messages...");
+        const response = await fetch(
+          "https://localhost:8000/chat/last-message/",
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        console.log("Response status:", response.status);
 
         if (!response.ok) {
           if (response.status === 404) {
-            console.log('No messages found');
+            console.log("No messages found");
             setFriends([]);
             return;
           }
@@ -53,19 +57,19 @@ export default function Messages() {
         }
 
         const data: LastMessage[] = await response.json();
-        console.log('Received data:', data);
+        console.log("Received data:", data);
 
         const convertedFriends: Friend[] = data.map((messageData, index) => ({
           id: index.toString(),
           name: messageData.user2,
           avatar: gojo,
           online: index < 4, // First 4 users shown as online
-          lastMessage: messageData.last_message.content
+          lastMessage: messageData.last_message.content,
         }));
 
         setFriends(convertedFriends);
       } catch (error) {
-        console.error('Fetch error:', error);
+        console.error("Fetch error:", error);
       }
     };
 
@@ -77,9 +81,18 @@ export default function Messages() {
       <header className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold">Messages</h1>
         <button className="p-2" aria-label="Compose new message">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
-            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
           </svg>
         </button>
       </header>
@@ -88,7 +101,10 @@ export default function Messages() {
         <h2 className="text-2xl mb-4">Friends</h2>
         <div className="flex overflow-x-auto pb-4 gap-4">
           {friends.map((friend) => (
-            <div key={friend.id} className="flex flex-col items-center flex-shrink-0">
+            <div
+              key={friend.id}
+              className="flex flex-col items-center flex-shrink-0"
+            >
               <div className="relative">
                 <img
                   src={friend.avatar}
@@ -125,7 +141,7 @@ export default function Messages() {
               <div className="flex-1 min-w-0">
                 <h3 className="font-semibold">{friend.name}</h3>
                 <p className="text-sm text-gray-300 truncate">
-                  {friend.lastMessage || 'No messages yet'}
+                  {friend.lastMessage || "No messages yet"}
                 </p>
               </div>
             </div>

@@ -37,18 +37,21 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
     const fetchUsers = async () => {
       try {
         const token = Cookies.get("access_token");
-        const response = await fetch('http://127.0.0.1:8000/chat/getconversation/', {
-          method: 'GET',
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json',
-            'Username': value,
-          },
-        });
+        const response = await fetch(
+          "https://localhost:8000/chat/getconversation/",
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+              Username: value,
+            },
+          }
+        );
 
         if (!response.ok) {
           if (response.status === 404) {
-            console.log('No messages found');
+            console.log("No messages found");
             setMessages([]);
             return;
           }
@@ -57,17 +60,19 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
 
         const rawJson: APIResponse[] = await response.json();
 
-        const messages: Message[] = rawJson.map((msg: APIResponse) => ({
-          id: msg.id,
-          sent: msg.sender === value,
-          text: msg.content,
-          avatar: gojo,
-          timestamp: msg.timestamp,
-        })).sort((a, b) => a.timestamp - b.timestamp);
+        const messages: Message[] = rawJson
+          .map((msg: APIResponse) => ({
+            id: msg.id,
+            sent: msg.sender === value,
+            text: msg.content,
+            avatar: gojo,
+            timestamp: msg.timestamp,
+          }))
+          .sort((a, b) => a.timestamp - b.timestamp);
 
         setMessages(messages);
       } catch (error) {
-        console.error('Error fetching messages:', error);
+        console.error("Error fetching messages:", error);
       }
     };
 
@@ -88,16 +93,18 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
         text: input,
         sent: true,
         avatar: gojo,
-        timestamp: timestamp
+        timestamp: timestamp,
       };
 
-      setMessages(prevMessages => [...prevMessages, newMessage].sort((a, b) => a.timestamp - b.timestamp));
+      setMessages((prevMessages) =>
+        [...prevMessages, newMessage].sort((a, b) => a.timestamp - b.timestamp)
+      );
       setInput("");
 
       // You might want to add the API call to send the message here
       // try {
       //   const token = Cookies.get("access_token");
-      //   await fetch('http://127.0.0.1:8000/chat/sendmessage/', {
+      //   await fetch('https://localhost:8000/chat/sendmessage/', {
       //     method: 'POST',
       //     headers: {
       //       'Authorization': `Bearer ${token}`,
@@ -115,9 +122,9 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
   };
 
   const formatTimestamp = (timestamp: number) => {
-    return new Date(timestamp).toLocaleTimeString([], { 
-      hour: '2-digit', 
-      minute: '2-digit' 
+    return new Date(timestamp).toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
     });
   };
 
@@ -144,7 +151,11 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
           >
             {message.sent && (
               <div className="h-10 w-10">
-                <img src={message.avatar} alt="Profile" className="rounded-full" />
+                <img
+                  src={message.avatar}
+                  alt="Profile"
+                  className="rounded-full"
+                />
               </div>
             )}
             <div
@@ -159,7 +170,11 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
             </div>
             {!message.sent && (
               <div className="h-10 w-10">
-                <img src={message.avatar} alt="Profile" className="rounded-full" />
+                <img
+                  src={message.avatar}
+                  alt="Profile"
+                  className="rounded-full"
+                />
               </div>
             )}
           </div>
@@ -197,6 +212,6 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
       </div>
     </div>
   );
-}
+};
 
 export default ChatInterface;

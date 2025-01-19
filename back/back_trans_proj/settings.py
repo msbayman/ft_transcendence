@@ -75,7 +75,7 @@ LOGGING = {
 
 OAUTH_DISCORD_CLIENT_ID = "1272193976983752706"
 OAUTH_DISCORD_CLIENT_SECRET = "gDEzOmoJ_gNmEBP4IPAfN9v_S3oQn_tK"
-OAUTH_DISCORD_REDIRECT_URI = 'http://127.0.0.1:8000/api/discord/login_redirect'
+OAUTH_DISCORD_REDIRECT_URI = 'https://localhost:8000/api/discord/login_redirect'
 OAUTH_DISCORD_TOKEN_URL = 'https://discord.com/api/oauth2/token'
 DISCORD_OAUTH_URL = "https://discord.com/oauth2/authorize?client_id=1272193976983752706&response_type=code&redirect_uri=http%3A%2F%2F127.0.0.1%3A8000%2Fapi%2Fdiscord%2Flogin_redirect&scope=identify+email"
 DSCORD_API_V6 = 'https://discord.com/api/v6/users/@me'
@@ -128,11 +128,11 @@ INSTALLED_APPS = [
 ]
 
 CORS_ALLOWED_ORIGINS = [
-    'http://localhost:5173',
+    'https://localhost:5173',
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    'http://localhost:5173',
+    'https://localhost:5173',
 ]
 
 CSRF_COOKIE_SECURE = False  # Set to True in production

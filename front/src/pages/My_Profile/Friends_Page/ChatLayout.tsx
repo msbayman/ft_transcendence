@@ -3,11 +3,11 @@ import { useWebSocket } from "./WebSocketContext";
 import gojo from "../assets/gojo.png";
 import "./test.css";
 import Cookies from "js-cookie";
-import axios from 'axios';
+import axios from "axios";
 import { boolean } from "zod";
-import blockIcon from "../../../assets/block.svg"
-import viewprofile from "../../../assets/viewprofile.svg"
-import challenge from "../../../assets/challenge.svg"
+import blockIcon from "../../../assets/block.svg";
+import viewprofile from "../../../assets/viewprofile.svg";
+import challenge from "../../../assets/challenge.svg";
 
 interface APIResponse {
   id: number;
@@ -44,13 +44,13 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
     setShowDiv((prevState) => !prevState);
   };
 
-  const [isblock, setIsBlock] = useState(false);  // Initially, not blocked
+  const [isblock, setIsBlock] = useState(false); // Initially, not blocked
   const block = async () => {
     try {
       if (!isblock) {
         // Block the user
         await axios.post(
-          `http://127.0.0.1:8000/chat/block_user/${value}`,
+          `https://localhost:8000/chat/block_user/${value}`,
           {}, // empty body
           {
             headers: {
@@ -63,7 +63,7 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
       } else {
         // Unblock the user
         await axios.post(
-          `http://127.0.0.1:8000/chat/unblock_user/${value}`,
+          `https://localhost:8000/chat/unblock_user/${value}`,
           {}, // empty body
           {
             headers: {
@@ -78,17 +78,17 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
       console.log("Error:", error);
     }
   };
-  
+
   const username = Cookies.get("username");
 
   useEffect(() => {
     if (value === "") return;
-  
+
     const fetchData = async () => {
       try {
         // Fetch the conversation
         const conversationResponse = await axios.get(
-          `http://127.0.0.1:8000/chat/getconversation/${value}`,
+          `https://localhost:8000/chat/getconversation/${value}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -96,7 +96,7 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
             },
           }
         );
-  
+
         if (conversationResponse.status === 200) {
           const initialMessages: Message[] = conversationResponse.data
             .map((msg: APIResponse) => ({
@@ -109,7 +109,7 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
               receiver: msg.receiver,
             }))
             .sort((a: Message, b: Message) => a.id - b.id);
-  
+
           setLocalMessages(initialMessages);
         }
       } catch (error) {
@@ -117,11 +117,11 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
         setLocalMessages([]);
       }
     };
-  
+
     const fetchBlockStatus = async () => {
       try {
         const blockStatusResponse = await axios.get(
-          `http://127.0.0.1:8000/chat/isblocked/${value}/`,
+          `https://localhost:8000/chat/isblocked/${value}/`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -129,24 +129,25 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
             },
           }
         );
-        setIsBlock(blockStatusResponse.data.is_blocked)
+        setIsBlock(blockStatusResponse.data.is_blocked);
       } catch (error) {
         console.error("Error fetching block status:", error);
       }
     };
-  
+
     fetchData();
     fetchBlockStatus();
   }, [value]);
-  
 
   useEffect(() => {
     if (messages.length > 0) {
-      setLocalMessages(prevMessages => {
+      setLocalMessages((prevMessages) => {
         const newMessages = [...prevMessages];
-        messages.forEach(wsMessage => {
+        messages.forEach((wsMessage) => {
           if (wsMessage.sender === value || wsMessage.receiver === value) {
-            const existingMessageIndex = newMessages.findIndex(msg => msg.id === wsMessage.id);
+            const existingMessageIndex = newMessages.findIndex(
+              (msg) => msg.id === wsMessage.id
+            );
 
             if (existingMessageIndex === -1) {
               newMessages.push({
@@ -161,7 +162,6 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
       });
     }
   }, [messages, value, username]);
-  
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -174,7 +174,7 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
 
     const message = {
       username: value,
-      message: input
+      message: input,
     };
 
     console.log("Sending message:", message);
@@ -190,7 +190,9 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
   // };
 
   if (value === "") {
-    return <div className="w-11/12 rounded-l-[44px] flex flex-col bg-[#5012C4] p-4"></div>;
+    return (
+      <div className="w-11/12 rounded-l-[44px] flex flex-col bg-[#5012C4] p-4"></div>
+    );
   }
 
   return (
@@ -200,15 +202,21 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
           <div className="flex justify-between text-3xl p-3 items-center">
             <div>Details</div>
             <div>
-              <svg 
-                className="w-[32px] h-[32px] text-gray-800 dark:text-white cursor-pointer" 
-                aria-hidden="true" 
-                xmlns="http://www.w3.org/2000/svg" 
-                fill="none" 
+              <svg
+                className="w-[32px] h-[32px] text-gray-800 dark:text-white cursor-pointer"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
                 viewBox="0 0 24 24"
                 onClick={toggleDiv}
               >
-                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18 17.94 6M18 18 6.06 6"/>
+                <path
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M6 18 17.94 6M18 18 6.06 6"
+                />
               </svg>
             </div>
           </div>
@@ -226,20 +234,22 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
           </div>
           <hr className="max-w-lg mt-1.5" />
           <div className="flex justify-between align-middle m-5">
-              <button className="w-[100px] flex flex-col items-center justify-center gap-1 rounded hover:bg-[#8f6edd]">
-                <img className="" src={challenge} alt="" />
-                <p>chalenge</p>
-              </button>
-              <button onClick={block} className="w-[100px] flex flex-col items-center justify-center gap-1 rounded hover:bg-[#8f6edd]" >
-                <img src={blockIcon} alt="" />
-                <p> {isblock ? "ubblock user": "block user"}</p>
-              </button>
+            <button className="w-[100px] flex flex-col items-center justify-center gap-1 rounded hover:bg-[#8f6edd]">
+              <img className="" src={challenge} alt="" />
+              <p>chalenge</p>
+            </button>
+            <button
+              onClick={block}
+              className="w-[100px] flex flex-col items-center justify-center gap-1 rounded hover:bg-[#8f6edd]"
+            >
+              <img src={blockIcon} alt="" />
+              <p> {isblock ? "ubblock user" : "block user"}</p>
+            </button>
           </div>
           {/* <button onClick={block}>
             <img src={icon} alt="" />
             {isblock ? "ubblock user": "block user"}
           </button> */}
-          
         </div>
       )}
 
@@ -278,16 +288,24 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
           {localMessages.map((message) => (
             <div
               key={message.id}
-              className={`flex items-start gap-3 ${message.sent ? "" : "justify-end"}`}
+              className={`flex items-start gap-3 ${
+                message.sent ? "" : "justify-end"
+              }`}
             >
               {message.sent && (
                 <div className="h-10 w-10">
-                  <img src={message.avatar} alt="Profile" className="rounded-full" />
+                  <img
+                    src={message.avatar}
+                    alt="Profile"
+                    className="rounded-full"
+                  />
                 </div>
               )}
               <div
                 className={`rounded-2xl px-4 py-2 max-w-[80%] ${
-                  message.sent ? "bg-white text-black" : "bg-gray-200 text-black"
+                  message.sent
+                    ? "bg-white text-black"
+                    : "bg-gray-200 text-black"
                 }`}
               >
                 <p>{message.text}</p>
@@ -301,7 +319,11 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
               </div>
               {!message.sent && (
                 <div className="h-10 w-10">
-                  <img src={message.avatar} alt="Profile" className="rounded-full" />
+                  <img
+                    src={message.avatar}
+                    alt="Profile"
+                    className="rounded-full"
+                  />
                 </div>
               )}
             </div>

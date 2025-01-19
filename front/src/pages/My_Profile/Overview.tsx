@@ -58,7 +58,7 @@ function Overview() {
     // Make the request before removing tokens
     try {
       await axios.post(
-        "http://127.0.0.1:8000/api/user_auth/LogoutAPIView/",
+        "https://localhost:8000/api/user_auth/LogoutAPIView/",
         { refresh_token: refreshToken },
         {
           headers: accessToken
@@ -73,10 +73,10 @@ function Overview() {
     }
   };
   const dataPlayer = usePlayer();
-  console.log(dataPlayer)
+  console.log(dataPlayer);
   const Choose_Profile = () => {
     const { username } = useParams<{ username: string }>();
-    console.log(dataPlayer.playerData?.username + '-----------' + username)
+    console.log(dataPlayer.playerData?.username + "-----------" + username);
     return dataPlayer.playerData?.username === username ? (
       <Profile_Page />
     ) : (
@@ -196,9 +196,17 @@ function Overview() {
             <div className={getNavLinkBar("/Leadearboard")}></div>
           </NavLink>
         </div>
-        <div className={`${over.content_navbar_item2} ${over.content_navbar_item2_hide}`} >
-          <div className={over.hr_cont}> <hr className={over.brr} /> </div>
-          <NavLink to="/notifications" className={`${over.navbar_item2} ${over.Notifications}`} >
+        <div
+          className={`${over.content_navbar_item2} ${over.content_navbar_item2_hide}`}
+        >
+          <div className={over.hr_cont}>
+            {" "}
+            <hr className={over.brr} />{" "}
+          </div>
+          <NavLink
+            to="/notifications"
+            className={`${over.navbar_item2} ${over.Notifications}`}
+          >
             <img src={Notifications} className={over.imgg} />
             <span className={over.hidden_name}>Notifications</span>
           </NavLink>

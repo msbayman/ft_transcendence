@@ -8,7 +8,6 @@ import { usePlayer } from "../PlayerContext";
 import axios from "axios";
 
 const Table_Leaderboard = () => {
-
   interface list_leaderboard_user {
     username: string;
     profile_image: string;
@@ -30,7 +29,6 @@ const Table_Leaderboard = () => {
       : leader.view_Profile_none;
   };
 
-
   const rankImages = (key: number): JSX.Element | null => {
     switch (key) {
       case 1:
@@ -46,14 +44,14 @@ const Table_Leaderboard = () => {
 
   useEffect(() => {
     axios
-      .get("http://127.0.0.1:8000/api/user_auth/leaderboard")
+      .get("https://localhost:8000/api/user_auth/leaderboard")
       .then((response) => {
         Setlist_users(response.data);
       })
       .catch((error) => console.error("Error fetching leaderboard:", error));
   }, []);
 
-  const click_it = (username:string) => {
+  const click_it = (username: string) => {
     navig(`/Profile/${username}`);
   };
 
@@ -74,7 +72,7 @@ const Table_Leaderboard = () => {
               </div>
               <div className={leader.imgclass}>
                 <img
-                  src={"http://127.0.0.1:8000" + data.profile_image}
+                  src={"https://localhost:8000" + data.profile_image}
                   alt="photo_Profile"
                   className={leader.class_img}
                 />

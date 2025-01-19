@@ -37,18 +37,18 @@ function Login_Page() {
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    ispanding(true) ;
+    ispanding(true);
     e.preventDefault();
-    
+
     try {
       const response = await axios.post(
-        "http://127.0.0.1:8000/api/user_auth/login_simple",
+        "https://localhost/api/user_auth/login_simple",
         {
           username,
           password,
         }
       );
-      
+
       if (response.status === 200) {
         if (response.data.twofa_required) {
           const redirectUrl = `${response.data.redirect_to}?username=${response.data.username}`;
@@ -65,17 +65,17 @@ function Login_Page() {
         setErrorMessage(response.data.detail);
       }
     } catch (error) {
-      ispanding(false) ;
+      ispanding(false);
       setErrorMessage("An unexpected error occurred. Please try again later.");
     }
-    ispanding(false) ;
+    ispanding(false);
   };
 
   const handleOAuthLogin = () => {
-    window.location.href = "http://localhost:8000/api/discord/login";
+    window.location.href = "https://localhost:8000/api/discord/login";
   };
   const handleOAuthLogin_42 = () => {
-    window.location.href = "http://localhost:8000/api/42/login";
+    window.location.href = "https://localhost:8000/api/42/login";
   };
 
   return (
@@ -165,23 +165,23 @@ function Login_Page() {
                         color: "white",
                       },
                     }}
-                    
                   />
                   {Errmsg && <p id="err_msg">Invalid username or password</p>}
                 </div>
 
                 <div className="login_btn_forget">
-
-                {!panding &&  <button id="btn_login" type="submit">
-                    LOG IN
-                  </button>}
+                  {!panding && (
+                    <button id="btn_login" type="submit">
+                      LOG IN
+                    </button>
+                  )}
                 </div>
                 <span className="dotted-line">
                   <div id="or">or</div>
                 </span>
               </form>
               <div className="login_42_google">
-               <img
+                <img
                   className="auth cursor-pointer"
                   src="connect_with_google.svg"
                   alt="login google"

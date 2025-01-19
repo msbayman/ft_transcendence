@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 
 interface User {
   id: number;
@@ -13,12 +13,12 @@ const UserList: React.FC = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await fetch('http://localhost:8000/api/users/', {
+        const response = await fetch("https://localhost:8000/api/users/", {
           headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${localStorage.getItem('token')}`, // Optional: If using token-based auth
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`, // Optional: If using token-based auth
           },
-          credentials: 'include', // If using session-based auth
+          credentials: "include", // If using session-based auth
         });
 
         if (!response.ok) {
@@ -28,7 +28,7 @@ const UserList: React.FC = () => {
         const data: User[] = await response.json();
         setUsers(data);
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'An error occurred');
+        setError(err instanceof Error ? err.message : "An error occurred");
       } finally {
         setLoading(false);
       }
