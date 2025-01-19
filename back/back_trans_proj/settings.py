@@ -156,12 +156,12 @@ ROOT_URLCONF = 'back_trans_proj.urls'
 
 DATABASES = {
     'default': {
-        'ENGINE': os.getenv('ENGINE_db'),  
-        'NAME': os.getenv('DB_NAME'),  
+        'ENGINE': 'django.db.backends.postgresql',  
+        'NAME': 'postgres_db',  
         'USER': os.getenv('DB_USER'),  
         'PASSWORD': os.getenv('DB_PASSWORD'),  
-        'HOST': os.getenv('DB_HOST'),  
-        'PORT': os.getenv('DB_PORT'),  
+        'HOST': 'db',  
+        'PORT': '5432',  
     }
 }
 

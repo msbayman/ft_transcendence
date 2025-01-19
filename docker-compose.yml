@@ -39,7 +39,7 @@ services:
       - backend
     networks:
       - elk
-
+      
   db:
     image: postgres:17
     container_name: postgres_db
