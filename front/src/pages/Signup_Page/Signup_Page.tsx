@@ -56,7 +56,7 @@ function Signup_Page() {
 
     try {
       const response = await axios.post(
-        "http://127.0.0.1:8000/user_auth/add_player",
+        "http://127.0.0.1:8000/api/user_auth/add_player",
         dataToSubmit
       );
 

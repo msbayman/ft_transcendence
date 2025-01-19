@@ -42,7 +42,7 @@ function Login_Page() {
     
     try {
       const response = await axios.post(
-        "http://127.0.0.1:8000/user_auth/login_simple",
+        "http://127.0.0.1:8000/api/user_auth/login_simple",
         {
           username,
           password,

@@ -46,7 +46,7 @@ const Table_Leaderboard = () => {
 
   useEffect(() => {
     axios
-      .get("http://127.0.0.1:8000/user_auth/leaderboard")
+      .get("http://127.0.0.1:8000/api/user_auth/leaderboard")
       .then((response) => {
         Setlist_users(response.data);
       })
