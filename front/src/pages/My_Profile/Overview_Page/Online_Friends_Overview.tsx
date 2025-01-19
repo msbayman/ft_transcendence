@@ -33,7 +33,7 @@ const Online_Friends_Overview = () => {
     const fetchOnlineUsers = async () => {
       try {
         if (currentUser.playerData) {
-          const response = await axios.get("http://127.0.0.1:8000/user_auth/is_online/");
+          const response = await axios.get("http://127.0.0.1:8000/api/user_auth/is_online/");
 
           const filteredUsers: User_isOnline [] = response.data.filter(
             (user: User_isOnline) => user.username !== currentUser.playerData?.username

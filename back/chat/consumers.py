@@ -7,6 +7,14 @@ import json
 
 User = get_user_model()
 
+class NotifConsumer(AsyncWebsocketConsumer):
+    async def connect(self):
+        self.user = self.scope['user']
+        if not self.user.is_authenticated:
+            await self.close()
+            return
+        await self.accept()
+
 class ChatConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         self.user = self.scope['user']

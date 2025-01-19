@@ -27,7 +27,7 @@ export const Other_Profile_Page = ({ username }: { username: string | undefined}
         const get_data = async () => {
         try {
           const response = await fetch(
-            `http://127.0.0.1:8000/user_auth/get-player/${username}/`,
+            `http://127.0.0.1:8000/api/user_auth/get-player/${username}/`,
             {
               method: "GET",
               headers: {
