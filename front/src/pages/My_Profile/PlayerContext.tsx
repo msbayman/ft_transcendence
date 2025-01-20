@@ -38,7 +38,7 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({
     setIsLoading(true);
     try {
       const response = await axios.get(
-        "https://localhost:8000/api/user_auth/UserDetailView",
+        "https://localhost:443/api/user_auth/UserDetailView",
         {
           headers: {
             Authorization: `Bearer ${token}`,

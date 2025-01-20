@@ -10,8 +10,6 @@ services:
       - .env
     volumes:
       - ./back:/app
-    ports:
-      - "8000:8000"
     environment:
       - DB_NAME=${DB_NAME}
       - DB_USER=${DB_USER}
@@ -29,15 +27,16 @@ services:
       context: ./front
       dockerfile: Dockerfile.frontend
     container_name: frontend
+    env_file:
+      - .env
     volumes:
       - ./front:/app
       - /app/node_modules
-    ports:
-      - "5173:5173"
     depends_on:
       - backend
     networks:
       - elk
+    restart: always
 
   db:
     image: postgres:17
@@ -48,10 +47,9 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
     volumes:
       - pgdata:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
     networks:
       - elk
+    restart: always
 
   redis:
     image: redis:7
@@ -60,8 +58,7 @@ services:
       - .env
     networks:
       - elk
-    ports:
-      - "6380:6379"
+    restart: always
 
   # elasticsearch:
   #   image: docker.elastic.co/elasticsearch/elasticsearch:7.15.0
@@ -132,6 +129,7 @@ services:
         - backend
       networks:
         - elk
+      restart: always
 
 networks:
   elk:

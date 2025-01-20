@@ -35,7 +35,7 @@ export default function Messages() {
 
         console.log("Fetching messages...");
         const response = await fetch(
-          "https://localhost:8000/chat/last-message/",
+          "https://localhost:443/chat/last-message/",
           {
             method: "GET",
             headers: {

@@ -38,7 +38,7 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
       try {
         const token = Cookies.get("access_token");
         const response = await fetch(
-          "https://localhost:8000/chat/getconversation/",
+          "https://localhost:443/chat/getconversation/",
           {
             method: "GET",
             headers: {
@@ -104,7 +104,7 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
       // You might want to add the API call to send the message here
       // try {
       //   const token = Cookies.get("access_token");
-      //   await fetch('https://localhost:8000/chat/sendmessage/', {
+      //   await fetch('https://localhost:443/chat/sendmessage/', {
       //     method: 'POST',
       //     headers: {
       //       'Authorization': `Bearer ${token}`,

@@ -50,7 +50,7 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
       if (!isblock) {
         // Block the user
         await axios.post(
-          `https://localhost:8000/chat/block_user/${value}`,
+          `https://localhost:443/chat/block_user/${value}`,
           {}, // empty body
           {
             headers: {
@@ -63,7 +63,7 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
       } else {
         // Unblock the user
         await axios.post(
-          `https://localhost:8000/chat/unblock_user/${value}`,
+          `https://localhost:443/chat/unblock_user/${value}`,
           {}, // empty body
           {
             headers: {
@@ -88,7 +88,7 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
       try {
         // Fetch the conversation
         const conversationResponse = await axios.get(
-          `https://localhost:8000/chat/getconversation/${value}`,
+          `https://localhost:443/chat/getconversation/${value}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -121,7 +121,7 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
     const fetchBlockStatus = async () => {
       try {
         const blockStatusResponse = await axios.get(
-          `https://localhost:8000/chat/isblocked/${value}/`,
+          `https://localhost:443/chat/isblocked/${value}/`,
           {
             headers: {
               Authorization: `Bearer ${token}`,

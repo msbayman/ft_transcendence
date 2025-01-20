@@ -42,7 +42,7 @@ function Login_Page() {
 
     try {
       const response = await axios.post(
-        "https://localhost/api/user_auth/login_simple",
+        "https://localhost:443/api/user_auth/login_simple",
         {
           username,
           password,
@@ -72,10 +72,10 @@ function Login_Page() {
   };
 
   const handleOAuthLogin = () => {
-    window.location.href = "https://localhost:8000/api/discord/login";
+    window.location.href = "https://localhost:443/api/discord/login";
   };
   const handleOAuthLogin_42 = () => {
-    window.location.href = "https://localhost:8000/api/42/login";
+    window.location.href = "https://localhost:443/api/42/login";
   };
 
   return (

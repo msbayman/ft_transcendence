@@ -13,7 +13,7 @@ const UserList: React.FC = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await fetch("https://localhost:8000/api/users/", {
+        const response = await fetch("https://localhost:443/api/users/", {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${localStorage.getItem("token")}`, // Optional: If using token-based auth

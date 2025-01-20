@@ -33,7 +33,7 @@ export default function Messages() {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await fetch("https://localhost:8000/chat/api/users/", {
+        const response = await fetch("https://localhost:443/chat/api/users/", {
           headers: {
             Authorization:
               "Bearer " +

@@ -33,7 +33,7 @@ const FriendsList: React.FC<SelectedUser> = ({ onClick }) => {
   const fetchLastMessages = async () => {
     try {
       const response = await axios.get(
-        "https://localhost:8000/chat/last-message/",
+        "https://localhost:443/chat/last-message/",
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -57,7 +57,7 @@ const FriendsList: React.FC<SelectedUser> = ({ onClick }) => {
   const fetchOnlineFriends = async () => {
     try {
       const response = await axios.get(
-        "https://localhost:8000/chat/api/users/",
+        "https://localhost:443/chat/api/users/",
         {
           headers: { Authorization: `Bearer ${token}` },
         }

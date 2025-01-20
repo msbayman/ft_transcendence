@@ -54,7 +54,7 @@ const ValidOtp: React.FC = () => {
 
     try {
       const response = await axios.post(
-        "https://localhost:8000/api/user_auth/VerifyOTP",
+        "https://localhost:443/api/user_auth/VerifyOTP",
         {
           username,
           otp: otpCode,

@@ -32,7 +32,7 @@ const Online_Friends_Overview = () => {
       try {
         if (currentUser.playerData) {
           const response = await axios.get(
-            "https://localhost:8000/api/user_auth/is_online/"
+            "https://localhost:443/api/user_auth/is_online/"
           );
 
           const filteredUsers: User_isOnline[] = response.data.filter(

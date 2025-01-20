@@ -105,7 +105,7 @@ class LoginAPIView(APIView):
     def post(self, request):
         username = request.data.get('username').lower()
         password = request.data.get('password')
-
+        print(username + "---------------------" + password)
         if not username or not password:
             return Response({"detail": "Username and password are required."}, status=status.HTTP_400_BAD_REQUEST)
 

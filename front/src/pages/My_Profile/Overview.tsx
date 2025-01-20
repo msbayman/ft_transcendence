@@ -58,7 +58,7 @@ function Overview() {
     // Make the request before removing tokens
     try {
       await axios.post(
-        "https://localhost:8000/api/user_auth/LogoutAPIView/",
+        "https://localhost:443/api/user_auth/LogoutAPIView/",
         { refresh_token: refreshToken },
         {
           headers: accessToken

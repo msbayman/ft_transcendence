@@ -31,7 +31,7 @@ function AppContent() {
     const validateAccessToken = async () => {
       try {
         const response = await axios.get(
-          "https://localhost:8000/check_csrf_tok/validate_token",
+          "https://localhost:443/check_csrf_tok/validate_token",
           {
             headers: {
               Authorization: `Bearer ${accessToken}`,
