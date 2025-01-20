@@ -28,10 +28,13 @@ import Play_Page from "./Play_Page/Play_Page";
 import Friends_Page from "./Friends_Page/Friends_Page";
 import Settings_Page from "./Settings_Page/Settings_Page";
 import The_Leaderboard from "./Leaderboard_Page/The_Leaderboard";
+import Notifications_p from "./Notifications/Notifications";
 import { usePlayer } from "./PlayerContext";
+import { set } from "react-hook-form";
 
 function Overview() {
   const location = useLocation();
+  const [showNotifications, SetshowNotifications] = useState(false)
 
   useEffect(() => {
     const state = location.state as { fromOAuth?: boolean }; // Access the state from the previous navigation
@@ -49,6 +52,10 @@ function Overview() {
     }
   }, []);
 
+  const Notifications_f = () => {
+    SetshowNotifications((showNotifications) => !showNotifications)
+  };
+
   const check_logout = async () => {
     const refreshToken = Cookies.get("refresh_token");
     const accessToken = Cookies.get("access_token");
@@ -58,7 +65,7 @@ function Overview() {
     // Make the request before removing tokens
     try {
       await axios.post(
-        "http://127.0.0.1:8000/user_auth/LogoutAPIView/",
+        "http://127.0.0.1:8000/api/ser_auth/LogoutAPIView/",
         { refresh_token: refreshToken },
         {
           headers: accessToken
@@ -73,10 +80,10 @@ function Overview() {
     }
   };
   const dataPlayer = usePlayer();
-  console.log(dataPlayer)
+  console.log(dataPlayer);
   const Choose_Profile = () => {
     const { username } = useParams<{ username: string }>();
-    console.log(dataPlayer.playerData?.username + '-----------' + username)
+    // console.log(dataPlayer.playerData?.username + "-----------" + username);
     return dataPlayer.playerData?.username === username ? (
       <Profile_Page />
     ) : (
@@ -137,6 +144,8 @@ function Overview() {
 
   return (
     <div className={over.all}>
+      {showNotifications && ( <div className={over.notif}> {Notifications_p()} </div>)
+      }
       <div
         className={ActiveNavbar ? over.cercle : over.cercle_hide}
         onClick={ClickToActive}
@@ -196,12 +205,19 @@ function Overview() {
             <div className={getNavLinkBar("/Leadearboard")}></div>
           </NavLink>
         </div>
-        <div className={`${over.content_navbar_item2} ${over.content_navbar_item2_hide}`} >
-          <div className={over.hr_cont}> <hr className={over.brr} /> </div>
-          <NavLink to="/notifications" className={`${over.navbar_item2} ${over.Notifications}`} >
-            <img src={Notifications} className={over.imgg} />
-            <span className={over.hidden_name}>Notifications</span>
-          </NavLink>
+        <div
+          className={`${over.content_navbar_item2} ${over.content_navbar_item2_hide}`}
+        >
+          <div className={over.hr_cont}>
+            {" "}
+            <hr className={over.brr} />{" "}
+          </div>
+          <button onClick={Notifications_f}>
+            <span className={`${over.navbar_item2} ${over.Notifications}`}>
+              <img src={Notifications} className={over.imgg} />
+              <span className={over.hidden_name}>Notifications</span>
+            </span>
+          </button>
           <NavLink
             to="/Settings"
             className={`${over.navbar_item2} ${over.Settings}`}

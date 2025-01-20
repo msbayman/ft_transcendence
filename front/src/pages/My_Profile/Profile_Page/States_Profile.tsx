@@ -36,11 +36,11 @@ export const States_Profile = () => {
             ]}
             series={[
               {
-                data: [4, 3, 5, 0, 5],
+                data: [0, 0, 0, 0, 0],
                 color: "#04D100",
               },
               {
-                data: [1, 6, 3, 0, 1],
+                data: [0, 0, 0, 0, 0],
                 color: "red",
               },
             ]}

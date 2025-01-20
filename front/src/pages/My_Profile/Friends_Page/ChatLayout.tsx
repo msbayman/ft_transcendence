@@ -1,13 +1,19 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useWebSocket } from "./WebSocketContext";
-import gojo from "../assets/gojo.png";
-import "./test.css";
 import Cookies from "js-cookie";
 import axios from 'axios';
-import { boolean } from "zod";
 import blockIcon from "../../../assets/block.svg"
 import viewprofile from "../../../assets/viewprofile.svg"
 import challenge from "../../../assets/challenge.svg"
+import { usePlayer } from "../PlayerContext";
+
+
+
+interface PlayerInfo {
+  id: number;
+  username: string;
+  profile_image: string;
+}
 
 interface APIResponse {
   id: number;
@@ -33,12 +39,13 @@ interface UserName {
 }
 
 const ChatInterface: React.FC<UserName> = ({ value }) => {
+  const loggedplayer = usePlayer()
   const [localMessages, setLocalMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
-  // const [isblock, setIsBlock] = useState(boolean);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const [showDiv, setShowDiv] = useState(false);
   const { messages, sendMessage } = useWebSocket();
+  const [playerInfo, setPlayerInfo] = useState<PlayerInfo | null>(null);
   const token = Cookies.get("access_token");
   const toggleDiv = () => {
     setShowDiv((prevState) => !prevState);
@@ -48,7 +55,6 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
   const block = async () => {
     try {
       if (!isblock) {
-        // Block the user
         await axios.post(
           `http://127.0.0.1:8000/chat/block_user/${value}`,
           {}, // empty body
@@ -58,10 +64,8 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
             },
           }
         );
-        // Update state to reflect the blocked status
         setIsBlock(true);
       } else {
-        // Unblock the user
         await axios.post(
           `http://127.0.0.1:8000/chat/unblock_user/${value}`,
           {}, // empty body
@@ -71,15 +75,42 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
             },
           }
         );
-        // Update state to reflect the unblocked status
         setIsBlock(false);
       }
     } catch (error) {
       console.log("Error:", error);
     }
   };
+  useEffect(() => {
+    if (value === "") return;
   
-  const username = Cookies.get("username");
+    const fetchPlayerInfo = async () => {
+      try {
+        const response = await axios.get<PlayerInfo>(
+          `http://127.0.0.1:8000/chat/get_user_info/${value}/`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        if (response.status === 200) {
+          const baseUrl = "http://127.0.0.1:8000";
+          setPlayerInfo({
+            ...response.data,
+            profile_image: response.data.profile_image, // Prepend base URL
+          });
+        }
+      } catch (error) {
+        console.error("Error fetching player info:", error);
+        setPlayerInfo(null);
+      }
+    };
+    
+    fetchPlayerInfo();
+  }, [value, token]);
+  console.log("----------------------------"  + playerInfo?.username)
 
   useEffect(() => {
     if (value === "") return;
@@ -96,14 +127,15 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
             },
           }
         );
-  
+        console.log("API Response:", conversationResponse.data);
         if (conversationResponse.status === 200) {
+          const baseUrl = "http://127.0.0.1:8000";
           const initialMessages: Message[] = conversationResponse.data
             .map((msg: APIResponse) => ({
               id: msg.id,
               text: msg.content,
-              sent: msg.sender !== username,
-              avatar: gojo,
+              sent: msg.sender !== loggedplayer.playerData?.username,
+              avatar: `${baseUrl}${msg.sender_profile_image}`,
               timestamp: msg.timestamp,
               sender: msg.sender,
               receiver: msg.receiver,
@@ -137,22 +169,24 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
   
     fetchData();
     fetchBlockStatus();
-  }, [value]);
+  }, [value, token, loggedplayer.playerData?.username]);
   
 
   useEffect(() => {
     if (messages.length > 0) {
-      setLocalMessages(prevMessages => {
+      setLocalMessages((prevMessages) => {
         const newMessages = [...prevMessages];
-        messages.forEach(wsMessage => {
+        messages.forEach((wsMessage) => {
           if (wsMessage.sender === value || wsMessage.receiver === value) {
-            const existingMessageIndex = newMessages.findIndex(msg => msg.id === wsMessage.id);
-
+            const existingMessageIndex = newMessages.findIndex(
+              (msg) => msg.id === wsMessage.id
+            );
+  
             if (existingMessageIndex === -1) {
               newMessages.push({
                 ...wsMessage,
-                avatar: gojo,
-                sent: wsMessage.sender !== username,
+                avatar: wsMessage.sender === value ? playerInfo?.profile_image : loggedplayer.playerData?.profile_image,
+                sent: wsMessage.sender !== loggedplayer.playerData?.username,
               });
             }
           }
@@ -160,7 +194,7 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
         return newMessages.sort((a, b) => a.id - b.id);
       });
     }
-  }, [messages, value, username]);
+  }, [messages, value, loggedplayer.playerData?.username]);
   
 
   const scrollToBottom = () => {
@@ -214,9 +248,9 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
           </div>
           <hr className="max-w-lg mt-1.5" />
           <div className="mt-5 grid justify-center text-center gap-2">
-            <img src={gojo} className="rounded-full w-20 h-20" alt="" />
+            <img src={playerInfo?.profile_image} className="rounded-full w-20 h-20" alt="" />
             <div>
-              <h1 className="text-2xl">{value}</h1>
+              <h1 className="text-2xl">{playerInfo?.username}</h1>
               <h1 className="text-2xl text-lime-600">online</h1>
             </div>
             <button className="mt-5 flex flex-col items-center justify-center text-white rounded hover:bg-[#8f6edd]">
@@ -246,7 +280,7 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
       <div className="flex-1 rounded-l-[44px] flex flex-col bg-[#5012C4] p-4">
         <div className="flex items-center gap-3 p-4 border-b border-white/10">
           <div className="h-14 w-14">
-            <img src={gojo} alt="Profile" className="rounded-full" />
+            <img src={playerInfo?.profile_image} alt="Profile" className="rounded-full" />
           </div>
           <div>
             <h1 className="text-xl font-semibold text-white">{value}</h1>
@@ -290,7 +324,7 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
                   message.sent ? "bg-white text-black" : "bg-gray-200 text-black"
                 }`}
               >
-                <p>{message.text}</p>
+                <p className="whitespace-normal max-w-screen-lg">{message.text}</p>
                 {/* <div className="text-xs text-gray-400 mt-1">
                   {formatTimestamp(message.timestamp)}
                   {message.sent ? 

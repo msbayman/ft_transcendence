@@ -38,6 +38,7 @@ class Player(AbstractUser):
     def is_blocked(self, user):
         return self.blocked_users.filter(pk=user.pk).exists()
 
+    # nickname = models.CharField('', blank=True)
 
 
 

@@ -52,16 +52,15 @@ class user_list_view(APIView):
         friends = player.list_users_friends.all()
 
         # Serialize the friends list
-        serializer = PlayerSerializer(friends, many=True)  # Serialize all friends
+        serializer = PlayerSerializer(friends, many=True, context={'request': request}) # Serialize all friends
         return Response(serializer.data, status=200)
-
-logger = logging.getLogger(__name__)
 
 class LastMessageView(APIView):
     """
     Returns an array of the last message between the logged-in user and all other users.
     """
     authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
 
     def get(self, request):
         try:
@@ -80,9 +79,9 @@ class LastMessageView(APIView):
                 if other_user.id not in last_messages:
                     # Add the latest message to the dictionary
                     last_messages[other_user.id] = {
-                        "user1": logged_in_user.username,
-                        "user2": other_user.username,
-                        "last_message": MessageSerializer(message).data
+                        "user1": PlayerSerializer(logged_in_user, context={'request': request}).data,
+                        "user2": PlayerSerializer(other_user, context={'request': request}).data,
+                        "last_message": ConversationSerializer(message).data
                     }
 
             # Convert the grouped messages into an array
@@ -97,7 +96,7 @@ class LastMessageView(APIView):
 
         except Exception as e:
             logger.error(f"Error in LastMessageView: {str(e)}")
-            return Response({"error": "An unexpected error occurred."}, status=200)
+            return Response({"error": "An unexpected error occurred."}, status=500)
 
 
 class TestAuthView(APIView):
@@ -110,6 +109,21 @@ class TestAuthView(APIView):
             "user_id": request.user.id,
             "username": request.user.username
         })
+        
+class GetUserInfo(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, username):
+        try:
+            user = Player.objects.get(username=username)
+            serializer = PlayerSerializer(user, context={'request': request}) # Serialize all friends
+            # serializer = PlayerSerializer(user)
+            return Response(serializer.data, status=200)
+        except Player.DoesNotExist:
+            return Response({"error": "Player not found"}, status=404)
+        except Exception as e:
+            return Response({"error": "An error occurred: " + str(e)}, status=500)
 
 
 class GetConversation(APIView):
@@ -134,7 +148,7 @@ class GetConversation(APIView):
                 (Q(sender=sender, receiver=receiver) | Q(sender=receiver, receiver=sender))
             ).order_by('-timestamp')
 
-            serialized_message = MessageSerializer(conversation, many=True).data
+            serialized_message = ConversationSerializer(conversation, many=True).data
 
             if serialized_message:
                 logger.debug(f"Returning {len(serialized_message)} messages")

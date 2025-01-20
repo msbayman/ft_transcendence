@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import "./Friends_Page.css";
+// import "./Friends_Page.css";
 import FriendsList from "./FriendsList";
 import ChatInterface from './ChatLayout';
 import { WebSocketProvider, useWebSocket } from "./WebSocketContext";
+// import { usePlayer } from '../PlayerContext';
+
+// const PlayerInstance = usePlayer()
 
 interface ChatContainerProps {
   user: string;
@@ -10,6 +13,7 @@ interface ChatContainerProps {
 }
 
 const ChatContainer: React.FC<ChatContainerProps> = ({ user, onUserSelect }) => {
+  // user = PlayerInstance.playerData?.username
   return (
     <>
       <ChatInterface value={user} />

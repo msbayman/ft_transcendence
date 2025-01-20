@@ -26,14 +26,15 @@
 }
 
 .Button_More {
-    background-color: #5116C4;
+    background-color:aliceblue;
     width: 80px; 
     height: 40px;
-    border-radius: 30px;
+    border-radius: 30% 62% 24% 38% / 88% 25% 63% 32%;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.356);
     font-size:larger;
     position: absolute;
     right: 40px;
+    color: #5116C4;
 }
 .Table_Leaderboard {
     display: flex;

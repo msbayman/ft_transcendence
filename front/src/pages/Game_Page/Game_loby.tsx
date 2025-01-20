@@ -19,29 +19,35 @@ function Game_Loby() {
 
         matchmakingSocket.onmessage = (event) => {
             const data = JSON.parse(event.data);
-            if (data.type = "disconnect")
-                
             setMatchData(data);
         }
     }, [token]);
 
     if (matchData) {
-        <div className="flex justify-center items-center h-screen w-screen bg-[url('../../../public/loby_back.svg')] bg-cover bg-center bg-no-repeat">
-            <Player_Profil name={matchData.player1.username} />
-            <img src={vs} alt="vs tag" />
-            <Player_Profil />
-        </div>
+        return(
+            <>
+                
+            </>
+        );
+        // <div className="flex justify-center items-center h-screen w-screen bg-[url('../../../public/loby_back.svg')] bg-cover bg-center bg-no-repeat">
+        //     <Player_Profil name={matchData.player1.username} />
+        //     <img src={vs} alt="vs tag" />
+        //     <Player_Profil />
+        // </div>
     }
     return (
-    <>
-        <div className="flex justify-center items-center h-screen w-screen bg-[url('../../../public/loby_back.svg')] bg-cover bg-center bg-no-repeat">
-            {/* {matchData.match_id} */}
-            <Player_Profil/>
-            <img src={vs} alt="vs tag" />
-            <Player_Profil />
-        </div>
-    </>
+        <>
+
+        </>
     );
+    // <>
+    //     <div className="flex justify-center items-center h-screen w-screen bg-[url('../../../public/loby_back.svg')] bg-cover bg-center bg-no-repeat">
+    //         {/* {matchData.match_id} */}
+    //         <Player_Profil/>
+    //         <img src={vs} alt="vs tag" />
+    //         <Player_Profil />
+    //     </div>
+    // </>
 }
 
 export default Game_Loby;

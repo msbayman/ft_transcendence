@@ -75,9 +75,9 @@ DSCORD_API_V6 = 'https://discord.com/api/v6/users/@me'
 
 OAUTH_DISCORD_CLIENT_ID = "1272193976983752706"
 OAUTH_DISCORD_CLIENT_SECRET = "gDEzOmoJ_gNmEBP4IPAfN9v_S3oQn_tK"
-OAUTH_DISCORD_REDIRECT_URI = 'http://127.0.0.1:8000/discord/login_redirect'
+OAUTH_DISCORD_REDIRECT_URI = 'http://127.0.0.1:8000/api/discord/login_redirect'
 OAUTH_DISCORD_TOKEN_URL = 'https://discord.com/api/oauth2/token'
-DISCORD_OAUTH_URL = "https://discord.com/oauth2/authorize?client_id=1272193976983752706&response_type=code&redirect_uri=http%3A%2F%2F127.0.0.1%3A8000%2Fdiscord%2Flogin_redirect&scope=email+identify"
+DISCORD_OAUTH_URL = "https://discord.com/oauth2/authorize?client_id=1272193976983752706&response_type=code&redirect_uri=http%3A%2F%2F127.0.0.1%3A8000%2Fapi%2Fdiscord%2Flogin_redirect&scope=identify+email"
 DSCORD_API_V6 = 'https://discord.com/api/v6/users/@me'
 
 
@@ -156,12 +156,12 @@ ROOT_URLCONF = 'back_trans_proj.urls'
 
 DATABASES = {
     'default': {
-        'ENGINE': os.getenv('ENGINE_db'),  
-        'NAME': os.getenv('DB_NAME'),  
+        'ENGINE': 'django.db.backends.postgresql',  
+        'NAME': 'postgres_db',  
         'USER': os.getenv('DB_USER'),  
         'PASSWORD': os.getenv('DB_PASSWORD'),  
-        'HOST': os.getenv('DB_HOST'),  
-        'PORT': os.getenv('DB_PORT'),  
+        'HOST': 'db',  
+        'PORT': '5432',  
     }
 }
 

@@ -49,7 +49,7 @@ const Acheiev_Profile = () => {
   return (
     <div className={other.all_Ache}>
       <div className={other.Title_Ach}>
-        <div className={other.T1_Ach}>ACHEIVEMENT</div>
+        <div className={other.T1_Ach}>ACHEIVEMENTS</div>
         <div className={other.T2_Ach}>(4 / 17)</div>
       </div>
       <div className={other.Content_Ach}>

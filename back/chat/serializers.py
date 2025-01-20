@@ -4,25 +4,30 @@ from .models import Message
 
 
 class PlayerSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Player 
-        fields = ['id', 'username']
-
-class MessageSerializer(serializers.ModelSerializer):
-    sender = serializers.CharField(source='sender.username', read_only=True)
-    receiver = serializers.CharField(source='receiver.username', read_only=True)
+    profile_image = serializers.ImageField(default='profile_images/default_profile.jpeg')
 
     class Meta:
-        model = Message
-        fields = ['id', 'sender', 'receiver', 'content', 'timestamp', 'is_read']
-        
+        model = Player
+        fields = ['id', 'username', 'profile_image']
+
 class ConversationSerializer(serializers.ModelSerializer):
     sender = serializers.CharField(source='sender.username', read_only=True)
     receiver = serializers.CharField(source='receiver.username', read_only=True)
-    
+    sender_profile_image = serializers.ImageField(source='sender.profile_image', read_only=True)
+    receiver_profile_image = serializers.ImageField(source='receiver.profile_image', read_only=True)
+
     class Meta:
         model = Message
-        fields = ['id', 'sender', 'receiver', 'content', 'timestamp']  # Replace 'content' with your actual field name for message text
+        fields = ['id', 'sender', 'receiver', 'content', 'timestamp', 'is_read', 'sender_profile_image', 'receiver_profile_image']
+    
+        
+class MessageSerializer(serializers.ModelSerializer):
+    sender = PlayerSerializer()
+    receiver = PlayerSerializer()
+
+    class Meta:
+        model = Message
+        fields = ['id', 'sender', 'receiver', 'content', 'timestamp']
         
         
         
