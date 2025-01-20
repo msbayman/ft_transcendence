@@ -132,7 +132,7 @@ def handle_oauth_user_42(request: HttpRequest, user_info: dict) -> HttpResponse:
         user.is_validate = True
         user.save()
 
-        frontend_url = "https://localhost:5173/Valid_otp"
+        frontend_url = "https://localhost/Valid_otp"
         redirect_url = f"{frontend_url}?username={user.username}"
 
         return redirect(redirect_url)
@@ -141,7 +141,7 @@ def handle_oauth_user_42(request: HttpRequest, user_info: dict) -> HttpResponse:
         access_token = str(refresh.access_token)
         refresh_token = str(refresh)
 
-        frontend_url = "https://localhost:5173/Overview"
+        frontend_url = "https://localhost/Overview"
         redirect_url = f"{frontend_url}?access_token={access_token}&refresh_token={refresh_token}"
 
         return redirect(redirect_url)

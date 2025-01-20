@@ -8,13 +8,20 @@ load_dotenv()
 
 
 
-# OAuth 42 Configuration
+# 42 OAuth Configuration
 OAUTH_42_CLIENT_ID = os.getenv('OAUTH_42_CLIENT_ID')
 OAUTH_42_CLIENT_SECRET = os.getenv('OAUTH_42_CLIENT_SECRET')
 OAUTH_42_REDIRECT_URI = os.getenv('OAUTH_42_REDIRECT_URI')
 OAUTH_42_AUTHORIZATION_URL = 'https://api.intra.42.fr/oauth/authorize'
 OAUTH_42_TOKEN_URL = 'https://api.intra.42.fr/oauth/token'
 OAUTH_42_USER_INFO_URL = 'https://api.intra.42.fr/v2/me'
+
+OAUTH_DISCORD_CLIENT_ID = os.getenv('OAUTH_DISCORD_CLIENT_ID')
+OAUTH_DISCORD_CLIENT_SECRET = os.getenv('OAUTH_DISCORD_CLIENT_SECRET')
+DISCORD_OAUTH_URL = os.getenv('DISCORD_OAUTH_URL')
+OAUTH_DISCORD_REDIRECT_URI = os.getenv('OAUTH_DISCORD_REDIRECT_URI')
+OAUTH_DISCORD_TOKEN_URL = 'https://discord.com/api/oauth2/token'
+DSCORD_API_V6 = 'https://discord.com/api/v6/users/@me'
 
 # Email Configuration
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
@@ -25,13 +32,6 @@ EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL')
 
-# Discord OAuth Configuration
-OAUTH_DISCORD_CLIENT_ID = os.getenv('OAUTH_DISCORD_CLIENT_ID')
-OAUTH_DISCORD_CLIENT_SECRET = os.getenv('OAUTH_DISCORD_CLIENT_SECRET')
-OAUTH_DISCORD_REDIRECT_URI = os.getenv('OAUTH_DISCORD_REDIRECT_URI')
-OAUTH_DISCORD_TOKEN_URL = 'https://discord.com/api/oauth2/token'
-DISCORD_OAUTH_URL = f"https://discord.com/oauth2/authorize?client_id={OAUTH_DISCORD_CLIENT_ID}&response_type=code&redirect_uri={OAUTH_DISCORD_REDIRECT_URI}&scope=email+identify"
-DSCORD_API_V6 = 'https://discord.com/api/v6/users/@me'
 
 LOGGING = {
     'version': 1,
@@ -72,13 +72,6 @@ LOGGING = {
     },
 }
 
-
-OAUTH_DISCORD_CLIENT_ID = "1272193976983752706"
-OAUTH_DISCORD_CLIENT_SECRET = "gDEzOmoJ_gNmEBP4IPAfN9v_S3oQn_tK"
-OAUTH_DISCORD_REDIRECT_URI = 'https://localhost:443/api/discord/login_redirect'
-OAUTH_DISCORD_TOKEN_URL = 'https://discord.com/api/oauth2/token'
-DISCORD_OAUTH_URL = "https://discord.com/oauth2/authorize?client_id=1272193976983752706&response_type=code&redirect_uri=http%3A%2F%2F127.0.0.1%3A8000%2Fapi%2Fdiscord%2Flogin_redirect&scope=identify+email"
-DSCORD_API_V6 = 'https://discord.com/api/v6/users/@me'
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
