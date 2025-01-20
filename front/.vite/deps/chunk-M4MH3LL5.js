@@ -38,7 +38,7 @@ import {
   useSlotProps_default,
   useThemeProps,
   useTheme_default
-} from "./chunk-WJ3PBSVO.js";
+} from "./chunk-MOABU4JG.js";
 import {
   _extends,
   init_extends
@@ -760,216 +760,22 @@ function experimental_sx() {
   throw new Error(true ? `MUI: The \`experimental_sx\` has been moved to \`theme.unstable_sx\`.For more details, see https://github.com/mui/material-ui/pull/35150.` : formatMuiErrorMessage(20));
 }
 
-// node_modules/@mui/material/Typography/typographyClasses.js
-function getTypographyUtilityClass(slot) {
-  return generateUtilityClass("MuiTypography", slot);
-}
-var typographyClasses = generateUtilityClasses("MuiTypography", ["root", "h1", "h2", "h3", "h4", "h5", "h6", "subtitle1", "subtitle2", "body1", "body2", "inherit", "button", "caption", "overline", "alignLeft", "alignRight", "alignCenter", "alignJustify", "noWrap", "gutterBottom", "paragraph"]);
-var typographyClasses_default = typographyClasses;
-
-// node_modules/@mui/material/Typography/Typography.js
-init_extends();
+// node_modules/@mui/material/Portal/Portal.js
 var React4 = __toESM(require_react());
+var ReactDOM = __toESM(require_react_dom());
 var import_prop_types2 = __toESM(require_prop_types());
 var import_jsx_runtime3 = __toESM(require_jsx_runtime());
-var _excluded5 = ["align", "className", "component", "gutterBottom", "noWrap", "paragraph", "variant", "variantMapping"];
-var useUtilityClasses = (ownerState) => {
-  const {
-    align,
-    gutterBottom,
-    noWrap,
-    paragraph,
-    variant,
-    classes
-  } = ownerState;
-  const slots = {
-    root: ["root", variant, ownerState.align !== "inherit" && `align${capitalize_default(align)}`, gutterBottom && "gutterBottom", noWrap && "noWrap", paragraph && "paragraph"]
-  };
-  return composeClasses(slots, getTypographyUtilityClass, classes);
-};
-var TypographyRoot = styled_default("span", {
-  name: "MuiTypography",
-  slot: "Root",
-  overridesResolver: (props, styles) => {
-    const {
-      ownerState
-    } = props;
-    return [styles.root, ownerState.variant && styles[ownerState.variant], ownerState.align !== "inherit" && styles[`align${capitalize_default(ownerState.align)}`], ownerState.noWrap && styles.noWrap, ownerState.gutterBottom && styles.gutterBottom, ownerState.paragraph && styles.paragraph];
-  }
-})(({
-  theme,
-  ownerState
-}) => _extends({
-  margin: 0
-}, ownerState.variant === "inherit" && {
-  // Some elements, like <button> on Chrome have default font that doesn't inherit, reset this.
-  font: "inherit"
-}, ownerState.variant !== "inherit" && theme.typography[ownerState.variant], ownerState.align !== "inherit" && {
-  textAlign: ownerState.align
-}, ownerState.noWrap && {
-  overflow: "hidden",
-  textOverflow: "ellipsis",
-  whiteSpace: "nowrap"
-}, ownerState.gutterBottom && {
-  marginBottom: "0.35em"
-}, ownerState.paragraph && {
-  marginBottom: 16
-}));
-var defaultVariantMapping = {
-  h1: "h1",
-  h2: "h2",
-  h3: "h3",
-  h4: "h4",
-  h5: "h5",
-  h6: "h6",
-  subtitle1: "h6",
-  subtitle2: "h6",
-  body1: "p",
-  body2: "p",
-  inherit: "p"
-};
-var colorTransformations = {
-  primary: "primary.main",
-  textPrimary: "text.primary",
-  secondary: "secondary.main",
-  textSecondary: "text.secondary",
-  error: "error.main"
-};
-var transformDeprecatedColors = (color) => {
-  return colorTransformations[color] || color;
-};
-var Typography = React4.forwardRef(function Typography2(inProps, ref) {
-  const themeProps = useDefaultProps({
-    props: inProps,
-    name: "MuiTypography"
-  });
-  const color = transformDeprecatedColors(themeProps.color);
-  const props = extendSxProp(_extends({}, themeProps, {
-    color
-  }));
-  const {
-    align = "inherit",
-    className,
-    component,
-    gutterBottom = false,
-    noWrap = false,
-    paragraph = false,
-    variant = "body1",
-    variantMapping = defaultVariantMapping
-  } = props, other = _objectWithoutPropertiesLoose(props, _excluded5);
-  const ownerState = _extends({}, props, {
-    align,
-    color,
-    className,
-    component,
-    gutterBottom,
-    noWrap,
-    paragraph,
-    variant,
-    variantMapping
-  });
-  const Component = component || (paragraph ? "p" : variantMapping[variant] || defaultVariantMapping[variant]) || "span";
-  const classes = useUtilityClasses(ownerState);
-  return (0, import_jsx_runtime3.jsx)(TypographyRoot, _extends({
-    as: Component,
-    ref,
-    ownerState,
-    className: clsx_default(classes.root, className)
-  }, other));
-});
-true ? Typography.propTypes = {
-  // ┌────────────────────────────── Warning ──────────────────────────────┐
-  // │ These PropTypes are generated from the TypeScript type definitions. │
-  // │    To update them, edit the d.ts file and run `pnpm proptypes`.     │
-  // └─────────────────────────────────────────────────────────────────────┘
-  /**
-   * Set the text-align on the component.
-   * @default 'inherit'
-   */
-  align: import_prop_types2.default.oneOf(["center", "inherit", "justify", "left", "right"]),
-  /**
-   * The content of the component.
-   */
-  children: import_prop_types2.default.node,
-  /**
-   * Override or extend the styles applied to the component.
-   */
-  classes: import_prop_types2.default.object,
-  /**
-   * @ignore
-   */
-  className: import_prop_types2.default.string,
-  /**
-   * The component used for the root node.
-   * Either a string to use a HTML element or a component.
-   */
-  component: import_prop_types2.default.elementType,
-  /**
-   * If `true`, the text will have a bottom margin.
-   * @default false
-   */
-  gutterBottom: import_prop_types2.default.bool,
-  /**
-   * If `true`, the text will not wrap, but instead will truncate with a text overflow ellipsis.
-   *
-   * Note that text overflow can only happen with block or inline-block level elements
-   * (the element needs to have a width in order to overflow).
-   * @default false
-   */
-  noWrap: import_prop_types2.default.bool,
-  /**
-   * If `true`, the element will be a paragraph element.
-   * @default false
-   */
-  paragraph: import_prop_types2.default.bool,
-  /**
-   * The system prop that allows defining system overrides as well as additional CSS styles.
-   */
-  sx: import_prop_types2.default.oneOfType([import_prop_types2.default.arrayOf(import_prop_types2.default.oneOfType([import_prop_types2.default.func, import_prop_types2.default.object, import_prop_types2.default.bool])), import_prop_types2.default.func, import_prop_types2.default.object]),
-  /**
-   * Applies the theme typography styles.
-   * @default 'body1'
-   */
-  variant: import_prop_types2.default.oneOfType([import_prop_types2.default.oneOf(["body1", "body2", "button", "caption", "h1", "h2", "h3", "h4", "h5", "h6", "inherit", "overline", "subtitle1", "subtitle2"]), import_prop_types2.default.string]),
-  /**
-   * The component maps the variant prop to a range of different HTML element types.
-   * For instance, subtitle1 to `<h6>`.
-   * If you wish to change that mapping, you can provide your own.
-   * Alternatively, you can use the `component` prop.
-   * @default {
-   *   h1: 'h1',
-   *   h2: 'h2',
-   *   h3: 'h3',
-   *   h4: 'h4',
-   *   h5: 'h5',
-   *   h6: 'h6',
-   *   subtitle1: 'h6',
-   *   subtitle2: 'h6',
-   *   body1: 'p',
-   *   body2: 'p',
-   *   inherit: 'p',
-   * }
-   */
-  variantMapping: import_prop_types2.default.object
-} : void 0;
-var Typography_default = Typography;
-
-// node_modules/@mui/material/Portal/Portal.js
-var React5 = __toESM(require_react());
-var ReactDOM = __toESM(require_react_dom());
-var import_prop_types3 = __toESM(require_prop_types());
-var import_jsx_runtime4 = __toESM(require_jsx_runtime());
 function getContainer(container) {
   return typeof container === "function" ? container() : container;
 }
-var Portal = React5.forwardRef(function Portal2(props, forwardedRef) {
+var Portal = React4.forwardRef(function Portal2(props, forwardedRef) {
   const {
     children,
     container,
     disablePortal = false
   } = props;
-  const [mountNode, setMountNode] = React5.useState(null);
-  const handleRef = useForkRef(React5.isValidElement(children) ? children.ref : null, forwardedRef);
+  const [mountNode, setMountNode] = React4.useState(null);
+  const handleRef = useForkRef(React4.isValidElement(children) ? children.ref : null, forwardedRef);
   useEnhancedEffect_default(() => {
     if (!disablePortal) {
       setMountNode(getContainer(container) || document.body);
@@ -985,17 +791,17 @@ var Portal = React5.forwardRef(function Portal2(props, forwardedRef) {
     return void 0;
   }, [forwardedRef, mountNode, disablePortal]);
   if (disablePortal) {
-    if (React5.isValidElement(children)) {
+    if (React4.isValidElement(children)) {
       const newProps = {
         ref: handleRef
       };
-      return React5.cloneElement(children, newProps);
+      return React4.cloneElement(children, newProps);
     }
-    return (0, import_jsx_runtime4.jsx)(React5.Fragment, {
+    return (0, import_jsx_runtime3.jsx)(React4.Fragment, {
       children
     });
   }
-  return (0, import_jsx_runtime4.jsx)(React5.Fragment, {
+  return (0, import_jsx_runtime3.jsx)(React4.Fragment, {
     children: mountNode ? ReactDOM.createPortal(children, mountNode) : mountNode
   });
 });
@@ -1007,7 +813,7 @@ true ? Portal.propTypes = {
   /**
    * The children to render into the `container`.
    */
-  children: import_prop_types3.default.node,
+  children: import_prop_types2.default.node,
   /**
    * An HTML element or function that returns one.
    * The `container` will have the portal children appended to it.
@@ -1018,12 +824,12 @@ true ? Portal.propTypes = {
    * By default, it uses the body of the top-level document object,
    * so it's simply `document.body` most of the time.
    */
-  container: import_prop_types3.default.oneOfType([HTMLElementType, import_prop_types3.default.func]),
+  container: import_prop_types2.default.oneOfType([HTMLElementType, import_prop_types2.default.func]),
   /**
    * The `children` will be under the DOM hierarchy of the parent component.
    * @default false
    */
-  disablePortal: import_prop_types3.default.bool
+  disablePortal: import_prop_types2.default.bool
 } : void 0;
 if (true) {
   Portal["propTypes"] = exactProp(Portal.propTypes);
@@ -1039,12 +845,12 @@ var popperClasses = generateUtilityClasses("MuiPopper", ["root"]);
 // node_modules/@mui/material/Popper/Popper.js
 init_extends();
 var import_useThemeWithoutDefault = __toESM(require_useThemeWithoutDefault());
-var import_prop_types5 = __toESM(require_prop_types());
-var React7 = __toESM(require_react());
+var import_prop_types4 = __toESM(require_prop_types());
+var React6 = __toESM(require_react());
 
 // node_modules/@mui/material/Popper/BasePopper.js
 init_extends();
-var React6 = __toESM(require_react());
+var React5 = __toESM(require_react());
 
 // node_modules/@popperjs/core/lib/enums.js
 var top = "top";
@@ -2511,9 +2317,9 @@ var createPopper3 = popperGenerator({
 });
 
 // node_modules/@mui/material/Popper/BasePopper.js
-var import_prop_types4 = __toESM(require_prop_types());
-var import_jsx_runtime5 = __toESM(require_jsx_runtime());
-var _excluded6 = ["anchorEl", "children", "direction", "disablePortal", "modifiers", "open", "placement", "popperOptions", "popperRef", "slotProps", "slots", "TransitionProps", "ownerState"];
+var import_prop_types3 = __toESM(require_prop_types());
+var import_jsx_runtime4 = __toESM(require_jsx_runtime());
+var _excluded5 = ["anchorEl", "children", "direction", "disablePortal", "modifiers", "open", "placement", "popperOptions", "popperRef", "slotProps", "slots", "TransitionProps", "ownerState"];
 var _excluded23 = ["anchorEl", "children", "container", "direction", "disablePortal", "keepMounted", "modifiers", "open", "placement", "popperOptions", "popperRef", "style", "transition", "slotProps", "slots"];
 function flipPlacement(placement, direction) {
   if (direction === "ltr") {
@@ -2541,7 +2347,7 @@ function isHTMLElement2(element) {
 function isVirtualElement(element) {
   return !isHTMLElement2(element);
 }
-var useUtilityClasses2 = (ownerState) => {
+var useUtilityClasses = (ownerState) => {
   const {
     classes
   } = ownerState;
@@ -2551,7 +2357,7 @@ var useUtilityClasses2 = (ownerState) => {
   return composeClasses(slots, getPopperUtilityClass, classes);
 };
 var defaultPopperOptions = {};
-var PopperTooltip = React6.forwardRef(function PopperTooltip2(props, forwardedRef) {
+var PopperTooltip = React5.forwardRef(function PopperTooltip2(props, forwardedRef) {
   var _slots$root;
   const {
     anchorEl,
@@ -2568,25 +2374,25 @@ var PopperTooltip = React6.forwardRef(function PopperTooltip2(props, forwardedRe
     TransitionProps
     // @ts-ignore internal logic
     // prevent from spreading to DOM, it can come from the parent component e.g. Select.
-  } = props, other = _objectWithoutPropertiesLoose(props, _excluded6);
-  const tooltipRef = React6.useRef(null);
+  } = props, other = _objectWithoutPropertiesLoose(props, _excluded5);
+  const tooltipRef = React5.useRef(null);
   const ownRef = useForkRef(tooltipRef, forwardedRef);
-  const popperRef = React6.useRef(null);
+  const popperRef = React5.useRef(null);
   const handlePopperRef = useForkRef(popperRef, popperRefProp);
-  const handlePopperRefRef = React6.useRef(handlePopperRef);
+  const handlePopperRefRef = React5.useRef(handlePopperRef);
   useEnhancedEffect_default(() => {
     handlePopperRefRef.current = handlePopperRef;
   }, [handlePopperRef]);
-  React6.useImperativeHandle(popperRefProp, () => popperRef.current, []);
+  React5.useImperativeHandle(popperRefProp, () => popperRef.current, []);
   const rtlPlacement = flipPlacement(initialPlacement, direction);
-  const [placement, setPlacement] = React6.useState(rtlPlacement);
-  const [resolvedAnchorElement, setResolvedAnchorElement] = React6.useState(resolveAnchorEl(anchorEl));
-  React6.useEffect(() => {
+  const [placement, setPlacement] = React5.useState(rtlPlacement);
+  const [resolvedAnchorElement, setResolvedAnchorElement] = React5.useState(resolveAnchorEl(anchorEl));
+  React5.useEffect(() => {
     if (popperRef.current) {
       popperRef.current.forceUpdate();
     }
   });
-  React6.useEffect(() => {
+  React5.useEffect(() => {
     if (anchorEl) {
       setResolvedAnchorElement(resolveAnchorEl(anchorEl));
     }
@@ -2649,7 +2455,7 @@ var PopperTooltip = React6.forwardRef(function PopperTooltip2(props, forwardedRe
   if (TransitionProps !== null) {
     childProps.TransitionProps = TransitionProps;
   }
-  const classes = useUtilityClasses2(props);
+  const classes = useUtilityClasses(props);
   const Root = (_slots$root = slots.root) != null ? _slots$root : "div";
   const rootProps = useSlotProps_default({
     elementType: Root,
@@ -2662,11 +2468,11 @@ var PopperTooltip = React6.forwardRef(function PopperTooltip2(props, forwardedRe
     ownerState: props,
     className: classes.root
   });
-  return (0, import_jsx_runtime5.jsx)(Root, _extends({}, rootProps, {
+  return (0, import_jsx_runtime4.jsx)(Root, _extends({}, rootProps, {
     children: typeof children === "function" ? children(childProps) : children
   }));
 });
-var Popper = React6.forwardRef(function Popper2(props, forwardedRef) {
+var Popper = React5.forwardRef(function Popper2(props, forwardedRef) {
   const {
     anchorEl,
     children,
@@ -2684,7 +2490,7 @@ var Popper = React6.forwardRef(function Popper2(props, forwardedRef) {
     slotProps = {},
     slots = {}
   } = props, other = _objectWithoutPropertiesLoose(props, _excluded23);
-  const [exited, setExited] = React6.useState(true);
+  const [exited, setExited] = React5.useState(true);
   const handleEnter = () => {
     setExited(false);
   };
@@ -2707,10 +2513,10 @@ var Popper = React6.forwardRef(function Popper2(props, forwardedRef) {
     onEnter: handleEnter,
     onExited: handleExited
   } : void 0;
-  return (0, import_jsx_runtime5.jsx)(Portal_default, {
+  return (0, import_jsx_runtime4.jsx)(Portal_default, {
     disablePortal,
     container,
-    children: (0, import_jsx_runtime5.jsx)(PopperTooltip, _extends({
+    children: (0, import_jsx_runtime4.jsx)(PopperTooltip, _extends({
       anchorEl,
       direction,
       disablePortal,
@@ -2747,7 +2553,7 @@ true ? Popper.propTypes = {
    * It's used to set the position of the popper.
    * The return value will passed as the reference object of the Popper instance.
    */
-  anchorEl: chainPropTypes(import_prop_types4.default.oneOfType([HTMLElementType, import_prop_types4.default.object, import_prop_types4.default.func]), (props) => {
+  anchorEl: chainPropTypes(import_prop_types3.default.oneOfType([HTMLElementType, import_prop_types3.default.object, import_prop_types3.default.func]), (props) => {
     if (props.open) {
       const resolvedAnchorEl = resolveAnchorEl(props.anchorEl);
       if (resolvedAnchorEl && isHTMLElement2(resolvedAnchorEl) && resolvedAnchorEl.nodeType === 1) {
@@ -2764,7 +2570,193 @@ true ? Popper.propTypes = {
   /**
    * Popper render function or node.
    */
+  children: import_prop_types3.default.oneOfType([import_prop_types3.default.node, import_prop_types3.default.func]),
+  /**
+   * An HTML element or function that returns one.
+   * The `container` will have the portal children appended to it.
+   *
+   * You can also provide a callback, which is called in a React layout effect.
+   * This lets you set the container from a ref, and also makes server-side rendering possible.
+   *
+   * By default, it uses the body of the top-level document object,
+   * so it's simply `document.body` most of the time.
+   */
+  container: import_prop_types3.default.oneOfType([HTMLElementType, import_prop_types3.default.func]),
+  /**
+   * Direction of the text.
+   * @default 'ltr'
+   */
+  direction: import_prop_types3.default.oneOf(["ltr", "rtl"]),
+  /**
+   * The `children` will be under the DOM hierarchy of the parent component.
+   * @default false
+   */
+  disablePortal: import_prop_types3.default.bool,
+  /**
+   * Always keep the children in the DOM.
+   * This prop can be useful in SEO situation or
+   * when you want to maximize the responsiveness of the Popper.
+   * @default false
+   */
+  keepMounted: import_prop_types3.default.bool,
+  /**
+   * Popper.js is based on a "plugin-like" architecture,
+   * most of its features are fully encapsulated "modifiers".
+   *
+   * A modifier is a function that is called each time Popper.js needs to
+   * compute the position of the popper.
+   * For this reason, modifiers should be very performant to avoid bottlenecks.
+   * To learn how to create a modifier, [read the modifiers documentation](https://popper.js.org/docs/v2/modifiers/).
+   */
+  modifiers: import_prop_types3.default.arrayOf(import_prop_types3.default.shape({
+    data: import_prop_types3.default.object,
+    effect: import_prop_types3.default.func,
+    enabled: import_prop_types3.default.bool,
+    fn: import_prop_types3.default.func,
+    name: import_prop_types3.default.any,
+    options: import_prop_types3.default.object,
+    phase: import_prop_types3.default.oneOf(["afterMain", "afterRead", "afterWrite", "beforeMain", "beforeRead", "beforeWrite", "main", "read", "write"]),
+    requires: import_prop_types3.default.arrayOf(import_prop_types3.default.string),
+    requiresIfExists: import_prop_types3.default.arrayOf(import_prop_types3.default.string)
+  })),
+  /**
+   * If `true`, the component is shown.
+   */
+  open: import_prop_types3.default.bool.isRequired,
+  /**
+   * Popper placement.
+   * @default 'bottom'
+   */
+  placement: import_prop_types3.default.oneOf(["auto-end", "auto-start", "auto", "bottom-end", "bottom-start", "bottom", "left-end", "left-start", "left", "right-end", "right-start", "right", "top-end", "top-start", "top"]),
+  /**
+   * Options provided to the [`Popper.js`](https://popper.js.org/docs/v2/constructors/#options) instance.
+   * @default {}
+   */
+  popperOptions: import_prop_types3.default.shape({
+    modifiers: import_prop_types3.default.array,
+    onFirstUpdate: import_prop_types3.default.func,
+    placement: import_prop_types3.default.oneOf(["auto-end", "auto-start", "auto", "bottom-end", "bottom-start", "bottom", "left-end", "left-start", "left", "right-end", "right-start", "right", "top-end", "top-start", "top"]),
+    strategy: import_prop_types3.default.oneOf(["absolute", "fixed"])
+  }),
+  /**
+   * A ref that points to the used popper instance.
+   */
+  popperRef: refType_default,
+  /**
+   * The props used for each slot inside the Popper.
+   * @default {}
+   */
+  slotProps: import_prop_types3.default.shape({
+    root: import_prop_types3.default.oneOfType([import_prop_types3.default.func, import_prop_types3.default.object])
+  }),
+  /**
+   * The components used for each slot inside the Popper.
+   * Either a string to use a HTML element or a component.
+   * @default {}
+   */
+  slots: import_prop_types3.default.shape({
+    root: import_prop_types3.default.elementType
+  }),
+  /**
+   * Help supporting a react-transition-group/Transition component.
+   * @default false
+   */
+  transition: import_prop_types3.default.bool
+} : void 0;
+var BasePopper_default = Popper;
+
+// node_modules/@mui/material/Popper/Popper.js
+var import_jsx_runtime5 = __toESM(require_jsx_runtime());
+var _excluded6 = ["anchorEl", "component", "components", "componentsProps", "container", "disablePortal", "keepMounted", "modifiers", "open", "placement", "popperOptions", "popperRef", "transition", "slots", "slotProps"];
+var PopperRoot = styled_default(BasePopper_default, {
+  name: "MuiPopper",
+  slot: "Root",
+  overridesResolver: (props, styles) => styles.root
+})({});
+var Popper3 = React6.forwardRef(function Popper4(inProps, ref) {
+  var _slots$root;
+  const theme = (0, import_useThemeWithoutDefault.default)();
+  const props = useDefaultProps({
+    props: inProps,
+    name: "MuiPopper"
+  });
+  const {
+    anchorEl,
+    component,
+    components,
+    componentsProps,
+    container,
+    disablePortal,
+    keepMounted,
+    modifiers,
+    open,
+    placement,
+    popperOptions,
+    popperRef,
+    transition,
+    slots,
+    slotProps
+  } = props, other = _objectWithoutPropertiesLoose(props, _excluded6);
+  const RootComponent = (_slots$root = slots == null ? void 0 : slots.root) != null ? _slots$root : components == null ? void 0 : components.Root;
+  const otherProps = _extends({
+    anchorEl,
+    container,
+    disablePortal,
+    keepMounted,
+    modifiers,
+    open,
+    placement,
+    popperOptions,
+    popperRef,
+    transition
+  }, other);
+  return (0, import_jsx_runtime5.jsx)(PopperRoot, _extends({
+    as: component,
+    direction: theme == null ? void 0 : theme.direction,
+    slots: {
+      root: RootComponent
+    },
+    slotProps: slotProps != null ? slotProps : componentsProps
+  }, otherProps, {
+    ref
+  }));
+});
+true ? Popper3.propTypes = {
+  // ┌────────────────────────────── Warning ──────────────────────────────┐
+  // │ These PropTypes are generated from the TypeScript type definitions. │
+  // │ To update them, edit the TypeScript types and run `pnpm proptypes`. │
+  // └─────────────────────────────────────────────────────────────────────┘
+  /**
+   * An HTML element, [virtualElement](https://popper.js.org/docs/v2/virtual-elements/),
+   * or a function that returns either.
+   * It's used to set the position of the popper.
+   * The return value will passed as the reference object of the Popper instance.
+   */
+  anchorEl: import_prop_types4.default.oneOfType([HTMLElementType, import_prop_types4.default.object, import_prop_types4.default.func]),
+  /**
+   * Popper render function or node.
+   */
   children: import_prop_types4.default.oneOfType([import_prop_types4.default.node, import_prop_types4.default.func]),
+  /**
+   * The component used for the root node.
+   * Either a string to use a HTML element or a component.
+   */
+  component: import_prop_types4.default.elementType,
+  /**
+   * The components used for each slot inside the Popper.
+   * Either a string to use a HTML element or a component.
+   * @default {}
+   */
+  components: import_prop_types4.default.shape({
+    Root: import_prop_types4.default.elementType
+  }),
+  /**
+   * The props used for each slot inside the Popper.
+   * @default {}
+   */
+  componentsProps: import_prop_types4.default.shape({
+    root: import_prop_types4.default.oneOfType([import_prop_types4.default.func, import_prop_types4.default.object])
+  }),
   /**
    * An HTML element or function that returns one.
    * The `container` will have the portal children appended to it.
@@ -2776,11 +2768,6 @@ true ? Popper.propTypes = {
    * so it's simply `document.body` most of the time.
    */
   container: import_prop_types4.default.oneOfType([HTMLElementType, import_prop_types4.default.func]),
-  /**
-   * Direction of the text.
-   * @default 'ltr'
-   */
-  direction: import_prop_types4.default.oneOf(["ltr", "rtl"]),
   /**
    * The `children` will be under the DOM hierarchy of the parent component.
    * @default false
@@ -2852,220 +2839,39 @@ true ? Popper.propTypes = {
     root: import_prop_types4.default.elementType
   }),
   /**
+   * The system prop that allows defining system overrides as well as additional CSS styles.
+   */
+  sx: import_prop_types4.default.oneOfType([import_prop_types4.default.arrayOf(import_prop_types4.default.oneOfType([import_prop_types4.default.func, import_prop_types4.default.object, import_prop_types4.default.bool])), import_prop_types4.default.func, import_prop_types4.default.object]),
+  /**
    * Help supporting a react-transition-group/Transition component.
    * @default false
    */
   transition: import_prop_types4.default.bool
 } : void 0;
-var BasePopper_default = Popper;
-
-// node_modules/@mui/material/Popper/Popper.js
-var import_jsx_runtime6 = __toESM(require_jsx_runtime());
-var _excluded7 = ["anchorEl", "component", "components", "componentsProps", "container", "disablePortal", "keepMounted", "modifiers", "open", "placement", "popperOptions", "popperRef", "transition", "slots", "slotProps"];
-var PopperRoot = styled_default(BasePopper_default, {
-  name: "MuiPopper",
-  slot: "Root",
-  overridesResolver: (props, styles) => styles.root
-})({});
-var Popper3 = React7.forwardRef(function Popper4(inProps, ref) {
-  var _slots$root;
-  const theme = (0, import_useThemeWithoutDefault.default)();
-  const props = useDefaultProps({
-    props: inProps,
-    name: "MuiPopper"
-  });
-  const {
-    anchorEl,
-    component,
-    components,
-    componentsProps,
-    container,
-    disablePortal,
-    keepMounted,
-    modifiers,
-    open,
-    placement,
-    popperOptions,
-    popperRef,
-    transition,
-    slots,
-    slotProps
-  } = props, other = _objectWithoutPropertiesLoose(props, _excluded7);
-  const RootComponent = (_slots$root = slots == null ? void 0 : slots.root) != null ? _slots$root : components == null ? void 0 : components.Root;
-  const otherProps = _extends({
-    anchorEl,
-    container,
-    disablePortal,
-    keepMounted,
-    modifiers,
-    open,
-    placement,
-    popperOptions,
-    popperRef,
-    transition
-  }, other);
-  return (0, import_jsx_runtime6.jsx)(PopperRoot, _extends({
-    as: component,
-    direction: theme == null ? void 0 : theme.direction,
-    slots: {
-      root: RootComponent
-    },
-    slotProps: slotProps != null ? slotProps : componentsProps
-  }, otherProps, {
-    ref
-  }));
-});
-true ? Popper3.propTypes = {
-  // ┌────────────────────────────── Warning ──────────────────────────────┐
-  // │ These PropTypes are generated from the TypeScript type definitions. │
-  // │ To update them, edit the TypeScript types and run `pnpm proptypes`. │
-  // └─────────────────────────────────────────────────────────────────────┘
-  /**
-   * An HTML element, [virtualElement](https://popper.js.org/docs/v2/virtual-elements/),
-   * or a function that returns either.
-   * It's used to set the position of the popper.
-   * The return value will passed as the reference object of the Popper instance.
-   */
-  anchorEl: import_prop_types5.default.oneOfType([HTMLElementType, import_prop_types5.default.object, import_prop_types5.default.func]),
-  /**
-   * Popper render function or node.
-   */
-  children: import_prop_types5.default.oneOfType([import_prop_types5.default.node, import_prop_types5.default.func]),
-  /**
-   * The component used for the root node.
-   * Either a string to use a HTML element or a component.
-   */
-  component: import_prop_types5.default.elementType,
-  /**
-   * The components used for each slot inside the Popper.
-   * Either a string to use a HTML element or a component.
-   * @default {}
-   */
-  components: import_prop_types5.default.shape({
-    Root: import_prop_types5.default.elementType
-  }),
-  /**
-   * The props used for each slot inside the Popper.
-   * @default {}
-   */
-  componentsProps: import_prop_types5.default.shape({
-    root: import_prop_types5.default.oneOfType([import_prop_types5.default.func, import_prop_types5.default.object])
-  }),
-  /**
-   * An HTML element or function that returns one.
-   * The `container` will have the portal children appended to it.
-   *
-   * You can also provide a callback, which is called in a React layout effect.
-   * This lets you set the container from a ref, and also makes server-side rendering possible.
-   *
-   * By default, it uses the body of the top-level document object,
-   * so it's simply `document.body` most of the time.
-   */
-  container: import_prop_types5.default.oneOfType([HTMLElementType, import_prop_types5.default.func]),
-  /**
-   * The `children` will be under the DOM hierarchy of the parent component.
-   * @default false
-   */
-  disablePortal: import_prop_types5.default.bool,
-  /**
-   * Always keep the children in the DOM.
-   * This prop can be useful in SEO situation or
-   * when you want to maximize the responsiveness of the Popper.
-   * @default false
-   */
-  keepMounted: import_prop_types5.default.bool,
-  /**
-   * Popper.js is based on a "plugin-like" architecture,
-   * most of its features are fully encapsulated "modifiers".
-   *
-   * A modifier is a function that is called each time Popper.js needs to
-   * compute the position of the popper.
-   * For this reason, modifiers should be very performant to avoid bottlenecks.
-   * To learn how to create a modifier, [read the modifiers documentation](https://popper.js.org/docs/v2/modifiers/).
-   */
-  modifiers: import_prop_types5.default.arrayOf(import_prop_types5.default.shape({
-    data: import_prop_types5.default.object,
-    effect: import_prop_types5.default.func,
-    enabled: import_prop_types5.default.bool,
-    fn: import_prop_types5.default.func,
-    name: import_prop_types5.default.any,
-    options: import_prop_types5.default.object,
-    phase: import_prop_types5.default.oneOf(["afterMain", "afterRead", "afterWrite", "beforeMain", "beforeRead", "beforeWrite", "main", "read", "write"]),
-    requires: import_prop_types5.default.arrayOf(import_prop_types5.default.string),
-    requiresIfExists: import_prop_types5.default.arrayOf(import_prop_types5.default.string)
-  })),
-  /**
-   * If `true`, the component is shown.
-   */
-  open: import_prop_types5.default.bool.isRequired,
-  /**
-   * Popper placement.
-   * @default 'bottom'
-   */
-  placement: import_prop_types5.default.oneOf(["auto-end", "auto-start", "auto", "bottom-end", "bottom-start", "bottom", "left-end", "left-start", "left", "right-end", "right-start", "right", "top-end", "top-start", "top"]),
-  /**
-   * Options provided to the [`Popper.js`](https://popper.js.org/docs/v2/constructors/#options) instance.
-   * @default {}
-   */
-  popperOptions: import_prop_types5.default.shape({
-    modifiers: import_prop_types5.default.array,
-    onFirstUpdate: import_prop_types5.default.func,
-    placement: import_prop_types5.default.oneOf(["auto-end", "auto-start", "auto", "bottom-end", "bottom-start", "bottom", "left-end", "left-start", "left", "right-end", "right-start", "right", "top-end", "top-start", "top"]),
-    strategy: import_prop_types5.default.oneOf(["absolute", "fixed"])
-  }),
-  /**
-   * A ref that points to the used popper instance.
-   */
-  popperRef: refType_default,
-  /**
-   * The props used for each slot inside the Popper.
-   * @default {}
-   */
-  slotProps: import_prop_types5.default.shape({
-    root: import_prop_types5.default.oneOfType([import_prop_types5.default.func, import_prop_types5.default.object])
-  }),
-  /**
-   * The components used for each slot inside the Popper.
-   * Either a string to use a HTML element or a component.
-   * @default {}
-   */
-  slots: import_prop_types5.default.shape({
-    root: import_prop_types5.default.elementType
-  }),
-  /**
-   * The system prop that allows defining system overrides as well as additional CSS styles.
-   */
-  sx: import_prop_types5.default.oneOfType([import_prop_types5.default.arrayOf(import_prop_types5.default.oneOfType([import_prop_types5.default.func, import_prop_types5.default.object, import_prop_types5.default.bool])), import_prop_types5.default.func, import_prop_types5.default.object]),
-  /**
-   * Help supporting a react-transition-group/Transition component.
-   * @default false
-   */
-  transition: import_prop_types5.default.bool
-} : void 0;
 var Popper_default = Popper3;
 
 // node_modules/@mui/material/NoSsr/NoSsr.js
-var React8 = __toESM(require_react());
-var import_prop_types6 = __toESM(require_prop_types());
-var import_jsx_runtime7 = __toESM(require_jsx_runtime());
+var React7 = __toESM(require_react());
+var import_prop_types5 = __toESM(require_prop_types());
+var import_jsx_runtime6 = __toESM(require_jsx_runtime());
 function NoSsr(props) {
   const {
     children,
     defer = false,
     fallback = null
   } = props;
-  const [mountedState, setMountedState] = React8.useState(false);
+  const [mountedState, setMountedState] = React7.useState(false);
   useEnhancedEffect_default(() => {
     if (!defer) {
       setMountedState(true);
     }
   }, [defer]);
-  React8.useEffect(() => {
+  React7.useEffect(() => {
     if (defer) {
       setMountedState(true);
     }
   }, [defer]);
-  return (0, import_jsx_runtime7.jsx)(React8.Fragment, {
+  return (0, import_jsx_runtime6.jsx)(React7.Fragment, {
     children: mountedState ? children : fallback
   });
 }
@@ -3077,23 +2883,217 @@ true ? NoSsr.propTypes = {
   /**
    * You can wrap a node.
    */
-  children: import_prop_types6.default.node,
+  children: import_prop_types5.default.node,
   /**
    * If `true`, the component will not only prevent server-side rendering.
    * It will also defer the rendering of the children into a different screen frame.
    * @default false
    */
-  defer: import_prop_types6.default.bool,
+  defer: import_prop_types5.default.bool,
   /**
    * The fallback content to display.
    * @default null
    */
-  fallback: import_prop_types6.default.node
+  fallback: import_prop_types5.default.node
 } : void 0;
 if (true) {
   NoSsr["propTypes"] = exactProp(NoSsr.propTypes);
 }
 var NoSsr_default = NoSsr;
+
+// node_modules/@mui/material/Typography/typographyClasses.js
+function getTypographyUtilityClass(slot) {
+  return generateUtilityClass("MuiTypography", slot);
+}
+var typographyClasses = generateUtilityClasses("MuiTypography", ["root", "h1", "h2", "h3", "h4", "h5", "h6", "subtitle1", "subtitle2", "body1", "body2", "inherit", "button", "caption", "overline", "alignLeft", "alignRight", "alignCenter", "alignJustify", "noWrap", "gutterBottom", "paragraph"]);
+var typographyClasses_default = typographyClasses;
+
+// node_modules/@mui/material/Typography/Typography.js
+init_extends();
+var React8 = __toESM(require_react());
+var import_prop_types6 = __toESM(require_prop_types());
+var import_jsx_runtime7 = __toESM(require_jsx_runtime());
+var _excluded7 = ["align", "className", "component", "gutterBottom", "noWrap", "paragraph", "variant", "variantMapping"];
+var useUtilityClasses2 = (ownerState) => {
+  const {
+    align,
+    gutterBottom,
+    noWrap,
+    paragraph,
+    variant,
+    classes
+  } = ownerState;
+  const slots = {
+    root: ["root", variant, ownerState.align !== "inherit" && `align${capitalize_default(align)}`, gutterBottom && "gutterBottom", noWrap && "noWrap", paragraph && "paragraph"]
+  };
+  return composeClasses(slots, getTypographyUtilityClass, classes);
+};
+var TypographyRoot = styled_default("span", {
+  name: "MuiTypography",
+  slot: "Root",
+  overridesResolver: (props, styles) => {
+    const {
+      ownerState
+    } = props;
+    return [styles.root, ownerState.variant && styles[ownerState.variant], ownerState.align !== "inherit" && styles[`align${capitalize_default(ownerState.align)}`], ownerState.noWrap && styles.noWrap, ownerState.gutterBottom && styles.gutterBottom, ownerState.paragraph && styles.paragraph];
+  }
+})(({
+  theme,
+  ownerState
+}) => _extends({
+  margin: 0
+}, ownerState.variant === "inherit" && {
+  // Some elements, like <button> on Chrome have default font that doesn't inherit, reset this.
+  font: "inherit"
+}, ownerState.variant !== "inherit" && theme.typography[ownerState.variant], ownerState.align !== "inherit" && {
+  textAlign: ownerState.align
+}, ownerState.noWrap && {
+  overflow: "hidden",
+  textOverflow: "ellipsis",
+  whiteSpace: "nowrap"
+}, ownerState.gutterBottom && {
+  marginBottom: "0.35em"
+}, ownerState.paragraph && {
+  marginBottom: 16
+}));
+var defaultVariantMapping = {
+  h1: "h1",
+  h2: "h2",
+  h3: "h3",
+  h4: "h4",
+  h5: "h5",
+  h6: "h6",
+  subtitle1: "h6",
+  subtitle2: "h6",
+  body1: "p",
+  body2: "p",
+  inherit: "p"
+};
+var colorTransformations = {
+  primary: "primary.main",
+  textPrimary: "text.primary",
+  secondary: "secondary.main",
+  textSecondary: "text.secondary",
+  error: "error.main"
+};
+var transformDeprecatedColors = (color) => {
+  return colorTransformations[color] || color;
+};
+var Typography = React8.forwardRef(function Typography2(inProps, ref) {
+  const themeProps = useDefaultProps({
+    props: inProps,
+    name: "MuiTypography"
+  });
+  const color = transformDeprecatedColors(themeProps.color);
+  const props = extendSxProp(_extends({}, themeProps, {
+    color
+  }));
+  const {
+    align = "inherit",
+    className,
+    component,
+    gutterBottom = false,
+    noWrap = false,
+    paragraph = false,
+    variant = "body1",
+    variantMapping = defaultVariantMapping
+  } = props, other = _objectWithoutPropertiesLoose(props, _excluded7);
+  const ownerState = _extends({}, props, {
+    align,
+    color,
+    className,
+    component,
+    gutterBottom,
+    noWrap,
+    paragraph,
+    variant,
+    variantMapping
+  });
+  const Component = component || (paragraph ? "p" : variantMapping[variant] || defaultVariantMapping[variant]) || "span";
+  const classes = useUtilityClasses2(ownerState);
+  return (0, import_jsx_runtime7.jsx)(TypographyRoot, _extends({
+    as: Component,
+    ref,
+    ownerState,
+    className: clsx_default(classes.root, className)
+  }, other));
+});
+true ? Typography.propTypes = {
+  // ┌────────────────────────────── Warning ──────────────────────────────┐
+  // │ These PropTypes are generated from the TypeScript type definitions. │
+  // │    To update them, edit the d.ts file and run `pnpm proptypes`.     │
+  // └─────────────────────────────────────────────────────────────────────┘
+  /**
+   * Set the text-align on the component.
+   * @default 'inherit'
+   */
+  align: import_prop_types6.default.oneOf(["center", "inherit", "justify", "left", "right"]),
+  /**
+   * The content of the component.
+   */
+  children: import_prop_types6.default.node,
+  /**
+   * Override or extend the styles applied to the component.
+   */
+  classes: import_prop_types6.default.object,
+  /**
+   * @ignore
+   */
+  className: import_prop_types6.default.string,
+  /**
+   * The component used for the root node.
+   * Either a string to use a HTML element or a component.
+   */
+  component: import_prop_types6.default.elementType,
+  /**
+   * If `true`, the text will have a bottom margin.
+   * @default false
+   */
+  gutterBottom: import_prop_types6.default.bool,
+  /**
+   * If `true`, the text will not wrap, but instead will truncate with a text overflow ellipsis.
+   *
+   * Note that text overflow can only happen with block or inline-block level elements
+   * (the element needs to have a width in order to overflow).
+   * @default false
+   */
+  noWrap: import_prop_types6.default.bool,
+  /**
+   * If `true`, the element will be a paragraph element.
+   * @default false
+   */
+  paragraph: import_prop_types6.default.bool,
+  /**
+   * The system prop that allows defining system overrides as well as additional CSS styles.
+   */
+  sx: import_prop_types6.default.oneOfType([import_prop_types6.default.arrayOf(import_prop_types6.default.oneOfType([import_prop_types6.default.func, import_prop_types6.default.object, import_prop_types6.default.bool])), import_prop_types6.default.func, import_prop_types6.default.object]),
+  /**
+   * Applies the theme typography styles.
+   * @default 'body1'
+   */
+  variant: import_prop_types6.default.oneOfType([import_prop_types6.default.oneOf(["body1", "body2", "button", "caption", "h1", "h2", "h3", "h4", "h5", "h6", "inherit", "overline", "subtitle1", "subtitle2"]), import_prop_types6.default.string]),
+  /**
+   * The component maps the variant prop to a range of different HTML element types.
+   * For instance, subtitle1 to `<h6>`.
+   * If you wish to change that mapping, you can provide your own.
+   * Alternatively, you can use the `component` prop.
+   * @default {
+   *   h1: 'h1',
+   *   h2: 'h2',
+   *   h3: 'h3',
+   *   h4: 'h4',
+   *   h5: 'h5',
+   *   h6: 'h6',
+   *   subtitle1: 'h6',
+   *   subtitle2: 'h6',
+   *   body1: 'p',
+   *   body2: 'p',
+   *   inherit: 'p',
+   * }
+   */
+  variantMapping: import_prop_types6.default.object
+} : void 0;
+var Typography_default = Typography;
 
 export {
   adaptV4Theme,
@@ -3116,12 +3116,12 @@ export {
   useColorScheme,
   getInitColorSchemeScript,
   experimental_sx,
-  getTypographyUtilityClass,
-  typographyClasses_default,
-  Typography_default,
   Portal_default,
   getPopperUtilityClass,
   Popper_default,
-  NoSsr_default
+  NoSsr_default,
+  getTypographyUtilityClass,
+  typographyClasses_default,
+  Typography_default
 };
-//# sourceMappingURL=chunk-2R6LD2WP.js.map
+//# sourceMappingURL=chunk-M4MH3LL5.js.map

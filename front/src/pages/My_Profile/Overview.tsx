@@ -8,11 +8,12 @@ import {
   Routes,
   useLocation,
   useParams,
+  // useNavigate,
 } from "react-router-dom";
 import OpenNavbar from "./assets/Open_Navbar.svg";
 import CloseNavbar from "./assets/Close_Navbar.svg";
 import Logo_ping from "./assets/Logo_ping.svg";
-import Search from "./assets/Search.svg";
+import Search_s from "./assets/Search.svg";
 import Overview_img from "./assets/Overiew.svg";
 import Profile from "./assets/Profie.svg";
 import Play from "./assets/Play.svg";
@@ -30,6 +31,7 @@ import Settings_Page from "./Settings_Page/Settings_Page";
 import The_Leaderboard from "./Leaderboard_Page/The_Leaderboard";
 import Notifications_p from "./Notifications/Notifications";
 import { usePlayer } from "./PlayerContext";
+import Search from "./Search_Content/Search";
 
 function Overview() {
   const location = useLocation();
@@ -140,57 +142,6 @@ function Overview() {
     };
   }, []);
 
-  const [searchbar, setsearchbar] = useState(false);
-
-  const inputRef = useRef<HTMLInputElement>(null);
-
-  const onClickFocus = () => {
-    setsearchbar(true);
-  };
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        inputRef.current &&
-        !inputRef.current.contains(event.target as Node)
-      ) {
-        setsearchbar(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
-
-  type Player_search = {
-    id: number;
-    username: string;
-    profile_image: string;
-  };
-  const [searchResults, setSearchResults] = useState<Player_search[]>([]);
-  const [query, setQuery] = useState("");
-
-  const handleSearch = async (query: string) => {
-    if (query.length > 0) {
-      try {
-        const response = await fetch(
-          `http://localhost:8000/user_auth/search-users/?q=${query}`
-        );
-        const data = await response.json();
-        setSearchResults(data);
-      } catch (error) {
-        console.error("Error fetching search results:", error);
-      }
-    } else {
-      setSearchResults([]);
-    }
-  };
-  useEffect(() => {
-    handleSearch(query);
-  }, [query]);
-
   return (
     <div className={over.all}>
       {showNotifications && (
@@ -220,35 +171,7 @@ function Overview() {
           <img src={Logo_ping} className={`${over.imgg1} ${over.imgg1_hide}`} />
         </div>
         <div className={over.bar_search}>
-          <img src={Search} className={over.imgg_s} />
-          <input
-            className={over.inside_input}
-            ref={inputRef}
-            type="search"
-            placeholder="Search for Player…"
-            onChange={(e) => setQuery(e.target.value)}
-            maxLength={50}
-            onFocus={onClickFocus}
-          />
-          {searchbar && (
-            <div className={over.search_size}>
-              {searchResults.length > 0 ? (
-                <div className={over.player_details_colomns}>
-                {searchResults.map((player) => (
-                  <div key={player.id} className={over.player_details}>
-                    <img className={over.images_search} src={"http://localhost:8000/media/" + player.profile_image} alt={player.username}/>
-                    <span>{player.username}</span>
-                  </div>
-                ))}
-                </div>
-              ) : (
-                <div className={over.player_details_colomns}>No results found.</div>
-              )}
-            </div>
-          )}
-          {/* <div className={over.search_content}>
-            <span className={over.hidden_name}> Search </span>
-          </div> */}
+          <Search />
         </div>
         <div className={over.content_navbar_item1}>
           <NavLink to={"Overview"} className={getNavLink("/Overview")}>

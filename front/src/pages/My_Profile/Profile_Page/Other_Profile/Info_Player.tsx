@@ -36,7 +36,7 @@ export const Info_Player = ({ username }: { username: string | undefined }) => {
             }
           );
           if (response.ok) {
-            console.log("Data of player is ok");
+            // console.log("Data of player is ok");
           } else {
             console.error("Data of player is not ok");
           }

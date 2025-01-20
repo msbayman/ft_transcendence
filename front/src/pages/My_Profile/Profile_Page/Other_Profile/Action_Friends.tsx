@@ -31,7 +31,7 @@ const Action_Friends = ({ username }: { username: string | undefined }) => {
           }
         );
         if (response.ok) {
-          console.log("Friend request sent successfully");
+          // console.log("Friend request sent successfully");
         } else {
           console.error("Failed to send friend request");
         }
@@ -195,7 +195,7 @@ const Action_Friends = ({ username }: { username: string | undefined }) => {
       );
 
       if (response.ok) {
-        console.log("Friend request sent successfully");
+        // console.log("Friend request sent successfully");
       } else {
         console.error("Failed to send friend request");
       }

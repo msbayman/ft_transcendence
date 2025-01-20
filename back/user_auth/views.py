@@ -244,6 +244,6 @@ class SearchUser(APIView):
             players = Player.objects.none()  # Return an empty queryset if no query
 
         # Convert the queryset to a list of dictionaries with only full_name and profile_image
-        players_list = list(players.values('id', 'username', 'profile_image'))
+        players_list = list(players.values('id', 'username', 'profile_image', 'level'))
 
         return Response(players_list, status=status.HTTP_200_OK)
