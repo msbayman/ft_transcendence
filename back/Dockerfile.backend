@@ -1,11 +1,11 @@
 FROM python:3.9
 
-    WORKDIR /app
-    COPY . /app
-    RUN apt-get update && apt-get install -y \
-        postgresql-client \
-        libpq-dev \
-        curl
-    
-    RUN chmod +x script_back.sh
-    CMD ["sh", "script_back.sh"]
+WORKDIR /app
+COPY . /app
+RUN apt-get update && apt-get install -y \
+    postgresql-client \
+    libpq-dev \
+    curl
+
+RUN chmod +x script_back.sh
+CMD ["sh", "script_back.sh"]

@@ -24,13 +24,13 @@ interface OnlineFriends {
 interface SelectedUser {
   onClick: (newUser: string) => void;
 }
-const token = Cookies.get("access_token");
 const FriendsList: React.FC<SelectedUser> = ({ onClick }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [friends, setFriends] = useState<Friend[]>([]);
   const [onlineFriends, setOnlineFriends] = useState<OnlineFriends[]>([]);
   const { messages } = useWebSocket();
-
+  const token = Cookies.get("access_token");
+  
   const fetchLastMessages = async () => {
     try {
       const response = await axios.get("http://127.0.0.1:8000/chat/last-message/", {
@@ -74,40 +74,18 @@ const FriendsList: React.FC<SelectedUser> = ({ onClick }) => {
   };
   
   useEffect(() => {
-    const token = Cookies.get("access_token");
-    if (token) {
-      fetchLastMessages();
-      fetchOnlineFriends();
-    }
+    // const token = Cookies.get("access_token");
+    // if (token) {
+    // }
+    fetchLastMessages();
+    fetchOnlineFriends();
   }, []);
   
 
   // Update when new messages arrive
   useEffect(() => {
     if (messages.length > 0) {
-      // const tokens = Cookies.get("access_token");
-      // const lastMessage = messages[messages.length - 1];
-      
-      // Immediately update the specific friend's last message
-      // setFriends(prevFriends => {
-      //   return prevFriends.map(friend => {
-      //     if (friend.name === lastMessage.sender || friend.name === lastMessage.receiver) {
-      //       return {
-      //         ...friend,
-      //         content: lastMessage.text,
-      //         timestamp: new Date(lastMessage.timestamp * 1000).toLocaleString()
-      //       };
-      //     }
-      //     return friend;
-      //   });
-      // });
-
-      // Refresh the entire list after a short delay
-      // const timeoutId = setTimeout(() => {
-        fetchLastMessages();
-      // }, 1000);
-
-      // return () => clearTimeout(timeoutId);
+      fetchLastMessages();
     }
   }, [messages]);
 
