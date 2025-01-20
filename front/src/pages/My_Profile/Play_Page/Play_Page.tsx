@@ -2,10 +2,12 @@ import "./Play_Page.css";
 import EmblaCarousel from "./EmblaCarousel/EmblaCarousel";
 import { EmblaOptionsType } from "embla-carousel";
 import Options from "./Options";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom"; // Import if using react-router
 import { NextButton } from "./Buttons";
 import classes from "./style.module.css";
+import Cookies from "js-cookie";
+import axios from "axios";
 
 interface SelectedIds {
   mode: number | null;
@@ -106,7 +108,7 @@ const Play_Page: React.FC = () => {
       default:
         return false;
     }
-  }
+  };
 
   const isCurrentSlideSelected = () => {
     switch (value) {
@@ -121,6 +123,48 @@ const Play_Page: React.FC = () => {
       default:
         return false;
     }
+  };
+
+  interface player_data {
+    username: string;
+  }
+  const [player_data, setPlayerData] = useState<player_data>({
+    username: "",
+  });
+
+  useEffect(() => {
+    const fetchPlayerData = async () => {
+      try {
+        const token = Cookies.get("access_token"); // Ensure token is available
+        if (!token) throw new Error("No access token found. Please log in.");
+
+        const response = await axios.get<player_data>(
+          "http://127.0.0.1:8000/user_auth/UserDetailView",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        setPlayerData(response.data);
+        console.log("---------->  Player data fetched:      ", response.data);
+      } catch (error) {
+        console.error("Failed to fetch player data:", error);
+      }
+    };
+
+    fetchPlayerData();
+  }, []);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setPlayerData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+    setPlayerData({ ...player_data, [name]: value });
+    console.log(value);
   };
 
   const handleNextClick = () => {
@@ -195,7 +239,6 @@ const Play_Page: React.FC = () => {
     // Update localStorage with the new state
     localStorage.setItem("selectedSkins", JSON.stringify(selectedIds));
   };
-  
 
   const handlePlayClick = () => {
     // Navigate to play page with selected skins
@@ -204,111 +247,143 @@ const Play_Page: React.FC = () => {
 
   return (
     <main className="w-full h-full flex justify-center items-center">
-    <div className="overflow-scroll scrollbar-hide max-w-[1660px] relative flex flex-grow justify-center items-center h-full md:m-10 m-0  rounded-3xl ">
-      <Options value={value} /> {/* Options component value={value}  */}
-      <div className="absolute flex flex-col flex-wrap justify-evenly items-center h-[90%] bottom-0  w-full  overflow-scroll scrollbar-hide bg-[#3A0CA3] rounded-[6rem] shadow-lg">
-        <div className=" flex-1 h-full  flex flex-col justify-center items-center">
-          {value === "Modes" && (
-            <EmblaCarousel
-              slidesmaps={SLIDEIMAPS}
-              options={OPTIONS}
-              setCurrentSlideIndex={setCurrentSlideIndex}
-            />
-          )}
-          {value === "Boards" && (
-            <EmblaCarousel
-              slidesmaps={SLIDEBOARDS}
-              options={OPTIONS}
-              setCurrentSlideIndex={setCurrentSlideIndex}
-            />
-          )}
-          {value === "Paddles" && (
-            <EmblaCarousel
-              slidesmaps={SLIDECUES}
-              options={OPTIONS}
-              setCurrentSlideIndex={setCurrentSlideIndex}
-            />
-          )}
-          {value === "Ball" && (
-            <EmblaCarousel
-              slidesmaps={SLIDEBALLS}
-              options={OPTIONS}
-              setCurrentSlideIndex={setCurrentSlideIndex}
-            />
-          )}
-          {value === "Finish" && (
-            <div className="absolute top-[10%] flex flex-col justify-center items-center gap-16">
-              <div className="w-full">
-                <img
-                  src={SLIDEIMAPS[selectedIds.mode!]?.mapPath}
-                  alt={SLIDEIMAPS[selectedIds.mode!]?.mapPath}
-                  className="relative flex justify-center items-center right-[1rem] w-full h-[22rem] object-contain"
-                />
+      <div className="overflow-scroll scrollbar-hide max-w-[1660px] relative flex flex-grow justify-center items-center h-full md:m-10 m-0  rounded-3xl ">
+        <Options value={value} /> {/* Options component value={value}  */}
+        <div className="absolute flex flex-col flex-wrap justify-evenly items-center h-[90%] bottom-0  w-full  overflow-scroll scrollbar-hide bg-[#3A0CA3] rounded-[6rem] shadow-lg">
+          <div className=" flex-1 h-full  flex flex-col justify-center items-center">
+            {value === "Modes" && (
+              <EmblaCarousel
+                slidesmaps={SLIDEIMAPS}
+                options={OPTIONS}
+                setCurrentSlideIndex={setCurrentSlideIndex}
+              />
+            )}
+            {value === "Boards" && (
+              <EmblaCarousel
+                slidesmaps={SLIDEBOARDS}
+                options={OPTIONS}
+                setCurrentSlideIndex={setCurrentSlideIndex}
+              />
+            )}
+            {value === "Paddles" && (
+              <EmblaCarousel
+                slidesmaps={SLIDECUES}
+                options={OPTIONS}
+                setCurrentSlideIndex={setCurrentSlideIndex}
+              />
+            )}
+            {value === "Ball" && (
+              <EmblaCarousel
+                slidesmaps={SLIDEBALLS}
+                options={OPTIONS}
+                setCurrentSlideIndex={setCurrentSlideIndex}
+              />
+            )}
+            {value === "Finish" && (
+              <div className="absolute top-[10%] flex flex-col justify-center items-center gap-16">
+                <div className="w-full">
+                  {SLIDEIMAPS[selectedIds.mode!]?.mapName === "Tournement" ? (
+                    <div className="flex flex-row-reverse gap-20 justify-center items-center">
+                      <div className="flex flex-col items-center justify-evenly">
+                        <label className="w-[15rem] text-[20px] relative top-[1rem] left-[1rem] font-alexandria text-white ">
+                          Set Your Nickname
+                        </label>
+                        <input
+                          type="text"
+                          name="username"
+                          // placeholder={player_data?.username || ""}
+                          placeholder="sakarkal"
+                          value={player_data?.username || ""}
+                          onChange={handleInputChange}
+                          className="w-[375px] h-[68px] font-alexandria justify-center items-center text-center rounded-[11px] px-3 bg-[#3a0ca3]  text-white text-[32px] m-7"
+                          style={{ border: "2px solid #8151EE" }}
+                        />
+                        <button className="w-[230px] h-[59px] font-alexandria font-medium text-white shadow-md rounded-[36.5px] bg-[#8151EE] flex justify-center items-center text-[30px]">
+                          OK
+                        </button>
+                      </div>
+                      <img
+                        src={SLIDEIMAPS[selectedIds.mode!]?.mapPath}
+                        alt={SLIDEIMAPS[selectedIds.mode!]?.mapPath}
+                        className="flex justify-center items-center w-full h-[22rem] object-contain"
+                      />
+                    </div>
+                  ) : (
+                    <img
+                      src={SLIDEIMAPS[selectedIds.mode!]?.mapPath}
+                      alt={SLIDEIMAPS[selectedIds.mode!]?.mapPath}
+                      className="relative flex justify-center items-center right-[1rem] w-full h-[22rem] object-contain"
+                    />
+                  )}
+                </div>
+
+                <div className="grid grid-cols-1 w-full md:grid-cols-3 gap-10">
+                  {/* Football Board */}
+                  <img
+                    src={SLIDEBOARDS[selectedIds.board!]?.mapPath}
+                    alt={SLIDEBOARDS[selectedIds.board!]?.mapName}
+                    className="w-full h-[12rem] object-contain"
+                  />
+
+                  <img
+                    src={SLIDECUES[selectedIds.paddel!]?.mapPath}
+                    alt={SLIDEBOARDS[selectedIds.paddel!]?.mapName}
+                    className="w-full h-[12rem] object-contain"
+                  />
+
+                  <img
+                    src={SLIDEBALLS[selectedIds.ball!]?.mapPath}
+                    alt={SLIDEBALLS[selectedIds.ball!]?.mapName}
+                    className="w-full h-[12rem] object-contain"
+                  />
+                </div>
+                <div className="flex w-full h-full justify-center items-center text-center gap-4">
+                  <img
+                    className="relative top-2"
+                    src="Rectangle.svg"
+                    alt="Play"
+                  />
+                  <h4
+                    className="absolute font-luckiest bottom-[-13px] text-[4.8rem] text-shadow-lg text-white cursor-pointer"
+                    onClick={handlePlayClick}
+                  >
+                    PLAY
+                  </h4>
+                </div>
               </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                {/* Football Board */}
-                <img
-                  src={SLIDEBOARDS[selectedIds.board!]?.mapPath}
-                  alt="Football Board"
-                  className="w-full h-[12rem] object-contain"
-                />
-
-                <img
-                  src={SLIDECUES[selectedIds.paddel!]?.mapPath}
-                  alt="Green Neon Cue"
-                  className="w-full h-[12rem] object-contain"
-                />
-
-                <img
-                  src={SLIDEBALLS[selectedIds.ball!]?.mapPath}
-                  alt="Football Ball"
-                  className="w-full h-[12rem] object-contain"
-                />
-              </div>
-              <div className="flex w-full h-full justify-center items-center text-center gap-4">
-                <img
-                  className="relative bottom-2"
-                  src="Rectangle.svg"
-                  alt="Play"
-                />
-                <h4
-                  className="absolute font-luckiest text-[4.8rem] text-shadow-lg text-white cursor-pointer"
-                  onClick={handlePlayClick}
+            )}
+          </div>
+          {value !== "Finish" && (
+            <div className="absolute bottom-11 left-10 w-full h-[10%] flex justify-evenly items-center">
+              <button style={{ visibility: "visible" }}></button>
+              <button
+                className={
+                  isCurrentSlideSelected() ? classes.selected : classes.select
+                }
+                onClick={handleSelect}
+              >
+                {isCurrentSlideSelected() ? "SELECTED" : "SELECT"}
+              </button>
+              {value !== "Finish" && (
+                <button
+                  className="rounded-full border text-[#3A0CA3] bg-white hover:bg-[#3A0CA3] hover:text-white transition-all duration-400 group"
+                  onClick={handleNextClick}
+                  disabled={
+                    isCurrentSlideSelected() || isOneOfSlidesSelected()
+                      ? false
+                      : true
+                  }
                 >
-                  PLAY
-                </h4>
-              </div>
+                  <NextButton />
+                  <span className="hidden opacity-0 absolute transform  bg-black text-white px-2.5 py-1 rounded whitespace-nowrap transition-opacity duration-200 group-hover:block group-hover:opacity-100">
+                    NEXT
+                  </span>
+                </button>
+              )}
             </div>
           )}
         </div>
-        {value !== "Finish" && (
-          <div className="absolute bottom-11 left-10 w-full h-[10%] flex justify-evenly items-center">
-            <button style={{ visibility: "visible" }}></button>
-            <button
-              className={
-                isCurrentSlideSelected() ? classes.selected : classes.select
-              }
-              onClick={handleSelect}
-            >
-              {isCurrentSlideSelected() ? "SELECTED" : "SELECT"}
-            </button>
-            {value !== "Finish" && (
-              <button
-                className="rounded-full border text-[#3A0CA3] bg-white hover:bg-[#3A0CA3] hover:text-white transition-all duration-400 group"
-                onClick={handleNextClick}
-                disabled={(isCurrentSlideSelected() || isOneOfSlidesSelected()) ? false : true}
-              >
-                <NextButton />
-                <span className="hidden opacity-0 absolute transform  bg-black text-white px-2.5 py-1 rounded whitespace-nowrap transition-opacity duration-200 group-hover:block group-hover:opacity-100">
-                  NEXT
-                </span>
-              </button>
-            )}
-          </div>
-        )}
       </div>
-    </div>
     </main>
   );
 };
