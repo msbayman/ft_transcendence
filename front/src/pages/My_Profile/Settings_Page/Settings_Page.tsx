@@ -79,7 +79,7 @@ const Settings_Page = () => {
   
 
   return (
-    <div className="w-full h-full flex justify-center items-center">
+    <div className="w-full h-full flex justify-center items-center min-w-[600px] min-h-[1040px]">
       <div className="wrapper">
         <h1 className="w-[90%]">Settings</h1>
 

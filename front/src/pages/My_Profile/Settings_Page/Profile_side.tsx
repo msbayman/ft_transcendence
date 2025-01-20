@@ -68,7 +68,6 @@ function Profile_side({ player, setPlayerData }: ProfileSideProps) {
             </div>
           </div>
           <div className="profile-pic">
-            <div>
               <img
                 src={data_player.playerData?.profile_image}
                 className="Photo"
@@ -78,7 +77,6 @@ function Profile_side({ player, setPlayerData }: ProfileSideProps) {
                 <FontAwesomeIcon icon={faPen} />
                 Change
               </label>
-            </div>
           </div>
         </div>
 

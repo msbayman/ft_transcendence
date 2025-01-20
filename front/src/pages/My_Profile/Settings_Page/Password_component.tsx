@@ -33,51 +33,56 @@ function Password_component() {
       <div className="inpt">
         <div className="spn">
           <label>Current Password</label>
-          <i
-            className="icon"
-            onClick={() => toggleVisibility("currentPassword")}
-            style={{ visibility: "visible" }}
-          >
-            {passwordVisible.currentPassword ? (
-              <BsEyeFill />
-            ) : (
-              <BsEyeSlashFill />
-            )}
-          </i>
-          <input
-            type={passwordVisible.currentPassword ? "text" : "password"}
-            placeholder="Current Password"
-            className="flex flex-row justify-between"
-          />
+          <div className="w-[100%] flex flex-row items-center justify-center">
+            <input
+              type={passwordVisible.currentPassword ? "text" : "password"}
+              placeholder="Current Password"
+              // className="pass"
+            />
+            <i
+              onClick={() => toggleVisibility("currentPassword")}
+              style={{ visibility: "visible" }}
+            >
+              {passwordVisible.currentPassword ? (
+                <BsEyeFill />
+              ) : (
+                <BsEyeSlashFill />
+              )}
+            </i>
+          </div>
         </div>
         <div className="spn">
           <label>New Password</label>
-          <i className="icon" onClick={() => toggleVisibility("newPassword")}>
-            {passwordVisible.newPassword ? <BsEyeFill /> : <BsEyeSlashFill />}
-          </i>
-          <input
-            type={passwordVisible.newPassword ? "text" : "password"}
-            placeholder="New Password"
-            className="pass"
-          />
+          <div className="w-[100%] flex flex-row items-center justify-center">
+            <input
+              type={passwordVisible.newPassword ? "text" : "password"}
+              placeholder="New Password"
+              // className="pass"
+            />
+            <i onClick={() => toggleVisibility("newPassword")}>
+              {passwordVisible.newPassword ? <BsEyeFill /> : <BsEyeSlashFill />}
+            </i>
+          </div>
         </div>
         <div className="spn">
           <label>Confirm Password</label>
-          <i
-            className="icon"
-            onClick={() => toggleVisibility("confirmPassword")}
-          >
-            {passwordVisible.confirmPassword ? (
-              <BsEyeFill />
-            ) : (
-              <BsEyeSlashFill />
-            )}
-          </i>
-          <input
-            type={passwordVisible.confirmPassword ? "text" : "password"}
-            placeholder="Confirme New Password"
-            className="pass"
-          />
+          <div className="w-[100%] flex flex-row items-center justify-center">
+            <input
+              type={passwordVisible.confirmPassword ? "text" : "password"}
+              placeholder="Confirme New Password"
+              className="pass"
+            />
+            <i
+              className="icon"
+              onClick={() => toggleVisibility("confirmPassword")}
+            >
+              {passwordVisible.confirmPassword ? (
+                <BsEyeFill />
+              ) : (
+                <BsEyeSlashFill />
+              )}
+            </i>
+          </div>
         </div>
       </div>
     </div>
