@@ -23,6 +23,18 @@ class Player(AbstractUser):
     list_users_friends = models.ManyToManyField('self', blank=True)
     # nickname = models.CharField('', blank=True)
 
+    ####################################################################
+
+    win_1_game = models.BooleanField(default=False)
+    win_3_games = models.BooleanField(default=False)
+    win_10_games = models.BooleanField(default=False)
+    win_30_games = models.BooleanField(default=False)
+    reach_level_5 = models.BooleanField(default=False)
+    reach_level_15 = models.BooleanField(default=False)
+    reach_level_30 = models.BooleanField(default=False)
+    perfect_win_game = models.BooleanField(default=False)
+    perfect_win_tournaments = models.BooleanField(default=False)
+
 
 
     def is_expired(self):

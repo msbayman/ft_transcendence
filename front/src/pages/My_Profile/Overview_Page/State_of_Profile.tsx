@@ -38,9 +38,8 @@ const State_of_Profile = () => {
     <div className="all_content_state">
       <div className="part_1_state">
         <div className="Photo_Profile">
-          {/* <div className="level_player"></div> */}
-          <img src={player.playerData?.profile_image} className="Photo_P" />
-          <img src={border_profile} className="Photo_border" />
+          <img src={player.playerData?.profile_image} className="image Photo_P" />
+          <img src={border_profile} className="image Photo_border" />
         </div>
         <div className="Name_and_Online-state">
           <div className="Name">{player.playerData?.username}</div>

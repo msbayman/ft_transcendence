@@ -75,6 +75,8 @@
     .Top_Achievement {
         display: flex;
         flex-grow: 1;
+        /* min-width: 4030px; */
+        width: 400px;
         height: 250px;
         margin: 15px;
         border-radius: 20px;
@@ -177,7 +179,6 @@
     }
 
     .Background_Profile {
-        background-image: url(../Images/Back1.png);
         background-size: cover;
         background-position:top;
         background-repeat: no-repeat;
@@ -301,7 +302,6 @@
     }
     .Background_Profile {
         display: flex;
-        background-image: url(../Images/Back1.png);
         background-size: cover;
         background-position:top;
         background-repeat: no-repeat;

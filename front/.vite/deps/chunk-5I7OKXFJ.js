@@ -2679,9 +2679,9 @@ var init_emotion_styled_browser_development_esm = __esm({
 export {
   _extends,
   init_extends,
+  require_react_is,
   createCache,
   init_emotion_cache_browser_development_esm,
-  require_react_is,
   CacheProvider,
   ThemeContext,
   Global,
@@ -2703,4 +2703,4 @@ react-is/cjs/react-is.development.js:
    * LICENSE file in the root directory of this source tree.
    *)
 */
-//# sourceMappingURL=chunk-YANMOUHQ.js.map
+//# sourceMappingURL=chunk-5I7OKXFJ.js.map

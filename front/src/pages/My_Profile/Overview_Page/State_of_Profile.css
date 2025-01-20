@@ -9,26 +9,44 @@
     border-radius: 60px;
     background: rgba(255, 255, 255, 0.40);
     backdrop-filter: blur(10px);
-    gap: 50px;
+    gap: 40px;
 }
 .part_1_state {
     display: flex;
     flex-direction: row;
-    gap: 60px;
+    align-items: center;
+    /* gap: 10px; */
+    padding-right:20px ;
+}
+
+.Photo_Profile {
+    position: relative;
+    width: 150px;
+    height: 80px;
+    /* margin: 2px auto; */
+}
+
+.image {
+    position: absolute;
+    margin-top: -50px;
 }
 
 .Photo_border {
+    /* position: relative;*/
     position: absolute;
-    width: 180px;
-    margin-top: -155px;
-    margin-left: -18px;
+    width: 130%;
+    margin-top: -70px;
+    margin-left: -15px;
+    /* margin-top: -105px;
+    margin-left: -3%; */
 }
 
 .Photo_P {
+    /* position: relative; */
     border-radius: 50%;
-    width: 120px;
-    margin-top: -60px;
-    margin-left: 10%;
+    width: 79%
+    /* margin-top: -60px;
+    margin-left: 10%; */
 }
 .Name_and_online-state {
     display: flex;

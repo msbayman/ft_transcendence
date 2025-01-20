@@ -16,8 +16,43 @@
     justify-content: space-around;
     width: 100%;
     /* max-width: 530px; */
-    flex-grow: 1;
-    padding: 0 20px;
+    /* flex-grow: 1; */
+    min-height: 165px;
+    padding: 10px 20px;
+    gap: 20px;
+}
+
+.every_achiev {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    gap: 10px;
+    color: aliceblue;
+    text-align: center;
+    text-shadow: 1px 1px 20px black;
+    font-family: "Alexandria", sans-serif; 
+    font-size: 14px;   
+}
+
+.if_no {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+    color: aliceblue;
+}
+.if_noo {
+    width: 30px;
+
+}
+.every_image {
+    height: 100px;
+}
+.every_image_c {
+    width: 100px;
+    height: 100px;
 }
 
 .acheiv {
@@ -66,6 +101,16 @@
     align-items: center; */
     position: relative;
 
+}
+
+
+.No_One {
+    padding-top: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: large;
+    gap: 15px;
 }
 
 .part_2_achv {

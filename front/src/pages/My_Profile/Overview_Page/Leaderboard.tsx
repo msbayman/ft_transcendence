@@ -50,13 +50,13 @@ const Leaderboard = () => {
           {the_list.map((data, index) => (
             <div key={index} className={lead.every_columns1}>
               <div className={lead.index}>#{index + 1}</div>
-              <div>
+              {/* <div> */}
                 <img
                   src={'http://127.0.0.1:8000' + data.profile_image}
                   alt="photo_Profile"
                   className={lead.photo_Profile}
                 />
-              </div>
+              {/* </div> */}
               <div className={lead.the_name}>{data.username}</div>
               <div className={lead.points}>{data.points} Points</div>
             </div>
