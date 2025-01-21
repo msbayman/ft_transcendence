@@ -38,7 +38,7 @@ import {
   useSlotProps_default,
   useThemeProps,
   useTheme_default
-} from "./chunk-MOABU4JG.js";
+} from "./chunk-WJ3PBSVO.js";
 import {
   _extends,
   init_extends
@@ -3124,4 +3124,4 @@ export {
   typographyClasses_default,
   Typography_default
 };
-//# sourceMappingURL=chunk-M4MH3LL5.js.map
+//# sourceMappingURL=chunk-DE2EGFXY.js.map

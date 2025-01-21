@@ -237,6 +237,7 @@ class GetPlayer(APIView):
 class SearchUser(APIView):
     def get(self, request):
         query = request.GET.get('q', '')  # Get the search query from the request
+        print(f"------->>>>>Query: {query}")
         if query:
             # Filter players based on the query (e.g., search by full_name)
             players = Player.objects.exclude(username='admin').filter(username__icontains=query)  # Case-insensitive search
@@ -245,5 +246,6 @@ class SearchUser(APIView):
 
         # Convert the queryset to a list of dictionaries with only full_name and profile_image
         players_list = list(players.values('id', 'username', 'profile_image', 'level'))
+        print(players_list , '<><><><><><><><<<<<<>>>>????')
 
         return Response(players_list, status=status.HTTP_200_OK)
