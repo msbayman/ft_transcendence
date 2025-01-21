@@ -1,7 +1,7 @@
 FROM docker.elastic.co/logstash/logstash:7.15.0
 
 # Copy the logstash.conf file into the pipeline directory
-COPY logstash/logstash.conf /usr/share/logstash/pipeline/logstash.conf
+COPY logstash.conf /usr/share/logstash/pipeline/logstash.conf
 
 
 

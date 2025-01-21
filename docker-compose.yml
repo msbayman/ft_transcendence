@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
   backend:
     build:
@@ -65,6 +67,63 @@ services:
       - elk
     restart: always
 
+  elasticsearch:
+    build:
+      context: ./elasticsearch
+      args:
+        ELASTIC_VERSION: 8.15.5
+    container_name: elasticsearch
+    environment:
+      - node.name=elasticsearch
+      - cluster.name=es-docker-cluster
+      - discovery.type=single-node
+      - bootstrap.memory_lock=true
+      - xpack.security.enabled=true
+      - ELASTIC_PASSWORD=ayman
+      - KIBANA_PASSWORD=ayman
+    volumes:
+      - ./elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+      - elasticsearch-data:/usr/share/elasticsearch/data
+      - elasticsearch-certs:/usr/share/elasticsearch/config/certs
+    networks:
+      - elk
+    restart: always
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.15.5
+    container_name: kibana
+    environment:
+      - ELASTICSEARCH_HOSTS=https://elasticsearch:9200
+      - ELASTICSEARCH_USERNAME=kibana_system
+      - ELASTICSEARCH_PASSWORD=ayman
+      - ELASTICSEARCH_SSL_CERTIFICATEAUTHORITIES=/usr/share/kibana/config/certs/ca/ca.crt
+    volumes:
+      - ./kibana/kibana.yml:/usr/share/kibana/config/kibana.yml
+      - elasticsearch-certs:/usr/share/kibana/config/certs
+    depends_on:
+      - elasticsearch
+    networks:
+      - elk
+    restart: always
+
+  logstash:
+    build:
+      context: ./logstash
+      dockerfile: Dockerfile.logstash
+    container_name: logstash
+    environment:
+      - ELASTICSEARCH_HOSTS=https://elasticsearch:9200
+      - ELASTIC_PASSWORD=ayman
+    volumes:
+      - ./logstash/logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+      - ./logstash/logstash.yaml:/usr/share/logstash/config/logstash.yml
+      - elasticsearch-certs:/usr/share/logstash/config/certs
+    depends_on:
+      - elasticsearch
+    networks:
+      - elk
+    restart: always
+
   nginx:
     build:
       context: ./nginx
@@ -77,6 +136,7 @@ services:
       - backend
     volumes:
       - media:/usr/share/nginx/media
+      - ./nginx/conf.d:/etc/nginx/conf.d  # Mount custom Nginx configuration
     networks:
       - elk
     restart: always
@@ -89,4 +149,8 @@ volumes:
   pgdata:
     driver: local
   media:
+    driver: local
+  elasticsearch-data:
+    driver: local
+  elasticsearch-certs:
     driver: local

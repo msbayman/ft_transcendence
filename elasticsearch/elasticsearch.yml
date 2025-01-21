@@ -1,8 +1,14 @@
-cluster.name: "docker-cluster"
+cluster.name: "es-docker-cluster"
 network.host: 0.0.0.0
+
 xpack.security.enabled: true
-xpack.security.authc:
-  anonymous:
-    username: "anonymous_user"
-    roles: [ "superuser" ]
-    authz_exception: false
+xpack.security.transport.ssl.enabled: true
+xpack.security.transport.ssl.verification_mode: certificate
+xpack.security.transport.ssl.keystore.path: config/certs/elastic-certificates.p12
+xpack.security.transport.ssl.truststore.path: config/certs/elastic-certificates.p12
+
+xpack.security.http.ssl.enabled: true
+xpack.security.http.ssl.keystore.path: config/certs/elastic-certificates.p12
+xpack.security.http.ssl.truststore.path: config/certs/elastic-certificates.p12
+
+discovery.type: single-node
