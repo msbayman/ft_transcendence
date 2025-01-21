@@ -69,10 +69,10 @@ def handle_oauth_user(request: HttpRequest, user_info: dict) -> HttpResponse:
     user_id_prov = user_info.get('id')
     avatar_hash = user_info.get('avatar')
     if not(all([email, username, full_name, user_id_prov])):
-        login_url = f"http://localhost:5173/login?error=Failed to retrieve user data"
+        login_url = f"https://localhost:5173/login?error=Failed to retrieve user data"
         return redirect(login_url)
     if Player.objects.filter(email__iexact=email).exclude(prov_name="Discord").exists():
-        login_url = f"http://localhost:5173/login?error=email already exists"
+        login_url = f"https://localhost:5173/login?error=email already exists"
         return redirect(login_url)
     try:
         user = Player.objects.get(email = email)
@@ -124,7 +124,7 @@ def handle_oauth_user(request: HttpRequest, user_info: dict) -> HttpResponse:
         user.save()
 
         # Redirect to the OTP verification page
-        frontend_url = "http://localhost:5173/Valid_otp"
+        frontend_url = "https://localhost/Valid_otp"
         redirect_url = f"{frontend_url}?username={user.username}"
 
         return redirect(redirect_url)
@@ -134,7 +134,7 @@ def handle_oauth_user(request: HttpRequest, user_info: dict) -> HttpResponse:
         access_token = str(refresh.access_token)
         refresh_token = str(refresh)
         
-        frontend_url = "http://localhost:5173/Overview"
+        frontend_url = "https://localhost/Overview"
         redirect_url = f"{frontend_url}?access_token={access_token}&refresh_token={refresh_token}"
         
 

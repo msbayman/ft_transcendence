@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 // import "./Friends_Page.css";
 import FriendsList from "./FriendsList";
-import ChatInterface from './ChatLayout';
+import ChatInterface from "./ChatLayout";
 import { WebSocketProvider, useWebSocket } from "./WebSocketContext";
 // import { usePlayer } from '../PlayerContext';
 
@@ -27,7 +27,7 @@ const Friends_Page_Content: React.FC = () => {
   const { connect, disconnect } = useWebSocket();
 
   useEffect(() => {
-    const wsUrl = 'ws://127.0.0.1:8000/ws/chat/';
+    const wsUrl = "ws://backend/ws/chat/";
     connect(wsUrl);
 
     return () => {
@@ -42,10 +42,7 @@ const Friends_Page_Content: React.FC = () => {
 
   return (
     <div className="flex w-full h-full drop-shadow-2xl rounded-l-[44px] rounded-r-[44px] bg-[#3A0CA3]">
-      <ChatContainer 
-        user={user} 
-        onUserSelect={handleUser}
-      />
+      <ChatContainer user={user} onUserSelect={handleUser} />
     </div>
   );
 };

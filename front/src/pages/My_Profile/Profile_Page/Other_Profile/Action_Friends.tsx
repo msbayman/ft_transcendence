@@ -22,7 +22,7 @@ const Action_Friends = ({ username }: { username: string | undefined }) => {
     const check_status = async () => {
       try {
         const response = await fetch(
-          `http://127.0.0.1:8000/listfriends/check-friend-requests/${username}/`,
+          `https://localhost:443/listfriends/check-friend-requests/${username}/`,
           {
             method: "GET",
             headers: {
@@ -150,32 +150,32 @@ const Action_Friends = ({ username }: { username: string | undefined }) => {
       );
     else if (states === "accepted")
       return (
-          <div className={other.accept_or_decline}>
-            <div className={other.accept1}>
-              {/* <button onClick={Is_Accept} className={other.accept1}> */}
-                <div className={other.add_friend_i}>
-                  <img
-                    src="/Icones/icone_add_friend.png"
-                    className={other.icone_add}
-                    alt="icone_add_friend"
-                  />
-                  <span>Friend</span>
-                </div>
-              {/* </button> */}
-            </div>
-            <div className={other.decline1}>
-              {/* <button onClick={Is_Denied} className={other.decline1}> */}
-                <div className={other.add_friend_i}>
-                  <img
-                    src="/Icones/icone_add_friend.png"
-                    className={other.icone_add}
-                    alt="icone_add_friend"
-                  />
-                  <span>Message</span>
-                </div>
-              {/* </button> */}
-            </div>
+        <div className={other.accept_or_decline}>
+          <div className={other.accept1}>
+            <button onClick={Is_Accept} className={other.accept1}>
+              <div className={other.add_friend_i}>
+                <img
+                  src="/Icones/icone_add_friend.png"
+                  className={other.icone_add}
+                  alt="icone_add_friend"
+                />
+                <span>Friend</span>
+              </div>
+            </button>
           </div>
+          <div className={other.decline1}>
+            <button onClick={Is_Denied} className={other.decline1}>
+              <div className={other.add_friend_i}>
+                <img
+                  src="/Icones/icone_add_friend.png"
+                  className={other.icone_add}
+                  alt="icone_add_friend"
+                />
+                <span>Message</span>
+              </div>
+            </button>
+          </div>
+        </div>
       );
   };
 
@@ -184,7 +184,7 @@ const Action_Friends = ({ username }: { username: string | undefined }) => {
   const sendFriendRequest = async (username: string | undefined) => {
     try {
       const response = await fetch(
-        `http://127.0.0.1:8000/listfriends/send-friend-request/${username}/`,
+        `https://localhost:443/listfriends/send-friend-request/${username}/`,
         {
           method: "POST",
           headers: {
@@ -207,7 +207,7 @@ const Action_Friends = ({ username }: { username: string | undefined }) => {
   const deniedFriendRequest = async (username: string | undefined) => {
     try {
       const response = await fetch(
-        `http://127.0.0.1:8000/listfriends/decline-friend-requests/${username}/`,
+        `https://localhost:443/listfriends/decline-friend-request/${username}/`,
         {
           method: "POST",
           headers: {
@@ -230,7 +230,7 @@ const Action_Friends = ({ username }: { username: string | undefined }) => {
   const acceptFriendRequest = async (username: string | undefined) => {
     try {
       const response = await fetch(
-        `http://127.0.0.1:8000/listfriends/accept-friend-request/${username}/`,
+        `https://localhost:443/listfriends/accept-friend-request/${username}/`,
         {
           method: "POST",
           headers: {

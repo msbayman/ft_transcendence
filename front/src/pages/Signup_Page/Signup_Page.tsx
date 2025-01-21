@@ -56,7 +56,7 @@ function Signup_Page() {
 
     try {
       const response = await axios.post(
-        "http://127.0.0.1:8000/api/user_auth/add_player",
+        "https://localhost:443/api/user_auth/add_player",
         dataToSubmit
       );
 
@@ -83,10 +83,10 @@ function Signup_Page() {
   };
 
   const handleOAuthLogin = () => {
-    window.location.href = "http://localhost:8000/api/discord/login";
+    window.location.href = "https://localhost:443/api/discord/login";
   };
   const handleOAuthLogin_42 = () => {
-    window.location.href = "http://localhost:8000/api/42/login";
+    window.location.href = "https://localhost:443/api/42/login";
   };
 
   return (

@@ -65,7 +65,7 @@ function Overview() {
     // Make the request before removing tokens
     try {
       await axios.post(
-        "http://127.0.0.1:8000/api/ser_auth/LogoutAPIView/",
+        "https://localhost:443/api/user_auth/LogoutAPIView/",
         { refresh_token: refreshToken },
         {
           headers: accessToken
@@ -83,7 +83,7 @@ function Overview() {
   console.log(dataPlayer);
   const Choose_Profile = () => {
     const { username } = useParams<{ username: string }>();
-    // console.log(dataPlayer.playerData?.username + "-----------" + username);
+    console.log(dataPlayer.playerData?.username + "-----------" + username);
     return dataPlayer.playerData?.username === username ? (
       <Profile_Page />
     ) : (
@@ -212,12 +212,13 @@ function Overview() {
             {" "}
             <hr className={over.brr} />{" "}
           </div>
-          <button onClick={Notifications_f}>
-            <span className={`${over.navbar_item2} ${over.Notifications}`}>
-              <img src={Notifications} className={over.imgg} />
-              <span className={over.hidden_name}>Notifications</span>
-            </span>
-          </button>
+          <NavLink
+            to="/notifications"
+            className={`${over.navbar_item2} ${over.Notifications}`}
+          >
+            <img src={Notifications} className={over.imgg} />
+            <span className={over.hidden_name}>Notifications</span>
+          </NavLink>
           <NavLink
             to="/Settings"
             className={`${over.navbar_item2} ${over.Settings}`}

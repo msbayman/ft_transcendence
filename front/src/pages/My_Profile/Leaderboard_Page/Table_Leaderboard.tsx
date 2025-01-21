@@ -49,11 +49,7 @@ const Table_Leaderboard = () => {
 
   useEffect(() => {
     axios
-      .get("http://127.0.0.1:8000/api/user_auth/leaderboard/", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+      .get("https://localhost:443/api/user_auth/leaderboard")
       .then((response) => {
         Setlist_users(response.data);
       })
@@ -81,7 +77,7 @@ const Table_Leaderboard = () => {
               </div>
               <div className={leader.imgclass}>
                 <img
-                  src={"http://127.0.0.1:8000" + data.profile_image}
+                  src={"https://localhost:8000" + data.profile_image}
                   alt="photo_Profile"
                   className={leader.class_img}
                 />
