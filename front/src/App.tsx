@@ -31,7 +31,7 @@ function AppContent() {
     const validateAccessToken = async () => {
       try {
         const response = await axios.get(
-          "https://localhost:443/check_csrf_tok/validate_token",
+          "https://localhost/api/check_csrf_tok/validate_token",
           {
             headers: {
               Authorization: `Bearer ${accessToken}`,
@@ -58,6 +58,16 @@ function AppContent() {
         } else {
           fetchPlayerData();
         }
+      }
+
+      if (
+        (location.pathname === "/" ||
+          location.pathname == "/login" ||
+          location.pathname == "/signup" ||
+          location.pathname == "/Valid_otp") &&
+        accessToken
+      ) {
+        navigate("/overview");
       }
     };
 
