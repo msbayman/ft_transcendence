@@ -92,7 +92,6 @@ def handle_oauth_user(request: HttpRequest, user_info: dict) -> HttpResponse:
             'prov_name' : "Discord",
         }
         serializer = PlayerSerializer(data = data)
-        print ("data:", data)
         if serializer.is_valid(): 
             user = serializer.save()
             user.set_unusable_password()
@@ -114,7 +113,6 @@ def handle_oauth_user(request: HttpRequest, user_info: dict) -> HttpResponse:
     if user.active_2fa:
         # Generate and send OTP
         otp_code = generate_otp()
-        print(otp_code)
         send_otp_via_email(user.email, otp_code)
         
         # Store OTP in the player's record
