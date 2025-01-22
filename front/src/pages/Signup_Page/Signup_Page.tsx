@@ -108,12 +108,12 @@ function Signup_Page() {
               <img id="logo_signup" src="game_logo.svg" alt="game_logo" />
             </Link>
             <form className="signup_form" onSubmit={handleSubmit(onSubmit)}>
-              <img
+              {/* <img
                 className="auth cursor-pointer"
                 onClick={handleOAuthLogin}
                 src="connect_with_google.svg"
                 alt="login google"
-              />
+              /> */}
               <img
                 className="auth cursor-pointer"
                 onClick={handleOAuthLogin_42}

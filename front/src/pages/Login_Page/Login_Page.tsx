@@ -181,12 +181,12 @@ function Login_Page() {
                 </span>
               </form>
               <div className="login_42_google">
-                <img
+                {/* <img
                   className="auth cursor-pointer"
                   src="connect_with_google.svg"
                   alt="login google"
                   onClick={handleOAuthLogin}
-                />
+                /> */}
                 <img
                   onClick={handleOAuthLogin_42}
                   className="auth cursor-pointer"

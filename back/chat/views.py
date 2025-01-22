@@ -23,7 +23,7 @@ from rest_framework.authentication import SessionAuthentication
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import get_object_or_404
-logger = logging.getLogger(__name__)
+# logger = logging.getLogger(__name__)
 User = get_user_model()
 
 @login_required
