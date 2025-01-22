@@ -16,13 +16,6 @@ OAUTH_42_AUTHORIZATION_URL = 'https://api.intra.42.fr/oauth/authorize'
 OAUTH_42_TOKEN_URL = 'https://api.intra.42.fr/oauth/token'
 OAUTH_42_USER_INFO_URL = 'https://api.intra.42.fr/v2/me'
 
-OAUTH_DISCORD_CLIENT_ID = os.getenv('OAUTH_DISCORD_CLIENT_ID')
-OAUTH_DISCORD_CLIENT_SECRET = os.getenv('OAUTH_DISCORD_CLIENT_SECRET')
-DISCORD_OAUTH_URL = os.getenv('DISCORD_OAUTH_URL')
-OAUTH_DISCORD_REDIRECT_URI = os.getenv('OAUTH_DISCORD_REDIRECT_URI')
-OAUTH_DISCORD_TOKEN_URL = 'https://discord.com/api/oauth2/token'
-DSCORD_API_V6 = 'https://discord.com/api/v6/users/@me'
-
 # Email Configuration
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = os.getenv('EMAIL_HOST')
@@ -37,7 +30,7 @@ DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL')
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'django-insecure-!9+ns2!3$k!*vdvy1#i+l7$&l67w_4j(x$4ln2ij$+7dorextm')
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'f*g_tr0l-1ye@_kq+704os5-(f5rzm21sjb6a)4*hdm!aecefm')
 
 DEBUG = True
 
@@ -182,9 +175,6 @@ CHANNEL_LAYERS = {
     },
 }
 
-# MEDIA_URL = '/media/'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = '/app/media'  
-
-# CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_ALL_ORIGINS = True
