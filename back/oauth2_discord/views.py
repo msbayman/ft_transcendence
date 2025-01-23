@@ -69,10 +69,10 @@ def handle_oauth_user(request: HttpRequest, user_info: dict) -> HttpResponse:
     user_id_prov = user_info.get('id')
     avatar_hash = user_info.get('avatar')
     if not(all([email, username, full_name, user_id_prov])):
-        login_url = f"https://localhost:5173/login?error=Failed to retrieve user data"
+        login_url = f"https://localhost/login?error=Failed to retrieve user data"
         return redirect(login_url)
     if Player.objects.filter(email__iexact=email).exclude(prov_name="Discord").exists():
-        login_url = f"https://localhost:5173/login?error=email already exists"
+        login_url = f"https://localhost/login?error=email already exists"
         return redirect(login_url)
     try:
         user = Player.objects.get(email = email)
@@ -107,7 +107,7 @@ def handle_oauth_user(request: HttpRequest, user_info: dict) -> HttpResponse:
             user.save()
         else:
             
-            return redirect(f"https://localhost:5173/login?oauth_err={error_message}&details={error_details}")
+            return redirect(f"https://localhost/login?oauth_err={error_message}&details={error_details}")
 
     # Check if 2FA is enabled
     if user.active_2fa:

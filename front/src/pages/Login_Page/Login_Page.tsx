@@ -12,7 +12,7 @@ function Login_Page() {
   const [password, setPassword] = useState("");
   const [Errmsg, setErrorMessage] = useState("");
   const [panding, ispanding] = useState(false);
-  const [_Discord_42_err, set_Discord_42_err] = useState<string | null>(null); 
+  const [_Discord_42_err, set_Discord_42_err] = useState<string | null>(null);
 
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
@@ -20,14 +20,15 @@ function Login_Page() {
     const refreshToken = searchParams.get("refresh_token");
     const oauth_err = searchParams.get("oauth_err");
 
-     if (oauth_err) {
-       set_Discord_42_err(oauth_err);
-     }
-     
-     if (_Discord_42_err !== null) {
-       alert(_Discord_42_err);
-     }
-    
+    if (oauth_err) {
+      set_Discord_42_err(oauth_err);
+    }
+
+    if (_Discord_42_err !== null) {
+      alert(_Discord_42_err);
+      
+    }
+
     if (accessToken && refreshToken) {
       Cookies.set("access_token", accessToken, { path: "/" });
       Cookies.set("refresh_token", refreshToken, { path: "/" });
@@ -76,29 +77,28 @@ function Login_Page() {
       } else if (response.status === 401) {
         setErrorMessage(response.data.detail);
       }
-    } catch (error : any) {
-    if (error.response) {
-      // Handle specific error cases
-      if (error.response.status === 409) {
-        // Email or username already used
-        setErrorMessage("That email or username is already used.");
-        console.log(error.respose);
-        
-      } else if (error.response.status === 401) {
-        // Unauthorized (e.g., invalid credentials)
-        setErrorMessage(error.response.data.detail);
+    } catch (error: any) {
+      if (error.response) {
+        // Handle specific error cases
+        if (error.response.status === 409) {
+          // Email or username already used
+          setErrorMessage("That email or username is already used.");
+          console.log(error.respose);
+        } else if (error.response.status === 401) {
+          // Unauthorized (e.g., invalid credentials)
+          setErrorMessage(error.response.data.detail);
+        } else {
+          // Other errors
+          setErrorMessage("An unexpected error occurred. Please try again.");
+        }
       } else {
-        // Other errors
-        setErrorMessage("An unexpected error occurred. Please try again.");
+        // Network or other errors
+        setErrorMessage("Network error. Please check your connection.");
       }
-    } else {
-      // Network or other errors
-      setErrorMessage("Network error. Please check your connection.");
+    } finally {
+      ispanding(false); // Assuming this is a typo and should be `setIsPending(false)`
     }
-  } finally {
-    ispanding(false); // Assuming this is a typo and should be `setIsPending(false)`
-  }
-};
+  };
 
   const handleOAuthLogin = () => {
     window.location.href = "https://localhost:443/api/discord/login";

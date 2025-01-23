@@ -62,13 +62,13 @@ def login_redirect(request: DRFRequest):
     if code:
         user_info = exchange_code_for_token_42(code)
         if "error" in user_info:
-            return redirect(f"https://localhost:5173/login?oauth_err=Failed to retrieve user info: {user_info['error']}")
+            return redirect(f"https://localhost/login?oauth_err=Failed to retrieve user info: {user_info['error']}")
         
         # Extract the Django HttpRequest object
         django_request = request._request
         return handle_oauth_user_42(django_request, user_info)
     else:
-        return redirect("https://localhost:5173/login?oauth_err=No code provided")
+        return redirect("https://localhost/login?oauth_err=No code provided")
 
 @api_view(['GET'])
 @permission_classes([AllowAny])
@@ -80,11 +80,11 @@ def handle_oauth_user_42(request: HttpRequest, user_info: dict) -> HttpResponse:
     user_id_prov = user_info.get('id')
 
     if not all([email, username, full_name, user_id_prov]):
-        login_url = f"cfrontend/login?error=Failed to retrieve user data"
+        login_url = f"cfrontend/login?oauth_err=Failed to retrieve user data"
         return redirect(login_url)
 
     if Player.objects.filter(email__iexact=email).exclude(prov_name="42").exists():
-        login_url = f"https://localhost:5173/login?error=email already exists"
+        login_url = f"https://localhost/login?oauth_err=email already exists"
         return redirect(login_url)
 
     try:
@@ -120,7 +120,7 @@ def handle_oauth_user_42(request: HttpRequest, user_info: dict) -> HttpResponse:
         else:
             error_message = "Failed to create or update user"
             error_details = urlencode({"details": str(serializer.errors)})
-            redirect_url = f"https://localhost:5173/login?oauth_err={error_message}&{error_details}"
+            redirect_url = f"https://localhost/login?oauth_err={error_message}&{error_details}"
             return redirect(redirect_url)
 
     # Check if 2FA is enabled
