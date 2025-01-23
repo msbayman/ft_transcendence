@@ -40,10 +40,10 @@ class PlayerSerializer(serializers.ModelSerializer):
         return value
 
     def validate_username(self, value):
-        # Username validation: 2-40 characters, only letters, numbers, hyphens, and underscores
+        # Username validation: 4-16 characters, only letters, numbers, hyphens, and underscores
         if not re.match(r'^[a-zA-Z0-9-_]+$', value):
             raise serializers.ValidationError("Username must contain only letters, numbers, hyphens, and underscores.")
-        if 4 <= len(value) <= 40:
+        if 4 <= len(value) <= 16:
             return value
         elif 'prov_name' == "Discord" or 'prov_name' == "42":
             return value
