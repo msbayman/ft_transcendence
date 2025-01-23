@@ -74,8 +74,12 @@ function Signup_Page() {
         reset();
         navigate("/login");
       }
-    } catch (error: any) {
-      if (error.response && error.response.data) {
+    } catch (error: any) {      
+      if(error.status === 409)
+        {
+          setMailUsernameErr("email or username already used");
+        }  
+      else if (error.response && error.response.data) {
         const errorData = error.response.data;
         if (errorData.non_field_errors) {
           setMailUsernameErr(errorData.non_field_errors.join(", "));

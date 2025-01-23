@@ -94,8 +94,19 @@ def add_player(request):
     if not email or not username:
         return Response({"error": "Email and username are required."}, status=status.HTTP_400_BAD_REQUEST)
 
-    if Player.objects.filter(email__iexact=email).exists() or Player.objects.filter(username__iexact=username).exists():
-        return Response({"error": "That email or username is already used."}, status=status.HTTP_409_CONFLICT)
+    existing_email = Player.objects.filter(email__iexact=email).exists()
+    existing_username = Player.objects.filter(username__iexact=username).exists()
+
+    if existing_email or existing_username:
+        return Response({
+            "error": "Conflict",
+            "details": {
+                "email_exists": existing_email,
+                "username_exists": existing_username
+            }
+        }, status=status.HTTP_409_CONFLICT)
+
+
 
     serializer = PlayerSerializer(data=request.data)
     if serializer.is_valid():

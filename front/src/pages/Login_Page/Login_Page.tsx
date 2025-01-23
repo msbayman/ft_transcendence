@@ -64,12 +64,29 @@ function Login_Page() {
       } else if (response.status === 401) {
         setErrorMessage(response.data.detail);
       }
-    } catch (error) {
-      ispanding(false);
-      setErrorMessage("An unexpected error occurred. Please try again later.");
+    } catch (error : any) {
+    if (error.response) {
+      // Handle specific error cases
+      if (error.response.status === 409) {
+        // Email or username already used
+        setErrorMessage("That email or username is already used.");
+        console.log(error.respose);
+        
+      } else if (error.response.status === 401) {
+        // Unauthorized (e.g., invalid credentials)
+        setErrorMessage(error.response.data.detail);
+      } else {
+        // Other errors
+        setErrorMessage("An unexpected error occurred. Please try again.");
+      }
+    } else {
+      // Network or other errors
+      setErrorMessage("Network error. Please check your connection.");
     }
-    ispanding(false);
-  };
+  } finally {
+    ispanding(false); // Assuming this is a typo and should be `setIsPending(false)`
+  }
+};
 
   const handleOAuthLogin = () => {
     window.location.href = "https://localhost:443/api/discord/login";
