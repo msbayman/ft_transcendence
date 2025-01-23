@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import "./Online_Friends_Overview.css";
-import Message from "../Images/Message_to_User.svg";
-import Invite_Play from "../Images/Invite_to_play.svg";
+import Message from "/public/Icones/Message_to_User.svg";
+import Invite_Play from "/public/Icones/Invite_to_play.svg";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { usePlayer } from "../PlayerContext";
-import No from "../assets/No.png"
+import Cookies from "js-cookie";
 
 const Online_Friends_Overview = () => {
   interface User_isOnline {
@@ -29,13 +29,17 @@ const Online_Friends_Overview = () => {
     navgate("/Play");
   };
 
+  const token = Cookies.get("access_token")
+
   useEffect(() => {
     const fetchOnlineUsers = async () => {
       try {
         if (currentUser.playerData) {
-          const response = await axios.get(
-            "http://127.0.0.1:8000/user_auth/is_online/"
-          );
+          const response = await axios.get("http://127.0.0.1:8000/api/user_auth/is_online/", {
+            headers:{
+              Authorization:`Bearer ${token}`,
+            },
+          });
 
           const filteredUsers: User_isOnline[] = response.data.filter(
             (user: User_isOnline) =>
@@ -95,7 +99,7 @@ const Online_Friends_Overview = () => {
         </div>
       ) : (
         <div className="No_One">
-          <img src={No} style={{width:30}} alt="no friend" />
+          <img src="/public/Navbar/No.png" style={{width:30}} alt="no friend" />
           <span>No Friends</span> </div>
       )}
     </div>

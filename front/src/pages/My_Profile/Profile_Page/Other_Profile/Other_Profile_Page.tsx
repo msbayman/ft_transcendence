@@ -33,7 +33,7 @@ export const Other_Profile_Page = ({
   const get_data = async () => {
     try {
       const response = await fetch(
-        `http://127.0.0.1:8000/user_auth/get-player/${username}/`,
+        `http://127.0.0.1:8000/api/user_auth/get-player/${username}/`,
         {
           method: "GET",
           headers: {
@@ -69,7 +69,7 @@ export const Other_Profile_Page = ({
         <div className={other.Title}>Oops!</div>
         <div className={other.Title_sub}>404 - USER NOT FOUND</div>
         <button onClick={to_home} className={other.to_Home}>
-          To Home ..
+          Back to Home ..
         </button>
       </div>
     );

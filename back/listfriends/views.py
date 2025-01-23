@@ -8,32 +8,30 @@ from django.db import models
 from django.http import JsonResponse
 
 
-
-# # Create your views here.
-
-
 class SendFriendRequest(APIView):
     permission_classes = [IsAuthenticated]
 
+    # note: check if there already  exist / shouldnot create new one if exists ...
     def post(self, request, username):
         if not request.user.is_authenticated:
             return Response({"error": "User is not authenticated"}, status=status.HTTP_401_UNAUTHORIZED)
         sender = request.user 
         try:
-            receiver = Player.objects.get(username=username)  # The user receiving the request
+            receiver = Player.objects.get(username=username)
         except Player.DoesNotExist:
             return Response({"error": "User not found"}, status=status.HTTP_404_NOT_FOUND)
-
-        ################################# Check if a friend request already exists
+        
+        if receiver == sender:
+            return Response({"error": "User is You"}, status=status.HTTP_400_BAD_REQUEST)
 
         if Friend_request.objects.filter(my_user=sender, other_user=receiver, states='accepted').exists():
             return Response({"error": "Friend request already sent"}, status=status.HTTP_400_BAD_REQUEST)
         
-        denied = Friend_request.objects.filter(my_user=sender, other_user=receiver, states='denied').exists()
-        if denied:
-            denied.states = 'pending'
-            denied.save()
-            return Response({"error": "Friend Denied request already sent"}, status=status.HTTP_200_OK)
+        # denied = Friend_request.objects.filter(my_user=sender, other_user=receiver, states='denied').exists()
+        # if denied:
+        #     denied.states = 'pending'
+        #     denied.save()
+        #     return Response({"error": "Friend Denied request already sent"}, status=status.HTTP_200_OK)
 
         # Create a new friend request
         Friend_request.objects.create(my_user=sender, other_user=receiver, states='pending')
@@ -56,6 +54,7 @@ class AcceptFriendRequest(APIView):
             return Response({"error": "No pending friend request found"}, status=status.HTTP_404_NOT_FOUND)
 
         # Update the friend request status to 'accepted'
+        # Note: accept only when its pending
         friend_request.states = 'accepted'
         friend_request.save()
 

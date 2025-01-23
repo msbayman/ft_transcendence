@@ -1,6 +1,6 @@
 import "./Info_Player.css";
 import { LinearProgress } from "@mui/material";
-import etoile from "../Images/Etoile.svg";
+import etoile from "/public/Etoile.svg";
 import { CircularProgress, CircularProgressLabel } from "@chakra-ui/progress";
 import { usePlayer } from "../PlayerContext";
 

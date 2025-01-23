@@ -1,14 +1,13 @@
-import shape_acheive from "../Images/back_acheiv.svg";
-import win1 from "../../../assets/Achievements/win_1_game.png";
-import win3 from "../../../assets/Achievements/win_3_game.png";
-import win10 from "../../../assets/Achievements/win_10_game.png";
-import win20 from "../../../assets/Achievements/win_20_game.png";
-import reach5 from "../../../assets/Achievements/reach_level_5.png";
-import reach15 from "../../../assets/Achievements/reach_level_15.png";
-import reach30 from "../../../assets/Achievements/reach_level_30.png";
-import perfect_game from "../../../assets/Achievements/perfect_win_game.png";
-import perfect_tournament from "../../../assets/Achievements/perfect_win_tournament.png";
-import No from "../assets/No.png"
+import shape_acheive from "/public/back_acheiv.svg";
+import win1 from "/public/Achievements/win_1_game.png";
+import win3 from "/public/Achievements/win_3_game.png";
+import win10 from "/public/Achievements/win_10_game.png";
+import win20 from "/public/Achievements/win_20_game.png";
+import reach5 from "/public/Achievements/reach_level_5.png";
+import reach15 from "/public/Achievements/reach_level_15.png";
+import reach30 from "/public/Achievements/reach_level_30.png";
+import perfect_game from "/public/Achievements/perfect_win_game.png";
+import perfect_tournament from "/public/Achievements/perfect_win_tournament.png";
 import "./Top_of_Achievement.css";
 
 const Top_of_Achievement = () => {
@@ -39,7 +38,7 @@ const Top_of_Achievement = () => {
     },
     {
       id: 5,
-      title_achievement: "Win Twenty Games",
+      title_achievement: "Win 20 Games",
       status: "false",
       path_image: win20,
     },
@@ -51,33 +50,33 @@ const Top_of_Achievement = () => {
     },
     {
       id: 7,
-      title_achievement: "Win Ten Games",
+      title_achievement: "Win 10 Games",
       status: "false",
       path_image: win10,
     },
     {
       id: 8,
-      title_achievement: "Win Three Games",
+      title_achievement: "Win 3 Games",
       status: "false",
       path_image: win3,
     },
     {
       id: 9,
-      title_achievement: "Win One Game",
+      title_achievement: "Win 1 Game",
       status: "false",
       path_image: win1,
     },
   ];
 
-  const true_achiev = total.filter((achei) => achei.status === "true");
+  const true_achiev = total.filter((achei) => achei.status === "true").slice(0, 3);
 
-  const achiev_3 = true_achiev.sort((id) => id.id).slice(0, 3);
+  // const achiev_3 = true_achiev.slice(0, 3);
 
   return (
     <div className="all_content_acheiv">
       <div className="part_1_achv">
         {true_achiev.length > 0 ? (
-          achiev_3.map((list, index) => (
+          true_achiev.map((list, index) => (
             <div key={index} className="every_achiev">
               <div className="every_image_c">
                 {" "}
@@ -88,7 +87,7 @@ const Top_of_Achievement = () => {
           ))
         ) : (
           <div className="if_no">
-            <img src={No} className="if_noo" alt="" />
+            <img src="/public/Navbar/No.png" className="if_noo" alt="" />
             No Achievements !</div>
         )}
       </div>

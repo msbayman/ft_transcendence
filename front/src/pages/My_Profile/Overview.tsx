@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import over from "./Overview.module.css";
 import axios from "axios";
 import Cookies from "js-cookie";
@@ -10,18 +10,6 @@ import {
   useParams,
   // useNavigate,
 } from "react-router-dom";
-import OpenNavbar from "./assets/Open_Navbar.svg";
-import CloseNavbar from "./assets/Close_Navbar.svg";
-import Logo_ping from "./assets/Logo_ping.svg";
-import Search_s from "./assets/Search.svg";
-import Overview_img from "./assets/Overiew.svg";
-import Profile from "./assets/Profie.svg";
-import Play from "./assets/Play.svg";
-import Friends from "./assets/Friends.svg";
-import Leaderboard_icone from "../../assets/icones_menu/Leaderboard_icon.png";
-import Notifications from "./assets/Notifications.svg";
-import Settings from "./assets/Settings.svg";
-import Logout from "./assets/Logout.svg";
 import Overview_Page from "./Overview_Page/Overview_Page";
 import Profile_Page from "./Profile_Page/Profile_Page";
 import Other_Profile_Page from "./Profile_Page/Other_Profile/Other_Profile_Page";
@@ -66,7 +54,7 @@ function Overview() {
     // Make the request before removing tokens
     try {
       await axios.post(
-        "http://127.0.0.1:8000/user_auth/LogoutAPIView/",
+        "http://127.0.0.1:8000/api/user_auth/LogoutAPIView/",
         { refresh_token: refreshToken },
         {
           headers: accessToken
@@ -81,7 +69,7 @@ function Overview() {
     }
   };
   const dataPlayer = usePlayer();
-  // console.log(dataPlayer);
+  // console.log( '->> path image: ' + dataPlayer.playerData?.profile_image);
   const Choose_Profile = () => {
     const { username } = useParams<{ username: string }>();
     return dataPlayer.playerData?.username === username ? (
@@ -152,11 +140,11 @@ function Overview() {
         onClick={ClickToActive}
       >
         <img
-          src={CloseNavbar}
+          src="/public/Navbar/Close_Navbar.svg"
           className={ActiveNavbar ? over.Open_Navbar : over.Open_Navbar_hide}
         />
         <img
-          src={OpenNavbar}
+          src="/public/Navbar/Open_Navbar.svg"
           className={ActiveNavbar ? over.Open_Navbar_hide : over.Open_Navbar}
         />
       </div>
@@ -168,14 +156,14 @@ function Overview() {
         }
       >
         <div className={over.the_logo}>
-          <img src={Logo_ping} className={`${over.imgg1} ${over.imgg1_hide}`} />
+          <img src="/public/Navbar/Logo_ping.svg" className={`${over.imgg1} ${over.imgg1_hide}`} />
         </div>
         <div className={over.bar_search}>
           <Search />
         </div>
         <div className={over.content_navbar_item1}>
           <NavLink to={"Overview"} className={getNavLink("/Overview")}>
-            <img src={Overview_img} className={over.imgg} />
+            <img src="/public/Navbar/Overiew.svg" className={over.imgg} />
             <span className={over.hidden_name}> Overview </span>
             <div className={getNavLinkBar("/Overview")}> </div>
           </NavLink>
@@ -183,22 +171,22 @@ function Overview() {
             to={`Profile/${dataPlayer.playerData?.username}`}
             className={getNavLink("/Profile")}
           >
-            <img src={Profile} className={over.imgg} />
+            <img src="/public/Navbar/Profie.svg" className={over.imgg} />
             <span className={over.hidden_name}> Profile </span>
             <div className={getNavLinkBar("/Profile")}> </div>
           </NavLink>
           <NavLink to="Play" className={getNavLink("/Play")}>
-            <img src={Play} className={over.imgg} />
+            <img src="/public/Navbar/Play.svg" className={over.imgg} />
             <span className={over.hidden_name}> Play </span>
             <div className={getNavLinkBar("/Play")}> </div>
           </NavLink>
           <NavLink to="Friends" className={getNavLink("/Friends")}>
-            <img src={Friends} className={over.imgg} />
+            <img src="/public/Navbar/Friends.svg" className={over.imgg} />
             <span className={over.hidden_name}> Friends </span>
             <div className={getNavLinkBar("/Friends")}></div>
           </NavLink>
           <NavLink to="/Leadearboard" className={getNavLink("/Leadearboard")}>
-            <img src={Leaderboard_icone} className={over.imgg} />
+            <img src="/public/Navbar/Leaderboard_icon.png" className={over.imgg} />
             <span className={over.hidden_name}> Leaderboard </span>
             <div className={getNavLinkBar("/Leadearboard")}></div>
           </NavLink>
@@ -212,7 +200,7 @@ function Overview() {
           </div>
           <button onClick={Notifications_f}>
             <span className={`${over.navbar_item2} ${over.Notifications}`}>
-              <img src={Notifications} className={over.imgg} />
+              <img src="/public/Navbar/Notifications.svg" className={over.imgg} />
               <span className={over.hidden_name}>Notifications</span>
             </span>
           </button>
@@ -220,7 +208,7 @@ function Overview() {
             to="/Settings"
             className={`${over.navbar_item2} ${over.Settings}`}
           >
-            <img src={Settings} className={over.imgg} />
+            <img src="/public/Navbar/Settings.svg" className={over.imgg} />
             <span className={over.hidden_name}> Settings </span>
             <div className={getNavLinkBar("/Settings")}></div>
           </NavLink>
@@ -229,7 +217,7 @@ function Overview() {
             onClick={check_logout}
             className={`${over.navbar_item2} ${over.Logout}`}
           >
-            <img src={Logout} className={over.imgg} />
+            <img src="/public/Navbar/Logout.svg" className={over.imgg} />
             <span className={over.hidden_name}>Logout</span>
           </NavLink>
         </div>

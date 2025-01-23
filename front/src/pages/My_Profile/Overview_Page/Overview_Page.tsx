@@ -3,11 +3,33 @@ import State_of_Profile from "./State_of_Profile";
 import Top_of_Achievement from "./Top_of_Achievement";
 import The_Leaderboard from "./Leaderboard"
 import Online_Friends_Overview from "./Online_Friends_Overview";
-import Button_Play from "../Images/Button_Play.svg"
+import Button_Play from "/public/Button_Play.svg"
 import { useNavigate } from "react-router-dom";
 import { usePlayer } from "../PlayerContext";
+import Cookies from "js-cookie";
+import { useEffect } from "react";
 
 export const Overview_Page: React.FC = () => {
+const token = Cookies.get("access_token");
+ useEffect(() => {
+    const url = "ws://127.0.0.1:8000/ws/notifications/";
+    const wsUrl = `${url}?token=${token}`;
+    const ws = new WebSocket(wsUrl);
+
+    ws.onopen = () => {
+      console.log("WebSocket Connected");
+    };
+
+    ws.onerror = (error) => {
+      console.error("WebSocket Error:", error);
+    };
+
+    ws.onclose = () => {
+      console.log("WebSocket Disconnected");
+    }},[token]);
+
+  
+
 
   const navigate = useNavigate();
   const dataPlayer = usePlayer();

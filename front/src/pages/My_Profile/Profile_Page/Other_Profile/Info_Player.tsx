@@ -1,7 +1,7 @@
-import ph_pro from "../../Images/profile.png";
+// import ph_pro from "../../Images/profile.png";
 import other from "./Info_Player.module.css";
 import { LinearProgress } from "@mui/material";
-import etoile from "../../Images/Etoile.svg";
+import etoile from "/public/Etoile.svg";
 import { CircularProgress, CircularProgressLabel } from "@chakra-ui/progress";
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
@@ -27,7 +27,7 @@ export const Info_Player = ({ username }: { username: string | undefined }) => {
         const get_data = async () => {
         try {
           const response = await fetch(
-            `http://127.0.0.1:8000/user_auth/get-player/${username}/`,
+            `http://127.0.0.1:8000/api/user_auth/get-player/${username}/`,
             {
               method: "GET",
               headers: {

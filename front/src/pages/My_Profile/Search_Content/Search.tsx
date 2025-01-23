@@ -1,8 +1,9 @@
 import search_css from "./Search.module.css";
-import Search_s from "../assets/Search.svg";
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { usePlayer } from "../PlayerContext";
+import Cookies from "js-cookie";
+import axios from "axios";
 
 const Search = () => {
   const my_data = usePlayer();
@@ -17,28 +18,35 @@ const Search = () => {
   const [query, setQuery] = useState("");
 
   useEffect(() => {
-  const handleSearch = async (query: string) => {
-    if (query.length > 1) {
-      try {
-        const response = await fetch(
-          `http://localhost:8000/user_auth/search-users/?q=${query}`
-        );
-        if (response.ok)
-          console.log("data transfert ok")
-        const data = await response.json();
-        console.log(data + ' <<<<-------')
-        setSearchResults(data);
-      } catch (error) {
-        console.error("Error fetching search results:", error);
+    const handleSearch = async (query: string) => {
+      const token = Cookies.get("access_token");
+      const minLength = 2; // Set your desired minimum length
+
+      // Only proceed if query meets minimum length
+      if (query.length >= minLength) {
+        try {
+          const response = await axios.get(
+            `http://localhost:8000/api/user_auth/search-users/?q=${query}`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+          if (response.status === 200) {
+            console.log("Data transfer OK");
+            setSearchResults(response.data);
+          }
+        } catch (error) {
+          console.error("Error fetching search results:", error);
+        }
+      } else {
+        setSearchResults([]);
       }
-    } else {
-      setSearchResults([]);
-    }
-  };
+    };
+
     handleSearch(query);
   }, [query]);
-
-  console.log('---> ' + query + ' <---')
 
   const searchResults1 = searchResults.filter(
     (data) => data.username !== my_data.playerData?.username
@@ -59,6 +67,7 @@ const Search = () => {
   const onClickFocus = () => {
     setsearchbar(true);
   };
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -68,6 +77,7 @@ const Search = () => {
         !dropdownRef.current.contains(event.target as Node)
       ) {
         setsearchbar(false);
+        setQuery("");
       }
     };
 
@@ -80,7 +90,7 @@ const Search = () => {
 
   return (
     <>
-      <img src={Search_s} className={search_css.imgg_s} />
+      <img src="/public/Navbar/Search.svg" className={search_css.imgg_s} />
       <input
         className={search_css.inside_input}
         ref={inputRef}
@@ -93,7 +103,7 @@ const Search = () => {
       />
       {searchbar && (
         <div className={search_css.search_size} ref={dropdownRef}>
-          {searchResults1.length > 1 ? (
+          {searchResults1.length > 0 ? (
             <div className={search_css.player_details_colomns}>
               {searchResults1.map((player) => (
                 <button
@@ -106,9 +116,7 @@ const Search = () => {
                   <div key={player.id} className={search_css.player_details}>
                     <img
                       className={search_css.images_search}
-                      src={
-                        "http://localhost:8000/media/" + player.profile_image
-                      }
+                      src={player.profile_image}
                       alt={player.username}
                     />
                     <div className={search_css.text}>
@@ -123,7 +131,7 @@ const Search = () => {
             </div>
           ) : (
             <div className={search_css.player_details_colomns}>
-              No results found ..
+              {query.length < 2 ? "" : "No results found."}
             </div>
           )}
         </div>

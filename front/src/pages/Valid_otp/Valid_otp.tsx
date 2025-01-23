@@ -57,7 +57,7 @@ const ValidOtp: React.FC = () => {
 
     try {
       const response = await axios.post(
-        "http://127.0.0.1:8000/user_auth/VerifyOTP",
+        "http://127.0.0.1:8000/api/user_auth/VerifyOTP",
         {
           username,
           otp: otpCode,
@@ -66,7 +66,6 @@ const ValidOtp: React.FC = () => {
 
       if (response.status === 200) {
         Cookies.set("access_token", response.data.access, { path: "/" });
-        Cookies.set("refresh_token", response.data.refresh, { path: "/" });
         axios.defaults.headers.common["Authorization"] = `Bearer ${Cookies.get(
           "access_token"
         )}`;

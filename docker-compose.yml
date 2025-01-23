@@ -1,39 +1,29 @@
 version: "3.8"
+
 services:
   backend:
     build:
       context: ./back
       dockerfile: Dockerfile.backend
     container_name: backend
+    env_file:
+      - .env
     volumes:
       - ./back:/app
     ports:
       - "8000:8000"
     environment:
-      - DB_NAME=postgres_db
-      - DB_USER=postgres_user
-      - DB_PASSWORD=postgres_password
-      - DB_HOST=db
-      - DB_PORT=5432
-      - REDIS_PORT=6380
+      - DB_NAME=${DB_NAME}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_HOST=${DB_HOST}
+      - REDIS_PORT=${REDIS_PORT}
     depends_on:
       - db
-      - redis
-    command:
-      - /bin/sh
-      - -c
-      - |
-        until pg_isready -h db -p 5432; do 
-          echo 'Waiting for database...'
-          sleep 5
-        done
-        echo 'Database is ready'
-        python3 -m venv /app/venv
-        . /app/venv/bin/activate
-        /app/venv/bin/pip install -r /app/requirements.txt
-        /app/venv/bin/python manage.py migrate
-        echo "from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.create_superuser('admin', 'admin@example.com', 'admin') if not User.objects.filter(username='admin').exists() else None" | /app/venv/bin/python manage.py shell
-        /app/venv/bin/python manage.py runserver 0.0.0.0:8000
+    networks:
+      - elk
+    restart: always
+
 
   frontend:
     build:
@@ -47,31 +37,108 @@ services:
       - "5173:5173"
     depends_on:
       - backend
-    command:
-      - /bin/sh
-      - -c
-      - |
-        npm install && npm run dev
-
+    networks:
+      - elk
+      
   db:
-    image: postgres:13
+    image: postgres:17
     container_name: postgres_db
     environment:
-      POSTGRES_DB: postgres_db
-      POSTGRES_USER: postgres_user
-      POSTGRES_PASSWORD: postgres_password
-      PGDATA: /var/lib/postgresql/data/pgdata
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
     volumes:
       - pgdata:/var/lib/postgresql/data
     ports:
       - "5432:5432"
+    networks:
+      - elk
+
 
   redis:
     image: redis:7
     container_name: redis
+    env_file:
+      - .env
+    networks:
+      - elk
     ports:
       - "6380:6379"
-    command: ["redis-server"]
+  
+  # elasticsearch:
+  #   image: docker.elastic.co/elasticsearch/elasticsearch:7.15.0
+  #   container_name: elasticsearch
+  #   env_file:
+  #     - .env
+  #   ports:
+  #     - "${ELK_PORT}:${ELK_PORT}"
+  #   environment:
+  #     - discovery.type=${discovery_type}
+  #     - xpack.security.enabled=${xpack_security_enabled}
+  #     - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
+  #   volumes:
+  #     - ${elk_volume}:/usr/share/elasticsearch/config/elasticsearch.yml
+  #   networks:
+  #     - elk
+  #   restart: on-failure
+
+  # kibana:
+  #   image: docker.elastic.co/kibana/kibana:7.15.0
+  #   container_name: kibana
+  #   env_file:
+  #     - .env
+  #   ports:
+  #     - "${KIBANA_PORT}:${KIBANA_PORT}"
+  #   environment:
+  #     - ELASTICSEARCH_HOSTS=http://elasticsearch:${ELK_PORT}
+  #     - ELASTICSEARCH_USERNAME=${ELASTICSEARCH_USERNAME}
+  #     - ELASTICSEARCH_PASSWORD=${ELASTIC_PASSWORD}
+  #   depends_on:
+  #     - elasticsearch
+  #   networks:
+  #     - elk
+  #   restart: on-failure
+
+  # logstash:
+  #   build:
+  #     context: .
+  #     dockerfile: logstash/Dockerfile.logstash
+  #   container_name: logstash
+  #   env_file:
+  #     - .env
+  #   ports:
+  #     - "${LOGSTASH_PORT}:${LOGSTASH_PORT}"
+  #   environment:
+  #     - ELASTICSEARCH_USERNAME=${ELASTICSEARCH_USERNAME}
+  #     - ELASTICSEARCH_PASSWORD=${ELASTIC_PASSWORD}
+  #   depends_on:
+  #     - elasticsearch
+  #   networks:
+  #     - elk
+  #   restart: on-failure
+  #   volumes:
+  #     - ./logstash:/usr/share/logstash/pipeline
+  #     - ./back:/usr/share/logstash/back
+  #   command: >
+  #     logstash -f /usr/share/logstash/pipeline/logstash.conf
+
+
+  # nginx:
+  #   image: nginx:latest
+  #   container_name: nginx
+  #   volumes:
+  #     - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+  #   ports:
+  #     - "80:80"
+  #   depends_on:
+  #     - frontend
+  #     - backend
+  #   networks:
+  #     - elk
+
+networks:
+  elk:
+    name: elk
 
 volumes:
   pgdata:

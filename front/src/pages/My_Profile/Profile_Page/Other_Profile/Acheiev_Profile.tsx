@@ -1,15 +1,15 @@
 import React from "react";
 import other from "./Acheiev_Profile.module.css";
 import { usePlayer } from "../../PlayerContext";
-import win1 from "../../../../assets/Achievements/win_1_game.png"
-import win3 from "../../../../assets/Achievements/win_3_game.png"
-import win10 from "../../../../assets/Achievements/win_10_game.png"
-import win20 from "../../../../assets/Achievements/win_20_game.png"
-import reach5 from "../../../../assets/Achievements/reach_level_5.png"
-import reach15 from "../../../../assets/Achievements/reach_level_15.png"
-import reach30 from "../../../../assets/Achievements/reach_level_30.png"
-import perfect_game from "../../../../assets/Achievements/perfect_win_game.png"
-import perfect_tournament from "../../../../assets/Achievements/perfect_win_tournament.png"
+import win1 from "/public/Achievements/win_1_game.png"
+import win3 from "/public/Achievements/win_3_game.png"
+import win10 from "/public/Achievements/win_10_game.png"
+import win20 from "/public/Achievements/win_20_game.png"
+import reach5 from "/public/Achievements/reach_level_5.png"
+import reach15 from "/public/Achievements/reach_level_15.png"
+import reach30 from "/public/Achievements/reach_level_30.png"
+import perfect_game from "/public/Achievements/perfect_win_game.png"
+import perfect_tournament from "/public/Achievements/perfect_win_tournament.png"
 // import classNames from 'classnames';
 
 const Acheiev_Profile = () => {
