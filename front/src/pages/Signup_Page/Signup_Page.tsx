@@ -9,15 +9,25 @@ import axios from "axios";
 
 const fullNameSchema = z
   .string()
-  .regex(/^[a-zA-Z ]+$/, { message: "Only letters and spaces allowed" })
-  .min(2, { message: "Must be 2-40 characters" })
-  .max(40, { message: "Must be 2-40 characters" });
+  .trim()
+  .min(2, { message: "Must be 5-40 characters" })
+  .max(40, { message: "Must be 5-40 characters" })
+  .refine(value => !/^\s/.test(value), { message: "Cannot start with a space" })
+  .refine(value => !/\s{2,}/.test(value), { message: "Only one space between words allowed" })
+  .refine(value => /^[a-zA-Z]+( [a-zA-Z]+)*$/.test(value), { 
+    message: "Only letters with single spaces between words" 
+  });
 
 const userNameSchema = z
   .string()
-  .regex(/^[a-zA-Z0-9-_]+$/, { message: "Only letters, 0-9 , _ , -" })
-  .min(2, { message: "Must be 2-40 characters" })
-  .max(40, { message: "Must be 2-40 characters" });
+  .trim()
+  .min(2, { message: "Must be 5-40 characters" })
+  .max(40, { message: "Must be 5-40 characters" })
+  .refine(value => !/^\s/.test(value), { message: "Cannot start with a space" })
+  .refine(value => /^[a-zA-Z0-9-_]+$/.test(value), { 
+    message: "Only letters, 0-9, _, -" 
+  });
+
 
 const SignupSchema = z
   .object({
