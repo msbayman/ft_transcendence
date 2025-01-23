@@ -17,5 +17,5 @@ urlpatterns = [
      path('is_online/', views.is_online.as_view(), name='is_online'),
      path('get-player/<str:username>/', views.GetPlayer.as_view(), name='get-player'),
      path('LogoutAPIView/', views.LogoutAPIView.as_view(), name='LogoutAPIView'),
-     path('health_check',  views.health_check, name='health_check'),  # Use a trailing slash
+     # path('health_check',  views.health_check, name='health_check'),  # Use a trailing slash
 ]
