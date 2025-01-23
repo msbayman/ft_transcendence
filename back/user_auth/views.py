@@ -23,10 +23,10 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 # Logger setup
 logger = logging.getLogger(__name__)
 
-@api_view(['GET'])
-@permission_classes([AllowAny])
-def health_check(request):
-    return JsonResponse({"status": "ok"})
+# @api_view(['GET'])
+# @permission_classes([AllowAny])
+# def health_check(request):
+#     return JsonResponse({"status": "ok"})
 
 
 

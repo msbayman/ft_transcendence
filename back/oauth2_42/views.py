@@ -1,6 +1,5 @@
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
-from django.shortcuts import redirect
 from django.http import HttpRequest, HttpResponse, JsonResponse
 import requests
 from user_auth.models import Player
@@ -11,6 +10,7 @@ from django.utils import timezone
 from rest_framework.request import Request as DRFRequest
 from django.core.files.base import ContentFile
 from django.shortcuts import redirect
+from urllib.parse import urlencode
 from rest_framework_simplejwt.tokens import RefreshToken
 
 
@@ -57,18 +57,18 @@ def exchange_code_for_token_42(code: str) -> dict:
 
 @api_view(['GET'])
 @permission_classes([AllowAny])
-def login_redirect(request: DRFRequest) -> JsonResponse:
+def login_redirect(request: DRFRequest):
     code = request.GET.get('code')
     if code:
         user_info = exchange_code_for_token_42(code)
         if "error" in user_info:
-            return JsonResponse({"error": "Failed to retrieve user info"}, status=400)
+            return redirect(f"https://localhost:5173/login?oauth_err=Failed to retrieve user info: {user_info['error']}")
         
         # Extract the Django HttpRequest object
         django_request = request._request
         return handle_oauth_user_42(django_request, user_info)
     else:
-        return JsonResponse({"error": "No code provided"}, status=400)
+        return redirect("https://localhost:5173/login?oauth_err=No code provided")
 
 @api_view(['GET'])
 @permission_classes([AllowAny])
@@ -118,7 +118,10 @@ def handle_oauth_user_42(request: HttpRequest, user_info: dict) -> HttpResponse:
 
             user.save()
         else:
-            return JsonResponse({"error": "Failed to create or update user", "details": serializer.errors}, status=500)
+            error_message = "Failed to create or update user"
+            error_details = urlencode({"details": str(serializer.errors)})
+            redirect_url = f"https://localhost:5173/login?oauth_err={error_message}&{error_details}"
+            return redirect(redirect_url)
 
     # Check if 2FA is enabled
     if user.active_2fa:
