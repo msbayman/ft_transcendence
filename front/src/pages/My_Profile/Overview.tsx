@@ -35,6 +35,7 @@ import { set } from "react-hook-form";
 function Overview() {
   const location = useLocation();
   const [showNotifications, SetshowNotifications] = useState(false)
+  const dataPlayer = usePlayer();
 
   useEffect(() => {
     const state = location.state as { fromOAuth?: boolean }; // Access the state from the previous navigation
@@ -57,30 +58,27 @@ function Overview() {
   };
 
   const check_logout = async () => {
+    dataPlayer.closeWsConnection();
     const refreshToken = Cookies.get("refresh_token");
     const accessToken = Cookies.get("access_token");
-    Cookies.remove("access_token");
-    Cookies.remove("refresh_token");
-
-    // Make the request before removing tokens
+    
     try {
+      // Close WebSocket first
+      
       await axios.post(
-        "http://127.0.0.1:8000/api/ser_auth/LogoutAPIView/",
+        "http://127.0.0.1:8000/api/user_auth/LogoutAPIView/",
         { refresh_token: refreshToken },
         {
-          headers: accessToken
-            ? { Authorization: `Bearer ${accessToken}` }
-            : {},
+          headers: accessToken ? { Authorization: `Bearer ${accessToken}` } : {},
         }
       );
     } finally {
-      // Clear tokens after the request
       Cookies.remove("access_token");
       Cookies.remove("refresh_token");
     }
   };
-  const dataPlayer = usePlayer();
-  console.log(dataPlayer);
+  
+  // console.log(dataPlayer);
   const Choose_Profile = () => {
     const { username } = useParams<{ username: string }>();
     // console.log(dataPlayer.playerData?.username + "-----------" + username);

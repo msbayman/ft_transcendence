@@ -40,7 +40,7 @@ export const WebSocketProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     const ws = new WebSocket(wsUrl);
 
     ws.onopen = () => {
-      console.log("WebSocket Connected");
+      console.log("chat WebSocket Connected");
     };
 
     ws.onmessage = (event) => {
@@ -78,12 +78,6 @@ export const WebSocketProvider: React.FC<{ children: React.ReactNode }> = ({ chi
       }
     };
 
-
-    ws.onclose = () => {
-      console.log("WebSocket Disconnected");
-      setTimeout(() => connect(url), 3000);
-    };
-
     ws.onerror = (error) => {
       console.error("WebSocket Error:", error);
       ws.close();
@@ -94,6 +88,7 @@ export const WebSocketProvider: React.FC<{ children: React.ReactNode }> = ({ chi
 
   const disconnect = () => {
     if (websocketRef.current) {
+      console.log("chat WebSocket Disconnected");
       websocketRef.current.close();
     }
   };

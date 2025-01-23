@@ -9,49 +9,51 @@ User = get_user_model()
 
 class NotifConsumer(AsyncWebsocketConsumer):
     # Shared variable to track connection status per user
-    connected_users = {}
+    # connected_users = {}
 
     async def connect(self):
-        self.user = self.scope['user']
-
-        # Check if the user is authenticated
-        if not self.user.is_authenticated:
-            return
-
-        # Check if the user is already connected
-        if self.connected_users.get(self.user.id, False):
-            return
-
-        # Mark user as connected
-        self.connected_users[self.user.id] = True
-
-        # Add the user to the group
-        self.user_room = f'notif_{self.user.id}'
-        await self.channel_layer.group_add(self.user_room, self.channel_name)
         await self.accept()
 
-        self.user_object = await self.get_user_obj1(self.user.username)
-        await self.set_user_status(True)
-
     async def disconnect(self, close_code):
-        if hasattr(self, 'user_room'):
+        print("test test")
+    #     self.user = self.scope['user']
+
+    #     # Check if the user is authenticated
+    #     if not self.user.is_authenticated:
+    #         return
+
+    #     # Check if the user is already connected
+    #     if self.connected_users.get(self.user.id, False):
+    #         return
+
+    #     # Mark user as connected
+    #     self.connected_users[self.user.id] = True
+
+    #     # Add the user to the group
+    #     self.user_room = f'notif_{self.user.id}'
+    #     await self.channel_layer.group_add(self.user_room, self.channel_name)
+
+    #     self.user_object = await self.get_user_obj1(self.user.username)
+    #     await self.set_user_status(True)
+
+        # if hasattr(self, 'user_room'):
             # Remove the user from the group
-            await self.channel_layer.group_discard(self.user_room, self.channel_name)
-            await self.set_user_status(False)
+            # await self.channel_layer.group_discard(self.user_room, self.channel_name)
+            # await self.set_user_status(False)
 
-        # Mark user as disconnected
-        if self.user.id in self.connected_users:
-            self.connected_users[self.user.id] = False
+    #     # Mark user as disconnected
+    #     if self.user.id in self.connected_users:
+    #         self.connected_users[self.user.id] = False
 
 
-    @database_sync_to_async
-    def get_user_obj1(self, username):  # Removed async keyword
-        return User.objects.get(username=username)
+    # @database_sync_to_async
+    # def get_user_obj1(self, username):  # Removed async keyword
+    #     return User.objects.get(username=username)
 
-    @database_sync_to_async
-    def set_user_status(self, status):  # Removed async keyword
-        self.user_object.is_online = status
-        self.user_object.save()
+    # @database_sync_to_async
+    # def set_user_status(self, status):  # Removed async keyword
+    #     self.user_object.is_online = status
+    #     self.user_object.save()
 
 
 class ChatConsumer(AsyncWebsocketConsumer):

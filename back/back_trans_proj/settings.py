@@ -33,44 +33,44 @@ OAUTH_DISCORD_TOKEN_URL = 'https://discord.com/api/oauth2/token'
 DISCORD_OAUTH_URL = f"https://discord.com/oauth2/authorize?client_id={OAUTH_DISCORD_CLIENT_ID}&response_type=code&redirect_uri={OAUTH_DISCORD_REDIRECT_URI}&scope=email+identify"
 DSCORD_API_V6 = 'https://discord.com/api/v6/users/@me'
 
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'formatters': {
-        'json': {
-            'format': '{"timestamp": "%(asctime)s", "level": "%(levelname)s", "message": "%(message)s", "module": "%(module)s", "user": "%(user)s", "event_type": "%(event_type)s"}',
-            'datefmt': '%Y-%m-%d %H:%M:%S'
-        },
-        'verbose': {
-            'format': '{levelname} {asctime} {module} {message} {user} {event_type}',
-            'style': '{',
-        },
-    },
-    'handlers': {
-        'console': {
-            'class': 'logging.StreamHandler',
-            'formatter': 'json',
-        },
-        'file': {
-            'level': 'INFO',
-            'class': 'logging.FileHandler',
-            'filename': 'django_debug.log',
-            'formatter': 'json',  # Changed to JSON for better Elasticsearch indexing
-        },
-    },
-    'loggers': {
-        'django': {
-            'handlers': ['console', 'file'],
-            'level': 'INFO',
-            'propagate': True,
-        },
-        'user_auth': {  # Add specific logger for your user_auth app
-            'handlers': ['console', 'file'],
-            'level': 'INFO',
-            'propagate': True,
-        },
-    },
-}
+# LOGGING = {
+#     'version': 1,
+#     'disable_existing_loggers': False,
+#     'formatters': {
+#         'json': {
+#             'format': '{"timestamp": "%(asctime)s", "level": "%(levelname)s", "message": "%(message)s", "module": "%(module)s", "user": "%(user)s", "event_type": "%(event_type)s"}',
+#             'datefmt': '%Y-%m-%d %H:%M:%S'
+#         },
+#         'verbose': {
+#             'format': '{levelname} {asctime} {module} {message} {user} {event_type}',
+#             'style': '{',
+#         },
+#     },
+#     'handlers': {
+#         'console': {
+#             'class': 'logging.StreamHandler',
+#             'formatter': 'json',
+#         },
+#         'file': {
+#             'level': 'INFO',
+#             'class': 'logging.FileHandler',
+#             'filename': 'django_debug.log',
+#             'formatter': 'json',  # Changed to JSON for better Elasticsearch indexing
+#         },
+#     },
+#     'loggers': {
+#         'django': {
+#             'handlers': ['console', 'file'],
+#             'level': 'INFO',
+#             'propagate': True,
+#         },
+#         'user_auth': {  # Add specific logger for your user_auth app
+#             'handlers': ['console', 'file'],
+#             'level': 'INFO',
+#             'propagate': True,
+#         },
+#     },
+# }
 
 
 OAUTH_DISCORD_CLIENT_ID = "1272193976983752706"
@@ -127,13 +127,13 @@ INSTALLED_APPS = [
     'listfriends'
 ]
 
-CORS_ALLOWED_ORIGINS = [
-    'http://localhost:5173',
-]
+# CORS_ALLOWED_ORIGINS = [
+#     'http://localhost:5173',
+# ]
 
-CSRF_TRUSTED_ORIGINS = [
-    'http://localhost:5173',
-]
+# CSRF_TRUSTED_ORIGINS = [
+#     'http://localhost:5173',
+# ]
 
 CSRF_COOKIE_SECURE = False  # Set to True in production
 CSRF_COOKIE_HTTPONLY = True
@@ -228,4 +228,4 @@ CHANNEL_LAYERS = {
 # MEDIA_URL = '/media/'
 
 # MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-# CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_ALL_ORIGINS = True

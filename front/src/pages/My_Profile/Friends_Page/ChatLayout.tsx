@@ -14,7 +14,7 @@ interface PlayerInfo {
   id: number;
   username: string;
   profile_image: string;
-  status: boolean;
+  is_online: boolean;
 }
 
 interface APIResponse {
@@ -103,7 +103,7 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
           setPlayerInfo({
             ...response.data,
             profile_image: response.data.profile_image, // Prepend base URL
-            status: response.data.is_online
+            is_online: response.data.is_online
           });
         }
       } catch (error) {
@@ -114,8 +114,8 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
     
     fetchPlayerInfo();
   }, [value, token]);
-  console.log("-------***************** " + playerInfo?.username)
-  console.log("-------***************** " + playerInfo?.status)
+  // console.log("-------***************** " + playerInfo?.username)
+  // console.log("-------***************** " + playerInfo?.status)
 
   useEffect(() => {
     if (value === "") return;
@@ -257,7 +257,7 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
             <img src={playerInfo?.profile_image} className="rounded-full w-20 h-20" alt="" />
             <div>
               <h1 className="text-2xl">{playerInfo?.username}</h1>
-              <h1 className="text-2xl text-lime-600">{playerInfo?.status ? "online" : "offline"}</h1>
+              <h1 className="text-2xl text-lime-600">{playerInfo?.is_online ? "online" : "offline"}</h1>
             </div>
             <button onClick={() => go_to_profile(playerInfo?.username)} className="mt-5 flex flex-col items-center justify-center text-white rounded hover:bg-[#8f6edd]">
               <img src={viewprofile} alt="View Profile" className="w-8 h-8" />
@@ -266,7 +266,7 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
           </div>
           <hr className="max-w-lg mt-1.5" />
           <div className="flex justify-between align-middle m-5">
-              <button className="w-[100px] flex flex-col items-center justify-center gap-1 rounded hover:bg-[#8f6edd]">
+              <button onClick={() => loggedplayer.sendChallenge(playerInfo?.username || "")} className="w-[100px] flex flex-col items-center justify-center gap-1 rounded hover:bg-[#8f6edd]">
                 <img className="" src={challenge} alt="" />
                 <p>chalenge</p>
               </button>
