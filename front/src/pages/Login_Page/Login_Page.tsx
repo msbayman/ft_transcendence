@@ -12,11 +12,22 @@ function Login_Page() {
   const [password, setPassword] = useState("");
   const [Errmsg, setErrorMessage] = useState("");
   const [panding, ispanding] = useState(false);
+  const [_Discord_42_err, set_Discord_42_err] = useState<string | null>(null); 
 
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
     const accessToken = searchParams.get("access_token");
     const refreshToken = searchParams.get("refresh_token");
+    const oauth_err = searchParams.get("oauth_err");
+
+     if (oauth_err) {
+       set_Discord_42_err(oauth_err);
+     }
+     
+     if (_Discord_42_err !== null) {
+       alert(_Discord_42_err);
+     }
+    
     if (accessToken && refreshToken) {
       Cookies.set("access_token", accessToken, { path: "/" });
       Cookies.set("refresh_token", refreshToken, { path: "/" });
@@ -26,6 +37,7 @@ function Login_Page() {
       // Navigate to the profile page and send `false` as a state variable
       navigate("/Overview", { state: { fromOAuth: false } });
     }
+    //remove json file in return and add err after use_effect
   }, [location, navigate]);
 
   const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {

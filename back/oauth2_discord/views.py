@@ -107,7 +107,7 @@ def handle_oauth_user(request: HttpRequest, user_info: dict) -> HttpResponse:
             user.save()
         else:
             
-            return JsonResponse({"error": "Failed to create or update user..salam", "details": serializer.errors}, status=500)
+            return JsonResponse({"error": "Failed to create", "details": serializer.errors}, status=500)
 
     # Check if 2FA is enabled
     if user.active_2fa:
