@@ -4,7 +4,7 @@ import Profile_side from "./Profile_side";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
-
+import { toast } from "react-toastify";
 
 const Settings_Page = () => {
   const [action, setAction] = useState("");
@@ -19,34 +19,58 @@ const Settings_Page = () => {
     email: "",
   });
 
-  const handleSave = async () => {
-    try {
-      const token = Cookies.get("access_token");
-      if (!token) throw new Error("No access token found.");
 
-      const response = await axios.post(
-        "http://127.0.0.1:8000/user_auth/update_player",
-        player_data,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+  const handleSave = async (): Promise<void> => {
+  try {
+    const token = Cookies.get("access_token");
+    if (!token) {
+      throw new Error("No access token found.");
+    }
+
+    interface UpdatePlayerData {
+      username?: string;
+    }
+
+    // Create an object to hold the fields to update
+    const updateData: UpdatePlayerData = {};
+    
+    // Only include fields that have changed
+    if (player_data.username) {
+      updateData.username = player_data.username;
+    }
+
+    const response = await axios.post<player_data>(
+      "http://127.0.0.1:8000/user_auth/update_player",
+      updateData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    // Handle successful response
+    if (response.status === 200) {
       setPlayerData(response.data);
-      console.log("Profile updated:", response.data);
-    } catch (error) {
+      toast.success("Profile updated successfully");
+    }
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      // toast.error(error.response?.data?.message || "Failed to update profile");
       console.error("Failed to update profile:", error);
     }
-  };
+  }
+};
 
   const handleTabs = (tab: boolean) => {
     setTab(tab);
     !tab ? setAction(" active") : setAction("");
   };
 
-  // Fetch player data
 
+
+  // Fetch player data
   useEffect(() => {
     const fetchPlayerData = async () => {
       try {
@@ -63,7 +87,6 @@ const Settings_Page = () => {
         );
 
         setPlayerData(response.data);
-        console.log("---------->  Player data fetched:      ", response.data);
       } catch (error) {
         console.error("Failed to fetch player data:", error);
       }
@@ -71,12 +94,6 @@ const Settings_Page = () => {
 
     fetchPlayerData();
   }, []);
-  // -----------------------------------------
-
-  // TODO: Implement the following:
-  // 1. Handle save
-  // 2. Handle update player data
-  
 
   return (
     <div className="w-full h-full flex justify-center items-center min-w-[600px] min-h-[1040px]">
@@ -109,8 +126,11 @@ const Settings_Page = () => {
         <div className="save-cancel">
           <div className="child-btn">
             <button className="btn cancel">Cancel</button>
-            <button className="btn save" onClick={handleSave}>
-              Save
+            <button
+              className="btn save"
+              onClick={handleSave}
+            >
+            Save
             </button>
           </div>
         </div>

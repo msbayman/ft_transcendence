@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { usePlayer } from "../PlayerContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPen } from "@fortawesome/free-solid-svg-icons";
@@ -19,21 +19,6 @@ interface ProfileSideProps {
 function Profile_side({ player, setPlayerData }: ProfileSideProps) {
   const data_player = usePlayer();
 
-
-// const BootstrapDialog = styled(Dialog)(({ theme }: { theme: any }) => ({
-//   "& .MuiDialogContent-root": {
-//     padding: theme.spacing(2),
-//   },
-//   "& .MuiDialogActions-root": {
-//     padding: theme.spacing(1),
-//   },
-//   "& .MuiDialog-paper": {
-//     maxWidth: "80vw", // 80% of viewport width
-//     width: "90em", // maximum width in pixels
-//     minHeight: "600px", // minimum height
-//   },
-// }));
-
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setPlayerData((prev) => ({
@@ -46,9 +31,7 @@ function Profile_side({ player, setPlayerData }: ProfileSideProps) {
   const [selectedCoverId, setSelectedCoverId] = useState(
     data_player.playerData?.cover_image
   );
-  useEffect(() => {
-    console.log(selectedCoverId);
-  }, [selectedCoverId]);
+
   return (
     <div className="from-box profile overflow-hidden">
       <div className="prf-pic">
@@ -87,7 +70,6 @@ function Profile_side({ player, setPlayerData }: ProfileSideProps) {
               type="text"
               name="username"
               placeholder={player?.username || ""}
-              value={player?.username || ""}
               onChange={handleInputChange}
             />
           </span>
@@ -96,9 +78,8 @@ function Profile_side({ player, setPlayerData }: ProfileSideProps) {
             <input
               type="text"
               name="email"
-              placeholder={player?.email || ""}
-              value={player?.email || ""}
-              onChange={handleInputChange}
+              value={data_player?.playerData?.email || ""}
+              disabled
             />
           </span>
         </div>

@@ -54,9 +54,9 @@ const SLIDECUES = [
 ];
 
 const SLIDEBALLS = [
-  { mapPath: "skins-png/Balls/8BallPool.png", id: 0, mapName: "8BallPool" },
-  { mapPath: "skins-png/Balls/Foot-Ball.png", id: 1, mapName: "FootBall" },
-  { mapPath: "skins-png/Balls/Basket-Ball.png", id: 2, mapName: "BasketBall" },
+  { mapPath: "skins-png/Balls/8BallPool.png"  , id: 0, mapName: "8BallPool", },
+  { mapPath: "skins-png/Balls/Foot-Ball.png"  , id: 1, mapName: "FootBall", },
+  { mapPath: "skins-png/Balls/Basket-Ball.png", id: 2, mapName: "BasketBall", },
 ];
 
 const SLIDEBOARDS = [
@@ -75,7 +75,11 @@ const SLIDEBOARDS = [
     id: 2,
     mapName: "GreenBoard-Board",
   },
-  { mapPath: "skins-svg/Boards/FootBall.svg", id: 3, mapName: "-Board" },
+  {
+    mapPath: "skins-svg/Boards/BrownBoard.svg",
+    id: 3,
+    mapName: "brownBoard"
+  },
 ];
 
 const Play_Page: React.FC = () => {
@@ -148,7 +152,6 @@ const Play_Page: React.FC = () => {
         );
 
         setPlayerData(response.data);
-        console.log("---------->  Player data fetched:      ", response.data);
       } catch (error) {
         console.error("Failed to fetch player data:", error);
       }
@@ -164,7 +167,6 @@ const Play_Page: React.FC = () => {
       [name]: value,
     }));
     setPlayerData({ ...player_data, [name]: value });
-    console.log(value);
   };
 
   const handleNextClick = () => {
@@ -191,6 +193,11 @@ const Play_Page: React.FC = () => {
         break;
     }
   };
+  useEffect(() => {
+    if (currentSlideIndex !== 0) {
+        setCurrentSlideIndex(0);
+    }
+  } , []);
   const handleSelect = () => {
     switch (value) {
       case "Modes":
@@ -239,6 +246,10 @@ const Play_Page: React.FC = () => {
     // Update localStorage with the new state
     localStorage.setItem("selectedSkins", JSON.stringify(selectedIds));
   };
+
+  useEffect(() => {
+    console.log("------------->>>     selectedIds   --  ", selectedIds);
+  } , [selectedIds])
 
   const handlePlayClick = () => {
     // Navigate to play page with selected skins
@@ -291,9 +302,7 @@ const Play_Page: React.FC = () => {
                         <input
                           type="text"
                           name="username"
-                          // placeholder={player_data?.username || ""}
-                          placeholder="sakarkal"
-                          value={player_data?.username || ""}
+                          placeholder={player_data?.username || ""}
                           onChange={handleInputChange}
                           className="w-[375px] h-[68px] font-alexandria justify-center items-center text-center rounded-[11px] px-3 bg-[#3a0ca3]  text-white text-[32px] m-7"
                           style={{ border: "2px solid #8151EE" }}
@@ -318,7 +327,6 @@ const Play_Page: React.FC = () => {
                 </div>
 
                 <div className="grid grid-cols-1 w-full md:grid-cols-3 gap-10">
-                  {/* Football Board */}
                   <img
                     src={SLIDEBOARDS[selectedIds.board!]?.mapPath}
                     alt={SLIDEBOARDS[selectedIds.board!]?.mapName}
@@ -367,7 +375,10 @@ const Play_Page: React.FC = () => {
               {value !== "Finish" && (
                 <button
                   className="rounded-full border text-[#3A0CA3] bg-white hover:bg-[#3A0CA3] hover:text-white transition-all duration-400 group"
-                  onClick={handleNextClick}
+                  onClick={() => {
+                    setCurrentSlideIndex(0)
+                    handleNextClick()
+                  }}
                   disabled={
                     isCurrentSlideSelected() || isOneOfSlidesSelected()
                       ? false
