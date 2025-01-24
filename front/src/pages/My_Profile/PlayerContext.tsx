@@ -1,6 +1,6 @@
-import React, { createContext, useContext, useState, useCallback } from 'react';
-import axios from 'axios';
-import Cookies from 'js-cookie';
+import React, { createContext, useContext, useState, useCallback } from "react";
+import axios from "axios";
+import Cookies from "js-cookie";
 
 interface PlayerData {
   full_name: string;
@@ -34,18 +34,20 @@ interface PlayerContextType {
 
 const PlayerContext = createContext<PlayerContextType | undefined>(undefined);
 
-export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   const [playerData, setPlayerData] = useState<PlayerData | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
   const fetchPlayerData = useCallback(async () => {
-    const token = Cookies.get('access_token');
+    const token = Cookies.get("access_token");
     if (!token) return;
 
     setIsLoading(true);
     try {
       const response = await axios.get(
-        "http://localhost:8000/api/user_auth/UserDetailView", 
+        "https://localhost/api/user_auth/UserDetailView",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -54,7 +56,7 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       );
       setPlayerData(response.data);
     } catch (error) {
-      console.error('Error fetching player data:', error);
+      console.error("Error fetching player data:", error);
       setPlayerData(null);
     } finally {
       setIsLoading(false);
@@ -66,13 +68,13 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   }, []);
 
   return (
-    <PlayerContext.Provider 
-      value={{ 
-        playerData, 
-        setPlayerData, 
+    <PlayerContext.Provider
+      value={{
+        playerData,
+        setPlayerData,
         isLoading,
         fetchPlayerData,
-        clearPlayerData
+        clearPlayerData,
       }}
     >
       {children}
@@ -83,7 +85,7 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 export const usePlayer = () => {
   const context = useContext(PlayerContext);
   if (!context) {
-    throw new Error('usePlayer must be used within a PlayerProvider');
+    throw new Error("usePlayer must be used within a PlayerProvider");
   }
   return context;
 };

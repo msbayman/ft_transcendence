@@ -1,4 +1,3 @@
-import shape_acheive from "/public/back_acheiv.svg";
 import win1 from "/public/Achievements/win_1_game.png";
 import win3 from "/public/Achievements/win_3_game.png";
 import win10 from "/public/Achievements/win_10_game.png";
@@ -92,7 +91,7 @@ const Top_of_Achievement = () => {
         )}
       </div>
       <div className="Achiev_Title">
-        <img src={shape_acheive} className="part_2_achv" />
+        <img src="/public/back_acheiv.svg" className="part_2_achv" />
         <div className="Titre_Acheivement">
           Top
           <br />

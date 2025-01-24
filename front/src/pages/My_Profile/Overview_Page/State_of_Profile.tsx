@@ -1,7 +1,6 @@
 import "./State_of_Profile.css";
 import { CircularProgress, CircularProgressLabel } from "@chakra-ui/progress";
 import {usePlayer} from "../PlayerContext"
-import border_profile from "../../../assets/border_profile.png"
 
 const State_of_Profile = () => {
   const player = usePlayer();
@@ -38,8 +37,8 @@ const State_of_Profile = () => {
     <div className="all_content_state">
       <div className="part_1_state">
         <div className="Photo_Profile">
-          <img src={player.playerData?.profile_image} className="image Photo_P" />
-          <img src={border_profile} className="image Photo_border" />
+          <img src={player.playerData?.profile_image.replace("http://", "https://")} className="image Photo_P" />
+          <img src="/public/Icones/border_profile.png" className="image Photo_border" />
         </div>
         <div className="Name_and_Online-state">
           <div className="Name">{player.playerData?.username}</div>

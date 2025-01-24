@@ -12,7 +12,6 @@ from http.cookies import SimpleCookie
 
 class JwtAuthMiddleware(BaseMiddleware):
     async def __call__(self, scope, receive, send):
-        print("is this shit working !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
         # logger.debug("JWT middleware invoked")
         query_string = scope.get('query_string', b'').decode('utf-8')
         query_params = parse_qs(query_string)

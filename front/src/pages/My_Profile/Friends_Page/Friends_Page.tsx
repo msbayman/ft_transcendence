@@ -30,7 +30,7 @@ const Friends_Page_Content: React.FC = () => {
   const { connect, disconnect } = useWebSocket();
 
   useEffect(() => {
-    const wsUrl = "ws://127.0.0.1:8000/ws/chat/";
+    const wsUrl = "wss://localhost/ws/chat/";
     connect(wsUrl);
 
     return () => {

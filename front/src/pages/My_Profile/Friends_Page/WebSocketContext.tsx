@@ -33,6 +33,7 @@ export const WebSocketProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   const currentUser = PlayerInstance.playerData?.username
 
   const connect = (url: string) => {
+    console.log('<<<<<<<<<<' + url)
     if (websocketRef.current?.readyState === WebSocket.OPEN) return;
 
     const token = Cookies.get("access_token");

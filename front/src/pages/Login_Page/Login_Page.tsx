@@ -12,11 +12,23 @@ function Login_Page() {
   const [password, setPassword] = useState("");
   const [Errmsg, setErrorMessage] = useState("");
   const [panding, ispanding] = useState(false);
+  const [_Discord_42_err, set_Discord_42_err] = useState<string | null>(null);
 
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
     const accessToken = searchParams.get("access_token");
     const refreshToken = searchParams.get("refresh_token");
+    const oauth_err = searchParams.get("oauth_err");
+
+    if (oauth_err) {
+      set_Discord_42_err(oauth_err);
+    }
+
+    if (_Discord_42_err !== null) {
+      alert(_Discord_42_err);
+      
+    }
+
     if (accessToken && refreshToken) {
       Cookies.set("access_token", accessToken, { path: "/" });
       Cookies.set("refresh_token", refreshToken, { path: "/" });
@@ -26,6 +38,7 @@ function Login_Page() {
       // Navigate to the profile page and send `false` as a state variable
       navigate("/Overview", { state: { fromOAuth: false } });
     }
+    //remove json file in return and add err after use_effect
   }, [location, navigate]);
 
   const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -37,18 +50,18 @@ function Login_Page() {
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    ispanding(true) ;
+    ispanding(true);
     e.preventDefault();
-    
+
     try {
       const response = await axios.post(
-        "http://127.0.0.1:8000/api/user_auth/login_simple",
+        "https://localhost:443/api/user_auth/login_simple",
         {
           username,
           password,
         }
       );
-      
+
       if (response.status === 200) {
         if (response.data.twofa_required) {
           const redirectUrl = `${response.data.redirect_to}?username=${response.data.username}`;
@@ -64,18 +77,34 @@ function Login_Page() {
       } else if (response.status === 401) {
         setErrorMessage(response.data.detail);
       }
-    } catch (error) {
-      ispanding(false) ;
-      setErrorMessage("An unexpected error occurred. Please try again later.");
+    } catch (error: any) {
+      if (error.response) {
+        // Handle specific error cases
+        if (error.response.status === 409) {
+          // Email or username already used
+          setErrorMessage("That email or username is already used.");
+          console.log(error.respose);
+        } else if (error.response.status === 401) {
+          // Unauthorized (e.g., invalid credentials)
+          setErrorMessage(error.response.data.detail);
+        } else {
+          // Other errors
+          setErrorMessage("An unexpected error occurred. Please try again.");
+        }
+      } else {
+        // Network or other errors
+        setErrorMessage("Network error. Please check your connection.");
+      }
+    } finally {
+      ispanding(false); // Assuming this is a typo and should be `setIsPending(false)`
     }
-    ispanding(false) ;
   };
 
   const handleOAuthLogin = () => {
-    window.location.href = "http://localhost:8000/api/discord/login";
+    window.location.href = "https://localhost:443/api/discord/login";
   };
   const handleOAuthLogin_42 = () => {
-    window.location.href = "http://localhost:8000/api/42/login";
+    window.location.href = "https://localhost:443/api/42/login";
   };
 
   return (
@@ -165,28 +194,28 @@ function Login_Page() {
                         color: "white",
                       },
                     }}
-                    
                   />
                   {Errmsg && <p id="err_msg">Invalid username or password</p>}
                 </div>
 
                 <div className="login_btn_forget">
-
-                {!panding &&  <button id="btn_login" type="submit">
-                    LOG IN
-                  </button>}
+                  {!panding && (
+                    <button id="btn_login" type="submit">
+                      LOG IN
+                    </button>
+                  )}
                 </div>
                 <span className="dotted-line">
                   <div id="or">or</div>
                 </span>
               </form>
               <div className="login_42_google">
-               <img
+                {/* <img
                   className="auth cursor-pointer"
                   src="connect_with_google.svg"
                   alt="login google"
                   onClick={handleOAuthLogin}
-                />
+                /> */}
                 <img
                   onClick={handleOAuthLogin_42}
                   className="auth cursor-pointer"

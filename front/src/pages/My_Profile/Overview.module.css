@@ -4,7 +4,7 @@
 }
 
 .all {
-  background-image: url(/public/Navbar/Back_left_Side.png);
+  /* background-image: url(/public/Navbar/Back_left_Side.png); */
   background-size: cover;
   background-position: center;
   display: flex;
@@ -231,6 +231,9 @@
     justify-content: center;
     box-sizing: border-box;
     transition: all 0.3s ease-out;
+  }
+  .bar_search {
+    display: none;
   }
 
   .cercle_hide {

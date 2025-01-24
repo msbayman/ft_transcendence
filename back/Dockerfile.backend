@@ -4,8 +4,7 @@ WORKDIR /app
 COPY . /app
 RUN apt-get update && apt-get install -y \
     postgresql-client \
-    libpq-dev \
-    curl
+    libpq-dev 
 
-RUN chmod +x script_back.sh
-CMD ["sh", "script_back.sh"]
+    
+CMD ["python", "manage.py", "runserver"]

@@ -54,12 +54,10 @@ function Overview() {
     // Make the request before removing tokens
     try {
       await axios.post(
-        "http://127.0.0.1:8000/api/user_auth/LogoutAPIView/",
+        "https://localhost/api/user_auth/LogoutAPIView/",
         { refresh_token: refreshToken },
         {
-          headers: accessToken
-            ? { Authorization: `Bearer ${accessToken}` }
-            : {},
+          headers:{ Authorization: `Bearer ${accessToken}` }
         }
       );
     } finally {
@@ -131,7 +129,7 @@ function Overview() {
   }, []);
 
   return (
-    <div className={over.all}>
+    <div className={`${over.all}`} style={{ backgroundImage: `url('/public/Navbar/Back_left_Side.png')` }}>
       {showNotifications && (
         <div className={over.notif}> {Notifications_p()} </div>
       )}

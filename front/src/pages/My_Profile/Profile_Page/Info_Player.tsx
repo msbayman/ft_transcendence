@@ -1,6 +1,5 @@
 import "./Info_Player.css";
 import { LinearProgress } from "@mui/material";
-import etoile from "/public/Etoile.svg";
 import { CircularProgress, CircularProgressLabel } from "@chakra-ui/progress";
 import { usePlayer } from "../PlayerContext";
 
@@ -62,7 +61,7 @@ export const Info_Player = () => {
       <div className="Photo_and_state">
         <div className="Photo_of_the_profile">
           <img
-            src={data_player.playerData?.profile_image}
+            src={data_player.playerData?.profile_image.replace("http://", "https://")}
             className="Photo_P2"
           />
         </div>
@@ -184,7 +183,7 @@ export const Info_Player = () => {
               />
             </div>
             <div className="lvl_progress">
-              <img src={etoile} className="Etoile_lvl " />
+              <img src="/public/Etoile.svg" className="Etoile_lvl " />
               <div className="lvl_value hover-container">
                 {my_user.playerData?.level}
                 <span className="hover-text">

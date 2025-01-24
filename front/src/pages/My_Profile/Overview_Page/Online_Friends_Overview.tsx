@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 import "./Online_Friends_Overview.css";
-import Message from "/public/Icones/Message_to_User.svg";
-import Invite_Play from "/public/Icones/Invite_to_play.svg";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { usePlayer } from "../PlayerContext";
@@ -35,7 +33,7 @@ const Online_Friends_Overview = () => {
     const fetchOnlineUsers = async () => {
       try {
         if (currentUser.playerData) {
-          const response = await axios.get("http://127.0.0.1:8000/api/user_auth/is_online/", {
+          const response = await axios.get("https://localhost/api/user_auth/is_online/", {
             headers:{
               Authorization:`Bearer ${token}`,
             },
@@ -73,7 +71,7 @@ const Online_Friends_Overview = () => {
               <li key={index} className="Every_User">
                 {/* <div className="inside_photo"> */}
                   <img
-                    src={"http://127.0.0.1:8000" + friend.profile_image}
+                    src={friend.profile_image}
                     className="Ps_Profile"
                   />
                   {/* <span className="online_cercel"></span> */}
@@ -82,13 +80,13 @@ const Online_Friends_Overview = () => {
                 <div className="click">
                   <div className="hove_contain">
                     <button onClick={to_message}>
-                      <img src={Message} className="img_siz" />
+                      <img src="/public/Icones/Message_to_User.svg" className="img_siz" />
                       <span className="hove">Message</span>
                     </button>
                   </div>
                   <div className="hove_contain">
                     <button onClick={to_play}>
-                      <img src={Invite_Play} className="img_siz" />
+                      <img src="/public/Icones/Invite_to_play.svg" className="img_siz" />
                       <span className="hove">Challenge</span>
                     </button>
                   </div>

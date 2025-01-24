@@ -24,7 +24,7 @@ interface SelectedUser {
   onClick: (newUser: string) => void;
 }
 const FriendsList: React.FC<SelectedUser> = ({ onClick }) => {
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
   const [friends, setFriends] = useState<Friend[]>([]);
   const [onlineFriends, setOnlineFriends] = useState<OnlineFriends[]>([]);
   const { messages } = useWebSocket();
@@ -32,15 +32,18 @@ const FriendsList: React.FC<SelectedUser> = ({ onClick }) => {
   
   const fetchLastMessages = async () => {
     try {
-      const response = await axios.get("http://127.0.0.1:8000/chat/last-message/", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const response = await axios.get(
+        "https://localhost/api/chat/last-message/",
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
       const lastMessages = response.data;
       setFriends(
         lastMessages.map((user: any, index: number) => ({
           id: index.toString(),
           name: user.user2.username,
-          avatar: user.user2.profile_image || gojo,
+          avatar: user.user2.profile_image.replace("http://","https://"),
           online: index < 4,
           content: user.last_message.content.length > 10 
           ? user.last_message.content.substring(0, 10) + '...' 
@@ -52,18 +55,21 @@ const FriendsList: React.FC<SelectedUser> = ({ onClick }) => {
       console.error("Error fetching last messages:", error);
     }
   };
-  
+
   const fetchOnlineFriends = async () => {
     try {
-      const response = await axios.get("http://127.0.0.1:8000/chat/api/users/", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const response = await axios.get(
+        "https://localhost/api/chat/api/users/",
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
       const onlineUsersList = response.data;
       setOnlineFriends(
         onlineUsersList.map((user: any, index: number) => ({
           id: index.toString(),
           name: user.username,
-          avatar: user.profile_image,
+          avatar: user.profile_image.replace("http://","https://"),
           online: index < 4,
         }))
       );
@@ -71,7 +77,7 @@ const FriendsList: React.FC<SelectedUser> = ({ onClick }) => {
       console.error("Error fetching online friends:", error);
     }
   };
-  
+
   useEffect(() => {
     // const token = Cookies.get("access_token");
     // if (token) {
@@ -79,7 +85,6 @@ const FriendsList: React.FC<SelectedUser> = ({ onClick }) => {
     fetchLastMessages();
     fetchOnlineFriends();
   }, []);
-  
 
   // Update when new messages arrive
   useEffect(() => {
@@ -121,12 +126,12 @@ const FriendsList: React.FC<SelectedUser> = ({ onClick }) => {
               key={friend.id} 
               className="flex flex-col  items-center justify-center flex-shrink-0 w-[61px] h-[86px] bg-[#5012C4] rounded-lg"
             >
-              <div 
+              <div
                 className="relative"
                 onClick={() => handleClick(friend.name)}
               >
                 <img
-                  src={friend.avatar}
+                  src={friend.avatar.replace("http://","https://")}
                   alt={friend.name}
                   className="w-12 h-12 rounded-full"
                 />
@@ -176,7 +181,7 @@ const FriendsList: React.FC<SelectedUser> = ({ onClick }) => {
                 className="flex items-center gap-3 p-2 hover:bg-purple-900 rounded-lg transition-colors w-full"
               >
                 <img
-                  src={friend.avatar}
+                  src={friend.avatar.replace("http://","https://")}
                   alt={friend.name}
                   className="w-12 h-12 rounded-full bg-purple-700"
                 />
@@ -185,7 +190,9 @@ const FriendsList: React.FC<SelectedUser> = ({ onClick }) => {
                   onClick={() => handleClick(friend.name)}
                 >
                   <h3 className="font-semibold">{friend.name}</h3>
-                  <p className="text-sm text-gray-300 truncate">{friend.content}</p>
+                  <p className="text-sm text-gray-300 truncate">
+                    {friend.content}
+                  </p>
                 </div>
                 {/* <span className="text-sm text-gray-300">{friend.timestamp}</span> */}
               </button>

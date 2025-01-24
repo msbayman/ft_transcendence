@@ -27,7 +27,7 @@ export const Info_Player = ({ username }: { username: string | undefined }) => {
         const get_data = async () => {
         try {
           const response = await fetch(
-            `http://127.0.0.1:8000/api/user_auth/get-player/${username}/`,
+            `https://localhost/api/user_auth/get-player/${username}/`,
             {
               method: "GET",
               headers: {
@@ -120,7 +120,7 @@ export const Info_Player = ({ username }: { username: string | undefined }) => {
     <div className={other.details_of_the_profile}>
       <div className={other.Photo_and_state}>
         <div className={other.Photo_of_the_profile}>
-          <img src={"http://127.0.0.1:8000" + data?.profile_image} className={other.Photo_P2} />
+          <img src={data?.profile_image} className={other.Photo_P2} />
         </div>
         <div className={other.States_Profile1}>
           <div className={other.Win_and_Achievem}>
@@ -226,7 +226,7 @@ export const Info_Player = ({ username }: { username: string | undefined }) => {
               />
             </div>
             <div className={other.lvl_progress}>
-              <img src={etoile} className={other.Etoile_lvl} />
+              <img src="/public/Etoile.svg" className={other.Etoile_lvl} />
               <div className={`${other.lvl_value} ${other.hover_container1}`}>
                 {data?.level}
                 <span className={other.hover_text1}>Level {data?.level}</span>

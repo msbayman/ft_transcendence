@@ -33,7 +33,7 @@ export const Other_Profile_Page = ({
   const get_data = async () => {
     try {
       const response = await fetch(
-        `http://127.0.0.1:8000/api/user_auth/get-player/${username}/`,
+        `https://localhost/api/user_auth/get-player/${username}/`,
         {
           method: "GET",
           headers: {
@@ -81,7 +81,7 @@ export const Other_Profile_Page = ({
           <div
             className={other.cover_profile}
             style={{
-              backgroundImage: `url("http://127.0.0.1:8000${data?.cover_image}")`,
+              backgroundImage: `url("https://localhost${data?.cover_image}")`,
             }}
           ></div>
           <div className={other.content_profile}>

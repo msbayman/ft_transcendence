@@ -1,6 +1,5 @@
 // import React from "react";
 import "./Info-Profile.css";
-import etoile from "/public/Etoile.svg";
 import { LinearProgress } from "@mui/material";
 import { usePlayer } from "../PlayerContext";
 
@@ -63,7 +62,7 @@ const Info_Profile = () => {
         <div className="Score_style_value">{is_me?.points} Points</div>
         <div className="Photo_dProfile">
           <img
-            src={my_user.playerData?.profile_image}
+            src={my_user.playerData?.profile_image.replace("http://", "https://")}
             className="Photo_dProfile"
           />
         </div>
@@ -85,7 +84,7 @@ const Info_Profile = () => {
               />
             </div>
             <div className="lvl_progress">
-              <img src={etoile} className="Etoile_lvl" />
+              <img src="/public/Etoile.svg" className="Etoile_lvl" />
               <div className="lvl_value">{is_me?.level}</div>
             </div>
           </div>

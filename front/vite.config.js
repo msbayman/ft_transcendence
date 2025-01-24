@@ -1,24 +1,25 @@
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+import path from "path";
 
 export default defineConfig({
+  base: "/",
   plugins: [react()],
-  server: {
-    host: '0.0.0.0',
+  preview: {
     port: 5173,
-    watch: {
-      usePolling: true
-    }
+    strictPort: true,
+    // https: true,
   },
-  optimizeDeps: {
-    force: true,
-    include: [
-      'react',
-      'react-dom',
-      'react-router-dom',
-      'js-cookie',
-      'axios'
-    ]
+  server: {
+    port: 5173,
+    strictPort: true,
+    host: true,
+    // https: true,
+    origin: "http://0.0.0.0:5173",
   },
-  cacheDir: '.vite', // Explicitly set cache directory
+  resolve: {
+    alias: {
+      "@": path.resolve(__dirname, "./src"),
+    },
+  },
 });

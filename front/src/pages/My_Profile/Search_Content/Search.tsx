@@ -26,7 +26,7 @@ const Search = () => {
       if (query.length >= minLength) {
         try {
           const response = await axios.get(
-            `http://localhost:8000/api/user_auth/search-users/?q=${query}`,
+            `https://localhost/api/user_auth/search-users/?q=${query}`,
             {
               headers: {
                 Authorization: `Bearer ${token}`,
