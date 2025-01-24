@@ -31,7 +31,7 @@ clean:
 	docker compose -f $(COMPOSE_FILE) down -v
 
 # Clean everything (remove containers, volumes, networks, and images)
-clean-all:
+clean-all: clean-cache
 	@echo "Cleaning up containers, volumes, networks, and images..."
 	docker compose -f $(COMPOSE_FILE) down --volumes --remove-orphans --rmi all
 

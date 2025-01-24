@@ -2,6 +2,14 @@ from rest_framework import serializers
 from .models import Player
 import re
 
+def normalize_fields(data):
+    data['username'] = data.get('username', '').lower()
+    data['email'] = data.get('email', '').lower()
+    data['full_name'] = data.get('full_name', '').lower()
+    return data
+
+
+
 class PlayerSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, required=False)
     re_password = serializers.CharField(write_only=True, required=False)
@@ -11,10 +19,13 @@ class PlayerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Player
         fields = [
-            'username', 'full_name', 'email', 'password', 
+            'username', 'full_name', 'email', 'password',  'is_validate' ,
             're_password', 'id_prov', 'prov_name', 'provider_identifier',
             'profile_image', 'cover_image', 'points','is_online',
-            'level', 'total_games', 'win_games', 'lose_games'
+            'level', 'total_games', 'win_games', 'lose_games',
+            'win_1_game', 'win_3_games', 'win_10_games', 'win_30_games',
+            'reach_level_5', 'reach_level_15', 'reach_level_30', 'perfect_win_game',
+            'perfect_win_tournaments',
         ]
         extra_kwargs = {
             'username': {'required': True},
@@ -27,25 +38,25 @@ class PlayerSerializer(serializers.ModelSerializer):
         # Full name validation: 2-40 characters, only letters and spaces
         if not re.match(r'^[a-zA-Z ]+$', value):
             raise serializers.ValidationError("Full name must contain only letters and spaces.")
-        if not (2 <= len(value) <= 40):
-            raise serializers.ValidationError("Full name length must be between 7 and 30 characters.")
+        if not (4 <= len(value) <= 40):
+            raise serializers.ValidationError("Full name length must be between 4 and 40 characters.")
         return value
 
     def validate_username(self, value):
-        # Username validation: 2-40 characters, only letters, numbers, hyphens, and underscores
+        # Username validation: 4-16 characters, only letters, numbers, hyphens, and underscores
         if not re.match(r'^[a-zA-Z0-9-_]+$', value):
             raise serializers.ValidationError("Username must contain only letters, numbers, hyphens, and underscores.")
-        if 2 <= len(value) <= 40:
+        if 4 <= len(value) <= 16:
             return value
         elif 'prov_name' == "Discord" or 'prov_name' == "42":
             return value
         else:
-            raise serializers.ValidationError("Username length must be between 3 and 15 characters.")
+            raise serializers.ValidationError("Username length must be between 4 and 40 characters.")
 
 
     def validate_password(self, value):
         # Password validation: 2-40 characters
-        if not (2 <= len(value) <= 40):
+        if not (6 <= len(value) <= 40):
             raise serializers.ValidationError("Password length must be between 6 and 30 characters.")
         return value
 
@@ -69,6 +80,7 @@ class PlayerSerializer(serializers.ModelSerializer):
         return data
 
     def create(self, validated_data):
+        validated_data = normalize_fields(validated_data)
         validated_data.pop('re_password', None)
         is_oauth = 'prov_name' in validated_data and validated_data['prov_name']
 

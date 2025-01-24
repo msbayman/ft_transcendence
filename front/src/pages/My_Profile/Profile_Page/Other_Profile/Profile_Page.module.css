@@ -17,15 +17,48 @@
   padding-bottom: 15px;
 }
 
+.NotFound {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  /* padding-top: 80px; */
+  align-items: center;
+  /* gap: 20px; */
+  width: 100%;
+  font-family: "Alexandria", sans-serif;
+  text-shadow: 0 0 20px black;
+}
+.to_Home {
+  width: 200px;
+  height: 50px;
+  background-color: #3a0ca3;
+  border: .2px solid whitesmoke;
+  border-radius: 40px;
+  margin: 30px;
+  color: aliceblue;
+}
+
+.Title {
+  font-size: 180px;
+  font-weight: 800;
+  color: aliceblue;
+}
+
+.Title_sub {
+  font-size: 20px;
+  font-weight: 100;
+  color: aliceblue;
+}
+
 .cover_profile {
   display: flex;
   position: relative;
   flex-grow: 1.2;
   width: 100%;
   max-height: 350px;
-  background-image: url(../../Images/Back1.png);
+  /* background-image: url(../../Images/Back1.png); */
   background-repeat: no-repeat;
-  background-position: top;
+  background-position: center;
   background-size: cover;
   border-radius: 20px;
 }
@@ -99,7 +132,9 @@
   align-items: start;
   width: 100%;
   height: 100%;
-  flex-grow: 2;
+  /* flex-grow: 2; */
+  min-height: 400px;
+  /* max-height: 900px; */
 }
 
 .Content_of_States {

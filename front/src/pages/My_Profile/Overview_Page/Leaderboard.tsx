@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import lead  from "./Leaderboard.module.css";
+import lead from "./Leaderboard.module.css";
 // import { usePlayer } from "../PlayerContext";
 import axios from "axios";
 
@@ -21,15 +21,16 @@ const Leaderboard = () => {
 
   useEffect(() => {
     axios
-      .get("http://127.0.0.1:8000/user_auth/leaderboard")
-      .then((response) => {setListPlayers(response.data)})
+      .get("https://localhost/api/user_auth/leaderboard")
+      .then((response) => {
+        setListPlayers(response.data);
+      })
       .catch((error) => console.error("Error fetching leaderboard:", error));
   }, []);
 
   const the_list = useMemo(() => {
     return listPlayers.slice(0, 10);
   }, [listPlayers]);
-
 
   return (
     <div className={lead.All_Content_Leaderboard}>
@@ -50,13 +51,13 @@ const Leaderboard = () => {
           {the_list.map((data, index) => (
             <div key={index} className={lead.every_columns1}>
               <div className={lead.index}>#{index + 1}</div>
-              <div>
+              {/* <div> */}
                 <img
-                  src={'http://127.0.0.1:8000' + data.profile_image}
+                  src={data.profile_image.replace("http://", "https://")}
                   alt="photo_Profile"
                   className={lead.photo_Profile}
                 />
-              </div>
+              {/* </div> */}
               <div className={lead.the_name}>{data.username}</div>
               <div className={lead.points}>{data.points} Points</div>
             </div>

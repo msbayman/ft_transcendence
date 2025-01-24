@@ -9,15 +9,25 @@ import axios from "axios";
 
 const fullNameSchema = z
   .string()
-  .regex(/^[a-zA-Z ]+$/, { message: "Only letters and spaces allowed" })
-  .min(2, { message: "Must be 2-40 characters" })
-  .max(40, { message: "Must be 2-40 characters" });
+  .trim()
+  .min(2, { message: "Must be 5-40 characters" })
+  .max(40, { message: "Must be 5-40 characters" })
+  .refine(value => !/^\s/.test(value), { message: "Cannot start with a space" })
+  .refine(value => !/\s{2,}/.test(value), { message: "Only one space between words allowed" })
+  .refine(value => /^[a-zA-Z]+( [a-zA-Z]+)*$/.test(value), { 
+    message: "Only letters with single spaces between words" 
+  });
 
 const userNameSchema = z
   .string()
-  .regex(/^[a-zA-Z0-9-_]+$/, { message: "Only letters, 0-9 , _ , -" })
-  .min(2, { message: "Must be 2-40 characters" })
-  .max(40, { message: "Must be 2-40 characters" });
+  .trim()
+  .min(2, { message: "Must be 5-16 characters" })
+  .max(16, { message: "Must be 5-16 characters" })
+  .refine(value => !/^\s/.test(value), { message: "Cannot start with a space" })
+  .refine(value => /^[a-zA-Z0-9-_]+$/.test(value), { 
+    message: "Only letters, 0-9, _, -" 
+  });
+
 
 const SignupSchema = z
   .object({
@@ -56,7 +66,7 @@ function Signup_Page() {
 
     try {
       const response = await axios.post(
-        "http://127.0.0.1:8000/user_auth/add_player",
+        "https://localhost:443/api/user_auth/add_player",
         dataToSubmit
       );
 
@@ -64,8 +74,12 @@ function Signup_Page() {
         reset();
         navigate("/login");
       }
-    } catch (error: any) {
-      if (error.response && error.response.data) {
+    } catch (error: any) {      
+      if(error.status === 409)
+        {
+          setMailUsernameErr("email or username already used");
+        }  
+      else if (error.response && error.response.data) {
         const errorData = error.response.data;
         if (errorData.non_field_errors) {
           setMailUsernameErr(errorData.non_field_errors.join(", "));
@@ -83,10 +97,10 @@ function Signup_Page() {
   };
 
   const handleOAuthLogin = () => {
-    window.location.href = "http://localhost:8000/discord/login";
+    window.location.href = "https://localhost:443/api/discord/login";
   };
   const handleOAuthLogin_42 = () => {
-    window.location.href = "http://localhost:8000/42/login";
+    window.location.href = "https://localhost:443/api/42/login";
   };
 
   return (
@@ -108,12 +122,12 @@ function Signup_Page() {
               <img id="logo_signup" src="game_logo.svg" alt="game_logo" />
             </Link>
             <form className="signup_form" onSubmit={handleSubmit(onSubmit)}>
-              <img
+              {/* <img
                 className="auth cursor-pointer"
                 onClick={handleOAuthLogin}
                 src="connect_with_google.svg"
                 alt="login google"
-              />
+              /> */}
               <img
                 className="auth cursor-pointer"
                 onClick={handleOAuthLogin_42}

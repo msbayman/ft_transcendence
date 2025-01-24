@@ -40,7 +40,7 @@ const Settings_Page = () => {
     }
 
     const response = await axios.post<player_data>(
-      "http://127.0.0.1:8000/user_auth/update_player",
+      "https://localhost/api/user_auth/update_player",
       updateData,
       {
         headers: {
@@ -78,7 +78,7 @@ const Settings_Page = () => {
         if (!token) throw new Error("No access token found. Please log in.");
 
         const response = await axios.get<player_data>(
-          "http://127.0.0.1:8000/user_auth/UserDetailView",
+          "https://localhost/api/user_auth/UserDetailView",
           {
             headers: {
               Authorization: `Bearer ${token}`,

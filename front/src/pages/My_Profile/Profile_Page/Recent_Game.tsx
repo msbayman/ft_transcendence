@@ -108,12 +108,24 @@ export const Recent_Game = () => {
         <div className="table_dd">
           {historyGame.map((field, index) => (
             <div key={index} className="inside_the_match_history">
-              <div className={win_or_lose(field.status)}>{field.status}</div>
+              <div
+                className={`${win_or_lose(
+                  field.status
+                )} pt-[30px] pr-[40px] pl-[30px] text-center flex flex-row w-[100%] gap-3 justify-between items-center`}
+              >
+                <div className="text-6xl">{field.status}</div>
+
+                <div className="text-white font-alexandria text-lg pb-[18px]">
+                  {" "}
+                  21-12-2020{" "}
+                </div>
+              </div>
               <div className="who_played" key={field.id}>
                 <div style={{ width: "150px", fontWeight: "600" }}>
                   {field.player1}
                 </div>
-                <div>
+                {/* <div> */}
+                <div className="bg-white font-medium text-[#3a0ca3] pr-[20px] pl-[20px] rounded-3xl">
                   {field.score1} - {field.score2}
                 </div>
                 <div

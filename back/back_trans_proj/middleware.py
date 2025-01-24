@@ -6,9 +6,13 @@ from django.contrib.auth.models import AnonymousUser
 from asgiref.sync import sync_to_async
 from urllib.parse import parse_qs
 from http.cookies import SimpleCookie
+# import logging
 
-class JwtAuthMiddlewareOk(BaseMiddleware):
+# logger = logging.getLogger('custom_jwt_middleware')
+
+class JwtAuthMiddleware(BaseMiddleware):
     async def __call__(self, scope, receive, send):
+        # logger.debug("JWT middleware invoked")
         query_string = scope.get('query_string', b'').decode('utf-8')
         query_params = parse_qs(query_string)
         access_token_query = query_params.get('token', [None])[0]

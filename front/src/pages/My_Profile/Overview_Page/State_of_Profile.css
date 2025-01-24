@@ -9,21 +9,44 @@
     border-radius: 60px;
     background: rgba(255, 255, 255, 0.40);
     backdrop-filter: blur(10px);
-    gap: 30px;
+    gap: 40px;
 }
 .part_1_state {
-    /* height: 50%; */
     display: flex;
-    /* flex-grow: 1; */
     flex-direction: row;
-    gap: 30px;
+    align-items: center;
+    /* gap: 10px; */
+    padding-right:20px ;
+}
+
+.Photo_Profile {
+    position: relative;
+    width: 150px;
+    height: 80px;
+    /* margin: 2px auto; */
+}
+
+.image {
+    position: absolute;
+    margin-top: -50px;
+}
+
+.Photo_border {
+    /* position: relative;*/
+    position: absolute;
+    width: 130%;
+    margin-top: -70px;
+    margin-left: -15px;
+    /* margin-top: -105px;
+    margin-left: -3%; */
 }
 
 .Photo_P {
+    /* position: relative; */
     border-radius: 50%;
-    width: 140px;
-    margin-top: -60px;
-    margin-left: 2%;
+    width: 79%
+    /* margin-top: -60px;
+    margin-left: 10%; */
 }
 .Name_and_online-state {
     display: flex;
@@ -58,11 +81,13 @@
 
 .part_2_state {
     display: flex;
+    /* align-self: flex-end; */
     /* flex-wrap: wrap; */
+    /* width: 160px; */
     flex-direction: row;
     justify-content: space-around;
     align-items: center;
-    gap: 5px;
+    gap: 20px;
 }
 .win_state,.lose_state,.achievement_state,.exp_state {
     display: inline-flex;

@@ -5,24 +5,34 @@ from user_auth.models import Player
 from django.conf import settings
 from user_auth.serializers import PlayerSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import AllowAny
 from django.contrib.auth import login as auth_login
 from user_auth.otp_view import generate_otp , send_otp_via_email
 from django.utils import timezone
 from django.core.files.base import ContentFile
 
+from rest_framework.request import Request as DRFRequest
 
 # Discord OAuth2 URL
-
+@api_view(['GET'])
+@permission_classes([AllowAny])
 def login(request: HttpRequest) -> HttpResponse:
     return redirect(settings.DISCORD_OAUTH_URL)
 
-def login_redirect(request: HttpRequest) -> JsonResponse:
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def login_redirect(request: DRFRequest) -> JsonResponse:
     code = request.GET.get('code')
     if code:
         user_info = exchange_code_for_token(code)
         if "error" in user_info:
             return JsonResponse({"error": "Failed to retrieve user info"}, status=400)
-        return handle_oauth_user(request, user_info)
+        
+        # Extract the Django HttpRequest object
+        django_request = request._request
+        return handle_oauth_user(django_request, user_info)
     else:
         return JsonResponse({"error": "No code provided"}, status=400)
 
@@ -50,18 +60,19 @@ def exchange_code_for_token(code: str) -> dict:
     else:
         return {"error": "Failed to obtain access token"}
 
-
+@api_view(['GET'])
+@permission_classes([AllowAny])
 def handle_oauth_user(request: HttpRequest, user_info: dict) -> HttpResponse:
-    email        = user_info.get('email')
-    username     = user_info.get('username')
-    full_name    = user_info.get('global_name', username)
+    email        = user_info.get('email').lower()
+    username     = user_info.get('username').lower()
+    full_name    = user_info.get('global_name', username).lower()
     user_id_prov = user_info.get('id')
     avatar_hash = user_info.get('avatar')
     if not(all([email, username, full_name, user_id_prov])):
-        login_url = f"http://localhost:5173/login?error=Failed to retrieve user data"
+        login_url = f"https://localhost/login?error=Failed to retrieve user data"
         return redirect(login_url)
     if Player.objects.filter(email__iexact=email).exclude(prov_name="Discord").exists():
-        login_url = f"http://localhost:5173/login?error=email already exists"
+        login_url = f"https://localhost/login?error=email already exists"
         return redirect(login_url)
     try:
         user = Player.objects.get(email = email)
@@ -81,7 +92,6 @@ def handle_oauth_user(request: HttpRequest, user_info: dict) -> HttpResponse:
             'prov_name' : "Discord",
         }
         serializer = PlayerSerializer(data = data)
-        print ("data:", data)
         if serializer.is_valid(): 
             user = serializer.save()
             user.set_unusable_password()
@@ -97,7 +107,7 @@ def handle_oauth_user(request: HttpRequest, user_info: dict) -> HttpResponse:
             user.save()
         else:
             
-            return JsonResponse({"error": "Failed to create or update user..salam", "details": serializer.errors}, status=500)
+            return redirect(f"https://localhost/login?oauth_err={error_message}&details={error_details}")
 
     # Check if 2FA is enabled
     if user.active_2fa:
@@ -108,10 +118,11 @@ def handle_oauth_user(request: HttpRequest, user_info: dict) -> HttpResponse:
         # Store OTP in the player's record
         user.otp_code = otp_code
         user.created_at = timezone.now()
+        user.is_validate = True
         user.save()
 
         # Redirect to the OTP verification page
-        frontend_url = "http://localhost:5173/Valid_otp"
+        frontend_url = "https://localhost/Valid_otp"
         redirect_url = f"{frontend_url}?username={user.username}"
 
         return redirect(redirect_url)
@@ -120,8 +131,8 @@ def handle_oauth_user(request: HttpRequest, user_info: dict) -> HttpResponse:
         refresh = RefreshToken.for_user(user)
         access_token = str(refresh.access_token)
         refresh_token = str(refresh)
-
-        frontend_url = "http://localhost:5173/Overview"
+        
+        frontend_url = "https://localhost/Overview"
         redirect_url = f"{frontend_url}?access_token={access_token}&refresh_token={refresh_token}"
         
 

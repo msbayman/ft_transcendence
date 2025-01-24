@@ -83,7 +83,8 @@
   justify-content: center;
   align-items: center;
   flex-grow: 1;
-  background-color: #0f310e;
+  background-color: #2707726e;
+  border: .5px solid whitesmoke;
   border-radius: 20px;
 }
 
@@ -93,7 +94,7 @@
   align-items: center;
   flex-grow: 1;
   border-radius: 20px;
-  background-color: #461515;
+  background-color: #270772;
 }
 
 .icone_add,

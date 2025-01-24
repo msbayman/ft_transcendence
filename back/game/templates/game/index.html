@@ -12,7 +12,7 @@
     {% comment %} <div id="messages" style="background-color: coral; height: 150px; width: 150px; margin: 15px;"></div> {% endcomment %}
 
     <script>
-        const socket = new WebSocket('ws://' + window.location.host + '/ws/game/');
+        const socket = new WebSocket('wss://' + window.location.host + '/ws/game/');
 
         socket.onopen = function (e) {
             console.log("The connection was setup successfully !");
