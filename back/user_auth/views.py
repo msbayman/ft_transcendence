@@ -11,6 +11,10 @@ from .serializers import PlayerSerializer
 from .otp_view import generate_otp , send_otp_via_email
 from django.utils import timezone
 from rest_framework_simplejwt.authentication import JWTAuthentication
+from django.contrib.auth import get_user_model
+from django.db import transaction
+import logging
+
 
 # Logger setup
 logger = logging.getLogger(__name__)
@@ -40,24 +44,57 @@ def delete_player(request):
         logger.error(f"Error deleting player {username}: {e}")
         return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+logger = logging.getLogger(__name__)
+
 @api_view(['POST'])
 def update_player(request):
-    username = request.data.get('username')
-    if not username:
+    username = request.user.username
+    new_username = request.data.get('username')
+    
+    logger.info(f"Attempting to update username from {username} to {new_username}")
+
+    if not new_username:
+        logger.warning("New username not provided in request")
         return Response({'error': 'Username is required.'}, status=status.HTTP_400_BAD_REQUEST)
 
     try:
-        player_to_update = Player.objects.get(username=username)
-        serializer = PlayerSerializer(player_to_update, data=request.data, partial=True)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        with transaction.atomic():
+            # Check if new username already exists
+            if Player.objects.filter(username=new_username).exists():
+                logger.warning(f"Username {new_username} already exists")
+                return Response(
+                    {'error': 'This username is already taken.'},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+
+            player_to_update = Player.objects.get(username=username)
+            logger.debug(f"Found player to update: {player_to_update}")
+
+            # Update username
+            player_to_update.username = new_username
+            player_to_update.save()
+            
+            logger.info(f"Successfully updated username to {new_username}")
+            
+            # Return the updated player data
+            return Response({
+                'message': 'Username updated successfully',
+                'username': new_username
+            }, status=status.HTTP_200_OK)
+
     except Player.DoesNotExist:
-        return Response({'error': 'Player not found'}, status=status.HTTP_404_NOT_FOUND)
+        logger.error(f"Player not found with username: {username}")
+        return Response(
+            {'error': 'Player not found'}, 
+            status=status.HTTP_404_NOT_FOUND
+        )
     except Exception as e:
-        logger.error(f"Error updating player {username}: {e}")
-        return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        logger.error(f"Error updating player {username}: {str(e)}", exc_info=True)
+        return Response(
+            {'error': 'An error occurred while updating the username'},
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )
+    
 
 @api_view(['POST'])
 def add_player(request):
