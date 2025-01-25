@@ -2,10 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useWebSocket } from "./WebSocketContext";
 import Cookies from "js-cookie";
-import axios from 'axios';
+import axios from "axios";
 import { usePlayer } from "../PlayerContext";
-
-
 
 interface PlayerInfo {
   id: number;
@@ -21,7 +19,7 @@ interface APIResponse {
   content: string;
   timestamp: number;
   is_read: boolean;
-  sender_profile_image:string;
+  sender_profile_image: string;
 }
 
 interface Message {
@@ -39,7 +37,7 @@ interface UserName {
 }
 
 const ChatInterface: React.FC<UserName> = ({ value }) => {
-  const loggedplayer = usePlayer()
+  const loggedplayer = usePlayer();
   const [localMessages, setLocalMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -52,8 +50,8 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
   const toggleDiv = () => {
     setShowDiv((prevState) => !prevState);
   };
-  
-  const [isblock, setIsBlock] = useState(false);  // Initially, not blocked
+
+  const [isblock, setIsBlock] = useState(false); // Initially, not blocked
   const block = async () => {
     try {
       if (!isblock) {
@@ -85,7 +83,7 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
   };
   useEffect(() => {
     if (value === "") return;
-  
+
     const fetchPlayerInfo = async () => {
       try {
         const response = await axios.get<PlayerInfo>(
@@ -100,8 +98,11 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
         if (response.status === 200) {
           setPlayerInfo({
             ...response.data,
-            profile_image: response.data.profile_image.replace("http://","https://"), // Prepend base URL
-            status: response.data.is_online
+            profile_image: response.data.profile_image.replace(
+              "http://",
+              "https://"
+            ), // Prepend base URL
+            status: response.data.is_online,
           });
         }
       } catch (error) {
@@ -109,7 +110,7 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
         setPlayerInfo(null);
       }
     };
-    
+
     fetchPlayerInfo();
   }, [value, token]);
   // console.log("-------***************** " + playerInfo?.username)
@@ -151,7 +152,7 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
         setLocalMessages([]);
       }
     };
-    
+
     const fetchBlockStatus = async () => {
       try {
         const blockStatusResponse = await axios.get(
@@ -173,9 +174,9 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
     fetchBlockStatus();
   }, [value, token, loggedplayer.playerData?.username]);
 
-  const go_to_profile = (username:string | undefined) => {
-    profile_redirec(`/Profile/${username}`)
-  }
+  const go_to_profile = (username: string | undefined) => {
+    profile_redirec(`/Profile/${username}`);
+  };
 
   useEffect(() => {
     if (messages.length > 0) {
@@ -186,11 +187,17 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
             const existingMessageIndex = newMessages.findIndex(
               (msg) => msg.id === wsMessage.id
             );
-  
+
             if (existingMessageIndex === -1) {
               newMessages.push({
                 ...wsMessage,
-                avatar: wsMessage.sender === value ? playerInfo?.profile_image.replace("http://", "https://") : loggedplayer.playerData?.profile_image.replace("http://", "https://"),
+                avatar:
+                  wsMessage.sender === value
+                    ? playerInfo?.profile_image.replace("http://", "https://")
+                    : loggedplayer.playerData?.profile_image.replace(
+                        "http://",
+                        "https://"
+                      ),
                 sent: wsMessage.sender !== loggedplayer.playerData?.username,
               });
             }
@@ -200,7 +207,6 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
       });
     }
   }, [messages, value, loggedplayer.playerData?.username]);
-  
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -227,11 +233,21 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
   // };
 
   if (value === "") {
-    return <div className="flex justify-center items-center gap-[60px] text-white w-11/12 rounded-l-[44px] flex-col bg-[#5012C4] p-4 font-alexandria">
-      <span className="font-semibold text-5xl	text-white">Welcome to Transcendance Chat ..</span>
-      <img src="/public/empty_chat.png" alt="chat_image" className="w-[700px]" />
-      <span className="font-medium text-xl tracking-wider">Start Texting..</span>
-    </div>;
+    return (
+      <div className="flex justify-center items-center gap-[60px] text-white w-11/12 rounded-l-[44px] flex-col bg-[#5012C4] p-4 font-alexandria">
+        <span className="font-semibold text-5xl	text-white">
+          Welcome to Transcendance Chat ..
+        </span>
+        <img
+          src="/public/empty_chat.png"
+          alt="chat_image"
+          className="w-[700px]"
+        />
+        <span className="font-medium text-xl tracking-wider">
+          Start Texting..
+        </span>
+      </div>
+    );
   }
 
   return (
@@ -261,13 +277,26 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
           </div>
           <hr className="max-w-lg mt-1.5" />
           <div className="mt-5 grid justify-center text-center gap-2">
-            <img src={playerInfo?.profile_image.replace("http://", "https://")} className="rounded-full w-20 h-20" alt="" />
+            <img
+              src={playerInfo?.profile_image.replace("http://", "https://")}
+              className="rounded-full w-20 h-20"
+              alt=""
+            />
             <div>
               <h1 className="text-2xl">{playerInfo?.username}</h1>
-              <h1 className="text-2xl text-lime-600">{playerInfo?.status ? "online" : "offline"}</h1>
+              <h1 className="text-2xl text-lime-600">
+                {playerInfo?.status ? "online" : "offline"}
+              </h1>
             </div>
-            <button onClick={() => go_to_profile(playerInfo?.username)} className="mt-5 flex flex-col items-center justify-center text-white rounded hover:bg-[#8f6edd]">
-              <img src="/public/Chat/viewprofile.svg" alt="View Profile" className="w-8 h-8" />
+            <button
+              onClick={() => go_to_profile(playerInfo?.username)}
+              className="mt-5 flex flex-col items-center justify-center text-white rounded hover:bg-[#8f6edd]"
+            >
+              <img
+                src="/public/Chat/viewprofile.svg"
+                alt="View Profile"
+                className="w-8 h-8"
+              />
               <p>View Profile</p>
             </button>
           </div>
@@ -295,7 +324,11 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
       <div className="flex-1 rounded-l-[44px] flex flex-col bg-[#5012C4] p-4">
         <div className="flex items-center gap-3 p-4 border-b border-white/10">
           <div className="h-14 w-14">
-            <img src={playerInfo?.profile_image.replace("http://", "https://")} alt="Profile" className="rounded-full" />
+            <img
+              src={playerInfo?.profile_image.replace("http://", "https://")}
+              alt="Profile"
+              className="rounded-full"
+            />
           </div>
           <div>
             <h1 className="text-xl font-semibold text-white">{value}</h1>
@@ -347,7 +380,9 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
                     : "bg-gray-200 text-black"
                 }`}
               >
-                <p className="whitespace-normal max-w-screen-lg">{message.text}</p>
+                <p className="whitespace-normal max-w-screen-lg">
+                  {message.text}
+                </p>
                 {/* <div className="text-xs text-gray-400 mt-1">
                   {formatTimestamp(message.timestamp)}
                   {message.sent ? 

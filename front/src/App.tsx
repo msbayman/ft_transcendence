@@ -19,6 +19,7 @@ import Game_Bot from "./pages/Game_Page/Game_Bot";
 import Game_Remot from "./pages/Game_Page/Game_Remot";
 import Test from "./pages/Game_Page/Test";
 import Game_Loby from "./pages/Game_Page/Game_loby";
+import Tournaments from "./pages/Tournaments/Tournaments";
 
 function AppContent() {
   const navigate = useNavigate();
@@ -97,6 +98,7 @@ function AppContent() {
           <Route path="/local_bot" element={<Game_Bot />} />
           <Route path="/remote_game" element={<Game_Remot />} />
           <Route path="/test" element={<Test />} />
+          <Route path="/Tournaments" element={<Tournaments />} />
           {/* <Route path="/game_loby" element={<Game_Loby />} /> */}
         </Routes>
       </main>
