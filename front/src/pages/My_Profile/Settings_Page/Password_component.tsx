@@ -25,7 +25,7 @@ function Password_component() {
   return (
     <div
       className="pswd"
-      {...(somo.playerData?.prov_name !== "simple" && { hidden: true })}
+      {...(somo.playerData?.prov_name !== "simple" && { hidden: false })}
     >
       <div className="relative right-[37.5%]">
         <h4 className="relative font-size">Password</h4>
@@ -37,11 +37,11 @@ function Password_component() {
             <input
               type={passwordVisible.currentPassword ? "text" : "password"}
               placeholder="Current Password"
-              // className="pass"
             />
             <i
               onClick={() => toggleVisibility("currentPassword")}
               style={{ visibility: "visible" }}
+              className="icon"
             >
               {passwordVisible.currentPassword ? (
                 <BsEyeFill />
@@ -57,9 +57,8 @@ function Password_component() {
             <input
               type={passwordVisible.newPassword ? "text" : "password"}
               placeholder="New Password"
-              // className="pass"
             />
-            <i onClick={() => toggleVisibility("newPassword")}>
+            <i onClick={() => toggleVisibility("newPassword")} className="icon">
               {passwordVisible.newPassword ? <BsEyeFill /> : <BsEyeSlashFill />}
             </i>
           </div>
@@ -70,7 +69,6 @@ function Password_component() {
             <input
               type={passwordVisible.confirmPassword ? "text" : "password"}
               placeholder="Confirme New Password"
-              className="pass"
             />
             <i
               className="icon"

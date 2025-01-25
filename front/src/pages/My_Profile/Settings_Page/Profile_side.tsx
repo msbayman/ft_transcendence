@@ -55,7 +55,7 @@ function Profile_side({ player, setPlayerData }: ProfileSideProps) {
                 src={data_player.playerData?.profile_image}
                 className="Photo"
               />
-              <input type="file" className="change-profile" id="fileInput" />
+              <input type="file" accept="image/*" className="change-profile" id="fileInput" /> 
               <label htmlFor="fileInput" className="change-profile">
                 <FontAwesomeIcon icon={faPen} />
                 Change

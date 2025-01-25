@@ -5,18 +5,18 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
+import { set } from "react-hook-form";
 
 const Settings_Page = () => {
   const [action, setAction] = useState("");
   const [tab, setTab] = useState<boolean>(true);
+  const [error, setError] = useState<string>("");
 
   interface player_data {
     username: string;
-    email: string;
   }
   const [player_data, setPlayerData] = useState<player_data>({
     username: "",
-    email: "",
   });
 
 
@@ -54,11 +54,13 @@ const Settings_Page = () => {
     if (response.status === 200) {
       setPlayerData(response.data);
       toast.success("Profile updated successfully");
+      setError("Profile updated successfully");
     }
   } catch (error) {
     if (axios.isAxiosError(error)) {
       // toast.error(error.response?.data?.message || "Failed to update profile");
       console.error("Failed to update profile:", error);
+      setError(error.response?.data?.message || "Failed to update profile");
     }
   }
 };
@@ -133,6 +135,7 @@ const Settings_Page = () => {
             Save
             </button>
           </div>
+            {error && <p className="flex justify-end items-end relative right-3 text-red-500 text-xs">{error}</p>}
         </div>
       </div>
     </div>

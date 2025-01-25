@@ -189,9 +189,9 @@ input[type="checkbox"]::before {
   width: inherit;
   height: inherit;
   border-radius: inherit;
-  background-color: transparent;
+  background-color: green;
   background-size: contain;
-  box-shadow: inset 0 0 0 1px #CCD3D8;
+  box-shadow: inset 0 0 0 1px #89db16;
 }
 
 
@@ -248,7 +248,7 @@ input[type="checkbox"]:checked::-ms-check {
 .check-TFA {
   display: flex;
   justify-content: center;
-
+  flex-direction: column;
   font-weight: 240;
   font-size: larger;
 }
@@ -308,9 +308,10 @@ label {
 .spn {
   font-family: "Alexandria", sans-serif;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-direction: row;
+  position: relative;
+  justify-content: center;
+  left: 9%;
+  flex-direction: column;
   margin-bottom: 10px;
 }
 
@@ -327,16 +328,13 @@ label {
 
 }
 
-/* .eyes{
-
-} */
 
 .icon {
-  /* position: absolute;
-  right: 4rem;
+  position: relative;
+  right: 3rem;
   font-size: 1.5rem;
   color: #fff;
-  cursor: pointer; */
+  cursor: pointer;
 }
 
 .from-box.profile {
