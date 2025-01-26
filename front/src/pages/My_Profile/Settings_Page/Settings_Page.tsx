@@ -11,6 +11,7 @@ const Settings_Page = () => {
   const [action, setAction] = useState("");
   const [tab, setTab] = useState<boolean>(true);
   const [error, setError] = useState<string>("");
+  const [redorgreen, setRedOrGreen] = useState<boolean>(false);
 
   interface player_data {
     username: string;
@@ -53,13 +54,14 @@ const Settings_Page = () => {
     // Handle successful response
     if (response.status === 200) {
       setPlayerData(response.data);
+      setRedOrGreen(true);
       toast.success("Profile updated successfully");
       setError("Profile updated successfully");
     }
   } catch (error) {
     if (axios.isAxiosError(error)) {
+      setRedOrGreen(false);
       // toast.error(error.response?.data?.message || "Failed to update profile");
-      console.error("Failed to update profile:", error);
       setError(error.response?.data?.message || "Failed to update profile");
     }
   }
@@ -135,7 +137,7 @@ const Settings_Page = () => {
             Save
             </button>
           </div>
-            {error && <p className="flex justify-end items-end relative right-3 text-red-500 text-xs">{error}</p>}
+            {error && <p  className={!redorgreen ? "flex justify-end items-end relative right-3 text-red-500 text-xs" : "flex justify-end items-end relative right-3 text-green-500 text-xs"}>{error}</p>}
         </div>
       </div>
     </div>

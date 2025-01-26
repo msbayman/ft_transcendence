@@ -2,11 +2,6 @@
 import Password_component from './Password_component'
 import TwoFA_Component from './TwoFA-component'
 
-interface player_data {
-  email: string;
-}
-
-
 function Security_box() {
 
   return (
