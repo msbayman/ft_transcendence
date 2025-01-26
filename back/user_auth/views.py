@@ -71,16 +71,18 @@ def delete_player(request):
 def update_player(request):
     username = request.user.username
     new_username = request.data.get('username')
+
     
     if not new_username:
         return Response({'error': 'Username is required.'}, status=status.HTTP_400_BAD_REQUEST)
 
     try:
+        changePassword(request) # Change password if new password is provided in the request
         # Use the serializer's validation method to validate the new username
         serializer = PlayerSerializer()
         validated_username = serializer.validate_username(new_username)
 
-        with transaction.atomic():
+        with transaction.atomic(): # Use a transaction to ensure data consistency in the database 
             if Player.objects.filter(username=validated_username).exists():
                 return Response(
                     {'error': 'This username is already taken.'},
