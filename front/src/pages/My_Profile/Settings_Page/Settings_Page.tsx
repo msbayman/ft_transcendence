@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
-import { set } from "react-hook-form";
 
 const Settings_Page = () => {
   const [action, setAction] = useState("");
@@ -16,63 +15,63 @@ const Settings_Page = () => {
   interface player_data {
     username: string;
   }
-  const [player_data, setPlayerData] = useState<player_data>({
+  const [player_data, setPlayerData] = useState<Partial<player_data>>({
     username: "",
   });
 
-
   const handleSave = async (): Promise<void> => {
-  try {
-    const token = Cookies.get("access_token");
-    if (!token) {
-      throw new Error("No access token found.");
-    }
-
-    interface UpdatePlayerData {
-      username?: string;
-    }
-
-    // Create an object to hold the fields to update
-    const updateData: UpdatePlayerData = {};
-    
-    // Only include fields that have changed
-    if (player_data.username) {
-      updateData.username = player_data.username;
-    }
-
-    const response = await axios.post<player_data>(
-      "https://localhost/api/user_auth/update_player",
-      updateData,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
+    try {
+      const token = Cookies.get("access_token");
+      if (!token) {
+        throw new Error("No access token found.");
       }
-    );
 
-    // Handle successful response
-    if (response.status === 200) {
-      setPlayerData(response.data);
-      setRedOrGreen(true);
-      toast.success("Profile updated successfully");
-      setError("Profile updated successfully");
+      interface UpdatePlayerData {
+        username?: string;
+        oldPassword?: string;
+        newPassword?: string;
+        profile_picture?: string;
+      }
+
+      // Create an object to hold the fields to update
+      const updateData: UpdatePlayerData = {};
+
+      // Only include fields that have changed
+      if (player_data.username) {
+        updateData.username = player_data.username;
+      }
+
+      const response = await axios.post<player_data>( // line 44
+        "https://localhost/api/user_auth/update_player",
+        updateData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      // Handle successful response
+      if (response.status === 200) {
+        setPlayerData(response.data);
+        setRedOrGreen(true);
+        toast.success("Profile updated successfully");
+        setError("Profile updated successfully");
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        setRedOrGreen(false);
+        // toast.error(error.response?.data?.message || "Failed to update profile");
+        setError(error.response?.data?.message || "Failed to update profile");
+      }
     }
-  } catch (error) {
-    if (axios.isAxiosError(error)) {
-      setRedOrGreen(false);
-      // toast.error(error.response?.data?.message || "Failed to update profile");
-      setError(error.response?.data?.message || "Failed to update profile");
-    }
-  }
-};
+  };
 
   const handleTabs = (tab: boolean) => {
     setTab(tab);
     !tab ? setAction(" active") : setAction("");
   };
-
-
 
   // Fetch player data
   useEffect(() => {
@@ -123,21 +122,32 @@ const Settings_Page = () => {
               }
             />
           ) : (
-            <Security_box />
+            <Security_box
+              setPlayerData={(updatedData) =>
+                setPlayerData((prev) => ({ ...prev, ...updatedData }))
+              }
+            />
           )}
         </div>
 
         <div className="save-cancel">
           <div className="child-btn">
             <button className="btn cancel">Cancel</button>
-            <button
-              className="btn save"
-              onClick={handleSave}
-            >
-            Save
+            <button className="btn save" onClick={handleSave}>
+              Save
             </button>
           </div>
-            {error && <p  className={!redorgreen ? "flex justify-end items-end relative right-3 text-red-500 text-xs" : "flex justify-end items-end relative right-3 text-green-500 text-xs"}>{error}</p>}
+          {error && (
+            <p
+              className={
+                !redorgreen
+                  ? "flex justify-end items-end relative right-3 text-red-500 text-xs"
+                  : "flex justify-end items-end relative right-3 text-green-500 text-xs"
+              }
+            >
+              {error}
+            </p>
+          )}
         </div>
       </div>
     </div>

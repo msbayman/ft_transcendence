@@ -1,8 +1,8 @@
 import { BsEyeFill, BsEyeSlashFill } from "react-icons/bs";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { usePlayer } from "../PlayerContext";
 
-function Password_component() {
+function Password_component( { player, setPlayerData }: any ) {
   type PasswordFields = "currentPassword" | "newPassword" | "confirmPassword";
 
   const [passwordVisible, setPasswordVisible] = useState<
@@ -12,6 +12,20 @@ function Password_component() {
     newPassword: false,
     confirmPassword: false,
   });
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const { name, value } = e.target;
+      setPlayerData((prev: any) => ({
+        ...prev,
+        [name]: value,
+      }));
+      setPlayerData({ ...player, [name]: value });
+      console.log(value);
+    };
+
+  useEffect(() => {
+    console.log(player);
+  }, []);
 
   const toggleVisibility = (field: PasswordFields) => {
     setPasswordVisible((prev) => ({
@@ -25,7 +39,7 @@ function Password_component() {
   return (
     <div
       className="pswd"
-      {...(somo.playerData?.prov_name !== "simple" && { hidden: false })}
+      {...(somo.playerData?.prov_name !== "simple" && { hidden: true })}
     >
       <div className="relative right-[37.5%]">
         <h4 className="relative font-size">Password</h4>
@@ -37,6 +51,7 @@ function Password_component() {
             <input
               type={passwordVisible.currentPassword ? "text" : "password"}
               placeholder="Current Password"
+              onChange={handleInputChange}
             />
             <i
               onClick={() => toggleVisibility("currentPassword")}
@@ -57,13 +72,14 @@ function Password_component() {
             <input
               type={passwordVisible.newPassword ? "text" : "password"}
               placeholder="New Password"
+              onChange={handleInputChange}
             />
             <i onClick={() => toggleVisibility("newPassword")} className="icon">
               {passwordVisible.newPassword ? <BsEyeFill /> : <BsEyeSlashFill />}
             </i>
           </div>
         </div>
-        <div className="spn">
+        {/* <div className="spn">
           <label>Confirm Password</label>
           <div className="w-[100%] flex flex-row items-center justify-center">
             <input
@@ -81,7 +97,7 @@ function Password_component() {
               )}
             </i>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );
