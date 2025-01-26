@@ -3,12 +3,13 @@ from rest_framework.views import APIView
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework import status
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, password_validation
 from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework.exceptions import ValidationError
 from .models import Player
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from .serializers import PlayerSerializer
-from .otp_view import generate_otp, send_otp_via_email
+from .otp_view import generate_otp, send_otp_via_email, store_otp
 from django.utils import timezone
 from django.db import transaction
 from django.http import JsonResponse
@@ -19,6 +20,8 @@ from django.http import JsonResponse
 from django.core.management.base import BaseCommand
 from django.utils import timezone
 from rest_framework_simplejwt.authentication import JWTAuthentication
+from django.core.mail import send_mail
+from django.conf import settings
 
 
 # Logger setup
@@ -73,27 +76,29 @@ def update_player(request):
         return Response({'error': 'Username is required.'}, status=status.HTTP_400_BAD_REQUEST)
 
     try:
+        # Use the serializer's validation method to validate the new username
+        serializer = PlayerSerializer()
+        validated_username = serializer.validate_username(new_username)
+
         with transaction.atomic():
-            # Check if new username already exists
-            if Player.objects.filter(username=new_username).exists():
+            if Player.objects.filter(username=validated_username).exists():
                 return Response(
                     {'error': 'This username is already taken.'},
                     status=status.HTTP_400_BAD_REQUEST
                 )
 
+            # Fetch the player and update the username
             player_to_update = Player.objects.get(username=username)
-
-            # Update username
-            player_to_update.username = new_username
+            player_to_update.username = validated_username
             player_to_update.save()
             
-            
-            # Return the updated player data
             return Response({
                 'message': 'Username updated successfully',
-                'username': new_username
+                'username': validated_username
             }, status=status.HTTP_200_OK)
 
+    except ValidationError as e:
+        return Response({'error': str(e.detail[0])}, status=status.HTTP_400_BAD_REQUEST)
     except Player.DoesNotExist:
         return Response(
             {'error': 'Player not found'}, 
@@ -104,7 +109,58 @@ def update_player(request):
             {'error': 'An error occurred while updating the username'},
             status=status.HTTP_500_INTERNAL_SERVER_ERROR
         )
+    
 
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def changePassword(request):
+    data = request.data
+    new_password = data.get('newPassword')
+    old_password = data.get('oldPassword')
+    user = Player.objects.filter(userID=request.user.userID).first()
+    if not user.check_password(old_password):
+        return Response({'error': 'Invalid old password'}, status=status.HTTP_400_BAD_REQUEST)
+    try:
+        password_validation.validate_password(new_password)
+        if old_password == new_password:
+            return JsonResponse({'error': 'New password cannot be the same as old password'}, status=status.HTTP_400_BAD_REQUEST)
+    except ValidationError as e:
+        return Response({'error': ' '.join(e.messages)}, status=status.HTTP_400_BAD_REQUEST)
+    user.set_password(new_password)
+    user.save()
+    return Response({'success': True, 'message': 'Password changed successfully'}, status=status.HTTP_200_OK)
+
+
+# @permission_classes([IsAuthenticated])
+class enable_2fa(APIView):
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [JWTAuthentication]
+    def post(self, request):
+        try:
+            user = request.user
+            user.active_2fa = True
+            user.save()
+            send_otp_via_email(user.email, generate_otp())
+            return Response({'message': '2FA enabled successfully'}, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({'error': 'An error occurred while enabling 2FA'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def resend_otp(request):
+    otp = generate_otp()
+    recipient_email = request.user.email
+    subject = 'Your One-Time Password (OTP)'
+    body = f'Your OTP To activate 2FA is: {otp}\nThis OTP is valid for 5 minutes.'
+    send_mail(
+        subject=subject,
+        message=body,
+        from_email=settings.EMAIL_HOST_USER,
+        recipient_list=[recipient_email],
+        fail_silently=False,
+    )
+    store_otp(recipient_email, otp)
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
@@ -331,4 +387,4 @@ class SearchUser(APIView):
             for player in players
         ]
 
-        return Response(players_list, status=status.HTTP_200_OK)
+        # return Response(players_list, status=status.HTTP_200_OK)
