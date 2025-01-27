@@ -18,8 +18,10 @@ import Game_Local from "./pages/Game_Page/Game_Local";
 import Game_Bot from "./pages/Game_Page/Game_Bot";
 import Game_Remot from "./pages/Game_Page/Game_Remot";
 import Test from "./pages/Game_Page/Test";
-import Game_Loby from "./pages/Game_Page/Game_loby";
+// import Game_Loby from "./pages/Game_Page/Game_loby";
 import Tournaments from "./pages/Tournaments/Tournaments";
+// import NotFound from "./NotFound";
+
 
 function AppContent() {
   const navigate = useNavigate();
@@ -45,14 +47,25 @@ function AppContent() {
       }
     };
 
-    const checkToken = async () => {
-      if (
-        location.pathname !== "/" &&
-        location.pathname !== "/signup" &&
-        location.pathname !== "/Valid_otp" &&
-        location.pathname !== "/login"
-      ) {
-        const isValidToken = await validateAccessToken();
+      const checkToken = async () => {
+      const publicPaths = ["/", "/signup", "/Valid_otp", "/login"];
+      const isPublicPath = publicPaths.includes(location.pathname);
+
+      if (!accessToken) {
+        if (!isPublicPath) {
+          clearPlayerData();
+          navigate("/login");
+        }
+        return;
+      }
+
+      const isValidToken = await validateAccessToken();
+
+      if (isPublicPath) {
+        if (isValidToken) {
+          navigate("/overview");
+        }
+      } else {
         if (!isValidToken) {
           clearPlayerData();
           navigate("/login");
@@ -60,29 +73,9 @@ function AppContent() {
           fetchPlayerData();
         }
       }
-
-      if (
-        (location.pathname === "/" ||
-          location.pathname == "/login" ||
-          location.pathname == "/signup" ||
-          location.pathname == "/Valid_otp") &&
-        accessToken
-      ) {
-        navigate("/overview");
-      }
     };
 
-    if (
-      !accessToken &&
-      location.pathname !== "/" &&
-      location.pathname !== "/signup" &&
-      location.pathname !== "/Valid_otp"
-    ) {
-      clearPlayerData();
-      navigate("/login");
-    } else {
-      checkToken();
-    }
+    checkToken();
   }, [location.pathname, navigate, fetchPlayerData, clearPlayerData]);
 
   return (

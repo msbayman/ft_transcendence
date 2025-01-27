@@ -20,6 +20,7 @@ import The_Leaderboard from "./Leaderboard_Page/The_Leaderboard";
 import Notifications_p from "./Notifications/Notifications";
 import { usePlayer } from "./PlayerContext";
 import Search from "./Search_Content/Search";
+import NotFound from "../../NotFound";
 
 function Overview() {
   const location = useLocation();
@@ -228,6 +229,7 @@ function Overview() {
           <Route path="/Friends" element={<Friends_Page />} />
           <Route path="/Leadearboard" element={<The_Leaderboard />} />
           <Route path="/Settings" element={<Settings_Page />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
     </div>
