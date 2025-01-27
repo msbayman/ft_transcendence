@@ -4,7 +4,7 @@
 }
 
 .all {
-  background-image: url(./assets/Back_left_Side.png);
+  background-image: url(/public/Navbar/Back_left_Side.png);
   background-size: cover;
   background-position: center;
   display: flex;
@@ -53,7 +53,7 @@
   height: 100vh;
   width: auto;
   display: flex;
-  /* justify-content: center; */
+  justify-content: center;
   flex-grow: 1;
   /* max-width: calc(100% - 100px); */
   padding: 15px;
@@ -130,17 +130,16 @@
   }
 
   .bar_search {
-    background-color: #200b50;
-    border-radius: 10px;
-    padding: 10px;
-    margin: 15px;
-  }
-
-  .search_content {
-    /* height: 10px; */
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
+    background-color: #200b50;
+    border-radius: 10px;
+    /* padding: 20px; */
+    height: 55px;
+    margin: 15px;
+    margin-bottom: 20px;
   }
 
   .imgg {

@@ -1,6 +1,13 @@
-import React, { createContext, useContext, useState, useCallback  } from 'react';
+import React, { createContext, useContext, useState, useCallback, useRef, useEffect  } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
+
+interface UserOnline {
+  username: string;
+  profile_image: string;
+  is_online: boolean;
+}
+
 
 interface PlayerData {
   full_name: string;
@@ -13,6 +20,16 @@ interface PlayerData {
   win_games: number;
   lose_games: number;
   level: number;
+  win_1_game:boolean;
+  win_3_games:boolean;
+  win_10_games:boolean;
+  win_30_games:boolean;
+  reach_level_5:boolean;
+  reach_level_15:boolean;
+  reach_level_30:boolean;
+  perfect_win_game:boolean;
+  perfect_win_tournaments:boolean;
+  onlineFriends: string[];
 }
 
 interface PlayerContextType {
@@ -21,9 +38,18 @@ interface PlayerContextType {
   isLoading: boolean;
   fetchPlayerData: () => Promise<void>;
   clearPlayerData: () => void;
+  ws: WebSocket | null;
+  setWs: React.Dispatch<React.SetStateAction<WebSocket | null>>;
   wsConnection: () => void;
   closeWsConnection: () => void;
-  sendChallenge: (opponent:string) => void;
+  onlineFriends: UserOnline[];
+}
+
+interface WebSocketMessage {
+  type: string;
+  username: string;
+  profile_image?: string;
+  online?: boolean;
 }
 
 const PlayerContext = createContext<PlayerContextType | undefined>(undefined);
@@ -32,15 +58,22 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   const [playerData, setPlayerData] = useState<PlayerData | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [ws, setWs] = useState<WebSocket | null>(null);
+  const [onlineFriends, setOnlineFriends] = useState<UserOnline[]>([]);
+  const wsRef = useRef<WebSocket | null>(null);
+  const connectionAttemptedRef = useRef(false);
+  // const [isAuthenticated, setIsAuthenticated] = useState(!!Cookies.get('access_token'));
 
   const fetchPlayerData = useCallback(async () => {
     const token = Cookies.get('access_token');
-    if (!token) return;
+    if (!token) {  // <-- The isAuthenticated check here is redundant
+        console.log('No access token found or user not authenticated');
+        return;
+    }
 
     setIsLoading(true);
     try {
       const response = await axios.get(
-        "http://127.0.0.1:8000/api/user_auth/UserDetailView",
+        "http://localhost:8000/api/user_auth/UserDetailView", 
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -56,62 +89,122 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     }
   }, []);
 
-  const sendChallenge = useCallback((opponent:string) => {
-    console.log("challenge user hh", opponent, ws)
-    if (ws)
-      {
-      console.log("challenge user hh", opponent)
-    }
-  }, [ws]);
-
   const clearPlayerData = useCallback(() => {
     setPlayerData(null);
+    setOnlineFriends([]);
+    closeWsConnection();
   }, []);
 
   const wsConnection = useCallback(() => {
     const token = Cookies.get('access_token');
     if (!token) {
-      console.error('No access token found');
+      console.log('No access token found or user not authenticated');
       return;
     }
 
+    // Prevent multiple connection attempts
+    if (connectionAttemptedRef.current) {
+      return;
+    }
+
+    if (wsRef.current?.readyState === WebSocket.OPEN) {
+      return;
+    }
+
+    connectionAttemptedRef.current = true;
     const wsUrl = `ws://127.0.0.1:8000/ws/notifications/?token=${token}`;
     const newWs = new WebSocket(wsUrl);
+    wsRef.current = newWs;
 
     newWs.onopen = () => {
-      console.log('notifacation WebSocket connected');
+      console.log('Notification WebSocket connected');
       setWs(newWs);
     };
 
     newWs.onmessage = (event) => {
-      console.log('WebSocket message received:', event.data);
+      try {
+        const data = JSON.parse(event.data) as WebSocketMessage;
+        
+        if (data.username === playerData?.username) {
+          return;
+        }
+
+        if (data.type === "friend_status" && typeof data.online === 'boolean') {
+          setOnlineFriends((prev) => {
+            const exists = prev.find((friend) => friend.username === data.username);
+            if (data.online && !exists) {
+              return [
+                ...prev,
+                {
+                  username: data.username,
+                  profile_image: data.profile_image || "",
+                  is_online: true,
+                },
+              ];
+            } else if (!data.online && exists) {
+              return prev.filter((friend) => friend.username !== data.username);
+            }
+            return prev;
+          });
+        }
+      } catch (error) {
+        console.error('Error processing WebSocket message:', error);
+      }
     };
 
     newWs.onerror = (error) => {
-      console.error('WebSocket error:', error);
+      console.error("WebSocket error:", error);
+      connectionAttemptedRef.current = false; // Allow reconnection attempt on error
+    };
+
+    newWs.onclose = (event) => {
+      console.log("Notification WebSocket disconnected", event);
+      wsRef.current = null;
+      setWs(null);
+      connectionAttemptedRef.current = false; // Allow reconnection attempt after close
     };
 
   }, []);
 
   const closeWsConnection = useCallback(() => {
-    if (ws && ws.readyState === WebSocket.OPEN) {
-      ws.close();
-      setWs(null);
-      console.log("notifacation WebSocket disconnected");
+    if (wsRef.current?.readyState === WebSocket.OPEN) {
+      console.log("Notification WebSocket disconnected")
+      wsRef.current.close();
     }
-  }, [ws]);
+    wsRef.current = null;
+    setWs(null);
+    connectionAttemptedRef.current = false;
+  }, []);
+
+  useEffect(() => {
+    const token = Cookies.get('access_token');
+    if (token) {
+        wsConnection();
+    } else {
+        closeWsConnection();
+    }
+}, [wsConnection, closeWsConnection]);
+
+
+  useEffect(() => {
+    return () => {
+      closeWsConnection();
+    };
+  }, [closeWsConnection]);
 
   return (
-    <PlayerContext.Provider 
-      value={{ 
-        playerData, 
-        setPlayerData, 
+    <PlayerContext.Provider
+      value={{
+        playerData,
+        setPlayerData,
         isLoading,
         fetchPlayerData,
         clearPlayerData,
+        ws,
+        setWs,
         wsConnection,
         closeWsConnection,
-        sendChallenge
+        onlineFriends,
       }}
     >
       {children}

@@ -18,18 +18,20 @@ import Game_Local from "./pages/Game_Page/Game_Local";
 import Game_Bot from "./pages/Game_Page/Game_Bot";
 import Game_Remot from "./pages/Game_Page/Game_Remot";
 import Test from "./pages/Game_Page/Test";
-import Game_Loby from "./pages/Game_Page/Game_loby";
+// import Game_Loby from "./pages/Game_Page/Game_loby";
+
 
 function AppContent() {
   const navigate = useNavigate();
   const location = useLocation();
-  const { fetchPlayerData, clearPlayerData } = usePlayer();
+  const { fetchPlayerData, clearPlayerData, wsConnection } = usePlayer();
 
   useEffect(() => {
     const accessToken = Cookies.get("access_token");
 
     const validateAccessToken = async () => {
       try {
+
         const response = await axios.get(
           "http://127.0.0.1:8000/check_csrf_tok/validate_token",
           {
@@ -38,6 +40,7 @@ function AppContent() {
             },
           }
         );
+        wsConnection()
         return response.status === 200;
       } catch (error) {
         return false;
@@ -72,7 +75,7 @@ function AppContent() {
     } else {
       checkToken();
     }
-  }, [location.pathname, navigate, fetchPlayerData, clearPlayerData]);
+  }, [location.pathname, navigate, fetchPlayerData, clearPlayerData, wsConnection]);
 
   return (
     <Fragment>

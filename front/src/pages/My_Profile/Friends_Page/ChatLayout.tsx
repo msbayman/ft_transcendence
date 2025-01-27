@@ -51,11 +51,26 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
   const token = Cookies.get("access_token");
   const profile_redirec = useNavigate();
 
+  useEffect(() => {
+    if (loggedplayer.ws)
+    {
+      loggedplayer.ws.onmessage = (event) => 
+      {
+        console.log("***************************************", event.data.type);
+        if (event.data.type === "challenge_notification")
+        {
+          console.log("=====================>", event.data.content);
+        }
+      }
+    }
+  })
+
+
   const toggleDiv = () => {
     setShowDiv((prevState) => !prevState);
   };
   
-  const [isblock, setIsBlock] = useState(false);  // Initially, not blocked
+  const [isblock, setIsBlock] = useState(false);
   const block = async () => {
     try {
       if (!isblock) {
@@ -114,8 +129,7 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
     
     fetchPlayerInfo();
   }, [value, token]);
-  // console.log("-------***************** " + playerInfo?.username)
-  // console.log("-------***************** " + playerInfo?.status)
+
 
   useEffect(() => {
     if (value === "") return;
@@ -210,6 +224,12 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
   };
 
   useEffect(scrollToBottom, [localMessages]);
+  const sendChallenge = (name:string) => 
+  {
+    if (loggedplayer.ws && loggedplayer.ws?.readyState === WebSocket.OPEN) {
+      console.log("te9sar time ")
+      loggedplayer.ws.send(JSON.stringify({"type":"challenge_notification" ,"sender":name}));
+  }}
 
   const handleSend = () => {
     if (!input.trim() || !value) return;
@@ -230,13 +250,17 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
   // };
 
   if (value === "") {
-    return <div className="w-11/12 rounded-l-[44px] flex flex-col bg-[#5012C4] p-4"></div>;
+    return <div className="flex justify-center items-center gap-[60px] text-white w-11/12 rounded-l-[44px] flex-col bg-[#5012C4] p-4 font-alexandria">
+      <span className="font-semibold text-5xl	text-white">Welcome to Transcendance Chat ..</span>
+      <img src="/public/empty_chat.png" alt="chat_image" className="w-[700px]" />
+      <span className="font-medium text-xl tracking-wider">Start Texting..</span>
+    </div>;
   }
 
   return (
-    <div className="flex w-full">
+    <div className="flex w-[1350px]">
       {showDiv && (
-        <div className="rounded-l-[44px] w-1/5 bg-[#3A0CA3] h-full p-4 transition-all duration-300 ease-in-out text-white">
+        <div className="rounded-l-[44px] w-1/4 bg-[#3A0CA3] h-full p-4 transition-all duration-300 ease-in-out text-white">
           <div className="flex justify-between text-3xl p-3 items-center">
             <div>Details</div>
             <div>
@@ -266,7 +290,7 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
           </div>
           <hr className="max-w-lg mt-1.5" />
           <div className="flex justify-between align-middle m-5">
-              <button onClick={() => loggedplayer.sendChallenge(playerInfo?.username || "")} className="w-[100px] flex flex-col items-center justify-center gap-1 rounded hover:bg-[#8f6edd]">
+              <button onClick={() => sendChallenge(playerInfo?.username || "")} className="w-[100px] flex flex-col items-center justify-center gap-1 rounded hover:bg-[#8f6edd]">
                 <img className="" src={challenge} alt="" />
                 <p>chalenge</p>
               </button>

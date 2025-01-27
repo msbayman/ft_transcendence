@@ -1,9 +1,9 @@
 import leader from "./Table_Leaderboard.module.css";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import The_one from "../Images/Leader_1.svg";
-import The_two from "../Images/Leader_2.svg";
-import The_tree from "../Images/Leader_3.svg";
+import The_one from "/public/Icones/Leader_1.svg";
+import The_two from "/public/Icones/Leader_2.svg";
+import The_tree from "/public/Icones/Leader_3.svg";
 import { usePlayer } from "../PlayerContext";
 import axios from "axios";
 import Cookies from "js-cookie";

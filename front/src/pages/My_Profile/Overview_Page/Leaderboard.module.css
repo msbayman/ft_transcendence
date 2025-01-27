@@ -114,19 +114,19 @@
 .index {
     font-family: "Luckiest Guy", cursive;
     color: aliceblue;
-    font-size: x-large;
+    font-size: large;
     padding-left: 20px;
-    width: 50px;
+    /* width: 50px; */
 }
 
 .photo_Profile {
-    width: 60px;
+    /* width: 60px; */
     height: 60px;
     border-radius: 50%;
 }
 
 .the_name {
-    font-size: x-large;
+    font-size: large;
     font-family: "Alexandria", sans-serif;
     color: aliceblue;
     font-weight: 800;

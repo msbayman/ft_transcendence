@@ -1,6 +1,10 @@
 import notif from './Notifications.module.css'
+// import { usePlayer } from '../PlayerContext';
+
+
 
 const Notifications = () => {
+
   return (
     <div className={notif.all_content}>
       <div className={notif.part1}>

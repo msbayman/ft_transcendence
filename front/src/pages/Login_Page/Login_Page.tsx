@@ -61,7 +61,7 @@ function Login_Page() {
           axios.defaults.headers.common[
             "Authorization"
           ] = `Bearer ${Cookies.get("access_token")}`;
-          playerinstence.wsConnection()
+          // playerinstence.wsConnection()
           navigate(response.data.redirect_to);
         }
       } else if (response.status === 401) {

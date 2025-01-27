@@ -1,7 +1,7 @@
-import ph_pro from "../../Images/profile.png";
+// import ph_pro from "../../Images/profile.png";
 import other from "./Info_Player.module.css";
 import { LinearProgress } from "@mui/material";
-import etoile from "../../Images/Etoile.svg";
+import etoile from "/public/Etoile.svg";
 import { CircularProgress, CircularProgressLabel } from "@chakra-ui/progress";
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
@@ -36,7 +36,7 @@ export const Info_Player = ({ username }: { username: string | undefined }) => {
             }
           );
           if (response.ok) {
-            console.log("Data of player is ok");
+            // console.log("Data of player is ok");
           } else {
             console.error("Data of player is not ok");
           }

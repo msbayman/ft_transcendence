@@ -1,6 +1,6 @@
 // import React from "react";
 import "./Info-Profile.css";
-import etoile from "../Images/Etoile.svg";
+import etoile from "/public/Etoile.svg";
 import { LinearProgress } from "@mui/material";
 import { usePlayer } from "../PlayerContext";
 

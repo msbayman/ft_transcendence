@@ -208,6 +208,7 @@ def leaderboard(request):
 
 # @api_view(['GET'])
 class is_online(APIView):
+    permission_classes = [IsAuthenticated]
     authentication_classes = [JWTAuthentication]
     def get(self, request):
         players = Player.objects.all().filter(is_online=True)
@@ -217,6 +218,7 @@ class is_online(APIView):
 
 class LogoutAPIView(APIView):
     permission_classes = [IsAuthenticated]
+    authentication_classes = [JWTAuthentication]
 
     def post(self, request):
         try:
@@ -245,3 +247,53 @@ class GetPlayer(APIView):
             return Response(serializer.data)
         except Player.DoesNotExist:
             return Response({"error": "No player found with this username"}, status=status.HTTP_404_NOT_FOUND)
+        
+
+# class SearchUser(APIView):
+#     def get(self, request):
+#         query = request.GET.get('q', '')  # Get the search query from the request
+#         print(f"------->>>>>Query: {query}")
+#         if query:
+#             # Filter players based on the query (e.g., search by full_name)
+#             players = Player.objects.exclude(username='admin').filter(username__icontains=query)  # Case-insensitive search
+#         else:
+#             players = Player.objects.none()  # Return an empty queryset if no query
+
+#         # Convert the queryset to a list of dictionaries with only full_name and profile_image
+#         players_list = list(players.values('id', 'username', 'profile_image', 'level'))
+#         print(players_list , '<><><><><><><><<<<<<>>>>????')
+
+#         return Response(players_list, status=status.HTTP_200_OK)
+
+
+class SearchUser(APIView):
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [JWTAuthentication]
+
+    def get(self, request):
+        query = request.GET.get('q', '')
+
+        # Validate minimum query length
+        # min_length = 3
+        # if len(query) < min_length:
+        #     return Response(
+        #         {"error": f"Query must be at least {min_length} characters long."},
+        #         status=status.HTTP_400_BAD_REQUEST
+        #     )
+
+        if query:
+            players = Player.objects.exclude(username='admin').filter(username__icontains=query)
+        else:
+            players = Player.objects.none()
+
+        players_list = [
+            {
+                'id': player.id,
+                'username': player.username,
+                'profile_image': request.build_absolute_uri(player.profile_image.url) if player.profile_image else None,
+                'level': player.level,
+            }
+            for player in players
+        ]
+
+        return Response(players_list, status=status.HTTP_200_OK)

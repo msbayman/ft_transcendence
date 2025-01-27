@@ -46,7 +46,6 @@ export const WebSocketProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     ws.onmessage = (event) => {
       try {
         const data = JSON.parse(event.data);
-        console.log("Received message is :", data);
 
         if (data.type === 'block_error' || data.error) {
           const errorMessage = data.message || data.error;
@@ -56,7 +55,7 @@ export const WebSocketProvider: React.FC<{ children: React.ReactNode }> = ({ chi
           return;
         }
 
-        if (data.message) {  // Only process if it's a valid message
+        if (data.message) {
           const newMessage: Message = {
             id: data.id,
             text: data.message,

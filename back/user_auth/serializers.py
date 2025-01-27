@@ -22,7 +22,10 @@ class PlayerSerializer(serializers.ModelSerializer):
             'username', 'full_name', 'email', 'password',  'is_validate' ,
             're_password', 'id_prov', 'prov_name', 'provider_identifier',
             'profile_image', 'cover_image', 'points','is_online',
-            'level', 'total_games', 'win_games', 'lose_games'
+            'level', 'total_games', 'win_games', 'lose_games',
+            'win_1_game', 'win_3_games', 'win_10_games', 'win_30_games',
+            'reach_level_5', 'reach_level_15', 'reach_level_30', 'perfect_win_game',
+            'perfect_win_tournaments',
         ]
         extra_kwargs = {
             'username': {'required': True},

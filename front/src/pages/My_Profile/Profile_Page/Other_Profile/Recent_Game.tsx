@@ -1,5 +1,5 @@
 import React from "react";
-import other from './Recent_Game.module.css'
+import other from "./Recent_Game.module.css";
 
 export const Recent_Game = () => {
   const win_or_lose = (check: string) => {
@@ -108,12 +108,23 @@ export const Recent_Game = () => {
         <div className={other.table_dd}>
           {historyGame.map((field, index) => (
             <div key={index} className={other.inside_the_match_history}>
-              <div className={`${win_or_lose(field.status)}`}>{field.status}</div>
+              <div
+                className={`${win_or_lose(
+                  field.status
+                )} pt-[30px] pr-[40px] pl-[40px] text-center flex flex-row w-[100%] gap-3 justify-between items-center`}
+              >
+                <div className="text-5xl">{field.status}</div>
+                <div className="text-white font-alexandria text-lg">
+                  {" "}
+                  21-12-2020{" "}
+                </div>
+              </div>
               <div className={other.who_played} key={field.id}>
                 <div style={{ width: "150px", fontWeight: "600" }}>
                   {field.player1}
                 </div>
-                <div>
+                {/* <div className="border-[.5px] border-solid border-white pr-[20px] pl-[20px] rounded-3xl"> */}
+                <div className="bg-white font-medium text-[#3a0ca3] pr-[20px] pl-[20px] rounded-3xl">
                   {field.score1} - {field.score2}
                 </div>
                 <div

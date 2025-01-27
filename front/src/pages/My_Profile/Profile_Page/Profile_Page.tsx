@@ -1,11 +1,11 @@
 import { useNavigate } from "react-router-dom";
-import Button_Play from "../Images/Button_Play.svg";
+import Button_Play from "/public/Button_Play.svg";
 import "./Profile_Page.css";
 import Info_Player from "./Info_Player";
 import Acheiev_Profile from "./Acheiev_Profile";
 import States_Profile from "./States_Profile";
 import Recent_Game from "./Recent_Game";
-import To_settings from "../Images/Into_settings.svg";
+import To_settings from "/public/Into_settings.svg";
 import { usePlayer } from "../PlayerContext";
 
 export const Profile_Page = () => {

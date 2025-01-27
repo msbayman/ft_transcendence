@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import gojo from "../assets/gojo.png";
 import Cookies from "js-cookie";
 import axios from "axios";
 import { useWebSocket } from "./WebSocketContext";
@@ -94,7 +93,7 @@ const FriendsList: React.FC<SelectedUser> = ({ onClick }) => {
   };
 
   return (
-    <div className="flex flex-col bg-[#3A0CA3] text-white p-4 rounded-r-[44px]">
+    <div className="flex flex-col w-[350px] bg-[#3A0CA3] text-white p-4 rounded-r-[44px]">
       <header className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold">Messages</h1>
         <button className="p-2" aria-label="Compose new message">
@@ -120,7 +119,7 @@ const FriendsList: React.FC<SelectedUser> = ({ onClick }) => {
           {onlineFriends.map((friend) => (
             <button 
               key={friend.id} 
-              className="flex flex-col items-center justify-center flex-shrink-0 w-[61px] h-[86px] bg-[#5012C4] rounded-lg"
+              className="flex flex-col  items-center justify-center flex-shrink-0 w-[61px] h-[86px] bg-[#5012C4] rounded-lg"
             >
               <div 
                 className="relative"
