@@ -51,7 +51,7 @@ function Password_component({ player, setPlayerData, setChanged }: any) {
   return (
     <div
       className="pswd"
-      {...(somo.playerData?.prov_name !== "simple" && { hidden: true })}
+      {...(somo.playerData && 'prov_name' in somo.playerData && somo.playerData.prov_name !== "simple" && { hidden: true })}
     >
       <div className="relative right-[37.5%]">
         <h4 className="relative font-size">Password</h4>

@@ -6,7 +6,6 @@ import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
 import TextField from "@mui/material/TextField";
 import { ChangeEvent, useRef } from "react";
-import { useNavigate } from "react-router-dom";
 import { usePlayer } from "../PlayerContext";
 import axios from "axios";
 import Cookies from "js-cookie";
@@ -40,7 +39,6 @@ function TFA({
   const [otp, setOtp] = useState<string[]>(Array(6).fill(""));
   const [open, setOpen] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
-  const navigate = useNavigate();
 
   const inputsRef = useRef<(HTMLInputElement | null)[]>([]);
 
@@ -308,11 +306,11 @@ function TwoFA_Component() {
         <div className="check-TFA gap-7">
           <TFA setChecked={setChecked} email={data.playerData?.email ?? ""} username={data.playerData?.username ?? ""}  />
           {checked ? (
-            <div className="flex flex-col items-center justify-center text-green-500">
+            <div className="flex items-center justify-center text-green-400 relative bottom-3">
               <h4>(2FA) Activated</h4>
             </div>
           ) : (
-            <div className="flex flex-col items-center justify-center text-red-500">
+            <div className="flex items-center justify-center text-red-400 relative bottom-3">
               <h4>(2FA) Deactivated</h4>
             </div>
           )}

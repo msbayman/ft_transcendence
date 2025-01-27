@@ -63,8 +63,7 @@ const Settings_Page = () => {
 
         <div className="content overflow-scroll scrollbar-hide">
           {tab ? (
-            <Profile_side
-            />
+            <Profile_side />
           ) : (
             <Security_box
               setPlayerData={(updatedData) =>
