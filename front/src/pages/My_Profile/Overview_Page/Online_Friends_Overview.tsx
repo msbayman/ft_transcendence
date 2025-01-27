@@ -24,7 +24,7 @@ const Online_Friends_Overview = () => {
   };
 
   const to_play = () => {
-    navgate("/Play");
+    navgate("/Play", { state: { challenge: true } });
   };
 
   const token = Cookies.get("access_token")
