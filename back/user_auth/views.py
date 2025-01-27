@@ -22,6 +22,14 @@ from django.utils import timezone
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from django.core.mail import send_mail
 from django.conf import settings
+from rest_framework import serializers, status
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from django.contrib.auth.password_validation import validate_password
+from django.db import transaction
+from django.core.exceptions import ValidationError
+from django.contrib.auth.hashers import make_password
 
 
 # Logger setup
@@ -33,12 +41,29 @@ logger = logging.getLogger(__name__)
 #     return JsonResponse({"status": "ok"})
 
 
+# class UpdatePass(APIView):
+#     permission_classes = [IsAuthenticated]
+#     authentication_classes = [JWTAuthentication]
 
+#     def post(self, request):
+#         data = request.data
+#         new_password = data.get('newPassword')
+#         old_password = data.get('oldPassword')
+#         user = Player.objects.filter(username=data.username).first()
+#         if not user.check_password(old_password):
+#             return Response({'error': 'Invalid old password'}, status=status.HTTP_400_BAD_REQUEST)
+#         try:
+#             password_validation.validate_password(new_password)
+#             if old_password == new_password:
+#                 return JsonResponse({'error': 'New password cannot be the same as old password'}, status=status.HTTP_400_BAD_REQUEST)
+#         except ValidationError as e:
+#             return Response({'error': ' '.join(e.messages)}, status=status.HTTP_400_BAD_REQUEST)
+#         user.set_password(new_password)
+#         user.save()
+#         return Response({'success': True, 'message': 'Password changed successfully'}, status=status.HTTP_200_OK)
 
 @api_view(['GET'])
-
 @permission_classes([IsAuthenticated])
-
 def display_users(request):
     players = Player.objects.all()
     serializer = PlayerSerializer(players, many=True)
@@ -77,7 +102,6 @@ def update_player(request):
         return Response({'error': 'Username is required.'}, status=status.HTTP_400_BAD_REQUEST)
 
     try:
-        changePassword(request) # Change password if new password is provided in the request
         # Use the serializer's validation method to validate the new username
         serializer = PlayerSerializer()
         validated_username = serializer.validate_username(new_username)
@@ -247,6 +271,8 @@ class VerifyOTP(APIView):
     def post(self, request):
         username = request.data.get('username')
         otp = request.data.get('otp')
+
+        print("=====>>> this is otp ", otp )
 
         if not username or not otp:
             return Response({"detail": "Username and OTP are required."}, status=status.HTTP_400_BAD_REQUEST)
