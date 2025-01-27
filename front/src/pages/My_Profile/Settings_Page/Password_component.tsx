@@ -58,18 +58,18 @@ function Password_component({ player, setPlayerData, setChanged }: any) {
       </div>
       <div className="inpt">
         <div className="spn">
-          <label className="relative top-[3.3rem] right-[5rem] ">Current Password</label>
+          <label className="relative top-[1.3rem] right-[5rem] pr-[1.25rem] pl-[1.25rem]">Current Password</label>
           <div className="w-[100%] flex flex-row items-center justify-end">
             <input
               type={passwordVisible.currentPassword ? "text" : "password"}
               placeholder="Current Password"
               onChange={handleInputChange}
-              className="z-10 max-w-full"
+              className="z-10 max-w-full relative bottom-[2.3rem]"
             />
             <i
               onClick={() => toggleVisibility("currentPassword")}
               style={{ visibility: "visible" }}
-              className="icon z-20"
+              className="icon z-20 relative bottom-[2.3rem]"
             >
               {passwordVisible.currentPassword ? (
                 <BsEyeFill />
@@ -80,15 +80,15 @@ function Password_component({ player, setPlayerData, setChanged }: any) {
           </div>
         </div>
         <div className="spn">
-          <label className="relative top-[3.3rem] right-[5rem]" >New Password</label>
+          <label className="relative top-[1.3rem] right-[5rem] pr-[1.25rem] pl-[1.25rem]" >New Password</label>
           <div className="w-[100%] flex flex-row items-center justify-end">
             <input
               type={passwordVisible.newPassword ? "text" : "password"}
               placeholder="New Password"
               onChange={handleInputChange}
-              className="z-10"
+              className="z-10 max-w-full relative bottom-[2.3rem]"
             />
-            <i onClick={() => toggleVisibility("newPassword")} className="icon z-20">
+            <i onClick={() => toggleVisibility("newPassword")} className="icon z-20 relative bottom-[2.3rem]">
               {passwordVisible.newPassword ? <BsEyeFill /> : <BsEyeSlashFill />}
             </i>
           </div>

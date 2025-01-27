@@ -122,7 +122,7 @@ function Profile_side(){
               className="change-profile"
               id="fileInput"
             />
-            <label htmlFor="fileInput" className="change-profile">
+            <label htmlFor="fileInput" className="change-profile cursor-pointer font-bold">
               <FontAwesomeIcon icon={faPen} />
               Change
             </label>

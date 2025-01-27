@@ -191,7 +191,7 @@ function TFA({
     <React.Fragment>
       <h4
         onClick={() => handleClickOpen({ status: checked })} // line: 193
-        className="cursor-pointer border p-2 hover:bg-[#abe8df47]"
+        className="cursor-pointer border relative top-4 rounded-lg p-2 hover:bg-[#abe8df47]"
       >
         Activate Two-factor authentication (2FA)
       </h4>
@@ -308,7 +308,7 @@ function TwoFA_Component() {
   return (
     <>
       <div className="relative right-[22%]">
-        <h1 className="text-container TFA">Two-Factor Authentication (2FA)</h1>
+        <h4 className="relative font-size mt-[1.6rem] ">Two-Factor Authentication (2FA)</h4>
       </div>
       <div className="TwoFA">
         <p className="description">
@@ -325,11 +325,11 @@ function TwoFA_Component() {
             username={data.playerData?.username ?? ""}
           />
           {checked ? (
-            <div className="flex items-center justify-center text-green-400 relative bottom-3">
+            <div className="flex items-center justify-center text-green-400 relative top-1">
               <h4>(2FA) Activated</h4>
             </div>
           ) : (
-            <div className="flex items-center justify-center text-red-400 relative bottom-3">
+            <div className="flex items-center justify-center text-red-400 relative top-1">
               <h4>(2FA) Deactivated</h4>
             </div>
           )}
