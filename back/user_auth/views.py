@@ -157,20 +157,6 @@ def changePassword(request):
     return Response({'success': True, 'message': 'Password changed successfully'}, status=status.HTTP_200_OK)
 
 
-# @permission_classes([IsAuthenticated])
-class enable_2fa(APIView):
-    permission_classes = [IsAuthenticated]
-    authentication_classes = [JWTAuthentication]
-    def post(self, request):
-        try:
-            user = request.user
-            user.active_2fa = True
-            user.save()
-            send_otp_via_email(user.email, generate_otp())
-            return Response({'message': '2FA enabled successfully'}, status=status.HTTP_200_OK)
-        except Exception as e:
-            return Response({'error': 'An error occurred while enabling 2FA'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
@@ -299,6 +285,40 @@ class VerifyOTP(APIView):
             }, status=status.HTTP_200_OK)
         else:
             return Response({"detail": "Invalid OTP."}, status=status.HTTP_400_BAD_REQUEST)
+        
+
+
+class VerifyOTPSettings(APIView):
+    permission_classes = [IsAuthenticated]
+    
+    def post(self, request):
+        username = request.data.get('username')
+        state = request.data.get('state')
+
+        if not username and not state:
+            return Response({"detail": "Username, State are required."}, status=status.HTTP_400_BAD_REQUEST)
+        
+        try:
+            player = Player.objects.get(username=username)
+            otp = generate_otp()
+            send_otp_via_email(username,otp)
+        except Player.DoesNotExist:
+            return Response({"detail": "User not found."}, status=status.HTTP_404_NOT_FOUND)
+
+        if player.is_expired():
+            return Response({"detail": "OTP has expired."}, status=status.HTTP_404_BAD_REQUEST)
+
+        if player.otp_code == otp:
+            player.active_2fa = state
+            player.otp_code = state
+            player.save()
+            return Response({"message": "OTP verified successfully"}, status=status.HTTP_200_OK)
+        else:
+            return Response({"detail": "Invalid OTP."}, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+
 
 class UserDetailView(APIView):
     permission_classes = [IsAuthenticated]

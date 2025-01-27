@@ -29,10 +29,12 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 
 function TFA({
   setChecked,
+  checked,
   email,
   username,
 }: {
   setChecked: React.Dispatch<React.SetStateAction<boolean>>;
+  checked: boolean;
   email: string;
   username: string;
 }) {
@@ -41,6 +43,8 @@ function TFA({
   const [error, setError] = useState<string | null>(null);
 
   const inputsRef = useRef<(HTMLInputElement | null)[]>([]);
+
+  const data = usePlayer();
 
   const handlePaste = (code: string) => {
     if (code.length === 6) {
@@ -68,11 +72,16 @@ function TFA({
       }
     };
 
-  const handleClickOpen = async (): Promise<void> => {
+  interface HandleClickOpenProps {
+    status: boolean;
+  }
+
+  const handleClickOpen = async ({
+    status,
+  }: HandleClickOpenProps): Promise<void> => {
     setOpen(true);
 
     try {
-
       const token = Cookies.get("access_token");
 
       if (!token) {
@@ -80,8 +89,15 @@ function TFA({
         throw new Error("No access token found.");
       }
 
-      const respone = await axios.post(
-        "https://localhost:443/api/user_auth/enable_2fa/",
+      console.log(data.playerData?.username);
+      console.log(status);
+
+      const response = await axios.post( // line: 95
+        "https://localhost:443/api/user_auth/VerifyOTPSettings/",
+        {
+          username: data.playerData?.username,
+          state: status,
+        },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -90,19 +106,17 @@ function TFA({
         }
       );
 
-      if (respone.status === 200) { 
-        setError(respone.data.message);
+      if (response.status === 200) {
+        setError(response.data.message);
         setTimeout(() => setError(null), 3000);
       }
-    } catch (err) {
-      setError("Failed to send OTP");
+    } catch (err: any) {
+      setError(err.response?.data?.detail || "Failed to send OTP");
       setTimeout(() => setError(null), 3000);
     }
   };
-
   const resendCode = async (): Promise<void> => {
     try {
-
       const token = Cookies.get("access_token");
 
       if (!token) {
@@ -119,7 +133,7 @@ function TFA({
         }
       );
 
-      if (respone.status === 200) { 
+      if (respone.status === 200) {
         setError("OTP resent successfully!");
         setTimeout(() => setError(null), 3000);
       }
@@ -176,7 +190,7 @@ function TFA({
   return (
     <React.Fragment>
       <h4
-        onClick={handleClickOpen}
+        onClick={() => handleClickOpen({ status: checked })} // line: 193
         className="cursor-pointer border p-2 hover:bg-[#abe8df47]"
       >
         Activate Two-factor authentication (2FA)
@@ -304,7 +318,12 @@ function TwoFA_Component() {
           is compromised
         </p>
         <div className="check-TFA gap-7">
-          <TFA setChecked={setChecked} email={data.playerData?.email ?? ""} username={data.playerData?.username ?? ""}  />
+          <TFA
+            setChecked={setChecked}
+            checked={checked}
+            email={data.playerData?.email ?? ""}
+            username={data.playerData?.username ?? ""}
+          />
           {checked ? (
             <div className="flex items-center justify-center text-green-400 relative bottom-3">
               <h4>(2FA) Activated</h4>

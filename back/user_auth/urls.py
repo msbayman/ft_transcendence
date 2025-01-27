@@ -19,9 +19,9 @@ urlpatterns = [
      path('LogoutAPIView/', views.LogoutAPIView.as_view(), name='LogoutAPIView'),
      path('search-users/', views.SearchUser.as_view(), name='search_users'),
      path('changePassword', views.changePassword, name='changePassword'),
-     path('enable_2fa/', views.enable_2fa.as_view(), name='enable_2fa'),
      path('resend_otp', views.resend_otp, name='resend_otp'),
      # path('UpdatePass/', views.UpdatePass.as_view(), name='UpdatePass'),
+	path('VerifyOTPSettings/', views.VerifyOTPSettings.as_view(), name='VerifyOTPSettings'),
 
      # path('health_check',  views.health_check, name='health_check'),  # Use a trailing slash
      # path('health_check',  views.health_check, name='health_check'),  # Use a trailing slash
