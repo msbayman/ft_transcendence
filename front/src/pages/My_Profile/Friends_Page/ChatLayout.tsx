@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import { useWebSocket } from "./WebSocketContext";
 import Cookies from "js-cookie";
 import axios from 'axios';
@@ -13,6 +14,7 @@ interface PlayerInfo {
   id: number;
   username: string;
   profile_image: string;
+  status: boolean;
 }
 
 interface APIResponse {
@@ -47,10 +49,12 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
   const { messages, sendMessage } = useWebSocket();
   const [playerInfo, setPlayerInfo] = useState<PlayerInfo | null>(null);
   const token = Cookies.get("access_token");
+  const profile_redirec = useNavigate();
+
   const toggleDiv = () => {
     setShowDiv((prevState) => !prevState);
   };
-
+  
   const [isblock, setIsBlock] = useState(false);  // Initially, not blocked
   const block = async () => {
     try {
@@ -96,10 +100,10 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
           }
         );
         if (response.status === 200) {
-          const baseUrl = "http://127.0.0.1:8000";
           setPlayerInfo({
             ...response.data,
             profile_image: response.data.profile_image, // Prepend base URL
+            status: response.data.is_online
           });
         }
       } catch (error) {
@@ -110,7 +114,8 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
     
     fetchPlayerInfo();
   }, [value, token]);
-  console.log("----------------------------"  + playerInfo?.username)
+  console.log("-------***************** " + playerInfo?.username)
+  console.log("-------***************** " + playerInfo?.status)
 
   useEffect(() => {
     if (value === "") return;
@@ -127,7 +132,7 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
             },
           }
         );
-        console.log("API Response:", conversationResponse.data);
+
         if (conversationResponse.status === 200) {
           const baseUrl = "http://127.0.0.1:8000";
           const initialMessages: Message[] = conversationResponse.data
@@ -149,7 +154,7 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
         setLocalMessages([]);
       }
     };
-  
+    
     const fetchBlockStatus = async () => {
       try {
         const blockStatusResponse = await axios.get(
@@ -170,7 +175,10 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
     fetchData();
     fetchBlockStatus();
   }, [value, token, loggedplayer.playerData?.username]);
-  
+
+  const go_to_profile = (username:string | undefined) => {
+    profile_redirec(`/Profile/${username}`)
+  }
 
   useEffect(() => {
     if (messages.length > 0) {
@@ -210,8 +218,6 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
       username: value,
       message: input
     };
-
-    console.log("Sending message:", message);
     sendMessage(message);
     setInput("");
   };
@@ -251,9 +257,9 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
             <img src={playerInfo?.profile_image} className="rounded-full w-20 h-20" alt="" />
             <div>
               <h1 className="text-2xl">{playerInfo?.username}</h1>
-              <h1 className="text-2xl text-lime-600">online</h1>
+              <h1 className="text-2xl text-lime-600">{playerInfo?.status ? "online" : "offline"}</h1>
             </div>
-            <button className="mt-5 flex flex-col items-center justify-center text-white rounded hover:bg-[#8f6edd]">
+            <button onClick={() => go_to_profile(playerInfo?.username)} className="mt-5 flex flex-col items-center justify-center text-white rounded hover:bg-[#8f6edd]">
               <img src={viewprofile} alt="View Profile" className="w-8 h-8" />
               <p>View Profile</p>
             </button>

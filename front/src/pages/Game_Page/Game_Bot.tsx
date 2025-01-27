@@ -9,7 +9,7 @@ import logo from "../../assets/logo_game.svg";
 function Game_Bot() {
   const [paddleLeftPosition, setPaddleLeftPosition] = useState(135);
   const [paddleRightPosition, setPaddleRightPosition] = useState(135);
-  const [ballPosition, setBallPosition] = useState({ top: 240, left: 175 });  
+  const [ballPosition, setBallPosition] = useState({ top: 240, left: 175 });
   const [Ballscore, setBallscore] = useState({ l: 0, r: 0 });
   const [ballDirection, setBallDirection] = useState({ x: 3, y: 3 });
   const [isPaused, setIsPaused] = useState(false);
@@ -34,6 +34,29 @@ function Game_Bot() {
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isPaused]);
+
+
+  useEffect(() => {
+    if (isPaused) return;
+  
+    const botInterval = setInterval(() => {
+      setPaddleLeftPosition((prev) => {
+        const paddleCenter = prev + 75; // Paddle width is 150px, so the center is 75px from the left edge.
+        const ballCenter = ballPosition.left; // The center of the ball.
+        const moveStep = 5; // Speed at which the bot paddle moves.
+  
+        // Adjust paddle position to follow the ball.
+        if (paddleCenter < ballCenter) {
+          return Math.min(prev + moveStep, 365); // Ensure the paddle stays within bounds (0 to 365).
+        } else if (paddleCenter > ballCenter) {
+          return Math.max(prev - moveStep, 5); // Ensure the paddle stays within bounds (0 to 365).
+        }
+        return prev; // If the paddle center aligns with the ball center, no movement.
+      });
+    }, 20); // Update the bot paddle position every 20ms.
+  
+    return () => clearInterval(botInterval); // Cleanup interval on unmount.
+  }, [ballPosition.left, isPaused]);
 
  // Ball Movement and Collision Logic
 useEffect(() => {
@@ -125,7 +148,7 @@ const resetBall = () => {
 				{/* Left Paddle */}
 				<div
 				  className={isPaused ? "absolute w-[140px] h-[10px] bg-[#0026EB] top-[20px] transition-left duration-100 rounded-lg ease-linear blur-sm" : "absolute w-[140px] h-[10px] bg-[#0026EB] top-[20px] transition-left duration-100 rounded-lg ease-linear"}
-				  style={{ left: ballPosition.left }}
+				  style={{ left: paddleLeftPosition - 50 }}
 				></div>
 	  
 				{/* Right Paddle */}

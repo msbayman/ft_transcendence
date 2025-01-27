@@ -17,6 +17,8 @@ import { PlayerProvider, usePlayer } from "./pages/My_Profile/PlayerContext";
 import Game_Local from "./pages/Game_Page/Game_Local";
 import Game_Bot from "./pages/Game_Page/Game_Bot";
 import Game_Remot from "./pages/Game_Page/Game_Remot";
+import Tourn_Remot from "./pages/Game_Page/Game_Torn";
+import Game_Tourn from "./pages/Game_Page/Game_Torn";
 import Test from "./pages/Game_Page/Test";
 import Game_Loby from "./pages/Game_Page/Game_loby";
 
@@ -31,7 +33,7 @@ function AppContent() {
     const validateAccessToken = async () => {
       try {
         const response = await axios.get(
-          "http://127.0.0.1:8000/check_csrf_tok/validate_token",
+          "http://127.0.0.1:8000/api/check_csrf_tok/validate_token",
           {
             headers: {
               Authorization: `Bearer ${accessToken}`,
@@ -83,10 +85,11 @@ function AppContent() {
           <Route path="signup" element={<Signup_Page />} />
           <Route path="/*" element={<Overview />} />
           <Route path="Valid_otp" element={<Valid_otp />} />
-          <Route path="/local_game" element={<Game_Local />} />
+          <Route path="/local_game" element={<Game_Local p1={"player1"} p2={"player2"}  mod={0} onEnd={null} />} />
           <Route path="/local_bot" element={<Game_Bot />} />
           <Route path="/remote_game" element={<Game_Loby />} />
-          {/* <Route path="/test" element={<Test />} /> */}
+          <Route path="/tourn" element={<Game_Tourn />} />
+          <Route path="/test" element={<Tourn_Remot />} />
           {/* <Route path="/game_loby" element={<Game_Loby />} /> */}
         </Routes>
       </main>

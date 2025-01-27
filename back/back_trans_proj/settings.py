@@ -127,13 +127,13 @@ INSTALLED_APPS = [
     'listfriends'
 ]
 
-CORS_ALLOWED_ORIGINS = [
-    'http://localhost:5173',
-]
+# CORS_ALLOWED_ORIGINS = [
+#     'http://localhost:5173',
+# ]
 
-CSRF_TRUSTED_ORIGINS = [
-    'http://localhost:5173',
-]
+# CSRF_TRUSTED_ORIGINS = [
+#     'http://localhost:5173',
+# ]
 
 CSRF_COOKIE_SECURE = False  # Set to True in production
 CSRF_COOKIE_HTTPONLY = True
@@ -225,7 +225,7 @@ CHANNEL_LAYERS = {
         },
     },
 }
-# CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_ALL_ORIGINS = True
 
 MEDIA_URL = '/media/'
 

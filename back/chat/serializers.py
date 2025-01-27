@@ -8,7 +8,7 @@ class PlayerSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Player
-        fields = ['id', 'username', 'profile_image']
+        fields = ['id', 'username', 'profile_image', 'is_online']
 
 class ConversationSerializer(serializers.ModelSerializer):
     sender = serializers.CharField(source='sender.username', read_only=True)

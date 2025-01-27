@@ -1,5 +1,6 @@
 FROM node:18
-    WORKDIR /app
-    COPY . /app
-    
-    CMD ["sh", "-c", "npm install && npm run dev"]
+
+WORKDIR /app
+COPY . /app
+
+CMD ["sh", "-c", "npm install && npm run dev"]

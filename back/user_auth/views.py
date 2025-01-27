@@ -19,7 +19,6 @@ from django.core.management.base import BaseCommand
 from django.utils import timezone
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
-
 # Logger setup
 logger = logging.getLogger(__name__)
 
@@ -27,6 +26,8 @@ logger = logging.getLogger(__name__)
 @permission_classes([AllowAny])
 def health_check(request):
     return JsonResponse({"status": "ok"})
+
+
 
 
 @api_view(['GET'])
@@ -47,10 +48,6 @@ def delete_player(request):
     
     try:
         player_to_delete = Player.objects.get(username=username)
-
-        for friend in player_to_delete.list_users_friends.all():
-            friend.list_users_friends.remove(player_to_delete)
-
         player_to_delete.delete()
         return Response({'message': f'Player {username} deleted successfully'}, status=status.HTTP_200_OK)
     except Player.DoesNotExist:
@@ -108,7 +105,7 @@ class LoginAPIView(APIView):
     def post(self, request):
         username = request.data.get('username').lower()
         password = request.data.get('password')
-
+        print(username + "---------------------" + password)
         if not username or not password:
             return Response({"detail": "Username and password are required."}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -125,6 +122,7 @@ class LoginAPIView(APIView):
             if not player.active_2fa:
                 refresh = RefreshToken.for_user(user)
                 return Response({
+                    'refresh': str(refresh),
                     'access': str(refresh.access_token),
                     'redirect_to': '/Overview'
                 }, status=status.HTTP_200_OK)
@@ -171,6 +169,7 @@ class VerifyOTP(APIView):
             player.save()
 
             return Response({
+                'refresh': str(refresh),
                 'access': str(refresh.access_token),
                 'redirect_to': '/Overview'
             }, status=status.HTTP_200_OK)
@@ -228,16 +227,3 @@ class LogoutAPIView(APIView):
         except Exception as e:
             logger.error(f"Error during logout: {e}")
             return Response({"detail": "An error occurred during logout."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
-
-
-class GetPlayer(APIView):
-    permission_classes = [IsAuthenticated]
-
-    def get(self, request, username):
-        try:
-            data_player = Player.objects.get(username=username)
-            serializer = PlayerSerializer(data_player)
-            return Response(serializer.data)
-        except Player.DoesNotExist:
-            return Response({"error": "No player found with this username"}, status=status.HTTP_404_NOT_FOUND)
