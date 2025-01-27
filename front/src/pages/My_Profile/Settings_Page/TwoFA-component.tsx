@@ -309,11 +309,11 @@ function TwoFA_Component() {
           <TFA setChecked={setChecked} email={data.playerData?.email ?? ""} username={data.playerData?.username ?? ""}  />
           {checked ? (
             <div className="flex flex-col items-center justify-center text-green-500">
-              <h4 className="cursor-pointer">(2FA) Activated</h4>
+              <h4>(2FA) Activated</h4>
             </div>
           ) : (
             <div className="flex flex-col items-center justify-center text-red-500">
-              <h4 className="cursor-pointer">(2FA) Deactivated</h4>
+              <h4>(2FA) Deactivated</h4>
             </div>
           )}
         </div>

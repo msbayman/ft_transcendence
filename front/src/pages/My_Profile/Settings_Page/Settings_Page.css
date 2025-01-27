@@ -67,7 +67,7 @@ div h1 {
   gap: 10px;
   width: 70%;
   position: relative;
-  bottom: 1rem;
+  top: 6rem;
   /* display: flex;
   justify-content: flex-end; */
 }

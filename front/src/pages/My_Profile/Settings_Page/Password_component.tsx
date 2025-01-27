@@ -1,8 +1,8 @@
 import { BsEyeFill, BsEyeSlashFill } from "react-icons/bs";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { usePlayer } from "../PlayerContext";
 
-function Password_component( { player, setPlayerData }: any ) {
+function Password_component({ player, setPlayerData, setChanged }: any) {
   type PasswordFields = "currentPassword" | "newPassword" | "confirmPassword";
 
   const [passwordVisible, setPasswordVisible] = useState<
@@ -13,19 +13,31 @@ function Password_component( { player, setPlayerData }: any ) {
     confirmPassword: false,
   });
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      const { name, value } = e.target;
-      setPlayerData((prev: any) => ({
-        ...prev,
-        [name]: value,
-      }));
-      setPlayerData({ ...player, [name]: value });
-      console.log(value);
-    };
 
-  useEffect(() => {
-    console.log(player);
-  }, []);
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    
+    if (value === "") {
+      setChanged(false);
+      return;
+    }
+    else
+      setChanged(true);
+
+
+    setPlayerData((prev: any) => ({
+      ...prev,
+      [name]: value,
+    }));
+    setPlayerData({ ...player, [name]: value });
+    console.log(value);
+
+    if (name === "newPassword") {
+      setPlayerData({ ...player, newPassword: value });
+      console.log(value);
+    }
+
+  };
 
   const toggleVisibility = (field: PasswordFields) => {
     setPasswordVisible((prev) => ({
@@ -46,17 +58,18 @@ function Password_component( { player, setPlayerData }: any ) {
       </div>
       <div className="inpt">
         <div className="spn">
-          <label>Current Password</label>
-          <div className="w-[100%] flex flex-row items-center justify-center">
+          <label className="relative top-[3.3rem] right-[5rem] ">Current Password</label>
+          <div className="w-[100%] flex flex-row items-center justify-end">
             <input
               type={passwordVisible.currentPassword ? "text" : "password"}
               placeholder="Current Password"
               onChange={handleInputChange}
+              className="z-10 max-w-full"
             />
             <i
               onClick={() => toggleVisibility("currentPassword")}
               style={{ visibility: "visible" }}
-              className="icon"
+              className="icon z-20"
             >
               {passwordVisible.currentPassword ? (
                 <BsEyeFill />
@@ -67,37 +80,19 @@ function Password_component( { player, setPlayerData }: any ) {
           </div>
         </div>
         <div className="spn">
-          <label>New Password</label>
-          <div className="w-[100%] flex flex-row items-center justify-center">
+          <label className="relative top-[3.3rem] right-[5rem]" >New Password</label>
+          <div className="w-[100%] flex flex-row items-center justify-end">
             <input
               type={passwordVisible.newPassword ? "text" : "password"}
               placeholder="New Password"
               onChange={handleInputChange}
+              className="z-10"
             />
-            <i onClick={() => toggleVisibility("newPassword")} className="icon">
+            <i onClick={() => toggleVisibility("newPassword")} className="icon z-20">
               {passwordVisible.newPassword ? <BsEyeFill /> : <BsEyeSlashFill />}
             </i>
           </div>
         </div>
-        {/* <div className="spn">
-          <label>Confirm Password</label>
-          <div className="w-[100%] flex flex-row items-center justify-center">
-            <input
-              type={passwordVisible.confirmPassword ? "text" : "password"}
-              placeholder="Confirme New Password"
-            />
-            <i
-              className="icon"
-              onClick={() => toggleVisibility("confirmPassword")}
-            >
-              {passwordVisible.confirmPassword ? (
-                <BsEyeFill />
-              ) : (
-                <BsEyeSlashFill />
-              )}
-            </i>
-          </div>
-        </div> */}
       </div>
     </div>
   );
