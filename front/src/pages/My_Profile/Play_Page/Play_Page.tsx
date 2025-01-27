@@ -8,6 +8,7 @@ import { NextButton } from "./Buttons";
 import classes from "./style.module.css";
 import Cookies from "js-cookie";
 import axios from "axios";
+import { useLocation } from "react-router-dom";
 
 interface SelectedIds {
   mode: number | null;
@@ -83,6 +84,8 @@ const SLIDEBOARDS = [
 ];
 
 const Play_Page: React.FC = () => {
+  const location = useLocation();
+  const challenge = location.state?.challenge;
   const navigate = useNavigate(); // If using react-router for navigation
   const [value, setValue] = useState("Modes");
   const [selectedIds, setSelectedIds] = useState<SelectedIds>({
@@ -193,11 +196,29 @@ const Play_Page: React.FC = () => {
         break;
     }
   };
+
   useEffect(() => {
-    if (currentSlideIndex !== 0) {
-        setCurrentSlideIndex(0);
+    if (challenge) {
+      // Set the board to "Board" when challenge is true
+      setValue("Boards");
+
+      // Update selectedIds state
+      setSelectedIds((prev) => ({
+        ...prev,
+        mode: currentSlideIndex,
+        selectedStatus: {
+          ...prev.selectedStatus,
+          mode: [currentSlideIndex], // Only keep the currentSlideIndex
+        },
+      }));
     }
-  } , []);
+  }, []);
+
+  // useEffect(() => {
+  //   if (currentSlideIndex !== 0) {
+  //       setCurrentSlideIndex(0);
+  //   }
+  // } , []);
   const handleSelect = () => {
     switch (value) {
       case "Modes":
@@ -247,9 +268,7 @@ const Play_Page: React.FC = () => {
     localStorage.setItem("selectedSkins", JSON.stringify(selectedIds));
   };
 
-  useEffect(() => {
-    console.log("------------->>>     selectedIds   --  ", selectedIds);
-  } , [selectedIds])
+
 
   const handlePlayClick = () => {
     // Navigate to play page with selected skins
@@ -257,9 +276,9 @@ const Play_Page: React.FC = () => {
   };
 
   return (
-    <main className="w-full h-full flex justify-center items-center">
-      <div className="overflow-scroll scrollbar-hide max-w-[1660px] relative flex flex-grow justify-center items-center h-full md:m-10 m-0  rounded-3xl ">
-        <Options value={value} /> {/* Options component value={value}  */}
+    <main className="w-full h-full flex justify-center items-center min-w-[1000px]">
+      <div className="overflow-scroll scrollbar-hide max-w-[1660px] relative flex flex-grow justify-center items-center h-full rounded-3xl ">
+        <Options value={value} />
         <div className="absolute flex flex-col flex-wrap justify-evenly items-center h-[90%] bottom-0  w-full  overflow-scroll scrollbar-hide bg-[#3A0CA3] rounded-[6rem] shadow-lg">
           <div className=" flex-1 h-full  flex flex-col justify-center items-center">
             {value === "Modes" && (
@@ -292,7 +311,7 @@ const Play_Page: React.FC = () => {
             )}
             {value === "Finish" && (
               <div className="absolute top-[10%] flex flex-col justify-center items-center gap-16">
-                <div className="w-full">
+                <div className="w-[100%] h-[30rem]">
                   {SLIDEIMAPS[selectedIds.mode!]?.mapName === "Tournement" ? (
                     <div className="flex flex-row-reverse gap-20 justify-center items-center">
                       <div className="flex flex-col items-center justify-evenly">
@@ -321,28 +340,28 @@ const Play_Page: React.FC = () => {
                     <img
                       src={SLIDEIMAPS[selectedIds.mode!]?.mapPath}
                       alt={SLIDEIMAPS[selectedIds.mode!]?.mapPath}
-                      className="relative flex justify-center items-center right-[1rem] w-full h-[22rem] object-contain"
+                      className="relative flex justify-center items-center w-full h-[28rem] object-contain"
                     />
                   )}
                 </div>
 
-                <div className="grid grid-cols-1 w-full md:grid-cols-3 gap-10">
-                  <img
-                    src={SLIDEBOARDS[selectedIds.board!]?.mapPath}
-                    alt={SLIDEBOARDS[selectedIds.board!]?.mapName}
-                    className="w-full h-[12rem] object-contain"
-                  />
-
+                <div className="grid grid-cols-3 place-content-center w-full gap-10 h-[14rem]">
                   <img
                     src={SLIDECUES[selectedIds.paddel!]?.mapPath}
                     alt={SLIDEBOARDS[selectedIds.paddel!]?.mapName}
-                    className="w-full h-[12rem] object-contain"
+                    className="relative w-full h-[18rem] object-contain"
+                  />
+
+                  <img
+                    src={SLIDEBOARDS[selectedIds.board!]?.mapPath}
+                    alt={SLIDEBOARDS[selectedIds.board!]?.mapName}
+                    className="relative w-full h-[18rem] object-contain top-3"
                   />
 
                   <img
                     src={SLIDEBALLS[selectedIds.ball!]?.mapPath}
                     alt={SLIDEBALLS[selectedIds.ball!]?.mapName}
-                    className="w-full h-[12rem] object-contain"
+                    className="relative w-full h-[18rem] object-contain right-2"
                   />
                 </div>
                 <div className="flex w-full h-full justify-center items-center text-center gap-4">
