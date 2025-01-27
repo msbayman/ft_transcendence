@@ -314,7 +314,7 @@ const Play_Page: React.FC = () => {
                 <div className="w-[100%] h-[30rem]">
                   {SLIDEIMAPS[selectedIds.mode!]?.mapName === "Tournement" ? (
                     <div className="flex flex-row-reverse gap-20 justify-center items-center">
-                      <div className="flex flex-col items-center justify-evenly">
+                      <div className="flex flex-col items-center justify-center relative right-[20]">
                         <label className="w-[15rem] text-[20px] relative top-[1rem] left-[1rem] font-alexandria text-white ">
                           Set Your Nickname
                         </label>
@@ -323,7 +323,7 @@ const Play_Page: React.FC = () => {
                           name="username"
                           placeholder={player_data?.username || ""}
                           onChange={handleInputChange}
-                          className="w-[375px] h-[68px] font-alexandria justify-center items-center text-center rounded-[11px] px-3 bg-[#3a0ca3]  text-white text-[32px] m-7"
+                          className="w-[375px] h-[68px] font-alexandria justify-center items-center text-center rounded-[11px] px-3 bg-[#3a0ca3] text-white text-[32px] m-7"
                           style={{ border: "2px solid #8151EE" }}
                         />
                         <button className="w-[230px] h-[59px] font-alexandria font-medium text-white shadow-md rounded-[36.5px] bg-[#8151EE] flex justify-center items-center text-[30px]">
@@ -398,11 +398,11 @@ const Play_Page: React.FC = () => {
                     setCurrentSlideIndex(0)
                     handleNextClick()
                   }}
-                  disabled={
-                    isCurrentSlideSelected() || isOneOfSlidesSelected()
-                      ? false
-                      : true
-                  }
+                  // disabled={
+                  //   isCurrentSlideSelected() || isOneOfSlidesSelected()
+                  //     ? false
+                  //     : true
+                  // }
                 >
                   <NextButton />
                   <span className="hidden opacity-0 absolute transform  bg-black text-white px-2.5 py-1 rounded whitespace-nowrap transition-opacity duration-200 group-hover:block group-hover:opacity-100">
