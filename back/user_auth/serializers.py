@@ -25,7 +25,7 @@ class PlayerSerializer(serializers.ModelSerializer):
             'level', 'total_games', 'win_games', 'lose_games',
             'win_1_game', 'win_3_games', 'win_10_games', 'win_30_games',
             'reach_level_5', 'reach_level_15', 'reach_level_30', 'perfect_win_game',
-            'perfect_win_tournaments',
+            'perfect_win_tournaments', 'active_2fa',
         ]
         extra_kwargs = {
             'username': {'required': True},
