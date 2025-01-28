@@ -107,7 +107,7 @@ function Game_Remot() {
 
           {/* Player Info */}
           <div className="absolute flex justify-center top-[30px] w-full px-4">
-            <div className="relative bg-[url('/public/name_hold_game.svg')] h-[70px] w-[250px] bg-cover bg-center transform scale-x-[-1] flex justify-center items-center">
+            <div className="relative bg-[url('/name_hold_game.svg')] h-[70px] w-[250px] bg-cover bg-center transform scale-x-[-1] flex justify-center items-center">
               <p className="absolute text-white text-4xl transform scale-x-[-1] font-luckiest right-[25px]">
                 player 1
               </p>
@@ -118,7 +118,7 @@ function Game_Remot() {
             <div className="flex justify-items-center">
               <img src={logo} alt="logo" />
             </div>
-            <div className="relative bg-[url('/public/name_hold_game.svg')] h-[70px] w-[250px] bg-cover bg-center flex justify-center items-center">
+            <div className="relative bg-[url('/name_hold_game.svg')] h-[70px] w-[250px] bg-cover bg-center flex justify-center items-center">
               <p className="absolute text-white text-4xl font-luckiest right-[25px]">
                 player 2
               </p>

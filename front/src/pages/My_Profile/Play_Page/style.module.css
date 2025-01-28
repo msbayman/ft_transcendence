@@ -1,0 +1,28 @@
+.select {
+  background-color: #8151EE;
+  padding: 0.5rem 1rem; /* px-4 py-2 */
+  border-radius: 36px;
+  color: white;
+  width: 230px;
+  height: 59px;
+  font-size: 32px;
+  font-family: "Alexandria", sans-serif;
+  font-weight: 350; /* font-light */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.selected {
+  background-color: #00AF11;
+  padding: 0.5rem 1rem; /* px-4 py-2 */
+  border-radius: 36px;
+  color: white;
+  width: 230px;
+  height: 59px;
+  font-size: 32px;
+  font-family: "Alexandria", sans-serif;
+  font-weight: 350; /* font-light */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

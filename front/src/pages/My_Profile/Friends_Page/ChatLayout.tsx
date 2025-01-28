@@ -83,7 +83,6 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
   };
   useEffect(() => {
     if (value === "") return;
-
     const fetchPlayerInfo = async () => {
       try {
         const response = await axios.get<PlayerInfo>(
@@ -110,7 +109,6 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
         setPlayerInfo(null);
       }
     };
-
     fetchPlayerInfo();
   }, [value, token]);
   // console.log("-------***************** " + playerInfo?.username)
@@ -152,7 +150,6 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
         setLocalMessages([]);
       }
     };
-
     const fetchBlockStatus = async () => {
       try {
         const blockStatusResponse = await axios.get(
@@ -238,11 +235,7 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
         <span className="font-semibold text-5xl	text-white">
           Welcome to Transcendance Chat ..
         </span>
-        <img
-          src="/public/empty_chat.png"
-          alt="chat_image"
-          className="w-[700px]"
-        />
+        <img src="/empty_chat.png" alt="chat_image" className="w-[700px]" />
         <span className="font-medium text-xl tracking-wider">
           Start Texting..
         </span>
@@ -293,7 +286,7 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
               className="mt-5 flex flex-col items-center justify-center text-white rounded hover:bg-[#8f6edd]"
             >
               <img
-                src="/public/Chat/viewprofile.svg"
+                src="/Chat/viewprofile.svg"
                 alt="View Profile"
                 className="w-8 h-8"
               />
@@ -303,14 +296,14 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
           <hr className="max-w-lg mt-1.5" />
           <div className="flex justify-between align-middle m-5">
             <button className="w-[100px] flex flex-col items-center justify-center gap-1 rounded hover:bg-[#8f6edd]">
-              <img className="" src="/public/Chat/challenge.svg" alt="" />
+              <img className="" src="/Chat/challenge.svg" alt="" />
               <p>chalenge</p>
             </button>
             <button
               onClick={block}
               className="w-[100px] flex flex-col items-center justify-center gap-1 rounded hover:bg-[#8f6edd]"
             >
-              <img src="/public/Chat/block.svg" alt="" />
+              <img src="/Chat/block.svg" alt="" />
               <p> {isblock ? "ubblock user" : "block user"}</p>
             </button>
           </div>

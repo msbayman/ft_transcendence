@@ -1,12 +1,12 @@
-import win1 from "/public/Achievements/win_1_game.png";
-import win3 from "/public/Achievements/win_3_game.png";
-import win10 from "/public/Achievements/win_10_game.png";
-import win20 from "/public/Achievements/win_20_game.png";
-import reach5 from "/public/Achievements/reach_level_5.png";
-import reach15 from "/public/Achievements/reach_level_15.png";
-import reach30 from "/public/Achievements/reach_level_30.png";
-import perfect_game from "/public/Achievements/perfect_win_game.png";
-import perfect_tournament from "/public/Achievements/perfect_win_tournament.png";
+import win1 from "/Achievements/win_1_game.png";
+import win3 from "/Achievements/win_3_game.png";
+import win10 from "/Achievements/win_10_game.png";
+import win20 from "/Achievements/win_20_game.png";
+import reach5 from "/Achievements/reach_level_5.png";
+import reach15 from "/Achievements/reach_level_15.png";
+import reach30 from "/Achievements/reach_level_30.png";
+import perfect_game from "/Achievements/perfect_win_game.png";
+import perfect_tournament from "/Achievements/perfect_win_tournament.png";
 import "./Top_of_Achievement.css";
 
 const Top_of_Achievement = () => {
@@ -67,7 +67,9 @@ const Top_of_Achievement = () => {
     },
   ];
 
-  const true_achiev = total.filter((achei) => achei.status === "true").slice(0, 3);
+  const true_achiev = total
+    .filter((achei) => achei.status === "true")
+    .slice(0, 3);
 
   // const achiev_3 = true_achiev.slice(0, 3);
 
@@ -86,12 +88,13 @@ const Top_of_Achievement = () => {
           ))
         ) : (
           <div className="if_no">
-            <img src="/public/Navbar/No.png" className="if_noo" alt="" />
-            No Achievements !</div>
+            <img src="/Navbar/No.png" className="if_noo" alt="" />
+            No Achievements !
+          </div>
         )}
       </div>
       <div className="Achiev_Title">
-        <img src="/public/back_acheiv.svg" className="part_2_achv" />
+        <img src="/back_acheiv.svg" className="part_2_achv" />
         <div className="Titre_Acheivement">
           Top
           <br />

@@ -27,17 +27,20 @@ const Online_Friends_Overview = () => {
     navgate("/Play");
   };
 
-  const token = Cookies.get("access_token")
+  const token = Cookies.get("access_token");
 
   useEffect(() => {
     const fetchOnlineUsers = async () => {
       try {
         if (currentUser.playerData) {
-          const response = await axios.get("https://localhost/api/user_auth/is_online/", {
-            headers:{
-              Authorization:`Bearer ${token}`,
-            },
-          });
+          const response = await axios.get(
+            "https://localhost/api/user_auth/is_online/",
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
 
           const filteredUsers: User_isOnline[] = response.data.filter(
             (user: User_isOnline) =>
@@ -70,23 +73,26 @@ const Online_Friends_Overview = () => {
             {ListOnline.map((friend, index) => (
               <li key={index} className="Every_User">
                 {/* <div className="inside_photo"> */}
-                  <img
-                    src={friend.profile_image}
-                    className="Ps_Profile"
-                  />
-                  {/* <span className="online_cercel"></span> */}
+                <img src={friend.profile_image.replace("http://","https://")} className="Ps_Profile" />
+                {/* <span className="online_cercel"></span> */}
                 {/* </div> */}
                 <span className="User_name">{friend.username}</span>
                 <div className="click">
                   <div className="hove_contain">
                     <button onClick={to_message}>
-                      <img src="/public/Icones/Message_to_User.svg" className="img_siz" />
+                      <img
+                        src="/Icones/Message_to_User.svg"
+                        className="img_siz"
+                      />
                       <span className="hove">Message</span>
                     </button>
                   </div>
                   <div className="hove_contain">
                     <button onClick={to_play}>
-                      <img src="/public/Icones/Invite_to_play.svg" className="img_siz" />
+                      <img
+                        src="/Icones/Invite_to_play.svg"
+                        className="img_siz"
+                      />
                       <span className="hove">Challenge</span>
                     </button>
                   </div>
@@ -97,8 +103,9 @@ const Online_Friends_Overview = () => {
         </div>
       ) : (
         <div className="No_One">
-          <img src="/public/Navbar/No.png" style={{width:30}} alt="no friend" />
-          <span>No Friends</span> </div>
+          <img src="/Navbar/No.png" style={{ width: 30 }} alt="no friend" />
+          <span>No Friends</span>{" "}
+        </div>
       )}
     </div>
   );

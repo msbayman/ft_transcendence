@@ -9,6 +9,7 @@ export default {
       fontFamily: {
         'luckiest': ['"Luckiest Guy"', 'cursive'],
         'alexandria': ['Alexandria', 'sans-serif'],
+        'manjari': ['Manjari', 'sans-serif'], // Add Manjari font
       },
       colors: {
         customPurple: '#3A0CA3',

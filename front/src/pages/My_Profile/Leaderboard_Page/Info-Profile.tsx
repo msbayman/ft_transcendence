@@ -9,51 +9,32 @@ const Info_Profile = () => {
   const is_me = my_user.playerData;
 
   const percentage = (total: number | undefined, win: number | undefined) => {
-    if (total === undefined || win === undefined || total === 0)
-      return 0
+    if (total === undefined || win === undefined || total === 0) return 0;
     const result = (win / total) * 100;
-    return result
+    return result;
   };
 
-  const check_rank = (points:number | undefined) :string | undefined => {
+  const check_rank = (points: number | undefined): string | undefined => {
+    if (points === undefined) return "CHEAT";
+    else if (points < 100) return "IRON";
+    else if (points > 100 && points < 200) return "BRONZE";
+    else if (points > 200 && points < 300) return "SILVER";
+    else if (points > 300 && points < 500) return "GOLD";
+    else if (points > 500 && points < 700) return "PLATIUM";
+    else if (points > 700 && points < 1200) return "MASTER";
+    else return "CHALLENGER";
+  };
 
-    if(points === undefined)
-      return "CHEAT"
-    else if (points < 100)
-      return "IRON"
-    else if (points > 100 && points < 200)
-      return "BRONZE"
-    else if (points > 200 && points < 300)
-      return "SILVER"
-    else if (points > 300 && points < 500)
-      return "GOLD"
-    else if (points > 500 && points < 700)
-      return "PLATIUM"
-    else if (points > 700 && points < 1200)
-      return "MASTER"
-    else
-      return "CHALLENGER"
-  }
-
-  const check_next_rank = (points:number | undefined) :string => {
-
-    if(points === undefined)
-      return ""
-    else if (points < 100)
-      return "BRONZE"
-    else if (points > 100 && points < 200)
-      return "SILVER"
-    else if (points > 200 && points < 300)
-      return "GOLD"
-    else if (points > 300 && points < 500)
-      return "PLATIUM"
-    else if (points > 500 && points < 700)
-      return "MASTER"
-    else if (points > 700 && points < 1200)
-      return "CHALLENGER"
-    else
-      return "IN_MAX"
-  }
+  const check_next_rank = (points: number | undefined): string => {
+    if (points === undefined) return "";
+    else if (points < 100) return "BRONZE";
+    else if (points > 100 && points < 200) return "SILVER";
+    else if (points > 200 && points < 300) return "GOLD";
+    else if (points > 300 && points < 500) return "PLATIUM";
+    else if (points > 500 && points < 700) return "MASTER";
+    else if (points > 700 && points < 1200) return "CHALLENGER";
+    else return "IN_MAX";
+  };
 
   return (
     <>
@@ -62,7 +43,10 @@ const Info_Profile = () => {
         <div className="Score_style_value">{is_me?.points} Points</div>
         <div className="Photo_dProfile">
           <img
-            src={my_user.playerData?.profile_image.replace("http://", "https://")}
+            src={my_user.playerData?.profile_image.replace(
+              "http://",
+              "https://"
+            )}
             className="Photo_dProfile"
           />
         </div>
@@ -84,7 +68,7 @@ const Info_Profile = () => {
               />
             </div>
             <div className="lvl_progress">
-              <img src="/public/Etoile.svg" className="Etoile_lvl" />
+              <img src="/Etoile.svg" className="Etoile_lvl" />
               <div className="lvl_value">{is_me?.level}</div>
             </div>
           </div>
@@ -99,19 +83,20 @@ const Info_Profile = () => {
           <ul>
             <li className="Static_Text">
               <span className="Color_Yellow">GAMES WON:</span>{" "}
-              {my_user.playerData?.win_games} OF {" "}
+              {my_user.playerData?.win_games} OF{" "}
               {my_user.playerData?.total_games}
             </li>
             <li className="Static_Text">
               <span className="Color_Yellow">WIN PERCENTAGE:</span>{" "}
-              {percentage(is_me?.total_games, is_me?.win_games)}
-              %
+              {percentage(is_me?.total_games, is_me?.win_games)}%
             </li>
             <li className="Static_Text">
-              <span className="Color_Yellow">RANK:</span> {check_rank(is_me?.points)}
+              <span className="Color_Yellow">RANK:</span>{" "}
+              {check_rank(is_me?.points)}
             </li>
             <li className="Static_Text">
-              <span className="Color_Yellow">NEXT RANK:</span> {check_next_rank(is_me?.points)}
+              <span className="Color_Yellow">NEXT RANK:</span>{" "}
+              {check_next_rank(is_me?.points)}
             </li>
           </ul>
         </div>

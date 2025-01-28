@@ -110,7 +110,7 @@ interface data_request {
 //                 <button onClick={Is_Denied} className={other.decline}>
 //                   <div className={other.add_friend_i}>
 //                     <img
-//                       src="/public/Icones/decline_icone.svg"
+//                       src="/Icones/decline_icone.svg"
 //                       className={other.icone_add}
 //                       alt="icone_add_friend"
 //                     />
@@ -124,7 +124,7 @@ interface data_request {
 //               <div className={other.accept1}>
 //                 <div className={other.add_friend_i}>
 //                   <img
-//                     src="front/public/Icones/we_are_friends.svg"
+//                     src="front/Icones/we_are_friends.svg"
 //                     className={other.icone_add}
 //                     alt="icone_add_friend"
 //                   />
@@ -156,7 +156,7 @@ interface data_request {
 //               <div className={other.add_friend_i}>
 //                 {" "}
 //                 <img
-//                   src="/public/Icones/we_are_friends.svg"
+//                   src="/Icones/we_are_friends.svg"
 //                   className={other.icone_add}
 //                   alt="icone_add_friend"
 //                 />{" "}
@@ -390,7 +390,7 @@ const Action_Friends = ({ username }: { username: string | undefined }) => {
                 <button onClick={Is_Denied} className={other.decline}>
                   <div className={other.add_friend_i}>
                     <img
-                      src="/public/Icones/decline_icone.svg"
+                      src="/Icones/decline_icone.svg"
                       className={other.icone_add}
                       alt="icone_add_friend"
                     />
@@ -402,44 +402,16 @@ const Action_Friends = ({ username }: { username: string | undefined }) => {
           ) : (
             <div className={other.accept_or_decline}>
               <div className={other.accept1}>
-                  <div className={other.add_friend_i}>
-                    <img
-                      src="front/public/Icones/we_are_friends.svg"
-                      className={other.icone_add}
-                      alt="icone_add_friend"
-                    />
-                    <span>Friend</span>
-                  </div>
-              </div>
-              <div className={other.decline1}>
-                  <div className={other.add_friend_i}>
-                    <img
-                      src="/Icones/Message_to_User.svg"
-                      className={other.icone_add}
-                      alt="icone_add_friend"
-                    />
-                    <span>Message</span>
-                  </div>
-              </div>
-            </div>
-          )}
-        </>
-      );
-    else if (states === "accepted")
-      return (
-          <div className={other.accept_or_decline}>
-            <div className={other.accept1}>
                 <div className={other.add_friend_i}>
                   <img
-                    src="/public/Icones/we_are_friends.svg"
+                    src="front/Icones/we_are_friends.svg"
                     className={other.icone_add}
                     alt="icone_add_friend"
                   />
                   <span>Friend</span>
                 </div>
-            </div>
-            <div className={other.decline1}>
-              <button onClick={to_message} className={other.decline1}>
+              </div>
+              <div className={other.decline1}>
                 <div className={other.add_friend_i}>
                   <img
                     src="/Icones/Message_to_User.svg"
@@ -448,9 +420,37 @@ const Action_Friends = ({ username }: { username: string | undefined }) => {
                   />
                   <span>Message</span>
                 </div>
-              </button>
+              </div>
+            </div>
+          )}
+        </>
+      );
+    else if (states === "accepted")
+      return (
+        <div className={other.accept_or_decline}>
+          <div className={other.accept1}>
+            <div className={other.add_friend_i}>
+              <img
+                src="/Icones/we_are_friends.svg"
+                className={other.icone_add}
+                alt="icone_add_friend"
+              />
+              <span>Friend</span>
             </div>
           </div>
+          <div className={other.decline1}>
+            <button onClick={to_message} className={other.decline1}>
+              <div className={other.add_friend_i}>
+                <img
+                  src="/Icones/Message_to_User.svg"
+                  className={other.icone_add}
+                  alt="icone_add_friend"
+                />
+                <span>Message</span>
+              </div>
+            </button>
+          </div>
+        </div>
       );
   };
 
@@ -539,11 +539,10 @@ const Action_Friends = ({ username }: { username: string | undefined }) => {
     // SetSendRequestFriend(!SendRequestFriend);
   };
   const to_message = () => {
-    navig_to_msg("/Friends")
-  }
+    navig_to_msg("/Friends");
+  };
 
   return <div className={other.All_Action}>{if_state(Data?.states)}</div>;
 };
-
 
 export default Action_Friends;

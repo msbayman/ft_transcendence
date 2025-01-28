@@ -1,3 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import "@fontsource/manjari"; /* Default weight */
+@import "@fontsource/manjari/700.css"; /* Bold weight */
+@import "@fontsource/manjari/800.css"; /* Extra bold weight */
+@import "@fontsource/manjari/900.css"; /* Black weight */
+@import "@fontsource/manjari/300.css"; /* light weight  */
