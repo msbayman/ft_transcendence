@@ -51,20 +51,6 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
   const token = Cookies.get("access_token");
   const profile_redirec = useNavigate();
 
-  useEffect(() => {
-    if (loggedplayer.ws)
-    {
-      loggedplayer.ws.onmessage = (event) => 
-      {
-        console.log("***************************************", event.data.type);
-        if (event.data.type === "challenge_notification")
-        {
-          console.log("=====================>", event.data.content);
-        }
-      }
-    }
-  })
-
 
   const toggleDiv = () => {
     setShowDiv((prevState) => !prevState);
@@ -224,12 +210,14 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
   };
 
   useEffect(scrollToBottom, [localMessages]);
-  const sendChallenge = (name:string) => 
-  {
+  const sendChallenge = (name: string) => {
     if (loggedplayer.ws && loggedplayer.ws?.readyState === WebSocket.OPEN) {
-      console.log("te9sar time ")
-      loggedplayer.ws.send(JSON.stringify({"type":"challenge_notification" ,"sender":name}));
-  }}
+      loggedplayer.ws.send(JSON.stringify({
+        type: "send_challenge",
+        sender: name
+      }));
+    }
+  };
 
   const handleSend = () => {
     if (!input.trim() || !value) return;

@@ -129,6 +129,11 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({ childr
           return;
         }
 
+          console.log("heeere we gooooooooooooooooooooooooooooooooooooooooooooooo", data);
+        // if (data.type === "challenge_notification")
+        // {
+        // }
+
         if (data.type === "friend_status" && typeof data.online === 'boolean') {
           setOnlineFriends((prev) => {
             const exists = prev.find((friend) => friend.username === data.username);

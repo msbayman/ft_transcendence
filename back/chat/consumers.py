@@ -24,26 +24,34 @@ class NotifConsumer(AsyncJsonWebsocketConsumer):
     async def receive(self, text_data):
         data = json.loads(text_data)
         if data.get('type') == 'send_challenge':
-            username = data.get('username')
+            username = data.get('sender')
             if not username:
                 return
-            # Validate target user exists and is online
+            
             challenge_receiver = await self.get_user_by_username(username)
             if not challenge_receiver:
                 await self.send_json({"type": "error", "message": "User not found"})
                 return
+            
             if not challenge_receiver.is_online:
                 await self.send_json({"type": "error", "message": "User is offline"})
                 return
-            # Send challenge notification to receiver
+            
             await self.channel_layer.group_send(
                 f"user_{challenge_receiver.id}_notifications",
                 {
-                    "type": "challenge.notification",
+                    "type": "challenge_notification",
                     "sender": self.user.username,
                     "content": "You have a new challenge!",
                 }
             )
+
+    async def challenge_notification(self, event):
+        await self.send_json({
+            "type": "challenge_notification",
+            "sender": event["sender"],
+            "content": event["content"]
+        })
 
     @sync_to_async
     def get_user_by_username(self, username):

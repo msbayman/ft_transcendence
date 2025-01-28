@@ -2,7 +2,7 @@ import {
   NoSsr_default,
   Popper_default,
   Typography_default
-} from "./chunk-5RADL5IB.js";
+} from "./chunk-LAERJ5VZ.js";
 import {
   useTheme,
   useThemeProps
@@ -25,12 +25,12 @@ import {
   useSlotProps_default
 } from "./chunk-222HOEAV.js";
 import {
+  require_react_dom
+} from "./chunk-ZZLBGYQN.js";
+import {
   _extends,
   init_extends
 } from "./chunk-IFJDQTR6.js";
-import {
-  require_react_dom
-} from "./chunk-ZZLBGYQN.js";
 import {
   require_jsx_runtime
 } from "./chunk-JO3Y3TZY.js";

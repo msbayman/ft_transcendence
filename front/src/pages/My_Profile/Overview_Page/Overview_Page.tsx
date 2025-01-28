@@ -12,6 +12,7 @@ export const Overview_Page: React.FC = () => {
   const navigate = useNavigate();
   const dataPlayer = usePlayer();
 
+  console.log("data player", dataPlayer.playerData?.cover_image)
 
   const Onclick = () => {
     navigate("/Play");
