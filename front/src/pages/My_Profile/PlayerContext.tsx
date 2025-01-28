@@ -22,6 +22,7 @@ interface PlayerData {
   reach_level_30:boolean;
   perfect_win_game:boolean;
   perfect_win_tournaments:boolean;
+  active_2fa:boolean;
 }
 
 interface PlayerContextType {
@@ -84,6 +85,8 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({
 
 export const usePlayer = () => {
   const context = useContext(PlayerContext);
+  // console.log('context', context?.playerData);
+  
   if (!context) {
     throw new Error("usePlayer must be used within a PlayerProvider");
   }
