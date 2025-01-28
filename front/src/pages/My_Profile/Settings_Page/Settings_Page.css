@@ -323,7 +323,8 @@
   border-radius: 31px;
   background-size: 100% 88rem;
   background-repeat: no-repeat;
-  background-position-y: 10%;
+  background-position-y: 60%;
+  background-image: url("pingpong.svg");
   width: 100%;
   box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.335);
   height: 18rem;

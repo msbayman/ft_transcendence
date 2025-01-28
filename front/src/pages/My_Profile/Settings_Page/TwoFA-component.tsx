@@ -31,12 +31,10 @@ function TFA({
   setChecked,
   checked,
   email,
-  username,
 }: {
   setChecked: React.Dispatch<React.SetStateAction<boolean>>;
   checked: boolean;
   email: string;
-  username: string;
 }) {
   const [otp, setOtp] = useState<string[]>(Array(6).fill(""));
   const [open, setOpen] = useState<boolean>(false);
@@ -336,8 +334,8 @@ function TwoFA_Component() {
 
   const [checked, setChecked] = useState<boolean>(data.playerData?.active_2fa ?? true);
 
-  console.log('tfa', data.playerData?.active_2fa);
-  console.log('chekced ', checked);
+  // console.log('tfa', data.playerData?.active_2fa);
+  // console.log('chekced ', checked);
   
   
 
@@ -360,7 +358,6 @@ function TwoFA_Component() {
             setChecked={setChecked}
             checked={checked}
             email={data.playerData?.email ?? ""}
-            username={data.playerData?.username ?? ""}
           />
           {checked ? (
             <div className="flex items-center justify-center text-green-400 relative top-1">

@@ -19,6 +19,7 @@ import Game_Bot from "./pages/Game_Page/Game_Bot";
 import Game_Remot from "./pages/Game_Page/Game_Remot";
 import Test from "./pages/Game_Page/Test";
 import Game_Loby from "./pages/Game_Page/Game_loby";
+import toast, { Toaster } from 'react-hot-toast';
 
 function AppContent() {
   const navigate = useNavigate();
@@ -99,6 +100,7 @@ function AppContent() {
           <Route path="/test" element={<Test />} />
           {/* <Route path="/game_loby" element={<Game_Loby />} /> */}
         </Routes>
+        <Toaster />
       </main>
     </Fragment>
   );

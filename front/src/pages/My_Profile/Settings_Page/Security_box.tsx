@@ -1,54 +1,133 @@
 import Password_component from "./Password_component";
 import TwoFA_Component from "./TwoFA-component";
 import { useState } from "react";
+import Cookies from "js-cookie";
+import axios from "axios";
+import { usePlayer } from "../PlayerContext";
+import toast from 'react-hot-toast';
 
-interface player_data {
+interface PlayerData {
+  username: string;
   newPassword: string;
   oldPassword: string;
 }
 
-interface ProfileSideProps {
-  setPlayerData: React.Dispatch<React.SetStateAction<Partial<player_data>>>;
+
+interface SecurityBoxProps {
+
+  setPlayerData: (updatedData: Partial<PlayerData>) => void;
+
 }
 
-function Security_box({ setPlayerData }: ProfileSideProps) {
-  const handlesave = () => {
-    // Save function
-    console.log("Save function security");
+function Security_box({}: SecurityBoxProps) {
+  const data = usePlayer();
+  const [playerData, setLocalPlayerData] = useState<Partial<PlayerData>>({
+    username: data.playerData?.username,
+    oldPassword: '',
+    newPassword: ''
+  });
+  const [changed, setChanged] = useState<boolean>(false);
+  const [error, setError] = useState<string>('');
+
+  const handleSave = async () => {
+
+
+    try {
+      const token = Cookies.get("access_token");
+      if (!token) {
+        toast.error("No access token found.");
+        return;
+      }
+
+      if (!playerData.oldPassword || !playerData.newPassword) {
+        if (!playerData.oldPassword) {
+          toast.error("Old password is required.");
+        }
+        else
+          toast.error("New password is required.");
+        return;
+      }
+
+      const response = await axios.post(
+        "https://localhost/api/user_auth/changePassword",
+        {
+          username: playerData.username,
+          oldPassword: playerData.oldPassword,
+          newPassword: playerData.newPassword,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        toast.success("Password updated successfully !");
+        setTimeout(()=>{}, 9000);
+        setLocalPlayerData(prev => ({
+          ...prev,
+          oldPassword: '',
+          newPassword: ''
+        })); // this setter for the local state will reset the input fields to empty
+        setChanged(false);
+        window.location.reload();
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        setError(error.response?.data?.error || "Failed to update password");
+        const errorMessage = error.response?.data?.error || "Failed to update password";
+        toast.error(errorMessage);
+      }
+    }
   };
 
-  const [changed, setChanged] = useState<boolean>(false);
+  const handleCancel = () => {
+    setLocalPlayerData(prev => ({
+      ...prev,
+      oldPassword: '',
+      newPassword: ''
+    }));
+    setChanged(false);
+  };
 
   return (
     <div className="from-box security">
       <Password_component
-        setPlayerData={setPlayerData}
+        setPlayerData={setLocalPlayerData}
         setChanged={setChanged}
       />
       <TwoFA_Component />
-      <div className="save-cancel right-[15rem]" style={{ visibility: changed ? "visible" : "hidden" }}>
+      <div
+        className="save-cancel right-[15rem]"
+        style={{ visibility: changed ? "visible" : "hidden" }}
+      >
         <div className="child-btn">
-          <button className="btn cancel">Cancel</button>
+          <button 
+            className="btn cancel"
+            onClick={handleCancel}
+          >
+            Cancel
+          </button>
           <button
             className="btn save"
-            disabled={changed ? false : true}
-            onClick={handlesave}
+            disabled={!changed}
+            onClick={handleSave}
             style={{ cursor: changed ? "pointer" : "not-allowed" }}
           >
             Save
           </button>
         </div>
-        {/* {error && (
-            <p
-              className={
-                !redorgreen
-                  ? "flex justify-end items-end relative right-3 text-red-500 text-xs"
-                  : "flex justify-end items-end relative right-3 text-green-500 text-xs"
-              }
+        {error && (
+            <div
+              className={`text-center mb-4 ${
+                error.includes("success") ? "text-green-600" : "text-red-600"
+              }`}
             >
               {error}
-            </p>
-          )} */}
+            </div>
+          )}
       </div>
     </div>
   );

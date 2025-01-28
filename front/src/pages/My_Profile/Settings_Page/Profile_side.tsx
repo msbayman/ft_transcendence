@@ -6,22 +6,13 @@ import { useState } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 import CustomizedDialogs from "./Dialog";
-import { toast } from "react-toastify";
+import { toast } from "react-hot-toast";
 
-
-
-function Profile_side(){
-  
-  
-  const [error, setError] = useState<string>("");
-  const [redorgreen, setRedOrGreen] = useState<boolean>(false);
-  
-  
-  
+function Profile_side() {
   const data_player = usePlayer();
-  
+
   const [changed, setChanged] = useState<boolean>(false);
-  
+
   interface player_data {
     username: string;
   }
@@ -29,52 +20,46 @@ function Profile_side(){
     username: "",
   });
 
-
   const handleSave = async (): Promise<void> => {
-  try {
-    const token = Cookies.get("access_token");
-    if (!token) {
-      throw new Error("No access token found.");
-    }
-
-    interface UpdatePlayerData {
-      username?: string;
-    }
-
-    // Create an object to hold the fields to update
-    const updateData: UpdatePlayerData = {};
-    
-    // Only include fields that have changed
-    if (player_data.username) {
-      updateData.username = player_data.username;
-    }
-
-    const response = await axios.post<player_data>(
-      "https://localhost/api/user_auth/update_player",
-      updateData,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
+    try {
+      const token = Cookies.get("access_token");
+      if (!token) {
+        throw new Error("No access token found.");
       }
-    );
 
-    // Handle successful response
-    if (response.status === 200) {
-      setRedOrGreen(true);
-      setPlayerData(response.data);
-      toast.success("Profile updated successfully");
-      setError("Profile updated successfully");
+      interface UpdatePlayerData {
+        username?: string;
+      }
+
+      // Create an object to hold the fields to update
+      const updateData: UpdatePlayerData = {};
+
+      // Only include fields that have changed
+      if (player_data.username) {
+        updateData.username = player_data.username;
+      }
+
+      const response = await axios.post<player_data>(
+        "https://localhost/api/user_auth/update_player",
+        updateData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        setPlayerData(response.data);
+        toast.success("Username updated successfully");
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        toast.error(error.response?.data?.error);
+      }
     }
-  } catch (error) {
-    if (axios.isAxiosError(error)) {
-      // toast.error(error.response?.data?.message || "Failed to update profile");
-      console.error("Failed to update profile:", error);
-      setError(error.response?.data?.message || "Failed to update profile");
-    }
-  }
-};
+  };
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
@@ -87,41 +72,37 @@ function Profile_side(){
       ...prev,
       [name]: value,
     }));
-    console.log(value);
   };
-  const [selectedCoverId, setSelectedCoverId] = useState(
-    data_player.playerData?.cover_image
-  );
+
+  const [t, setT] = useState<boolean>(false);
+  const [file, setFile] = useState<File | null>(null);
 
   return (
     <div className="from-box profile overflow-hidden">
       <div className="prf-pic">
         <div className="bannerANDprofile">
           <div
-            style={{
-              backgroundImage: `url(${data_player.playerData?.cover_image})`,
-            }}
+            // style={{
+            //   backgroundImage: `url(${data_player.playerData?.cover_image})`,
+            // }}
             className="cover-pic"
           >
-            <div className="change-cover">
-              <FontAwesomeIcon icon={faPen} />
-              <CustomizedDialogs
-                setSelectedCover={setSelectedCoverId}
-                currentCover={selectedCoverId || ""}
-              />
-            </div>
           </div>
           <div className="profile-pic">
             <img
-              src={data_player.playerData?.profile_image}
+              src={
+                !t
+                  ? data_player.playerData?.profile_image
+                  : file
+                  ? URL.createObjectURL(file)
+                  : undefined
+              }
               className="Photo"
             />
             <input
               onChange={async (e) => {
                 const file = e.target.files?.[0];
                 if (!file) return;
-
-                console.log(file);
 
                 const formData = new FormData();
                 formData.append("profile_image", file);
@@ -144,24 +125,28 @@ function Profile_side(){
                   );
 
                   if (response.status === 200) {
+                    setFile(file);
+                    setT(true);
                     toast.success("Profile image updated successfully");
                     setPlayerData((prev) => ({
                       ...prev,
                       profile_image: response.data.profile_image,
                     }));
-                    window.location.reload(); // Reload the page to update the profile image
                   }
                 } catch (error) {
                   // handle error status 413 entity too large
-                  if (axios.isAxiosError(error) && error.response?.status === 413) {
-                    setError("File size too large. Please upload a smaller file.");
-                  } else
-                  {
-                  if (axios.isAxiosError(error)) {
-                    console.error("Failed to upload profile image:", error);
-                    setError(error.response?.data?.error );
+                  if (
+                    axios.isAxiosError(error) &&
+                    error.response?.status === 413
+                  ) {
+                    toast.error(
+                      "File size too large. Please upload a smaller file."
+                    );
+                  } else {
+                    if (axios.isAxiosError(error)) {
+                      toast.error(error.response?.data?.error);
+                    }
                   }
-                }
                 }
               }}
               type="file"
@@ -169,7 +154,10 @@ function Profile_side(){
               className="change-profile"
               id="fileInput"
             />
-            <label htmlFor="fileInput" className="change-profile cursor-pointer font-bold">
+            <label
+              htmlFor="fileInput"
+              className="change-profile cursor-pointer font-bold"
+            >
               <FontAwesomeIcon icon={faPen} />
               Change
             </label>
@@ -207,17 +195,6 @@ function Profile_side(){
                 Save
               </button>
             </div>
-            {error && (
-            <p
-              className={
-                !redorgreen
-                  ? "flex justify-end relative right-3 text-red-500 text-xs"
-                  : "flex justify-end relative right-3 text-green-500 text-xs"
-              }
-            >
-              {error}
-            </p>
-          )}
           </div>
         </div>
       </div>

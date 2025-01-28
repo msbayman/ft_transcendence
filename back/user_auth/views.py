@@ -102,6 +102,12 @@ def update_player(request):
 
     
     if not new_username or len(new_username) < 4 or len(new_username) > 40 or new_username == 'admin':
+        if len(new_username) < 4:
+            return Response({'error': 'Username must be at least 4 characters long.'}, status=status.HTTP_400_BAD_REQUEST)
+        if len(new_username) > 40:
+            return Response({'error': 'Username must be at most 40 characters long.'}, status=status.HTTP_400_BAD_REQUEST)
+        if new_username == 'admin':
+            return Response({'error': 'Username cannot be "admin".'}, status=status.HTTP_400_BAD_REQUEST)
         return Response({'error': 'Username is required.'}, status=status.HTTP_400_BAD_REQUEST)
 
     try:
@@ -143,21 +149,83 @@ def update_player(request):
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def changePassword(request):
-    data = request.data
-    new_password = data.get('newPassword')
-    old_password = data.get('oldPassword')
-    user = Player.objects.filter(userID=request.user.userID).first()
-    if not user.check_password(old_password):
-        return Response({'error': 'Invalid old password'}, status=status.HTTP_400_BAD_REQUEST)
+    """
+    Change password endpoint for authenticated users.
+    Requires old_password and new_password in request data.
+    """
     try:
-        password_validation.validate_password(new_password)
+        # Get data from request
+        username = request.data.get('username')
+        new_password = request.data.get('newPassword')
+        old_password = request.data.get('oldPassword')
+
+        # Validate input data
+        if not all([username, new_password, old_password]):
+            return Response({
+                'error': 'Username, old password, and new password are required.'
+            }, status=status.HTTP_400_BAD_REQUEST)
+
+        # Log password change attempt (without sensitive data)
+        logger.info(f"Password change attempt for user: {username}")
+
+        # Get the player instance
+        try:
+            player = Player.objects.get(username=username)
+        except Player.DoesNotExist:
+            return Response({
+                'error': 'Player not found'
+            }, status=status.HTTP_404_NOT_FOUND)
+
+        # Verify the requesting user matches the username
+        if request.user.username != username:
+            return Response({
+                'error': 'Unauthorized to change password for this user'
+            }, status=status.HTTP_403_FORBIDDEN)
+
+        # check for the player with prov_name 42
+        if player.prov_name == '42':
+            return Response({
+                'error': 'You cannot change the password'
+            }, status=status.HTTP_403_FORBIDDEN)
+        # Verify old password
+        if not player.check_password(old_password):
+            return Response({
+                'error': 'Current password is incorrect'
+            }, status=status.HTTP_400_BAD_REQUEST)
+
+        # Validate new password
+        try:
+            validate_password(new_password, player)
+        except ValidationError as e:
+            return Response({
+                'error': ' '.join(e.messages)
+            }, status=status.HTTP_400_BAD_REQUEST)
+
+        # Check if new password is same as old password
         if old_password == new_password:
-            return JsonResponse({'error': 'New password cannot be the same as old password'}, status=status.HTTP_400_BAD_REQUEST)
-    except ValidationError as e:
-        return Response({'error': ' '.join(e.messages)}, status=status.HTTP_400_BAD_REQUEST)
-    user.set_password(new_password)
-    user.save()
-    return Response({'success': True, 'message': 'Password changed successfully'}, status=status.HTTP_200_OK)
+            return Response({
+                'error': 'New password must be different from current password'
+            }, status=status.HTTP_400_BAD_REQUEST)
+
+        # Change password in transaction
+        with transaction.atomic():
+            player.set_password(new_password)
+            player.save()
+
+            # Log successful password change
+            logger.info(f"Password successfully changed for user: {username}")
+
+            return Response({
+                'success': True,
+                'message': 'Password changed successfully'
+            }, status=status.HTTP_200_OK)
+
+    except Exception as e:
+        # Log the error
+        logger.error(f"Password change error for user {username}: {str(e)}")
+        return Response({
+            'error': 'An error occurred while updating the password'
+        }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 @api_view(['POST'])
@@ -396,49 +464,6 @@ class GetPlayer(APIView):
             return Response({"error": "No player found with this username"}, status=status.HTTP_404_NOT_FOUND)
 
 
-# @api_view(['POST'])
-# @permission_classes([IsAuthenticated])
-# def change_cover(request):
-
-#     try:
-#         user = request.user.username
-
-#         player = Player.objects.get(username=user)
-
-#         cover = request.data.get('cover')
-
-#         player.cover_image = cover
-
-#         player.save()
-
-#         return Response({
-#             'message': 'Cover image uploaded successfully',
-#             'image_url': player.cover_image.url
-#         })
-    
-#     except Player.DoesNotExist:
-#         return Response({"error": "No player found with this username"}, status=status.HTTP_404_NOT_FOUND)
-    
-#     except Exception as e:
-#         return Response({"error": "An error occurred while uploading the cover image"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
-#     return Response({"error": "Not implemented"}, status=status.HTTP_200_OK)
-    # try:
-    #     print("=====>>> this is request ", request.data)
-    #     # cover = request.data.get('selectedImage')
-    #     # username = request.user.username
-    #     # player = Player.objects.get(username=username)
-    #     # player.cover_image = cover
-    #     # player.save()
-    #     # return Response({
-    #     #     'message': 'Cover image uploaded successfully',
-    #     #     'image_url': player.cover_image.url
-    #     # })
-
-    # except Player.DoesNotExist:
-    #     return Response({"error": "No player found with this username"}, status=status.HTTP_404_NOT_FOUND)
-
-
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
@@ -461,7 +486,7 @@ def upload_profile_image(request):
         
         # Fix 3: Save image with proper filename
         player.profile_image.save(
-            f"{player.username}.jpg",
+            f"{player.username}.jpg", # we save the image with the username as the filename
             File(img_temp), # we use img_temp instead of image_file here to save the image 
             save=True
         )
