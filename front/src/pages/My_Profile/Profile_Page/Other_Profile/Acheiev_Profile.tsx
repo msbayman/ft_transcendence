@@ -1,6 +1,5 @@
 import { useState } from "react";
 import other from "./Acheiev_Profile.module.css";
-// import { usePlayer } from "../../PlayerContext";
 import { data_of_player } from "./interface";
 
 interface data_interface {
@@ -11,8 +10,6 @@ const Acheiev_Profile = ({ other_data }: data_interface) => {
   const if_true = (status: boolean | undefined) => {
     return status === true ? other.true : other.false;
   };
-  // const my_data = usePlayer();
-  console.log("adds", other_data?.username);
 
   const total = [
     {
