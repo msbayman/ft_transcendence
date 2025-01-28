@@ -24,6 +24,7 @@ urlpatterns = [
      # path('', views.resend_otp, name='resend_otp'),
      # path('UpdatePass/', views.UpdatePass.as_view(), name='UpdatePass'),
      path('upload_profile_image', views.upload_profile_image, name='upload_profile_image'),
+     # path('change_cover', views.change_cover, name='change_cover'),
 
      # path('health_check',  views.health_check, name='health_check'),  # Use a trailing slash
      # path('health_check',  views.health_check, name='health_check'),  # Use a trailing slash

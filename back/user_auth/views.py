@@ -397,15 +397,51 @@ class GetPlayer(APIView):
 
 
 # @api_view(['POST'])
+# @permission_classes([IsAuthenticated])
 # def change_cover(request):
-#     try:
-#         user = request.user
-#         player = Player.objects.get(username=user.username)
 
-#         if 
+#     try:
+#         user = request.user.username
+
+#         player = Player.objects.get(username=user)
+
+#         cover = request.data.get('cover')
+
+#         player.cover_image = cover
+
+#         player.save()
+
+#         return Response({
+#             'message': 'Cover image uploaded successfully',
+#             'image_url': player.cover_image.url
+#         })
+    
+#     except Player.DoesNotExist:
+#         return Response({"error": "No player found with this username"}, status=status.HTTP_404_NOT_FOUND)
+    
+#     except Exception as e:
+#         return Response({"error": "An error occurred while uploading the cover image"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+#     return Response({"error": "Not implemented"}, status=status.HTTP_200_OK)
+    # try:
+    #     print("=====>>> this is request ", request.data)
+    #     # cover = request.data.get('selectedImage')
+    #     # username = request.user.username
+    #     # player = Player.objects.get(username=username)
+    #     # player.cover_image = cover
+    #     # player.save()
+    #     # return Response({
+    #     #     'message': 'Cover image uploaded successfully',
+    #     #     'image_url': player.cover_image.url
+    #     # })
+
+    # except Player.DoesNotExist:
+    #     return Response({"error": "No player found with this username"}, status=status.HTTP_404_NOT_FOUND)
+
 
 
 @api_view(['POST'])
+@permission_classes([IsAuthenticated])
 def upload_profile_image(request):
     try:
         username = request.user.username
@@ -419,14 +455,14 @@ def upload_profile_image(request):
         
         # Fix 2: Proper file handling
         img_temp = NamedTemporaryFile(delete=True)
-        for chunk in image_file.chunks():
-            img_temp.write(chunk)
+        for chunk in image_file.chunks(): # iterate over the image file chunks
+            img_temp.write(chunk) # write each chunk to the temporary file 
         img_temp.flush()
         
         # Fix 3: Save image with proper filename
         player.profile_image.save(
             f"{player.username}.jpg",
-            File(img_temp),
+            File(img_temp), # we use img_temp instead of image_file here to save the image 
             save=True
         )
         
