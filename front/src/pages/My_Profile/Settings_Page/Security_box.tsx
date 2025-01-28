@@ -27,7 +27,7 @@ function Security_box({}: SecurityBoxProps) {
     newPassword: ''
   });
   const [changed, setChanged] = useState<boolean>(false);
-  const [error, setError] = useState<string>('');
+  // const [error, setError] = useState<string>('');
 
   const handleSave = async () => {
 
@@ -76,9 +76,7 @@ function Security_box({}: SecurityBoxProps) {
       }
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        setError(error.response?.data?.error || "Failed to update password");
-        const errorMessage = error.response?.data?.error || "Failed to update password";
-        toast.error(errorMessage);
+        toast.error(error.response?.data?.error || "Failed to update password");
       }
     }
   };
@@ -119,15 +117,6 @@ function Security_box({}: SecurityBoxProps) {
             Save
           </button>
         </div>
-        {error && (
-            <div
-              className={`text-center mb-4 ${
-                error.includes("success") ? "text-green-600" : "text-red-600"
-              }`}
-            >
-              {error}
-            </div>
-          )}
       </div>
     </div>
   );
