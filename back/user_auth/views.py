@@ -31,7 +31,6 @@ from django.db import transaction
 from django.core.exceptions import ValidationError
 from django.contrib.auth.hashers import make_password
 
-
 # Logger setup
 logger = logging.getLogger(__name__)
 
@@ -84,10 +83,6 @@ def delete_player(request):
     
     try:
         player_to_delete = Player.objects.get(username=username)
-
-        for friend in player_to_delete.list_users_friends.all():
-            friend.list_users_friends.remove(player_to_delete)
-
         player_to_delete.delete()
         return Response({'message': f'Player {username} deleted successfully'}, status=status.HTTP_200_OK)
     except Player.DoesNotExist:
@@ -331,7 +326,7 @@ class UserDetailView(APIView):
     
     def get(self, request):
         users = request.user
-        # users.is_online = True
+        users.is_online = True
         users.save();
         serializer = PlayerSerializer(users , context = {"request": request})
         return Response( serializer.data )

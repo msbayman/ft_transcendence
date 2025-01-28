@@ -28,17 +28,6 @@ class Player(AbstractUser):
         related_name='blocked_by',
         blank=True,
     )
-    def block_user(self, user):
-        if user != self:
-            self.blocked_users.add(user)
-
-    def unblock_user(self, user):
-        self.blocked_users.remove(user)
-
-    def is_blocked(self, user):
-        return self.blocked_users.filter(pk=user.pk).exists()
-
-    # nickname = models.CharField('', blank=True)
 
     ####################################################################
 

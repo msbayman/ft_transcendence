@@ -19,4 +19,5 @@ Pillow==8.3.1
 daphne
 channels
 channels-redis
+python-logstash #will turn off kibana if not installed
 python-dotenv
