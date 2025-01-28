@@ -404,7 +404,7 @@ const Action_Friends = ({ username }: { username: string | undefined }) => {
               <div className={other.accept1}>
                 <div className={other.add_friend_i}>
                   <img
-                    src="front/Icones/we_are_friends.svg"
+                    src="/Icones/we_are_friends.svg"
                     className={other.icone_add}
                     alt="icone_add_friend"
                   />

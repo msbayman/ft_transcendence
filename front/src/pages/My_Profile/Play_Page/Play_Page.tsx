@@ -398,11 +398,11 @@ const Play_Page: React.FC = () => {
                     setCurrentSlideIndex(0)
                     handleNextClick()
                   }}
-                  // disabled={
-                  //   isCurrentSlideSelected() || isOneOfSlidesSelected()
-                  //     ? false
-                  //     : true
-                  // }
+                  disabled={
+                    isOneOfSlidesSelected()
+                      ? false
+                      : true
+                  }
                 >
                   <NextButton />
                   <span className="hidden opacity-0 absolute transform  bg-black text-white px-2.5 py-1 rounded whitespace-nowrap transition-opacity duration-200 group-hover:block group-hover:opacity-100">

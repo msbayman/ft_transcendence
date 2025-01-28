@@ -24,6 +24,7 @@ import Game_Loby from "./pages/Game_Page/Game_loby";
 import Tournaments from "./pages/Tournaments/Tournaments";
 // import NotFound from "./NotFound";
 
+import { isValid } from "zod";
 
 function AppContent() {
   const navigate = useNavigate();
@@ -65,7 +66,7 @@ function AppContent() {
 
       if (isPublicPath) {
         if (isValidToken) {
-          navigate("/overview");
+          navigate("/Overview");
         }
       } else {
         if (!isValidToken) {
@@ -91,7 +92,7 @@ function AppContent() {
           <Route path="Valid_otp" element={<Valid_otp />} />
           <Route path="/local_game" element={<Game_Local p1={"player1"} p2={"player2"}  mod={0} onEnd={null} />} />
           {/* <Route path="/local_bot" element={<Game_Bot />} /> */}
-          <Route path="/remote_game" element={<Game_Remot />} />
+          {/* <Route path="/remote_game" element={<Game_Remot />} /> */}
           <Route path="/test" element={<Test />} />
           <Route path="/Tournaments" element={<Tournaments />} />
           <Route path="/remote_game" element={<Game_Loby />} />
