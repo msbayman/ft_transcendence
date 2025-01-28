@@ -76,9 +76,14 @@ function TFA({
     status: boolean;
   }
 
-  const handleClickOpen = async ({
+  /*
+      const handleClickOpen = async ({
     status,
   }: HandleClickOpenProps): Promise<void> => {
+
+  */
+
+  const handleClickOpen = async (): Promise<void> => {
     setOpen(true);
 
     try {
@@ -90,13 +95,13 @@ function TFA({
       }
 
       console.log(data.playerData?.username);
-      console.log(status);
+      // console.log(status);
 
-      const response = await axios.post( // line: 95
-        "https://localhost:443/api/user_auth/VerifyOTPSettings/",
+      const response = await axios.post(
+        // line: 95
+        "https://localhost:443/api/user_auth/SendOtpForSettings",
         {
           username: data.playerData?.username,
-          state: status,
         },
         {
           headers: {
@@ -116,15 +121,25 @@ function TFA({
     }
   };
   const resendCode = async (): Promise<void> => {
+    setOpen(true);
+
     try {
       const token = Cookies.get("access_token");
 
       if (!token) {
+        console.log("No access token found.");
         throw new Error("No access token found.");
       }
 
-      const respone = await axios.post(
-        "https://localhost:443/api/user_auth/resend_otp",
+      console.log(data.playerData?.username);
+      // console.log(status);
+
+      const response = await axios.post(
+        // line: 95
+        "https://localhost:443/api/user_auth/SendOtpForSettings",
+        {
+          username: data.playerData?.username,
+        },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -133,12 +148,12 @@ function TFA({
         }
       );
 
-      if (respone.status === 200) {
-        setError("OTP resent successfully!");
+      if (response.status === 200) {
+        setError(response.data.message);
         setTimeout(() => setError(null), 3000);
       }
-    } catch (err) {
-      setError("Failed to resend code");
+    } catch (err: any) {
+      setError(err.response?.data?.detail || "Failed to send OTP");
       setTimeout(() => setError(null), 3000);
     }
   };
@@ -154,7 +169,9 @@ function TFA({
     setOpen(false);
   };
 
-  const checkOtpCode = async (): Promise<void> => {
+  const checkOtpCode = async ({
+    status,
+  }: HandleClickOpenProps): Promise<void> => {
     const otpString = otp.join("");
     console.log(otpString);
     if (otpString.length !== 6) {
@@ -166,17 +183,30 @@ function TFA({
 
     try {
       console.log("Start A");
+      const token = Cookies.get("access_token");
+
+      if (!token) {
+        console.log("No access token found.");
+        throw new Error("No access token found.");
+      }
       const response = await axios.post(
-        "https://localhost:443/api/user_auth/VerifyOTP",
+        "https://localhost:443/api/user_auth/VerifyOTPSettings",
         {
-          username: username,
+          username: data.playerData?.username,
           otp: otpString,
+          state: status,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
         }
       );
       console.log("this is respone ", response);
       if (response.status === 200) {
         setError("Verification successful!");
-        setChecked(true);
+        setChecked(!status);
         setTimeout(() => setError(null), 3000);
         handleClose();
       }
@@ -190,8 +220,8 @@ function TFA({
   return (
     <React.Fragment>
       <h4
-        onClick={() => handleClickOpen({ status: checked })} // line: 193
-        className="cursor-pointer border relative top-4 rounded-lg p-2 hover:bg-[#abe8df47]"
+        onClick={() => handleClickOpen()} // line: 193
+        className="cursor-pointer border p-2 hover:bg-[#abe8df47]"
       >
         Activate Two-factor authentication (2FA)
       </h4>
@@ -287,7 +317,7 @@ function TFA({
             <h4
               className="cursor-pointer text-2xl text-white font-manjari relative top-[4px]"
               onClick={() => {
-                checkOtpCode();
+                checkOtpCode({ status: checked });
                 setTimeout(() => {}, 3000);
               }}
             >
@@ -301,14 +331,22 @@ function TFA({
 }
 
 function TwoFA_Component() {
-  const [checked, setChecked] = useState(false);
 
   const data = usePlayer();
+
+  const [checked, setChecked] = useState<boolean>(data.playerData?.active_2fa ?? true);
+
+  console.log('tfa', data.playerData?.active_2fa);
+  console.log('chekced ', checked);
+  
+  
 
   return (
     <>
       <div className="relative right-[22%]">
-        <h4 className="relative font-size mt-[1.6rem] ">Two-Factor Authentication (2FA)</h4>
+        <h4 className="relative font-size mt-[1.6rem] ">
+          Two-Factor Authentication (2FA)
+        </h4>
       </div>
       <div className="TwoFA">
         <p className="description">

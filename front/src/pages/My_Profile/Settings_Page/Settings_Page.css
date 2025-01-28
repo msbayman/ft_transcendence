@@ -264,6 +264,7 @@
   font-family: "Alexandria", sans-serif;
   display: flex;
   flex-direction: column;
+  position: relative;
   font-size: 23px;
   color: white;
   gap: 0.5rem;
@@ -309,10 +310,10 @@
 }
 
 .prf-pic {
-  padding: 3rem 0rem 6rem 0rem;
+  /* padding: 3rem 0rem 6rem 0rem; */
   display: flex;
   flex-direction: column;
-  gap: 12em;
+  gap: 10em;
   margin: 0 auto;
   width: 100%;
 }
@@ -350,10 +351,11 @@
 .Photo {
   border-radius: 50%;
   width: 85%;
+  height: 13rem;
+  background-size: cover;
   opacity: 1;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.51);
   position: relative;
-
 }
 .change-profile {
   position: absolute;
@@ -415,5 +417,6 @@ input[type="file"] {
   justify-content: center;
   align-items: center;
   position: relative;
+  top: 2rem;
 
 }

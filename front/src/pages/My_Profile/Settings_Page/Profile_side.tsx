@@ -117,8 +117,55 @@ function Profile_side(){
               className="Photo"
             />
             <input
+              onChange={async (e) => {
+                const file = e.target.files?.[0];
+                if (!file) return;
+
+                console.log(file);
+
+                const formData = new FormData();
+                formData.append("profile_image", file);
+
+                try {
+                  const token = Cookies.get("access_token");
+                  if (!token) {
+                    throw new Error("No access token found.");
+                  }
+
+                  const response = await axios.post(
+                    "https://localhost/api/user_auth/upload_profile_image",
+                    formData,
+                    {
+                      headers: {
+                        Authorization: `Bearer ${token}`,
+                        "Content-Type": "multipart/form-data",
+                      },
+                    }
+                  );
+
+                  if (response.status === 200) {
+                    toast.success("Profile image updated successfully");
+                    setPlayerData((prev) => ({
+                      ...prev,
+                      profile_image: response.data.profile_image,
+                    }));
+                    window.location.reload(); // Reload the page to update the profile image
+                  }
+                } catch (error) {
+                  // handle error status 413 entity too large
+                  if (axios.isAxiosError(error) && error.response?.status === 413) {
+                    setError("File size too large. Please upload a smaller file.");
+                  } else
+                  {
+                  if (axios.isAxiosError(error)) {
+                    console.error("Failed to upload profile image:", error);
+                    setError(error.response?.data?.error );
+                  }
+                }
+                }
+              }}
               type="file"
-              accept="image/*"
+              accept="image/png, image/jpeg, image/jpg"
               className="change-profile"
               id="fileInput"
             />
@@ -148,7 +195,7 @@ function Profile_side(){
               disabled
             />
           </span>
-          <div className="save-cancel left-[2rem]" style={{ visibility: changed ? "visible" : "hidden" }}>
+          <div className="save-cancel left-[2rem]">
             <div className="child-btn">
               <button className="btn cancel">Cancel</button>
               <button
@@ -164,8 +211,8 @@ function Profile_side(){
             <p
               className={
                 !redorgreen
-                  ? "flex justify-end items-end relative right-3 text-red-500 text-xs"
-                  : "flex justify-end items-end relative right-3 text-green-500 text-xs"
+                  ? "flex justify-end relative right-3 text-red-500 text-xs"
+                  : "flex justify-end relative right-3 text-green-500 text-xs"
               }
             >
               {error}

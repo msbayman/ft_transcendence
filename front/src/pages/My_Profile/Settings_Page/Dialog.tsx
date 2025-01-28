@@ -5,7 +5,9 @@ import DialogContent from "@mui/material/DialogContent";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
-
+import Cookies from "js-cookie";
+import axios from "axios";
+import { toast } from "react-toastify";
 // import CloseIcon from '@mui/icons-material/Close';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -56,9 +58,31 @@ export default function CustomizedDialogs({
     setSelectedImage(imagePath);
   };
 
-  const handleSave = () => {
-    setSelectedCover(selectedImage);
-    handleClose();
+  const handleSave = async () => {
+    // try {
+    //   const token = Cookies.get("access_token");
+    //   if (!token) {
+    //     throw new Error("No access token found.");
+    //   }
+
+    //   const request = await axios.post(
+    //     "https://localhost/api/user_auth/change_cover",
+    //     selectedImage,
+    //     {
+    //       headers: {
+    //         Authorization: `Bearer ${token}`,
+    //         "Content-Type": "multipart/form-data",
+    //       },
+    //     }
+    //   );
+
+    //   if (request.status === 200) {
+    //     toast.success("Cover image updated successfully");
+    //     setSelectedCover(selectedImage);
+    //     window.location.reload();
+    //   }
+      handleClose();
+    // } catch (error) {}
   };
 
   return (
