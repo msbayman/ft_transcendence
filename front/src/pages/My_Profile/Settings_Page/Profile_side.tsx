@@ -5,7 +5,6 @@ import { faPen } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
-import CustomizedDialogs from "./Dialog";
 import { toast } from "react-hot-toast";
 
 function Profile_side() {
