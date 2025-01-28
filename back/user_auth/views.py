@@ -387,23 +387,6 @@ class GetPlayer(APIView):
             return Response(serializer.data)
         except Player.DoesNotExist:
             return Response({"error": "No player found with this username"}, status=status.HTTP_404_NOT_FOUND)
-        
-
-# class SearchUser(APIView):
-#     def get(self, request):
-#         query = request.GET.get('q', '')  # Get the search query from the request
-#         print(f"------->>>>>Query: {query}")
-#         if query:
-#             # Filter players based on the query (e.g., search by full_name)
-#             players = Player.objects.exclude(username='admin').filter(username__icontains=query)  # Case-insensitive search
-#         else:
-#             players = Player.objects.none()  # Return an empty queryset if no query
-
-#         # Convert the queryset to a list of dictionaries with only full_name and profile_image
-#         players_list = list(players.values('id', 'username', 'profile_image', 'level'))
-#         print(players_list , '<><><><><><><><<<<<<>>>>????')
-
-#         return Response(players_list, status=status.HTTP_200_OK)
 
 
 class SearchUser(APIView):
