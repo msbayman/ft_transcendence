@@ -1,5 +1,5 @@
 import "./Settings_Page.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import React from "react";
 import { styled } from "@mui/material/styles";
 import Dialog from "@mui/material/Dialog";
@@ -187,7 +187,7 @@ function TFA({
       );
       if (response.status === 200) {
         toast.success("Verification successful!");
-        setChecked(prev => prev === true ? false : true);
+        setChecked((prev) => (prev === true ? false : true));
         setTimeout(() => setError(null), 3000);
         handleClose();
       }
@@ -198,19 +198,17 @@ function TFA({
     }
   };
 
-  const Deactivate: string = "cursor-pointer border-[2px] p-2 rounded-md relative top-3 transition-transform duration-200 ease-in-out hover:scale-105 hover:bg-red-500 hover:text-white";
-  const Activate:   string = "cursor-pointer border-[2px] p-2 rounded-md relative top-3 transition-transform duration-300 ease-in-out hover:scale-105 hover:bg-[#28a745] hover:text-white";
+  const Deactivate: string =
+    "cursor-pointer border-[2px] p-2 rounded-md relative top-3 transition-transform duration-200 ease-in-out hover:scale-105 hover:bg-red-500 hover:text-white";
+  const Activate: string =
+    "cursor-pointer border-[2px] p-2 rounded-md relative top-3 transition-transform duration-300 ease-in-out hover:scale-105 hover:bg-[#28a745] hover:text-white";
   const if_true = (status: boolean) => {
     return !status ? Activate : Deactivate;
-  }
-
+  };
 
   return (
     <React.Fragment>
-      <h4
-        onClick={() => handleClickOpen()}
-        className={`${if_true(checked)}`}
-      >
+      <h4 onClick={() => handleClickOpen()} className={`${if_true(checked)}`}>
         {checked ? "Deactivate [2FA]" : "Activate [2FA]"}
       </h4>
       <BootstrapDialog
@@ -320,10 +318,45 @@ function TFA({
 }
 
 function TwoFA_Component() {
-
   const data = usePlayer();
+  const [checked, setChecked] = useState<boolean>(false);
+  const [isInitialized, setIsInitialized] = useState<boolean>(false);
 
-  const [checked, setChecked] = useState<boolean>(data.playerData?.active_2fa ?? true);
+  useEffect(() => {
+    const fetchAndSetInitialState = async () => {
+      try {
+        const token = Cookies.get("access_token");
+        if (!token) {
+          console.log("No access token found.");
+          return;
+        }
+
+        const response = await axios.get(
+          "https://localhost:443/api/user_auth/get2FAStatus",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        if (response.status === 200) {
+          setChecked(response.data.is2FAEnabled);
+          setIsInitialized(true);
+        }
+      } catch (error) {
+        console.error("Failed to fetch 2FA status:", error);
+        // Fallback to context data if API fails
+        setChecked(data.playerData?.active_2fa ?? false);
+        setIsInitialized(true);
+      }
+    };
+
+    if (!isInitialized) {
+      fetchAndSetInitialState();
+    }
+  }, [data.playerData?.active_2fa, isInitialized]);
 
   return (
     <>
