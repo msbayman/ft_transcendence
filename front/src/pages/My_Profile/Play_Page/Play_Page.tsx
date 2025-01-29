@@ -2,13 +2,15 @@ import "./Play_Page.css";
 import EmblaCarousel from "./EmblaCarousel/EmblaCarousel";
 import { EmblaOptionsType } from "embla-carousel";
 import Options from "./Options";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom"; // Import if using react-router
 import { NextButton } from "./Buttons";
 import classes from "./style.module.css";
 import Cookies from "js-cookie";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
+import { TournContext } from './../../Game_Page/TournContext';
+
 
 interface SelectedIds {
   mode: number | null;
@@ -26,7 +28,7 @@ const OPTIONS: EmblaOptionsType = { loop: true };
 
 const SLIDEIMAPS = [
   { mapPath: "1v1.png", id: 0, mapName: "1v1" },
-  { mapPath: "2v2.png", id: 1, mapName: "local" },
+  { mapPath: "/public/local_custom.svg", id: 1, mapName: "local" },
   { mapPath: "Tourn.png", id: 2, mapName: "Tournement" },
 ];
 
@@ -82,6 +84,11 @@ const Play_Page: React.FC = () => {
   const challenge = location.state?.challenge;
   const navigate = useNavigate(); // If using react-router for navigation
   const [value, setValue] = useState("Modes");
+  const [tourninput1, settourninput1] = useState("");
+  const [tourninput2, settourninput2] = useState("");
+  const [tourninput3, settourninput3] = useState("");
+  const [tourninput4, settourninput4] = useState("");
+  const { tournamentState, setTournamentState } = useContext(TournContext);
   const [selectedIds, setSelectedIds] = useState<SelectedIds>({
     mode: null,
     board: null,
@@ -95,6 +102,20 @@ const Play_Page: React.FC = () => {
     },
   });
   const [currentSlideIndex, setCurrentSlideIndex] = useState<number>(0);
+
+  const handletourChange1 = (e: React.ChangeEvent<HTMLInputElement>) => {
+    settourninput1(e.target.value);
+  };
+  const handletourChange2 = (e: React.ChangeEvent<HTMLInputElement>) => {
+    settourninput2(e.target.value);
+  };
+  const handletourChange3 = (e: React.ChangeEvent<HTMLInputElement>) => {
+    settourninput3(e.target.value);
+  };
+  const handletourChange4 = (e: React.ChangeEvent<HTMLInputElement>) => {
+    settourninput4(e.target.value);
+  };
+  
 
   const isOneOfSlidesSelected = () => {
     switch (value) {
@@ -325,25 +346,27 @@ const Play_Page: React.FC = () => {
                                 name="username"
                                 id="1"
                                 placeholder="Player 1"
-                                onChange={handleInputChange}
+                                value={tourninput1}
+                                onChange={handletourChange1}
                                 className="w-[350px] h-[68px] font-alexandria justify-center items-center text-center rounded-[11px] px-3 bg-[#3a0ca3] text-white text-[32px] m-7"
                                 style={{ border: "2px solid #8151EE" }}
                               />
-                              <button className="relative bottom-2 w-[180px] h-[39px] font-alexandria text-white shadow-md rounded-[36.5px] bg-[#8151EE] flex justify-center items-center text-[16px] hover:bg-white hover:text-[#3a0ca3]">
+                              <button onClick={() => setTournamentState({ ...tournamentState, p1: tourninput1 })} className="relative bottom-2 w-[180px] h-[39px] font-alexandria text-white shadow-md rounded-[36.5px] bg-[#8151EE] flex justify-center items-center text-[16px] hover:bg-white hover:text-[#3a0ca3]">
                                 DONE
                               </button>
                             </div>
-                            <div className="flex flex-col items-center justify-center"> 
+                            <div className="flex flex-col items-center justify-center">
                               <input
                                 type="text"
                                 name="username"
                                 id="2"
                                 placeholder="Player 2"
-                                onChange={handleInputChange}
+                                value={tourninput2}
+                                onChange={handletourChange2}
                                 className="w-[350px] h-[68px] font-alexandria justify-center items-center text-center rounded-[11px] px-3 bg-[#3a0ca3] text-white text-[32px] m-7"
                                 style={{ border: "2px solid #8151EE" }}
                               />
-                              <button className="relative bottom-2 w-[180px] h-[39px] font-alexandria text-white shadow-md rounded-[36.5px] bg-[#8151EE] flex justify-center items-center text-[16px] hover:bg-white hover:text-[#3a0ca3]">
+                              <button onClick={() => setTournamentState({ ...tournamentState, p2: tourninput2 })} className="relative bottom-2 w-[180px] h-[39px] font-alexandria text-white shadow-md rounded-[36.5px] bg-[#8151EE] flex justify-center items-center text-[16px] hover:bg-white hover:text-[#3a0ca3]">
                                 DONE
                               </button>
                             </div>
@@ -355,11 +378,12 @@ const Play_Page: React.FC = () => {
                                 name="username"
                                 id="3"
                                 placeholder="Player 3"
-                                onChange={handleInputChange}
+                                value={tourninput3}
+                                onChange={handletourChange3}
                                 className="w-[350px] h-[68px] font-alexandria justify-center items-center text-center rounded-[11px] px-3 bg-[#3a0ca3] text-white text-[32px] m-7"
                                 style={{ border: "2px solid #8151EE" }}
                               />
-                              <button className="relative bottom-2 w-[180px] h-[39px] font-alexandria text-white shadow-md rounded-[36.5px] bg-[#8151EE] flex justify-center items-center text-[16px] hover:bg-white hover:text-[#3a0ca3]">
+                              <button onClick={() => setTournamentState({ ...tournamentState, p3: tourninput3 })} className="relative bottom-2 w-[180px] h-[39px] font-alexandria text-white shadow-md rounded-[36.5px] bg-[#8151EE] flex justify-center items-center text-[16px] hover:bg-white hover:text-[#3a0ca3]">
                                 DONE
                               </button>
                             </div>
@@ -369,11 +393,12 @@ const Play_Page: React.FC = () => {
                                 name="username"
                                 id="4"
                                 placeholder="Player 4"
-                                onChange={handleInputChange}
+                                value={tourninput4}
+                                onChange={handletourChange4}
                                 className="w-[350px] h-[68px] font-alexandria justify-center items-center text-center rounded-[11px] px-3 bg-[#3a0ca3] text-white text-[32px] m-7"
                                 style={{ border: "2px solid #8151EE" }}
                               />
-                              <button className="relative bottom-2 w-[180px] h-[39px] font-alexandria text-white shadow-md rounded-[36.5px] bg-[#8151EE] flex justify-center items-center text-[16px] hover:bg-white hover:text-[#3a0ca3]">
+                              <button onClick={() => setTournamentState({ ...tournamentState, p4: tourninput4 })} className="relative bottom-2 w-[180px] h-[39px] font-alexandria text-white shadow-md rounded-[36.5px] bg-[#8151EE] flex justify-center items-center text-[16px] hover:bg-white hover:text-[#3a0ca3]">
                                 DONE
                               </button>
                             </div>

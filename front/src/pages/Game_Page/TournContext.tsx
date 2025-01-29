@@ -16,10 +16,10 @@ interface TournContextType {
 }
 
 const defaultValue: TournInterface = {
-  p1: "",
-  p2: "",
-  p3: "",
-  p4: "",
+  p1: "def-1",
+  p2: "def-2",
+  p3: "def-3",
+  p4: "def-4",
   semi1: "",
   semi2: "",
   final: "",
