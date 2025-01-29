@@ -549,12 +549,15 @@ class update_game_status(APIView):
 
     def post(self,request):
 
-        player = request.user
+        try:
+            player = request.user
 
-        player_earn = request.data.get('points', 0)
-        player.points += player_earn
+            player_earn = request.data.get('points', 0)
+            player.points += player_earn
 
-        player.level = math.floor(player.points / 1000) + 1
+            player.level = math.floor(player.points / 1000) + 1
 
-        player.save()
-        return Response({'all good'}, status=status.HTTP_200_OK)
+            player.save()
+        except Exception as e:
+            logger.error(f"Error during update: {e}")
+        return Response({'message: ','score updated'}, status=status.HTTP_200_OK)
