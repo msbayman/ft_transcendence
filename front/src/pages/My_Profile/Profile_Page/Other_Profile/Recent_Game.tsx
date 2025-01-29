@@ -16,86 +16,6 @@ export const Recent_Game = () => {
       score2: 1,
       player2: "lwajdi",
     },
-    {
-      id: 2,
-      player1: "Kacimo",
-      status: "LOSE",
-      score1: 2,
-      score2: 5,
-      player2: "ilyass",
-    },
-    {
-      id: 3,
-      player1: "Kacimo",
-      status: "WIN",
-      score1: 5,
-      score2: 4,
-      player2: "ayman",
-    },
-    {
-      id: 4,
-      player1: "Kacimo",
-      status: "WIN",
-      score1: 5,
-      score2: 3,
-      player2: "lwajdi",
-    },
-    {
-      id: 5,
-      player1: "Kacimo",
-      status: "LOSE",
-      score1: 3,
-      score2: 4,
-      player2: "lwajdi",
-    },
-    {
-      id: 6,
-      player1: "Kacimo",
-      status: "LOSE",
-      score1: 1,
-      score2: 5,
-      player2: "ayman",
-    },
-    {
-      id: 7,
-      player1: "Kacimo",
-      status: "LOSE",
-      score1: 0,
-      score2: 5,
-      player2: "ilyass",
-    },
-    {
-      id: 8,
-      player1: "Kacimo",
-      status: "WIN",
-      score1: 5,
-      score2: 4,
-      player2: "user",
-    },
-    {
-      id: 9,
-      player1: "Kacimo",
-      status: "WIN",
-      score1: 5,
-      score2: 4,
-      player2: "user",
-    },
-    {
-      id: 10,
-      player1: "Kacimo",
-      status: "WIN",
-      score1: 5,
-      score2: 4,
-      player2: "user",
-    },
-    {
-      id: 11,
-      player1: "Kacimo",
-      status: "WIN",
-      score1: 5,
-      score2: 4,
-      player2: "user",
-    },
   ];
 
   return (
@@ -123,7 +43,6 @@ export const Recent_Game = () => {
                 <div style={{ width: "150px", fontWeight: "600" }}>
                   {field.player1}
                 </div>
-                {/* <div className="border-[.5px] border-solid border-white pr-[20px] pl-[20px] rounded-3xl"> */}
                 <div className="bg-white font-medium text-[#3a0ca3] pr-[20px] pl-[20px] rounded-3xl">
                   {field.score1} - {field.score2}
                 </div>

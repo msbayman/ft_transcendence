@@ -179,7 +179,7 @@ export const Info_Player = ({ username }: { username: string | undefined }) => {
                 }}
               >
                 <CircularProgressLabel fontSize="calc(90px * 0.2)">
-                {percentage_exp(data?.points, data?.level)}{"%"}
+                {percentage_exp(data?.points, data?.level)}%
                 </CircularProgressLabel>
               </CircularProgress>
               <span className={other.hover_text1}>Exp Rate</span>
