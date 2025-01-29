@@ -1,4 +1,5 @@
 import logging
+import time
 from rest_framework.views import APIView
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
@@ -14,6 +15,7 @@ from django.utils import timezone
 from django.db import transaction
 from django.http import JsonResponse
 from datetime import timedelta
+from django.core.files import File
 from django.utils.timezone import now
 import requests
 from django.http import JsonResponse
@@ -21,6 +23,7 @@ from django.core.management.base import BaseCommand
 from django.utils import timezone
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from django.core.mail import send_mail
+from django.core.files.temp import NamedTemporaryFile
 from django.conf import settings
 from rest_framework import serializers, status
 from rest_framework.decorators import api_view, permission_classes
@@ -30,6 +33,7 @@ from django.contrib.auth.password_validation import validate_password
 from django.db import transaction
 from django.core.exceptions import ValidationError
 from django.contrib.auth.hashers import make_password
+import math
 
 # Logger setup
 logger = logging.getLogger(__name__)
@@ -99,7 +103,13 @@ def update_player(request):
     new_username = request.data.get('username')
 
     
-    if not new_username:
+    if not new_username or len(new_username) < 4 or len(new_username) > 40 or new_username == 'admin':
+        if len(new_username) < 4:
+            return Response({'error': 'Username must be at least 4 characters long.'}, status=status.HTTP_400_BAD_REQUEST)
+        if len(new_username) > 40:
+            return Response({'error': 'Username must be at most 40 characters long.'}, status=status.HTTP_400_BAD_REQUEST)
+        if new_username == 'admin':
+            return Response({'error': 'Username cannot be "admin".'}, status=status.HTTP_400_BAD_REQUEST)
         return Response({'error': 'Username is required.'}, status=status.HTTP_400_BAD_REQUEST)
 
     try:
@@ -141,39 +151,84 @@ def update_player(request):
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def changePassword(request):
-    data = request.data
-    new_password = data.get('newPassword')
-    old_password = data.get('oldPassword')
-    user = Player.objects.filter(userID=request.user.userID).first()
-    if not user.check_password(old_password):
-        return Response({'error': 'Invalid old password'}, status=status.HTTP_400_BAD_REQUEST)
+    """
+    Change password endpoint for authenticated users.
+    Requires old_password and new_password in request data.
+    """
     try:
-        password_validation.validate_password(new_password)
+        # Get data from request
+        username = request.data.get('username')
+        new_password = request.data.get('newPassword')
+        old_password = request.data.get('oldPassword')
+
+        # Validate input data
+        if not all([username, new_password, old_password]):
+            return Response({
+                'error': 'Username, old password, and new password are required.'
+            }, status=status.HTTP_400_BAD_REQUEST)
+
+        # Log password change attempt (without sensitive data)
+        logger.info(f"Password change attempt for user: {username}")
+
+        # Get the player instance
+        try:
+            player = Player.objects.get(username=username)
+        except Player.DoesNotExist:
+            return Response({
+                'error': 'Player not found'
+            }, status=status.HTTP_404_NOT_FOUND)
+
+        # Verify the requesting user matches the username
+        if request.user.username != username:
+            return Response({
+                'error': 'Unauthorized to change password for this user'
+            }, status=status.HTTP_403_FORBIDDEN)
+
+        # check for the player with prov_name 42
+        if player.prov_name == '42':
+            return Response({
+                'error': 'You cannot change the password'
+            }, status=status.HTTP_403_FORBIDDEN)
+        # Verify old password
+        if not player.check_password(old_password):
+            return Response({
+                'error': 'Current password is incorrect'
+            }, status=status.HTTP_400_BAD_REQUEST)
+
+        # Validate new password
+        try:
+            validate_password(new_password, player)
+        except ValidationError as e:
+            return Response({
+                'error': ' '.join(e.messages)
+            }, status=status.HTTP_400_BAD_REQUEST)
+
+        # Check if new password is same as old password
         if old_password == new_password:
-            return JsonResponse({'error': 'New password cannot be the same as old password'}, status=status.HTTP_400_BAD_REQUEST)
-    except ValidationError as e:
-        return Response({'error': ' '.join(e.messages)}, status=status.HTTP_400_BAD_REQUEST)
-    user.set_password(new_password)
-    user.save()
-    return Response({'success': True, 'message': 'Password changed successfully'}, status=status.HTTP_200_OK)
+            return Response({
+                'error': 'New password must be different from current password'
+            }, status=status.HTTP_400_BAD_REQUEST)
 
+        # Change password in transaction
+        with transaction.atomic():
+            player.set_password(new_password)
+            player.save()
 
+            # Log successful password change
+            logger.info(f"Password successfully changed for user: {username}")
 
-@api_view(['POST'])
-@permission_classes([IsAuthenticated])
-def resend_otp(request):
-    otp = generate_otp()
-    recipient_email = request.user.email
-    subject = 'Your One-Time Password (OTP)'
-    body = f'Your OTP To activate 2FA is: {otp}\nThis OTP is valid for 5 minutes.'
-    send_mail(
-        subject=subject,
-        message=body,
-        from_email=settings.EMAIL_HOST_USER,
-        recipient_list=[recipient_email],
-        fail_silently=False,
-    )
-    store_otp(recipient_email, otp)
+            return Response({
+                'success': True,
+                'message': 'Password changed successfully'
+            }, status=status.HTTP_200_OK)
+
+    except Exception as e:
+        # Log the error
+        logger.error(f"Password change error for user {username}: {str(e)}")
+        return Response({
+            'error': 'An error occurred while updating the password'
+        }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
@@ -288,21 +343,43 @@ class VerifyOTP(APIView):
             return Response({"detail": "Invalid OTP."}, status=status.HTTP_400_BAD_REQUEST)
         
 
+class SendOtpForSettings(APIView):
+    permission_classes = [IsAuthenticated]
 
+    def post(self, request):
+        try:
+            # Retrieve the authenticated user
+            user = request.user
+            if not isinstance(user, Player):
+                return Response({"error": "Invalid user type."}, status=status.HTTP_400_BAD_REQUEST)
+
+            # Generate a 6-digit OTP
+            # if time.time() - user.created_at > 300:  # 5 minutes
+            #     return Response({"detail": "OTP has expired, wait 5 min"}, status=status.HTTP_404_BAD_REQUEST)
+            otp = generate_otp()
+            user.otp_code = otp
+            user.created_at = now()  # Update the OTP creation timestamp
+            user.save()
+            send_otp_via_email(user.email, otp)
+            return Response({"message": "OTP sent successfully."}, status=status.HTTP_200_OK)
+        
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+@permission_classes([IsAuthenticated])
 class VerifyOTPSettings(APIView):
     permission_classes = [IsAuthenticated]
     
     def post(self, request):
         username = request.data.get('username')
         state = request.data.get('state')
+        otp = request.data.get('otp')
 
         if not username and not state:
             return Response({"detail": "Username, State are required."}, status=status.HTTP_400_BAD_REQUEST)
         
         try:
             player = Player.objects.get(username=username)
-            otp = generate_otp()
-            send_otp_via_email(username,otp)
         except Player.DoesNotExist:
             return Response({"detail": "User not found."}, status=status.HTTP_404_NOT_FOUND)
 
@@ -310,8 +387,8 @@ class VerifyOTPSettings(APIView):
             return Response({"detail": "OTP has expired."}, status=status.HTTP_404_BAD_REQUEST)
 
         if player.otp_code == otp:
-            player.active_2fa = state
-            player.otp_code = state
+            player.active_2fa = not state
+            player.otp_code = 0
             player.save()
             return Response({"message": "OTP verified successfully"}, status=status.HTTP_200_OK)
         else:
@@ -389,6 +466,50 @@ class GetPlayer(APIView):
             return Response({"error": "No player found with this username"}, status=status.HTTP_404_NOT_FOUND)
 
 
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def upload_profile_image(request):
+    try:
+        username = request.user.username
+        player = Player.objects.get(username=username)
+        
+        # Fix 1: FILES instead of FILE
+        if 'profile_image' not in request.FILES:
+            return Response({'error': 'No image file provided'}, status=400)
+            
+        image_file = request.FILES['profile_image']
+        
+        # Fix 2: Proper file handling
+        img_temp = NamedTemporaryFile(delete=True)
+        for chunk in image_file.chunks(): # iterate over the image file chunks
+            img_temp.write(chunk) # write each chunk to the temporary file 
+        img_temp.flush()
+        
+        # Fix 3: Save image with proper filename
+        player.profile_image.save(
+            f"{player.username}.jpg", # we save the image with the username as the filename
+            File(img_temp), # we use img_temp instead of image_file here to save the image 
+            save=True
+        )
+        
+        logger.info(f"Profile image uploaded for player {username}")
+        
+        # Fix 4: Return proper response
+        return Response({
+            'message': 'Profile image uploaded successfully',
+            'image_url': player.profile_image.url
+        })
+        
+    except Player.DoesNotExist:
+        return Response({'error': 'Player not found'}, status=404)
+    except Exception as e:
+        logger.error(f"Error uploading profile image: {str(e)}")
+        return Response({'error': 'Error uploading image'}, status=500)
+
+
+
+
 class SearchUser(APIView):
     permission_classes = [IsAuthenticated]
     authentication_classes = [JWTAuthentication]
@@ -420,3 +541,20 @@ class SearchUser(APIView):
         ]
 
         return Response(players_list, status=status.HTTP_200_OK)
+
+
+class update_game_status(APIView):
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [JWTAuthentication]
+
+    def post(self,request):
+
+        player = request.user
+
+        player_earn = request.data.get('points', 0)
+        player.points += player_earn
+
+        player.level = math.floor(player.points / 1000) + 1
+
+        player.save()
+        return Response({'all good'}, status=status.HTTP_200_OK)

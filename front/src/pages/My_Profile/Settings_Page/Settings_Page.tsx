@@ -66,7 +66,7 @@ const Settings_Page = () => {
             <Profile_side />
           ) : (
             <Security_box
-              setPlayerData={(updatedData) =>
+              setPlayerData={(updatedData: Partial<player_data>) =>
                 setPlayerData((prev) => ({ ...prev, ...updatedData }))
               }
             />

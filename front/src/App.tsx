@@ -16,7 +16,7 @@ import Overview from "./pages/My_Profile/Overview";
 import { PlayerProvider, usePlayer } from "./pages/My_Profile/PlayerContext";
 import Game_Local from "./pages/Game_Page/Game_Local";
 // import Game_Bot from "./pages/Game_Page/Game_Bot";
-import Game_Remot from "./pages/Game_Page/Game_Remot";
+// import Game_Remot from "./pages/Game_Page/Game_Remot";
 import Tourn_Remot from "./pages/Game_Page/Game_Torn";
 import Game_Tourn from "./pages/Game_Page/Game_Torn";
 import Test from "./pages/Game_Page/Test";
@@ -24,7 +24,8 @@ import Game_Loby from "./pages/Game_Page/Game_loby";
 import Tournaments from "./pages/Tournaments/Tournaments";
 // import NotFound from "./NotFound";
 
-import { isValid } from "zod";
+// import { isValid } from "zod";
+import { Toaster } from 'react-hot-toast';
 
 function AppContent() {
   const navigate = useNavigate();
@@ -100,6 +101,7 @@ function AppContent() {
           <Route path="/test" element={<Tourn_Remot />} />
           {/* <Route path="/game_loby" element={<Game_Loby />} /> */}
         </Routes>
+        <Toaster />
       </main>
     </Fragment>
   );
