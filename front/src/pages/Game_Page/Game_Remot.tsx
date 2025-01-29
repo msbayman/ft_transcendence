@@ -64,9 +64,11 @@ function Game_Remot( { id, selectedIds } ) {
 		{ mapPath: "#7F00FF", id: 3, mapName: "violetBall" },
 	  ];
 	  
+	const handleSleep = async () => {
+	await new Promise((resolve) => setTimeout(resolve, 3000));
+	};
 
 	useEffect(() => {
-		console.log("-----> ",  selectedIds);
 		const token = Cookies.get("access_token");
 		const ws = new WebSocket(`wss://localhost/ws/game/${id}/?token=${token}`);
 
@@ -78,7 +80,10 @@ function Game_Remot( { id, selectedIds } ) {
 		ws.onmessage = (event) => {
 			const gameState = JSON.parse(event.data);
 			if (gameState.type == "game_end")
+			{
+				handleSleep();
 				navigate("/overview");
+			}
 			else
 			{
 				setGameState({
@@ -132,8 +137,8 @@ function Game_Remot( { id, selectedIds } ) {
 			{/* Table Images */}
 			<img src="/public/table.svg" alt="table background" className="absolute" />
 			<img
-			  src={SLIDEBOARDS[selectedIds.board].mapPath}
-			  alt={SLIDEBOARDS[selectedIds.board].mapName}
+			  src={selectedIds?.board !== undefined ? SLIDEBOARDS[selectedIds.board]?.mapPath : SLIDEBOARDS[0].mapPath}
+			  alt={selectedIds?.board !== undefined ? SLIDEBOARDS[selectedIds.board]?.mapName : SLIDEBOARDS[0].mapName}
 			  className={gameState.winner ? "absolute mx-auto top-[120px] blur-sm" : "absolute mx-auto top-[120px]"}
 			/>
   
@@ -146,19 +151,22 @@ function Game_Remot( { id, selectedIds } ) {
 				{/* Left Paddle */}
 				<div
 				  className={gameState.winner ? "hidden" : "absolute w-[140px] h-[10px] top-[20px] transition-left duration-100 rounded-lg ease-linear"}
-				  style={{ left: `${gameState.paddles.left}px`, backgroundColor: SLIDECUES[selectedIds.paddel].mapPath  }}
+				  style={{ left: `${gameState.paddles.left}px`, backgroundColor: !selectedIds ? SLIDECUES[0].mapPath : SLIDECUES[selectedIds.paddel].mapPath }}
 				></div>
 
 				{/* Right Paddle */}
 				<div
 				  className={gameState.winner ? "hidden" : "absolute w-[140px] h-[10px] transition-left bottom-[20px] duration-100 rounded-lg ease-linear"}
-				  style={{ left: `${gameState.paddles.right}px`, backgroundColor: SLIDECUES[selectedIds.paddel].mapPath }}
+				  style={{	
+							left: `${gameState.paddles.right}px`,
+				  			backgroundColor: !selectedIds ? SLIDECUES[0].mapPath : SLIDECUES[selectedIds.paddel].mapPath 
+						}}
 				></div>
   
 				{/* Ball */}
 				<div
 				  className={gameState.winner ? "hidden" : "absolute w-[15px] h-[15px] bg-red-600 rounded-[50%]"}
-				  style={{ left: `${gameState.ball.x}px`, top: `${gameState.ball.y}px`, backgroundColor: SLIDEBALLS[selectedIds.ball].mapName }}
+				  style={{ left: `${gameState.ball.x}px`, top: `${gameState.ball.y}px`, backgroundColor: !selectedIds ? SLIDEBALLS[0].mapPath : SLIDEBALLS[selectedIds.ball].mapName }}
 				></div>
 			  </div>
 			</div>
