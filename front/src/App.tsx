@@ -15,13 +15,12 @@ import Valid_otp from "./pages/Valid_otp/Valid_otp";
 import Overview from "./pages/My_Profile/Overview";
 import { PlayerProvider, usePlayer } from "./pages/My_Profile/PlayerContext";
 import Game_Local from "./pages/Game_Page/Game_Local";
-// import Game_Bot from "./pages/Game_Page/Game_Bot";
-// import Game_Remot from "./pages/Game_Page/Game_Remot";
-import Tourn_Remot from "./pages/Game_Page/Game_Torn";
-import Game_Tourn from "./pages/Game_Page/Game_Torn";
-import Test from "./pages/Game_Page/Test";
+import Game_Remot from "./pages/Game_Page/Game_Remot";
+import Tourn_manage from "./pages/Game_Page/Game_Torn";
+import Game_Tourn from "./pages/Game_Page/Game_Fortourn";
 import Game_Loby from "./pages/Game_Page/Game_loby";
-import Tournaments from "./pages/Tournaments/Tournaments";
+import Tournaments from "./pages/Game_Page/Tournaments";
+import { TournProvider } from "./pages/Game_Page/TournContext";
 // import NotFound from "./NotFound";
 
 
@@ -44,8 +43,10 @@ function AppContent() {
             },
           }
         );
-        wsConnection()
-        return response.status === 200;
+        if (response.status === 200) {
+          wsConnection()
+          return response.status;
+      }
       } catch (error) {
         return false;
       }
@@ -104,12 +105,10 @@ function AppContent() {
           <Route path="/local_game" element={<Game_Local p1={"player1"} p2={"player2"}  mod={0} onEnd={null} />} />
           {/* <Route path="/local_bot" element={<Game_Bot />} /> */}
           {/* <Route path="/remote_game" element={<Game_Remot />} /> */}
-          <Route path="/test" element={<Test />} />
           <Route path="/Tournaments" element={<Tournaments />} />
           <Route path="/remote_game" element={<Game_Loby />} />
-          <Route path="/tourn" element={<Game_Tourn />} />
-          <Route path="/test" element={<Tourn_Remot />} />
-          {/* <Route path="/game_loby" element={<Game_Loby />} /> */}
+          <Route path="/Tournament" element={<Tourn_manage />} />
+
         </Routes>
       </main>
     </Fragment>
@@ -119,7 +118,9 @@ function AppContent() {
 function App() {
   return (
     <PlayerProvider>
-      <AppContent />
+      <TournProvider>
+        <AppContent />
+      </TournProvider>
     </PlayerProvider>
   );
 }

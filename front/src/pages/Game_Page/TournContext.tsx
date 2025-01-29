@@ -1,4 +1,4 @@
-import { createContext } from "react";
+import { createContext, useState, ReactNode } from "react";
 
 interface TournInterface {
   p1: string;
@@ -10,14 +10,32 @@ interface TournInterface {
   final: string;
 }
 
+interface TournContextType {
+  tournamentState: TournInterface;
+  setTournamentState: React.Dispatch<React.SetStateAction<TournInterface>>;
+}
+
 const defaultValue: TournInterface = {
-  p1: "player1",
-  p2: "player2",
-  p3: "player3",
-  p4: "player4",
+  p1: "",
+  p2: "",
+  p3: "",
+  p4: "",
   semi1: "",
   semi2: "",
   final: "",
 };
 
-export const TournContext = createContext<TournInterface>(defaultValue);
+export const TournContext = createContext<TournContextType>({
+  tournamentState: defaultValue,
+  setTournamentState: () => {},
+});
+
+export const TournProvider = ({ children }: { children: ReactNode }) => {
+  const [tournamentState, setTournamentState] = useState<TournInterface>(defaultValue);
+
+  return (
+    <TournContext.Provider value={{ tournamentState, setTournamentState }}>
+      {children}
+    </TournContext.Provider>
+  );
+}

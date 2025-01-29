@@ -126,6 +126,7 @@ class GameConsumer(AsyncWebsocketConsumer):
             print(f"Error saving match score: {e}")
 
     async def disconnect(self, close_code):
+        print(f"player {self.user.username} desconnect")
         if self.user.username in self.act_ply:
             del self.act_ply[self.user.username]
         if not self.rooms.get(self.room_name):
@@ -134,9 +135,20 @@ class GameConsumer(AsyncWebsocketConsumer):
         room = self.rooms[self.room_name]
 
         if room['players']['up'] == self.user:
+            await self.update_match_score(3, 0)
             room['players']['up'] = None
         elif room['players']['down'] == self.user:
+            await self.update_match_score(0, 3)
             room['players']['down'] = None
+
+        await self.channel_layer.group_send(
+            self.room_group_name,
+            {
+                "type": "game_end",
+                "winner": room["game_state"]["winner"],
+                "score": room["game_state"]["score"],
+            }
+        )
 
         await self.channel_layer.group_discard(
             self.room_group_name,
@@ -253,23 +265,18 @@ class GameConsumer(AsyncWebsocketConsumer):
         )
 
     async def broadcast_end_game(self, game_state):
-        room = self.rooms[self.room_name]
-        end_game_message = {
-            "type": "game_end",
-            "winner": game_state["winner"],
-            "score": game_state["score"],
-        }
         await self.channel_layer.group_send(
             self.room_group_name,
             {
-                "type": "game_end_event",
-                "end_game_message": end_game_message,
+                "type": "game_end",
+                "winner": game_state["winner"],
+                "score": game_state["score"],
             },
         )
     
-    async def game_end_event(self, event):
-        end_game_message = event["end_game_message"]
-        await self.send(text_data=json.dumps(end_game_message))
+    async def game_end(self, event):
+        # end_game_message = event["end_game"]
+        await self.send(text_data=json.dumps(event))
 
     async def game_update(self, event):
         game_state = event["game_state"]

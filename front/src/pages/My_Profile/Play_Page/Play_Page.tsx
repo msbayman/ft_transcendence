@@ -26,9 +26,8 @@ const OPTIONS: EmblaOptionsType = { loop: true };
 
 const SLIDEIMAPS = [
   { mapPath: "1v1.png", id: 0, mapName: "1v1" },
-  { mapPath: "2v2.png", id: 1, mapName: "2v2" },
-  { mapPath: "vsBot.png", id: 2, mapName: "vsBot" },
-  { mapPath: "Tourn.png", id: 3, mapName: "Tournement" },
+  { mapPath: "2v2.png", id: 1, mapName: "local" },
+  { mapPath: "Tourn.png", id: 2, mapName: "Tournement" },
 ];
 
 const SLIDECUES = [
@@ -55,31 +54,26 @@ const SLIDECUES = [
 ];
 
 const SLIDEBALLS = [
-  { mapPath: "skins-png/Balls/8BallPool.png"  , id: 0, mapName: "8BallPool", },
-  { mapPath: "skins-png/Balls/Foot-Ball.png"  , id: 1, mapName: "FootBall", },
-  { mapPath: "skins-png/Balls/Basket-Ball.png", id: 2, mapName: "BasketBall", },
+  { mapPath: "skins-png/Balls/8BallPool.png", id: 0, mapName: "8BallPool" },
+  { mapPath: "skins-png/Balls/Foot-Ball.png", id: 1, mapName: "FootBall" },
+  { mapPath: "skins-png/Balls/Basket-Ball.png", id: 2, mapName: "BasketBall" },
 ];
 
 const SLIDEBOARDS = [
   {
-    mapPath: "skins-svg/Boards/FootBall.svg",
-    id: 0,
-    mapName: "FootBall-Board",
-  },
-  {
     mapPath: "skins-svg/Boards/BlueBoard.svg",
-    id: 1,
+    id: 0,
     mapName: "BlueBoard-Board",
   },
   {
     mapPath: "skins-svg/Boards/GreenBoard.svg",
-    id: 2,
+    id: 1,
     mapName: "GreenBoard-Board",
   },
   {
     mapPath: "skins-svg/Boards/BrownBoard.svg",
-    id: 3,
-    mapName: "brownBoard"
+    id: 2,
+    mapName: "brownBoard",
   },
 ];
 
@@ -189,7 +183,9 @@ const Play_Page: React.FC = () => {
       case "Finish":
         setValue("");
         // Navigate to play page with selected skins
+        
         navigate("/game", { state: { selectedIds } });
+
         break;
       default:
         setValue("Modes");
@@ -268,11 +264,14 @@ const Play_Page: React.FC = () => {
     localStorage.setItem("selectedSkins", JSON.stringify(selectedIds));
   };
 
-
-
   const handlePlayClick = () => {
     // Navigate to play page with selected skins
-    navigate("/game", { state: { selectedIds } });
+    if (SLIDEIMAPS[selectedIds.mode!]?.mapName === "1v1")
+      navigate( "/remote_game" , { state: { selectedIds } })
+    if (SLIDEIMAPS[selectedIds.mode!]?.mapName === "local")
+      navigate( "/local_game" , { state: { selectedIds } })
+    if (SLIDEIMAPS[selectedIds.mode!]?.mapName === "Tournement")
+      navigate( "/Tournament" , { state: { selectedIds } })
   };
 
   return (
@@ -310,25 +309,76 @@ const Play_Page: React.FC = () => {
               />
             )}
             {value === "Finish" && (
-              <div className="absolute top-[10%] flex flex-col justify-center items-center gap-16">
+              <div className="absolute top-[10%] flex flex-col justify-center items-center gap-12">
                 <div className="w-[100%] h-[30rem]">
                   {SLIDEIMAPS[selectedIds.mode!]?.mapName === "Tournement" ? (
-                    <div className="flex flex-row-reverse gap-20 justify-center items-center">
-                      <div className="flex flex-col items-center justify-center relative right-[20]">
-                        <label className="w-[15rem] text-[20px] relative top-[1rem] left-[1rem] font-alexandria text-white ">
-                          Set Your Nickname
+                    <div className="relative flex flex-row-reverse gap-0 justify-center items-center  ">
+                      <div className="flex flex-col items-center justify-center w-[800px] relative">
+                        <label className="w-[15rem] text-[30px] relative bottom-[5px] left-[1rem] font-alexandria text-white ">
+                          Set Nicknames :
                         </label>
-                        <input
-                          type="text"
-                          name="username"
-                          placeholder={player_data?.username || ""}
-                          onChange={handleInputChange}
-                          className="w-[375px] h-[68px] font-alexandria justify-center items-center text-center rounded-[11px] px-3 bg-[#3a0ca3] text-white text-[32px] m-7"
-                          style={{ border: "2px solid #8151EE" }}
-                        />
-                        <button className="w-[230px] h-[59px] font-alexandria font-medium text-white shadow-md rounded-[36.5px] bg-[#8151EE] flex justify-center items-center text-[30px]">
-                          OK
-                        </button>
+                        <div className="flex flex-row  min-w-[99rem] items-center justify-center">
+                          <div className="flex flex-col items-center justify-center gap-4">
+                            <div className="flex flex-col items-center justify-center"> 
+                              <input
+                                type="text"
+                                name="username"
+                                id="1"
+                                placeholder="Player 1"
+                                onChange={handleInputChange}
+                                className="w-[350px] h-[68px] font-alexandria justify-center items-center text-center rounded-[11px] px-3 bg-[#3a0ca3] text-white text-[32px] m-7"
+                                style={{ border: "2px solid #8151EE" }}
+                              />
+                              <button className="relative bottom-2 w-[180px] h-[39px] font-alexandria text-white shadow-md rounded-[36.5px] bg-[#8151EE] flex justify-center items-center text-[16px] hover:bg-white hover:text-[#3a0ca3]">
+                                DONE
+                              </button>
+                            </div>
+                            <div className="flex flex-col items-center justify-center"> 
+                              <input
+                                type="text"
+                                name="username"
+                                id="2"
+                                placeholder="Player 2"
+                                onChange={handleInputChange}
+                                className="w-[350px] h-[68px] font-alexandria justify-center items-center text-center rounded-[11px] px-3 bg-[#3a0ca3] text-white text-[32px] m-7"
+                                style={{ border: "2px solid #8151EE" }}
+                              />
+                              <button className="relative bottom-2 w-[180px] h-[39px] font-alexandria text-white shadow-md rounded-[36.5px] bg-[#8151EE] flex justify-center items-center text-[16px] hover:bg-white hover:text-[#3a0ca3]">
+                                DONE
+                              </button>
+                            </div>
+                          </div>
+                          <div className="flex flex-col items-center justify-center gap-4">
+                            <div className="flex flex-col items-center justify-center"> 
+                              <input
+                                type="text"
+                                name="username"
+                                id="3"
+                                placeholder="Player 3"
+                                onChange={handleInputChange}
+                                className="w-[350px] h-[68px] font-alexandria justify-center items-center text-center rounded-[11px] px-3 bg-[#3a0ca3] text-white text-[32px] m-7"
+                                style={{ border: "2px solid #8151EE" }}
+                              />
+                              <button className="relative bottom-2 w-[180px] h-[39px] font-alexandria text-white shadow-md rounded-[36.5px] bg-[#8151EE] flex justify-center items-center text-[16px] hover:bg-white hover:text-[#3a0ca3]">
+                                DONE
+                              </button>
+                            </div>
+                            <div className="flex flex-col items-center justify-center"> 
+                              <input
+                                type="text"
+                                name="username"
+                                id="4"
+                                placeholder="Player 4"
+                                onChange={handleInputChange}
+                                className="w-[350px] h-[68px] font-alexandria justify-center items-center text-center rounded-[11px] px-3 bg-[#3a0ca3] text-white text-[32px] m-7"
+                                style={{ border: "2px solid #8151EE" }}
+                              />
+                              <button className="relative bottom-2 w-[180px] h-[39px] font-alexandria text-white shadow-md rounded-[36.5px] bg-[#8151EE] flex justify-center items-center text-[16px] hover:bg-white hover:text-[#3a0ca3]">
+                                DONE
+                              </button>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                       <img
                         src={SLIDEIMAPS[selectedIds.mode!]?.mapPath}
@@ -395,14 +445,15 @@ const Play_Page: React.FC = () => {
                 <button
                   className="rounded-full border text-[#3A0CA3] bg-white hover:bg-[#3A0CA3] hover:text-white transition-all duration-400 group"
                   onClick={() => {
-                    setCurrentSlideIndex(0)
-                    handleNextClick()
+                    console.log(selectedIds);
+                    setCurrentSlideIndex(0);
+                    handleNextClick();
                   }}
-                  // disabled={
-                  //   isCurrentSlideSelected() || isOneOfSlidesSelected()
-                  //     ? false
-                  //     : true
-                  // }
+                  disabled={
+                    isOneOfSlidesSelected()
+                      ? false
+                      : true
+                  }
                 >
                   <NextButton />
                   <span className="hidden opacity-0 absolute transform  bg-black text-white px-2.5 py-1 rounded whitespace-nowrap transition-opacity duration-200 group-hover:block group-hover:opacity-100">

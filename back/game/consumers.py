@@ -93,7 +93,7 @@ class MatchMakingConsumer(AsyncWebsocketConsumer):
             await self.close()
             return
         if self.user in self.connected_users:
-            # await self.close()
+            await self.close()
             return
 
         self.players.append(self.user)
@@ -107,7 +107,7 @@ class MatchMakingConsumer(AsyncWebsocketConsumer):
             self.players.remove(self.user)
         if self.user in self.connected_users:
             del self.connected_users[self.user]
-
+        
     async def creat_match(self):
         if len(self.players) >= 2:
             ply1 = self.players.pop(0)

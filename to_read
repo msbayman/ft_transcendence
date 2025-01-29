@@ -3,6 +3,8 @@
 --> hooks in react  
 --> typescript and javascript
 --> game logic
+--> setInterval
+--> usecontext
 
 * Back-end
 
@@ -23,3 +25,10 @@ TO DO:
 --> add a timer after the game #
 --> fix local bot
 --> policy of password
+
+
+
+
+nicknames for tourn
+change pic for game custome
+disconnect in game ()
