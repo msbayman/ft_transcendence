@@ -14,13 +14,16 @@ import Notifications_p from "./Notifications/Notifications";
 import { usePlayer } from "./PlayerContext";
 import Search from "./Search_Content/Search";
 import NotFound from "../../NotFound";
+import { useNavigate } from 'react-router-dom';
+
+
 
 function Overview() {
   const location = useLocation();
   const dataPlayer = usePlayer();
   const [showNotifications, setShowNotifications] = useState(false);
   const [notifications, setNotifications] = useState<any[]>([]); // Array to store multiple notifications
-
+  const navigate = useNavigate();
   useEffect(() => {
     const state = location.state as { fromOAuth?: boolean };
     const searchParams = new URLSearchParams(location.search);
@@ -41,22 +44,39 @@ function Overview() {
       const handleWebSocketMessage = (event: MessageEvent) => {
         try {
           const data = JSON.parse(event.data);
+         
+          if (data.type === "challenge_accepted") {
+            navigate('/Game_challeng', { state: { challenged: data.reciver, challenger:data.sender} });
+          }
           if (data.type === "challenge_notification") {
-            const notificationWithId = { ...data, id: Date.now().toString() };
+            const notificationWithId = { 
+              ...data, 
+              id: Date.now().toString() // Ensure unique ID
+            };
             setNotifications((prev) => [...prev, notificationWithId]);
           }
         } catch (error) {
           console.error("Error parsing WebSocket message:", error);
         }
       };
-
+  
       dataPlayer.ws.addEventListener('message', handleWebSocketMessage);
       return () => {
         dataPlayer.ws?.removeEventListener('message', handleWebSocketMessage);
       };
     }
   }, [dataPlayer?.ws]);
-
+  
+  // Clear notification handler
+  const clearNotification = (id?: string) => {
+    if (id) {
+      // Remove specific notification
+      setNotifications((prev) => prev.filter(notif => notif.id !== id));
+    } else {
+      // Clear all notifications (if needed)
+      setNotifications([]);
+    }
+  };
   const Notifications_f = () => setShowNotifications((prev) => !prev);
 
   const check_logout = async () => {
@@ -126,15 +146,15 @@ function Overview() {
     return () => window.removeEventListener("resize", CheckWindow);
   }, []);
 
-  const clearNotification = (id?: string) => {
-    if (id) {
-      // Clear a specific notification by ID
-      setNotifications((prev) => prev.filter((notif) => notif.id !== id));
-    } else {
-      // Clear all notifications
-      setNotifications([]);
-    }
-  };
+  // const clearNotification = (id?: string) => {
+  //   if (id) {
+  //     // Clear a specific notification by ID
+  //     setNotifications((prev) => prev.filter((notif) => notif.id !== id));
+  //   } else {
+  //     // Clear all notifications
+  //     setNotifications([]);
+  //   }
+  // };
 
   return (
     <div className={over.all} style={{ backgroundImage: `url('/Navbar/Back_left_Side.png')` }}>

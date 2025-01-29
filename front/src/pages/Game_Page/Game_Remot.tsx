@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { usePlayer } from '../My_Profile/PlayerContext';
 
-function Game_Remot( { id } ) {
+function Game_Remot( { id, selectedIds } ) {
 	const mydata = usePlayer();
 	const [socket, setSocket] = useState<WebSocket | null>(null);
 	const [win, setwin] = useState(null);
@@ -14,9 +14,6 @@ function Game_Remot( { id } ) {
 		winner : null,
 		side: {up: null, down: null}
 	  });
-
-	const location = useLocation();
-	const { selectedIds } = location.state || {};
 	const navigate = useNavigate();
 
 	  const SLIDEBOARDS = [
@@ -26,7 +23,7 @@ function Game_Remot( { id } ) {
 		  mapName: "BlueBoard-Board",
 		},
 		{
-		  mapPath: "/public/green_table.svg",
+		  mapPath: "green_table.svg",
 		  id: 1,
 		  mapName: "GreenBoard-Board",
 		},
@@ -39,35 +36,37 @@ function Game_Remot( { id } ) {
 	  
 	  const SLIDECUES = [
 		{
-		  mapPath: "red",
+		  mapPath: "#2BBDB6",
 		  id: 0,
-		  mapName: "red-Cue",
+		  mapName: "Cyan-Paddle",
 		},
 		{
-		  mapPath: "blue",
+		  mapPath: "#24BA26",
 		  id: 1,
-		  mapName: "blue-Cue",
+		  mapName: "Green-Paddle",
 		},
 		{
-		  mapPath: "green",
+		  mapPath: "#FB2F98",
 		  id: 2,
-		  mapName: "green-Cue",
+		  mapName: "N-Blossom-Paddles",
 		},
 		{
-		  mapPath: "black",
+		  mapPath: "#7F00FF",
 		  id: 3,
-		  mapName: "black-Cue",
+		  mapName: "Violet-Paddles",
 		},
 	  ];
 	  
 	  const SLIDEBALLS = [
-		{ mapPath: "red", id: 0, mapName: "red" },
-		{ mapPath: "green", id: 1, mapName: "green" },
-		{ mapPath: "yellow", id: 2, mapName: "yellow" },
+		{ mapPath: "#FB2F98", id: 0, mapName: "pinkBall" },
+		{ mapPath: "#24BA26", id: 1, mapName: "greenBall" },
+		{ mapPath: "#2BBDB6", id: 2, mapName: "cyanBall" },
+		{ mapPath: "#7F00FF", id: 3, mapName: "violetBall" },
 	  ];
 	  
 
 	useEffect(() => {
+		console.log("-----> ",  selectedIds);
 		const token = Cookies.get("access_token");
 		const ws = new WebSocket(`wss://localhost/ws/game/${id}/?token=${token}`);
 
@@ -133,8 +132,8 @@ function Game_Remot( { id } ) {
 			{/* Table Images */}
 			<img src="/public/table.svg" alt="table background" className="absolute" />
 			<img
-			  src={SLIDEBOARDS[selectedIds.board].mapPath}
-			  alt={SLIDEBOARDS[selectedIds.board].mapName}
+			  src={!selectedIds ? SLIDEBOARDS[0].mapPath : SLIDEBOARDS[selectedIds].mapPath}
+			  alt={!selectedIds ? SLIDEBOARDS[0].mapPath : SLIDEBOARDS[selectedIds.board].mapName}
 			  className={gameState.winner ? "absolute mx-auto top-[120px] blur-sm" : "absolute mx-auto top-[120px]"}
 			/>
   
@@ -147,19 +146,22 @@ function Game_Remot( { id } ) {
 				{/* Left Paddle */}
 				<div
 				  className={gameState.winner ? "hidden" : "absolute w-[140px] h-[10px] top-[20px] transition-left duration-100 rounded-lg ease-linear"}
-				  style={{ left: `${gameState.paddles.left}px`, backgroundColor: SLIDECUES[selectedIds.paddel].mapPath  }}
+				  style={{ left: `${gameState.paddles.left}px`, backgroundColor: !selectedIds ? SLIDECUES[0].mapPath : SLIDECUES[selectedIds.paddel].mapPath }}
 				></div>
 
 				{/* Right Paddle */}
 				<div
 				  className={gameState.winner ? "hidden" : "absolute w-[140px] h-[10px] transition-left bottom-[20px] duration-100 rounded-lg ease-linear"}
-				  style={{ left: `${gameState.paddles.right}px`, backgroundColor: SLIDECUES[selectedIds.paddel].mapPath }}
+				  style={{	
+							left: `${gameState.paddles.right}px`,
+				  			backgroundColor: !selectedIds ? SLIDECUES[0].mapPath : SLIDECUES[selectedIds.paddel].mapPath 
+						}}
 				></div>
   
 				{/* Ball */}
 				<div
 				  className={gameState.winner ? "hidden" : "absolute w-[15px] h-[15px] bg-red-600 rounded-[50%]"}
-				  style={{ left: `${gameState.ball.x}px`, top: `${gameState.ball.y}px`, backgroundColor: SLIDEBALLS[selectedIds.ball].mapName }}
+				  style={{ left: `${gameState.ball.x}px`, top: `${gameState.ball.y}px`, backgroundColor: !selectedIds ? SLIDEBALLS[0].mapPath : SLIDEBALLS[selectedIds.ball].mapName }}
 				></div>
 			  </div>
 			</div>
@@ -201,4 +203,5 @@ function Game_Remot( { id } ) {
   }
   
   export default Game_Remot;
+  
   

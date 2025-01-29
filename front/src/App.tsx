@@ -21,6 +21,7 @@ import Game_Tourn from "./pages/Game_Page/Game_Fortourn";
 import Game_Loby from "./pages/Game_Page/Game_loby";
 import Tournaments from "./pages/Game_Page/Tournaments";
 import { TournProvider } from "./pages/Game_Page/TournContext";
+import Game_challeng from "./pages/Game_Page/Game_Challenge";
 // import NotFound from "./NotFound";
 
 
@@ -109,6 +110,7 @@ function AppContent() {
           <Route path="/remote_game" element={<Game_Loby />} />
           <Route path="/Tournament" element={<Tourn_manage />} />
           <Route path="/tourn_game" element={<Tournaments />} />
+          <Route path="/Game_challeng" element={<Game_challeng />} />
 
         </Routes>
       </main>

@@ -10,9 +10,16 @@ class ChalleConsumer(AsyncWebsocketConsumer):
 
     async def connect(self):
         self.user = self.scope["user"]
-        if not self.user.is_authenticated:  
+        self.ply = self.scope["url_route"]["kwargs"]["id"].split("+")
+        
+        if not self.user.is_authenticated:
             await self.close()
             return
+        
+        if not self.user.username in self.ply:
+            await self.close()
+            return 
+        
         if self.user in self.players:
             await self.close()
             return
