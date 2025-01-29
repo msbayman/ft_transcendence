@@ -33,31 +33,32 @@ const SLIDEIMAPS = [
 
 const SLIDECUES = [
   {
-    mapPath: "skins-svg/Paddel/BluePool-Cue.svg",
+    mapPath: "Paddles/Cyan-Paddle.svg",
     id: 0,
-    mapName: "BluePool-Cue",
+    mapName: "Cyan-Paddle",
   },
   {
-    mapPath: "skins-svg/Paddel/GreenNeonCue.svg",
+    mapPath: "Paddles/Green-Paddle.svg",
     id: 1,
-    mapName: "GreenNeonCue",
+    mapName: "Green-Paddle",
   },
   {
-    mapPath: "skins-svg/Paddel/PinkNeonCue.svg",
+    mapPath: "Paddles/N-Blossom-Paddle.svg",
     id: 2,
-    mapName: "PinkNeonCue",
+    mapName: "N-Blossom-Paddles",
   },
   {
-    mapPath: "skins-svg/Paddel/BrownPool-Cue.svg",
+    mapPath: "Paddles/Violet-Paddle.svg",
     id: 3,
-    mapName: "BrownPool-Cue",
+    mapName: "Violet-Paddles",
   },
 ];
 
 const SLIDEBALLS = [
-  { mapPath: "skins-png/Balls/8BallPool.png", id: 0, mapName: "8BallPool" },
-  { mapPath: "skins-png/Balls/Foot-Ball.png", id: 1, mapName: "FootBall" },
-  { mapPath: "skins-png/Balls/Basket-Ball.png", id: 2, mapName: "BasketBall" },
+  { mapPath: "Balls/pink-ball.svg", id: 0, mapName: "8BallPool" },
+  { mapPath: "Balls/green-ball.svg", id: 1, mapName: "FootBall" },
+  { mapPath: "Balls/cyan-ball.svg", id: 2, mapName: "BasketBall" },
+  { mapPath: "Balls/violet-ball.svg", id: 3, mapName: "BasketBall" },
 ];
 
 const SLIDEBOARDS = [
@@ -316,68 +317,55 @@ const Play_Page: React.FC = () => {
                         <label className="w-[15rem] text-[30px] relative bottom-[5px] left-[1rem] font-alexandria text-white ">
                           Set Nicknames :
                         </label>
-                        <div className="flex flex-row  min-w-[99rem] items-center justify-center">
-                          <div className="flex flex-col items-center justify-center gap-4">
-                            <div className="flex flex-col items-center justify-center"> 
+                        <div className="flex flex-row min-w-[99rem] items-center justify-center">
+                          <div className="flex flex-col items-center justify-center">
+                            <div className="flex flex-col items-center justify-center gap-3">
                               <input
                                 type="text"
                                 name="username"
                                 id="1"
                                 placeholder="Player 1"
                                 onChange={handleInputChange}
-                                className="w-[350px] h-[68px] font-alexandria justify-center items-center text-center rounded-[11px] px-3 bg-[#3a0ca3] text-white text-[32px] m-7"
+                                className="w-[350px] h-[68px] font-alexandria justify-center items-center text-center rounded-[11px] px-3 bg-[#3a0ca3] text-white text-[32px] m-3"
                                 style={{ border: "2px solid #8151EE" }}
                               />
-                              <button className="relative bottom-2 w-[180px] h-[39px] font-alexandria text-white shadow-md rounded-[36.5px] bg-[#8151EE] flex justify-center items-center text-[16px] hover:bg-white hover:text-[#3a0ca3]">
-                                DONE
-                              </button>
-                            </div>
-                            <div className="flex flex-col items-center justify-center"> 
                               <input
                                 type="text"
                                 name="username"
                                 id="2"
                                 placeholder="Player 2"
                                 onChange={handleInputChange}
-                                className="w-[350px] h-[68px] font-alexandria justify-center items-center text-center rounded-[11px] px-3 bg-[#3a0ca3] text-white text-[32px] m-7"
+                                className="w-[350px] h-[68px] font-alexandria justify-center items-center text-center rounded-[11px] px-3 bg-[#3a0ca3] text-white text-[32px] m-3"
                                 style={{ border: "2px solid #8151EE" }}
                               />
-                              <button className="relative bottom-2 w-[180px] h-[39px] font-alexandria text-white shadow-md rounded-[36.5px] bg-[#8151EE] flex justify-center items-center text-[16px] hover:bg-white hover:text-[#3a0ca3]">
-                                DONE
-                              </button>
                             </div>
                           </div>
-                          <div className="flex flex-col items-center justify-center gap-4">
-                            <div className="flex flex-col items-center justify-center"> 
+                          <div className="flex flex-col items-center justify-center">
+                            <div className="flex flex-col items-center justify-center gap-3">
                               <input
                                 type="text"
                                 name="username"
-                                id="3"
+                                id="1"
                                 placeholder="Player 3"
                                 onChange={handleInputChange}
-                                className="w-[350px] h-[68px] font-alexandria justify-center items-center text-center rounded-[11px] px-3 bg-[#3a0ca3] text-white text-[32px] m-7"
+                                className="w-[350px] h-[68px] font-alexandria justify-center items-center text-center rounded-[11px] px-3 bg-[#3a0ca3] text-white text-[32px] m-3"
                                 style={{ border: "2px solid #8151EE" }}
                               />
-                              <button className="relative bottom-2 w-[180px] h-[39px] font-alexandria text-white shadow-md rounded-[36.5px] bg-[#8151EE] flex justify-center items-center text-[16px] hover:bg-white hover:text-[#3a0ca3]">
-                                DONE
-                              </button>
-                            </div>
-                            <div className="flex flex-col items-center justify-center"> 
                               <input
                                 type="text"
                                 name="username"
-                                id="4"
+                                id="2"
                                 placeholder="Player 4"
                                 onChange={handleInputChange}
-                                className="w-[350px] h-[68px] font-alexandria justify-center items-center text-center rounded-[11px] px-3 bg-[#3a0ca3] text-white text-[32px] m-7"
+                                className="w-[350px] h-[68px] font-alexandria justify-center items-center text-center rounded-[11px] px-3 bg-[#3a0ca3] text-white text-[32px] m-3"
                                 style={{ border: "2px solid #8151EE" }}
                               />
-                              <button className="relative bottom-2 w-[180px] h-[39px] font-alexandria text-white shadow-md rounded-[36.5px] bg-[#8151EE] flex justify-center items-center text-[16px] hover:bg-white hover:text-[#3a0ca3]">
-                                DONE
-                              </button>
                             </div>
                           </div>
                         </div>
+                        <button className="relative top-[2rem] w-[180px] h-[48px] font-alexandria text-white shadow-md rounded-[36.5px] bg-[#8151EE] flex justify-center items-center text-[24px] hover:bg-white hover:text-[#3a0ca3]">
+                          DONE
+                        </button>
                       </div>
                       <img
                         src={SLIDEIMAPS[selectedIds.mode!]?.mapPath}
@@ -447,11 +435,7 @@ const Play_Page: React.FC = () => {
                     setCurrentSlideIndex(0);
                     handleNextClick();
                   }}
-                  disabled={
-                    isOneOfSlidesSelected()
-                      ? false
-                      : true
-                  }
+                  disabled={isOneOfSlidesSelected() ? false : true}
                 >
                   <NextButton />
                   <span className="hidden opacity-0 absolute transform  bg-black text-white px-2.5 py-1 rounded whitespace-nowrap transition-opacity duration-200 group-hover:block group-hover:opacity-100">
