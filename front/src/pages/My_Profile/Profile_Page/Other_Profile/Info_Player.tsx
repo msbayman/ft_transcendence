@@ -1,7 +1,6 @@
 // import ph_pro from "../../Images/profile.png";
 import other from "./Info_Player.module.css";
 import { LinearProgress } from "@mui/material";
-import etoile from "/Etoile.svg";
 import { CircularProgress, CircularProgressLabel } from "@chakra-ui/progress";
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
@@ -69,13 +68,14 @@ export const Info_Player = ({ username }: { username: string | undefined }) => {
     return result;
   };
 
-  const percentage_exp = () => {
-    const result = (50 / 100) * 100;
+  const percentage_exp = (points: number | undefined, level: number | undefined) => {
+    if (points == undefined || level == undefined) return 0;
+    const result = (points / level) * 100;
     return result;
   };
 
   const check_rank = (points: number | undefined): string | undefined => {
-    if (points === undefined) return "CHEAT";
+    if (points === undefined) return "";
     else if (points < 100) return "IRON";
     else if (points > 100 && points < 200) return "BRONZE";
     else if (points > 200 && points < 300) return "SILVER";
@@ -168,7 +168,7 @@ export const Info_Player = ({ username }: { username: string | undefined }) => {
             <div className={`${other.Exp_State} ${other.hover_container1}`}>
               <CircularProgress
                 capIsRound
-                value={percentage_exp()}
+                value={percentage_exp(data?.points, data?.level)}
                 color="#AE445A"
                 size="100%"
                 thickness={13}
@@ -179,7 +179,7 @@ export const Info_Player = ({ username }: { username: string | undefined }) => {
                 }}
               >
                 <CircularProgressLabel fontSize="calc(90px * 0.2)">
-                  50/100 <br /> EXP
+                {percentage_exp(data?.points, data?.level)}{"%"}
                 </CircularProgressLabel>
               </CircularProgress>
               <span className={other.hover_text1}>Exp Rate</span>
@@ -194,7 +194,7 @@ export const Info_Player = ({ username }: { username: string | undefined }) => {
             <div className={other.Progress_bar_lvl}>
               <LinearProgress
                 variant="determinate"
-                value={70}
+                value={percentage_exp(data?.points, data?.level)}
                 sx={{
                   height: "12px",
                   borderRadius: "30px",
@@ -213,7 +213,7 @@ export const Info_Player = ({ username }: { username: string | undefined }) => {
               </div>
             </div>
           </div>
-          <div className={other.Exp_Level}>125 OF 365</div>
+          <div className={other.Exp_Level}>{percentage_exp(data?.points, data?.level)}% OF EXP</div>
         </div>
         <div className={other.inside_ul}>
           <ul className={other.Static_Game}>
