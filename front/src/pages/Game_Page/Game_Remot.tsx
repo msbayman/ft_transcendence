@@ -149,7 +149,7 @@ function Game_Remot( { id } ) {
 				  className={gameState.winner ? "hidden" : "absolute w-[140px] h-[10px] top-[20px] transition-left duration-100 rounded-lg ease-linear"}
 				  style={{ left: `${gameState.paddles.left}px`, backgroundColor: SLIDECUES[selectedIds.paddel].mapPath  }}
 				></div>
-  
+
 				{/* Right Paddle */}
 				<div
 				  className={gameState.winner ? "hidden" : "absolute w-[140px] h-[10px] transition-left bottom-[20px] duration-100 rounded-lg ease-linear"}
