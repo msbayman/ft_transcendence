@@ -429,19 +429,26 @@ const Play_Page: React.FC = () => {
                 {isCurrentSlideSelected() ? "SELECTED" : "SELECT"}
               </button>
               {value !== "Finish" && (
-                <button
-                  className="rounded-full border text-[#3A0CA3] bg-white hover:bg-[#3A0CA3] hover:text-white transition-all duration-400 group"
-                  onClick={() => {
-                    setCurrentSlideIndex(0);
-                    handleNextClick();
-                  }}
-                  disabled={isOneOfSlidesSelected() ? false : true}
+                <div
+                  onClick={
+                    isOneOfSlidesSelected()
+                      ? () => {
+                          setCurrentSlideIndex(0);
+                          handleNextClick();
+                        }
+                      : undefined
+                  }
+                  className={`rounded-full border text-[#3A0CA3] bg-white hover:bg-[#3A0CA3] hover:text-white transition-all duration-400 group ${
+                    isOneOfSlidesSelected()
+                      ? ""
+                      : "opacity-50 cursor-not-allowed"
+                  }`}
                 >
                   <NextButton />
                   <span className="hidden opacity-0 absolute transform  bg-black text-white px-2.5 py-1 rounded whitespace-nowrap transition-opacity duration-200 group-hover:block group-hover:opacity-100">
                     NEXT
                   </span>
-                </button>
+                </div>
               )}
             </div>
           )}
