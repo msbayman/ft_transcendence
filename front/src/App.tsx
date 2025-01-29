@@ -14,7 +14,7 @@ import Signup_Page from "./pages/Signup_Page/Signup_Page";
 import Valid_otp from "./pages/Valid_otp/Valid_otp";
 import Overview from "./pages/My_Profile/Overview";
 import { PlayerProvider, usePlayer } from "./pages/My_Profile/PlayerContext";
-import Game_Local from "./pages/Game_Page/Game_Local";
+import Game_Local from "./pages/Game_Page/Game_local";
 import Game_Tourn from "./pages/Game_Page/Game_Fortourn";
 import Game_Loby from "./pages/Game_Page/Game_loby";
 import Tournaments from "./pages/Game_Page/Tournaments";

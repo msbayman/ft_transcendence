@@ -3,12 +3,21 @@ import Cookies from "js-cookie";
 import { usePlayer } from "../My_Profile/PlayerContext";
 import Game_Remot from "./Game_Remot";
 import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 
 function Game_Loby() {
   const mydata = usePlayer();
-  const [matchData, setMatchData] = useState(null);
+  interface MatchData {
+    match_id: string;
+    player1: { username: string };
+    player2: { username: string };
+  }
+
+  const [matchData, setMatchData] = useState<MatchData | null>(null);
   const token = Cookies.get("access_token");
   const [startGame, setStartGame] = useState(false);
+  const location = useLocation();
+  const { selectedIds } = location.state || {};
 
   useEffect(() => {
     const matchmakingSocket = new WebSocket(
@@ -21,7 +30,6 @@ function Game_Loby() {
 
     matchmakingSocket.onmessage = (event) => {
       const data = JSON.parse(event.data);
-      console.log("------ match found ------");
       setMatchData(data);
     };
   }, [token]);
@@ -36,8 +44,8 @@ function Game_Loby() {
     }
   }, [matchData]);
 
-  if (startGame) {
-    return <Game_Remot id={matchData.match_id} />;
+  if (startGame && matchData) {
+    return <Game_Remot id={matchData.match_id} selectedIds={selectedIds}  />;
   }
   if (matchData) {
     return (
