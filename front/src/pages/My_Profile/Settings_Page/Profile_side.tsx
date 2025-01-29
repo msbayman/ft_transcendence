@@ -133,15 +133,10 @@ function Profile_side() {
                     }));
                   }
                 } catch (error) {
-                  // handle error status 413 entity too large
-                  if (
-                    axios.isAxiosError(error) &&
-                    error.response?.status === 413
-                  ) {
-                    toast.error(
-                      "File size too large. Please upload a smaller file."
-                    );
-                  } else {
+                  if (axios.isAxiosError(error) && error.response?.status === 413) {
+                    toast.error("File size too large. Please upload a smaller file.");
+                  }
+                  else {
                     if (axios.isAxiosError(error)) {
                       toast.error(error.response?.data?.error);
                     }

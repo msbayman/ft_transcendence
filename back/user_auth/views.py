@@ -1,7 +1,7 @@
 import logging
 import time
 from rest_framework.views import APIView
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework.decorators import api_view, permission_classes, authentication_classes
 from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth import authenticate, password_validation
@@ -361,7 +361,24 @@ class VerifyOTPSettings(APIView):
             return Response({"detail": "Invalid OTP."}, status=status.HTTP_400_BAD_REQUEST)
 
 
-
+@api_view(['GET'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
+def get_2fa_status(request):
+    try:
+        # Since we're using JWT authentication, the user is already attached to the request
+        user = request.user
+        
+        # Return the 2FA status from the active_2fa field
+        return Response({
+            'is2FAEnabled': user.active_2fa
+        }, status=status.HTTP_200_OK)
+        
+    except Exception as e:
+        return Response({
+            'error': 'Failed to fetch 2FA status',
+            'detail': str(e)
+        }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 class UserDetailView(APIView):

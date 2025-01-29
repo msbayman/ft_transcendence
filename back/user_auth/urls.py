@@ -26,6 +26,7 @@ urlpatterns = [
      path('upload_profile_image', views.upload_profile_image, name='upload_profile_image'),
      # path('change_cover', views.change_cover, name='change_cover'),
      path('changePassword', views.changePassword, name='changePassword'),
+     path('get2FAStatus', views.get_2fa_status, name='get_2fa_status'),
 
      # path('health_check',  views.health_check, name='health_check'),  # Use a trailing slash
      # path('health_check',  views.health_check, name='health_check'),  # Use a trailing slash

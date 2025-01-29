@@ -22,7 +22,6 @@ type PropType = {
 
 const EmblaCarousel: React.FC<PropType> = (props) => {
   const { slidesmaps, options, setCurrentSlideIndex } = props
-  console.log('slidesmaps:', slidesmaps); // Log slidesmaps to verify the prop
   const [emblaRef, emblaApi] = useEmblaCarousel(options)
 
   const tweenFactor = useRef(0)
