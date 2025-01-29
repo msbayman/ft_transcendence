@@ -1,5 +1,4 @@
 import Player_Profil from '../../components/ui/game_comp/loby_profil';
-import vs from '../../../public/vs_img.svg';
 import Cookies from 'js-cookie';
 import { usePlayer } from '../My_Profile/PlayerContext';
 import Game_Remot from "./Game_Remot";
@@ -13,7 +12,7 @@ function Game_Loby() {
 
     useEffect(() => {
         const matchmakingSocket = new WebSocket(
-            `ws://127.0.0.1:8000/ws/matchmaking/?token=${token}`
+            `wss://localhost/ws/matchmaking/?token=${token}`
         );
 
         matchmakingSocket.onopen = () => {
@@ -38,23 +37,22 @@ function Game_Loby() {
     }, [matchData]);
 
     if (startGame) {
-        return <Game_Remot id={matchData.match_id} />; 
+        return <Game_Remot id={matchData.match_id} />;
     }
-
     if (matchData) {
         return (
-            <div className="flex justify-center items-center h-screen w-screen bg-[url('../../../public/loby_back.svg')] bg-cover bg-center bg-no-repeat">
+            <div className="flex justify-center items-center h-screen w-screen bg-[url('/public/loby_back.svg')] bg-cover bg-center bg-no-repeat">
                 <Player_Profil mydata={mydata.playerData} />
-                <img src={vs} alt="vs tag" />
+                <img src="/public/vs_img.svg" alt="vs tag" />
                 <Player_Profil mydata={matchData.player1.username === mydata.playerData?.username ? matchData.player2 : matchData.player1 } />
             </div>
         );
     }
 
     return (
-        <div className="flex justify-center items-center h-screen w-screen bg-[url('../../../public/loby_back.svg')] bg-cover bg-center bg-no-repeat">
+        <div className="flex justify-center items-center h-screen w-screen bg-[url('/public/loby_back.svg')] bg-cover bg-center bg-no-repeat">
             <Player_Profil mydata={mydata.playerData} />
-            <img src={vs} alt="vs tag" />
+            <img src="/public/vs_img.svg" alt="vs tag" />
             <Player_Profil mydata={null} />
         </div>
     );

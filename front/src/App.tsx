@@ -14,14 +14,15 @@ import Signup_Page from "./pages/Signup_Page/Signup_Page";
 import Valid_otp from "./pages/Valid_otp/Valid_otp";
 import Overview from "./pages/My_Profile/Overview";
 import { PlayerProvider, usePlayer } from "./pages/My_Profile/PlayerContext";
-import Game_Local from "./pages/Game_Page/Game_Local";
+import Game_Local from "./pages/Game_Page/Game_local";
 // import Game_Bot from "./pages/Game_Page/Game_Bot";
 import Game_Remot from "./pages/Game_Page/Game_Remot";
-import Tourn_Remot from "./pages/Game_Page/Game_Torn";
-import Game_Tourn from "./pages/Game_Page/Game_Torn";
-import Test from "./pages/Game_Page/Test";
+import Tourn_manage from "./pages/Game_Page/Game_Torn";
+import Game_Tourn from "./pages/Game_Page/Game_Fortourn";
+// import Test from "./pages/Game_Page/Test";
 import Game_Loby from "./pages/Game_Page/Game_loby";
-import Tournaments from "./pages/Tournaments/Tournaments";
+import Tournaments from "./pages/Game_Page/Tournaments";
+import { TournProvider } from "./pages/Game_Page/TournContext";
 // import NotFound from "./NotFound";
 
 
@@ -89,15 +90,11 @@ function AppContent() {
           <Route path="signup" element={<Signup_Page />} />
           <Route path="/*" element={<Overview />} />
           <Route path="Valid_otp" element={<Valid_otp />} />
-          <Route path="/local_game" element={<Game_Local p1={"player1"} p2={"player2"}  mod={0} onEnd={null} />} />
-          {/* <Route path="/local_bot" element={<Game_Bot />} /> */}
-          <Route path="/remote_game" element={<Game_Remot />} />
-          <Route path="/test" element={<Test />} />
-          <Route path="/Tournaments" element={<Tournaments />} />
+
+          <Route path="/local_game" element={<Game_Local />} />
           <Route path="/remote_game" element={<Game_Loby />} />
-          <Route path="/tourn" element={<Game_Tourn />} />
-          <Route path="/test" element={<Tourn_Remot />} />
-          {/* <Route path="/game_loby" element={<Game_Loby />} /> */}
+          <Route path="/Tournament" element={<Tourn_manage />} />
+
         </Routes>
       </main>
     </Fragment>
@@ -107,7 +104,9 @@ function AppContent() {
 function App() {
   return (
     <PlayerProvider>
-      <AppContent />
+      <TournProvider>
+        <AppContent />
+      </TournProvider>
     </PlayerProvider>
   );
 }

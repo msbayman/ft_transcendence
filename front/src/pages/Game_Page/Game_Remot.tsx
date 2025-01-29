@@ -1,11 +1,9 @@
 import { useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
-import table_game from "../../assets/table.svg";
-import table_b from "../../assets/table_blue.svg";
-import logo from "../../assets/logo_game.svg";
+import { useLocation, useNavigate } from "react-router-dom";
 import { usePlayer } from '../My_Profile/PlayerContext';
 
-function Game_Remot({ id }) {
+function Game_Remot( { id } ) {
 	const mydata = usePlayer();
 	const [socket, setSocket] = useState<WebSocket | null>(null);
 	const [win, setwin] = useState(null);
@@ -17,9 +15,61 @@ function Game_Remot({ id }) {
 		side: {up: null, down: null}
 	  });
 
+	const location = useLocation();
+	const { selectedIds } = location.state || {};
+	const navigate = useNavigate();
+
+	  const SLIDEBOARDS = [
+		{
+		  mapPath: "/public/table_blue.svg",
+		  id: 0,
+		  mapName: "BlueBoard-Board",
+		},
+		{
+		  mapPath: "/public/green_table.svg",
+		  id: 1,
+		  mapName: "GreenBoard-Board",
+		},
+		{
+		  mapPath: "/public/BrownBoard.svg",
+		  id: 2,
+		  mapName: "brownBoard",
+		},
+	  ];
+	  
+	  const SLIDECUES = [
+		{
+		  mapPath: "red",
+		  id: 0,
+		  mapName: "red-Cue",
+		},
+		{
+		  mapPath: "blue",
+		  id: 1,
+		  mapName: "blue-Cue",
+		},
+		{
+		  mapPath: "green",
+		  id: 2,
+		  mapName: "green-Cue",
+		},
+		{
+		  mapPath: "black",
+		  id: 3,
+		  mapName: "black-Cue",
+		},
+	  ];
+	  
+	  const SLIDEBALLS = [
+		{ mapPath: "red", id: 0, mapName: "red" },
+		{ mapPath: "green", id: 1, mapName: "green" },
+		{ mapPath: "yellow", id: 2, mapName: "yellow" },
+	  ];
+	  
+
 	useEffect(() => {
 		const token = Cookies.get("access_token");
-		const ws = new WebSocket(`ws://127.0.0.1:8000/ws/game/${id}/?token=${token}`);
+		const ws = new WebSocket(`wss://localhost/ws/game/${id}/?token=${token}`);
 
 		ws.onopen = () => {
 			console.log("Connected to WebSocket");
@@ -29,7 +79,7 @@ function Game_Remot({ id }) {
 		ws.onmessage = (event) => {
 			const gameState = JSON.parse(event.data);
 			if (gameState.type == "game_end")
-				console.log("-----end game type-----");
+				navigate("/overview");
 			else
 			{
 				setGameState({
@@ -56,6 +106,8 @@ function Game_Remot({ id }) {
 		};
 
 		ws.onclose = () => console.log("WebSocket closed");
+
+		return () => {if (ws) ws.close()}
 	}, []);
 
 	const handleKeyPress = (event: KeyboardEvent) => {
@@ -76,13 +128,13 @@ function Game_Remot({ id }) {
 
 	return (
 	  <>
-		<div className="bg-custom-bg bg-cover bg-center h-screen w-full">
+		<div className="bg-[url('/public/background.png')] bg-cover bg-center h-screen w-full">
 		  <div className="relative flex justify-center top-[90px]">
 			{/* Table Images */}
-			<img src={table_game} alt="table background" className="absolute" />
+			<img src="/public/table.svg" alt="table background" className="absolute" />
 			<img
-			  src={table_b}
-			  alt="board"
+			  src={SLIDEBOARDS[selectedIds.board].mapPath}
+			  alt={SLIDEBOARDS[selectedIds.board].mapName}
 			  className={gameState.winner ? "absolute mx-auto top-[120px] blur-sm" : "absolute mx-auto top-[120px]"}
 			/>
   
@@ -94,20 +146,20 @@ function Game_Remot({ id }) {
 			  <div className="relative w-[510px] h-[740px] mx-auto top-[120px]">
 				{/* Left Paddle */}
 				<div
-				  className={gameState.winner ? "hidden" : "absolute w-[140px] h-[10px] bg-[#0026EB] top-[20px] transition-left duration-100 rounded-lg ease-linear"}
-				  style={{ left: `${gameState.paddles.left}px` }}
+				  className={gameState.winner ? "hidden" : "absolute w-[140px] h-[10px] top-[20px] transition-left duration-100 rounded-lg ease-linear"}
+				  style={{ left: `${gameState.paddles.left}px`, backgroundColor: SLIDECUES[selectedIds.paddel].mapPath  }}
 				></div>
   
 				{/* Right Paddle */}
 				<div
-				  className={gameState.winner ? "hidden" : "absolute w-[140px] h-[10px] bg-[#FFE500] transition-left bottom-[20px] duration-100 rounded-lg ease-linear"}
-				  style={{ left: `${gameState.paddles.right}px` }}
+				  className={gameState.winner ? "hidden" : "absolute w-[140px] h-[10px] transition-left bottom-[20px] duration-100 rounded-lg ease-linear"}
+				  style={{ left: `${gameState.paddles.right}px`, backgroundColor: SLIDECUES[selectedIds.paddel].mapPath }}
 				></div>
   
 				{/* Ball */}
 				<div
 				  className={gameState.winner ? "hidden" : "absolute w-[15px] h-[15px] bg-red-600 rounded-[50%]"}
-				  style={{ left: `${gameState.ball.x}px`, top: `${gameState.ball.y}px` }}
+				  style={{ left: `${gameState.ball.x}px`, top: `${gameState.ball.y}px`, backgroundColor: SLIDEBALLS[selectedIds.ball].mapName }}
 				></div>
 			  </div>
 			</div>
@@ -131,7 +183,7 @@ function Game_Remot({ id }) {
 				</p>
 			  </div>
 			  <div className="flex justify-items-center">
-				<img src={logo} alt="logo" />
+				<img src="/public/logo_game.svg" alt="logo" />
 			  </div>
 			  <div className="relative bg-[url('/public/name_hold_game.svg')] h-[70px] w-[250px] bg-cover bg-center flex justify-center items-center">
 				<p className="absolute text-white text-4xl font-luckiest right-[25px]">
