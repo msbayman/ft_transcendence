@@ -3,13 +3,15 @@ from rest_framework.views import APIView
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework import status
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, password_validation
 from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework.exceptions import ValidationError
 from .models import Player
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from .serializers import PlayerSerializer
-from .otp_view import generate_otp, send_otp_via_email
+from .otp_view import generate_otp, send_otp_via_email, store_otp
 from django.utils import timezone
+from django.db import transaction
 from django.http import JsonResponse
 from datetime import timedelta
 from django.utils.timezone import now
@@ -18,23 +20,55 @@ from django.http import JsonResponse
 from django.core.management.base import BaseCommand
 from django.utils import timezone
 from rest_framework_simplejwt.authentication import JWTAuthentication
-
+from django.core.mail import send_mail
+from django.conf import settings
+from rest_framework import serializers, status
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from django.contrib.auth.password_validation import validate_password
+from django.db import transaction
+from django.core.exceptions import ValidationError
+from django.contrib.auth.hashers import make_password
 
 # Logger setup
 logger = logging.getLogger(__name__)
 
+# @api_view(['GET'])
+# @permission_classes([AllowAny])
+# def health_check(request):
+#     return JsonResponse({"status": "ok"})
+
+
+
+
+# @api_view(['GET'])
+
+# @permission_classes([IsAuthenticated])
+
+# class UpdatePass(APIView):
+#     permission_classes = [IsAuthenticated]
+#     authentication_classes = [JWTAuthentication]
+
+#     def post(self, request):
+#         data = request.data
+#         new_password = data.get('newPassword')
+#         old_password = data.get('oldPassword')
+#         user = Player.objects.filter(username=data.username).first()
+#         if not user.check_password(old_password):
+#             return Response({'error': 'Invalid old password'}, status=status.HTTP_400_BAD_REQUEST)
+#         try:
+#             password_validation.validate_password(new_password)
+#             if old_password == new_password:
+#                 return JsonResponse({'error': 'New password cannot be the same as old password'}, status=status.HTTP_400_BAD_REQUEST)
+#         except ValidationError as e:
+#             return Response({'error': ' '.join(e.messages)}, status=status.HTTP_400_BAD_REQUEST)
+#         user.set_password(new_password)
+#         user.save()
+#         return Response({'success': True, 'message': 'Password changed successfully'}, status=status.HTTP_200_OK)
+
 @api_view(['GET'])
-@permission_classes([AllowAny])
-def health_check(request):
-    return JsonResponse({"status": "ok"})
-
-
-
-
-@api_view(['GET'])
-
 @permission_classes([IsAuthenticated])
-
 def display_users(request):
     players = Player.objects.all()
     serializer = PlayerSerializer(players, many=True)
@@ -49,10 +83,6 @@ def delete_player(request):
     
     try:
         player_to_delete = Player.objects.get(username=username)
-
-        for friend in player_to_delete.list_users_friends.all():
-            friend.list_users_friends.remove(player_to_delete)
-
         player_to_delete.delete()
         return Response({'message': f'Player {username} deleted successfully'}, status=status.HTTP_200_OK)
     except Player.DoesNotExist:
@@ -61,25 +91,89 @@ def delete_player(request):
         logger.error(f"Error deleting player {username}: {e}")
         return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def update_player(request):
-    username = request.data.get('username')
-    if not username:
+    username = request.user.username
+    new_username = request.data.get('username')
+
+    
+    if not new_username:
         return Response({'error': 'Username is required.'}, status=status.HTTP_400_BAD_REQUEST)
 
     try:
-        player_to_update = Player.objects.get(username=username)
-        serializer = PlayerSerializer(player_to_update, data=request.data, partial=True)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        # Use the serializer's validation method to validate the new username
+        serializer = PlayerSerializer()
+        validated_username = serializer.validate_username(new_username)
+
+        with transaction.atomic(): # Use a transaction to ensure data consistency in the database 
+            if Player.objects.filter(username=validated_username).exists():
+                return Response(
+                    {'error': 'This username is already taken.'},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+
+            # Fetch the player and update the username
+            player_to_update = Player.objects.get(username=username)
+            player_to_update.username = validated_username
+            player_to_update.save()
+            
+            return Response({
+                'message': 'Username updated successfully',
+                'username': validated_username
+            }, status=status.HTTP_200_OK)
+
+    except ValidationError as e:
+        return Response({'error': str(e.detail[0])}, status=status.HTTP_400_BAD_REQUEST)
     except Player.DoesNotExist:
-        return Response({'error': 'Player not found'}, status=status.HTTP_404_NOT_FOUND)
+        return Response(
+            {'error': 'Player not found'}, 
+            status=status.HTTP_404_NOT_FOUND
+        )
     except Exception as e:
-        logger.error(f"Error updating player {username}: {e}")
-        return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        return Response(
+            {'error': 'An error occurred while updating the username'},
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )
+    
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def changePassword(request):
+    data = request.data
+    new_password = data.get('newPassword')
+    old_password = data.get('oldPassword')
+    user = Player.objects.filter(userID=request.user.userID).first()
+    if not user.check_password(old_password):
+        return Response({'error': 'Invalid old password'}, status=status.HTTP_400_BAD_REQUEST)
+    try:
+        password_validation.validate_password(new_password)
+        if old_password == new_password:
+            return JsonResponse({'error': 'New password cannot be the same as old password'}, status=status.HTTP_400_BAD_REQUEST)
+    except ValidationError as e:
+        return Response({'error': ' '.join(e.messages)}, status=status.HTTP_400_BAD_REQUEST)
+    user.set_password(new_password)
+    user.save()
+    return Response({'success': True, 'message': 'Password changed successfully'}, status=status.HTTP_200_OK)
+
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def resend_otp(request):
+    otp = generate_otp()
+    recipient_email = request.user.email
+    subject = 'Your One-Time Password (OTP)'
+    body = f'Your OTP To activate 2FA is: {otp}\nThis OTP is valid for 5 minutes.'
+    send_mail(
+        subject=subject,
+        message=body,
+        from_email=settings.EMAIL_HOST_USER,
+        recipient_list=[recipient_email],
+        fail_silently=False,
+    )
+    store_otp(recipient_email, otp)
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
@@ -94,8 +188,19 @@ def add_player(request):
     if not email or not username:
         return Response({"error": "Email and username are required."}, status=status.HTTP_400_BAD_REQUEST)
 
-    if Player.objects.filter(email__iexact=email).exists() or Player.objects.filter(username__iexact=username).exists():
-        return Response({"error": "That email or username is already used."}, status=status.HTTP_409_CONFLICT)
+    existing_email = Player.objects.filter(email__iexact=email).exists()
+    existing_username = Player.objects.filter(username__iexact=username).exists()
+
+    if existing_email or existing_username:
+        return Response({
+            "error": "Conflict",
+            "details": {
+                "email_exists": existing_email,
+                "username_exists": existing_username
+            }
+        }, status=status.HTTP_409_CONFLICT)
+
+
 
     serializer = PlayerSerializer(data=request.data)
     if serializer.is_valid():
@@ -110,7 +215,6 @@ class LoginAPIView(APIView):
     def post(self, request):
         username = request.data.get('username').lower()
         password = request.data.get('password')
-
         if not username or not password:
             return Response({"detail": "Username and password are required."}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -155,6 +259,8 @@ class VerifyOTP(APIView):
         username = request.data.get('username')
         otp = request.data.get('otp')
 
+        # print("=====>>> this is otp ", otp )
+
         if not username or not otp:
             return Response({"detail": "Username and OTP are required."}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -180,13 +286,47 @@ class VerifyOTP(APIView):
             }, status=status.HTTP_200_OK)
         else:
             return Response({"detail": "Invalid OTP."}, status=status.HTTP_400_BAD_REQUEST)
+        
+
+
+class VerifyOTPSettings(APIView):
+    permission_classes = [IsAuthenticated]
+    
+    def post(self, request):
+        username = request.data.get('username')
+        state = request.data.get('state')
+
+        if not username and not state:
+            return Response({"detail": "Username, State are required."}, status=status.HTTP_400_BAD_REQUEST)
+        
+        try:
+            player = Player.objects.get(username=username)
+            otp = generate_otp()
+            send_otp_via_email(username,otp)
+        except Player.DoesNotExist:
+            return Response({"detail": "User not found."}, status=status.HTTP_404_NOT_FOUND)
+
+        if player.is_expired():
+            return Response({"detail": "OTP has expired."}, status=status.HTTP_404_BAD_REQUEST)
+
+        if player.otp_code == otp:
+            player.active_2fa = state
+            player.otp_code = state
+            player.save()
+            return Response({"message": "OTP verified successfully"}, status=status.HTTP_200_OK)
+        else:
+            return Response({"detail": "Invalid OTP."}, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+
 
 class UserDetailView(APIView):
     permission_classes = [IsAuthenticated]
     
     def get(self, request):
         users = request.user
-        # users.is_online = True
+        users.is_online = True
         users.save();
         serializer = PlayerSerializer(users , context = {"request": request})
         return Response( serializer.data )
@@ -247,23 +387,6 @@ class GetPlayer(APIView):
             return Response(serializer.data)
         except Player.DoesNotExist:
             return Response({"error": "No player found with this username"}, status=status.HTTP_404_NOT_FOUND)
-        
-
-# class SearchUser(APIView):
-#     def get(self, request):
-#         query = request.GET.get('q', '')  # Get the search query from the request
-#         print(f"------->>>>>Query: {query}")
-#         if query:
-#             # Filter players based on the query (e.g., search by full_name)
-#             players = Player.objects.exclude(username='admin').filter(username__icontains=query)  # Case-insensitive search
-#         else:
-#             players = Player.objects.none()  # Return an empty queryset if no query
-
-#         # Convert the queryset to a list of dictionaries with only full_name and profile_image
-#         players_list = list(players.values('id', 'username', 'profile_image', 'level'))
-#         print(players_list , '<><><><><><><><<<<<<>>>>????')
-
-#         return Response(players_list, status=status.HTTP_200_OK)
 
 
 class SearchUser(APIView):

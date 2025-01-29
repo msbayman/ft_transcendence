@@ -8,7 +8,6 @@ interface Friend {
   id: string;
   name: string;
   avatar: string;
-  online: boolean;
   content: string;
   timestamp: string;
 }
@@ -17,14 +16,13 @@ interface OnlineFriends {
   id: string;
   name: string;
   avatar: string;
-  online: boolean;
 }
 
 interface SelectedUser {
   onClick: (newUser: string) => void;
 }
 const FriendsList: React.FC<SelectedUser> = ({ onClick }) => {
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
   const [friends, setFriends] = useState<Friend[]>([]);
   const [onlineFriends, setOnlineFriends] = useState<OnlineFriends[]>([]);
   const { messages } = useWebSocket();
@@ -32,16 +30,18 @@ const FriendsList: React.FC<SelectedUser> = ({ onClick }) => {
   
   const fetchLastMessages = async () => {
     try {
-      const response = await axios.get("http://127.0.0.1:8000/chat/last-message/", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const response = await axios.get(
+        "https://localhost/api/chat/last-message/",
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
       const lastMessages = response.data;
       setFriends(
         lastMessages.map((user: any, index: number) => ({
           id: index.toString(),
           name: user.user2.username,
-          avatar: user.user2.profile_image || gojo,
-          online: index < 4,
+          avatar: user.user2.profile_image.replace("http://","https://"),
           content: user.last_message.content.length > 10 
           ? user.last_message.content.substring(0, 10) + '...' 
           : user.last_message.content,
@@ -52,36 +52,34 @@ const FriendsList: React.FC<SelectedUser> = ({ onClick }) => {
       console.error("Error fetching last messages:", error);
     }
   };
-  
+
   const fetchOnlineFriends = async () => {
     try {
-      const response = await axios.get("http://127.0.0.1:8000/chat/api/users/", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const response = await axios.get(
+        "https://localhost/api/chat/api/users/",
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
       const onlineUsersList = response.data;
       setOnlineFriends(
         onlineUsersList.map((user: any, index: number) => ({
           id: index.toString(),
           name: user.username,
-          avatar: user.profile_image,
-          online: index < 4,
+          avatar: user.profile_image.replace("http://","https://"),
         }))
       );
     } catch (error) {
       console.error("Error fetching online friends:", error);
     }
   };
-  
+
   useEffect(() => {
-    // const token = Cookies.get("access_token");
-    // if (token) {
-    // }
     fetchLastMessages();
     fetchOnlineFriends();
   }, []);
-  
 
-  // Update when new messages arrive
+
   useEffect(() => {
     if (messages.length > 0) {
       fetchLastMessages();
@@ -121,18 +119,15 @@ const FriendsList: React.FC<SelectedUser> = ({ onClick }) => {
               key={friend.id} 
               className="flex flex-col  items-center justify-center flex-shrink-0 w-[61px] h-[86px] bg-[#5012C4] rounded-lg"
             >
-              <div 
+              <div
                 className="relative"
                 onClick={() => handleClick(friend.name)}
               >
                 <img
-                  src={friend.avatar}
+                  src={friend.avatar.replace("http://","https://")}
                   alt={friend.name}
                   className="w-12 h-12 rounded-full"
                 />
-                {friend.online && (
-                  <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-[#3A0CA3]" />
-                )}
               </div>
               <span className="text-sm mt-1">{friend.name}</span>
             </button>
@@ -176,7 +171,7 @@ const FriendsList: React.FC<SelectedUser> = ({ onClick }) => {
                 className="flex items-center gap-3 p-2 hover:bg-purple-900 rounded-lg transition-colors w-full"
               >
                 <img
-                  src={friend.avatar}
+                  src={friend.avatar.replace("http://","https://")}
                   alt={friend.name}
                   className="w-12 h-12 rounded-full bg-purple-700"
                 />
@@ -185,7 +180,9 @@ const FriendsList: React.FC<SelectedUser> = ({ onClick }) => {
                   onClick={() => handleClick(friend.name)}
                 >
                   <h3 className="font-semibold">{friend.name}</h3>
-                  <p className="text-sm text-gray-300 truncate">{friend.content}</p>
+                  <p className="text-sm text-gray-300 truncate">
+                    {friend.content}
+                  </p>
                 </div>
                 {/* <span className="text-sm text-gray-300">{friend.timestamp}</span> */}
               </button>

@@ -18,5 +18,11 @@ urlpatterns = [
      path('get-player/<str:username>/', views.GetPlayer.as_view(), name='get-player'),
      path('LogoutAPIView/', views.LogoutAPIView.as_view(), name='LogoutAPIView'),
      path('search-users/', views.SearchUser.as_view(), name='search_users'),
-     path('health_check',  views.health_check, name='health_check'),  # Use a trailing slash
+     path('changePassword', views.changePassword, name='changePassword'),
+     path('resend_otp', views.resend_otp, name='resend_otp'),
+     # path('UpdatePass/', views.UpdatePass.as_view(), name='UpdatePass'),
+	path('VerifyOTPSettings/', views.VerifyOTPSettings.as_view(), name='VerifyOTPSettings'),
+
+     # path('health_check',  views.health_check, name='health_check'),  # Use a trailing slash
+     # path('health_check',  views.health_check, name='health_check'),  # Use a trailing slash
 ]

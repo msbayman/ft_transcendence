@@ -1,29 +1,54 @@
-import "./Overview_page.css"
+import "./Overview_page.css";
 import State_of_Profile from "./State_of_Profile";
 import Top_of_Achievement from "./Top_of_Achievement";
-import The_Leaderboard from "./Leaderboard"
+import The_Leaderboard from "./Leaderboard";
 import Online_Friends_Overview from "./Online_Friends_Overview";
-import Button_Play from "/public/Button_Play.svg"
 import { useNavigate } from "react-router-dom";
 import { usePlayer } from "../PlayerContext";
+import React, { useEffect  } from "react";
+import Cookies from "js-cookie";
 
 
 export const Overview_Page: React.FC = () => {
+  useEffect(() => {
+    const token = Cookies.get("access_token");
+    const url = "wss://localhost/ws/notifications/";
+    const wsUrl = `${url}?token=${token}`;
+    const ws = new WebSocket(wsUrl);
+
+    ws.onopen = () => {
+      console.log("WebSocket Connected");
+    };
+
+    ws.onerror = (error) => {
+      console.error("WebSocket Error:", error);
+    };
+
+    ws.onclose = () => {
+      console.log("WebSocket Disconnected");
+    };
+  }, []);
+
   const navigate = useNavigate();
   const dataPlayer = usePlayer();
 
-  console.log("data player", dataPlayer.playerData?.cover_image)
-
   const Onclick = () => {
     navigate("/Play");
-  } 
+  };
+  // console.log('the cover image is : ', dataPlayer.playerData?.cover_image.replace("http://","https://"));
+  // console.log('the profile image is : ', dataPlayer.playerData?.profile_image.replace("http://","https://"));
   return (
     <div className="Overview_Page">
       <div className="Part_1">
         <div className="part_welcome">
           <div className="Welcome_Back">Welcome Back !</div>
         </div>
-        <div style={{ backgroundImage: `url(${dataPlayer.playerData?.cover_image})`}} className="Background_Profile" >
+        <div
+          style={{
+            backgroundImage: `url(${dataPlayer.playerData?.cover_image.replace("http://","https://")})`,
+          }}
+          className="Background_Profile"
+        >
           <div className="States_Profile">
             <State_of_Profile />
           </div>
@@ -44,7 +69,7 @@ export const Overview_Page: React.FC = () => {
         </div>
         <div className="Play_Button">
           <button onClick={Onclick} className="play">
-            <img src={Button_Play}/>
+            <img src="/Button_Play.svg" />
           </button>
         </div>
       </div>

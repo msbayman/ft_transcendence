@@ -6,20 +6,20 @@ import pause from "../../assets/puse.svg";
 import rus from "../../assets/rus.svg";
 // import name from "../../assets/name_hold_game.svg";
 import logo from "../../assets/logo_game.svg";
+import Game_Tourn from "./Game_Torn";
 
-function Game_Local() {
+function Game_Local( { p1, p2, mod, onEnd } ) {
   const [paddleLeftPosition, setPaddleLeftPosition] = useState(135);
-  const [paddleRightPosition, setPaddleRightPosition] = useState(135); 
-  const [ballPosition, setBallPosition] = useState({ top: 240, left: 175 });
+  const [paddleRightPosition, setPaddleRightPosition] = useState(135);
+  const [ballPosition, setBallPosition] = useState({ top: 370, left: 255});
   const [Ballscore, setBallscore] = useState({ l: 0, r: 0 });
   const [ballDirection, setBallDirection] = useState({ x: 3, y: 3 });
   const [isPaused, setIsPaused] = useState(false);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
 
   const handleSleep = async () => {
     await new Promise((resolve) => setTimeout(resolve, 3000));
-    navigate("/overview");
   };
 
   useEffect(() => {
@@ -63,6 +63,13 @@ function Game_Local() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isPaused]);
 
+  useEffect(() => {
+    if ((Ballscore.l === 3 || Ballscore.r === 3) && mod === 1) {
+      const winner = Ballscore.l === 3 ? p1 : p2;
+      onEnd(winner);
+    }
+  }, [Ballscore.l, Ballscore.r, onEnd, p1, p2]);
+
  // Ball Movement and Collision Logic
 useEffect(() => {
   const interval = setInterval(() => {
@@ -71,7 +78,7 @@ useEffect(() => {
     if (Ballscore.l === 3 || Ballscore.r === 3) {
       handleSleep();
       clearInterval(interval);
-      return;
+      return ;
     }
 
     setBallPosition((prev) => {
@@ -157,10 +164,10 @@ const resetBall = () => {
 					PAUSED
 				</div>
 				<div className={Ballscore.l == 3 ? "relative top-[340px] left-[50px] text-white font-luckiest text-6xl" : "hidden"}>
-					PALYER 1 IS WIN
+					{p1} IS WIN
 				</div>
 				<div className={Ballscore.r == 3 ? "relative top-[340px] left-[50px] text-white font-luckiest text-6xl" : "hidden"}>
-					PALYER 2 IS WIN 
+					{p2} IS WIN 
 				</div>
 				{/* Left Paddle */}
 				<div
@@ -201,14 +208,14 @@ const resetBall = () => {
 			</div>
           <div className="absolute flex justify-between items-center top-[30px]">
             <div className="relative bg-[url('/public/name_hold_game.svg')] h-[70px] w-[250px] bg-cover bg-center transform scale-x-[-1] flex justify-center items-center">
-                <p className="absolute text-white text-4xl transform scale-x-[-1] font-luckiest right-[25px] ">player 1</p>
+                <p className="absolute text-white text-4xl transform scale-x-[-1] font-luckiest right-[25px] ">{p1}</p>
                 <p className="absolute text-black text-2xl transform scale-x-[-1] font-luckiest left-[9px] bottom-[10px] ">NoN</p>
             </div>
             <div className="flex justify-items-center">
                 <img src={logo} alt="logo"/>
             </div>
             <div className="relative bg-[url('/public/name_hold_game.svg')] h-[70px] w-[250px] bg-cover bg-center flex justify-center items-center">
-        		<p className="absolute text-white text-4xl font-luckiest right-[25px] ">player 2</p>
+        		<p className="absolute text-white text-4xl font-luckiest right-[25px] ">{p2}</p>
             	<p className="absolute text-black text-2xl font-luckiest left-[9px] bottom-[10px] ">NoN</p>
             </div>
           </div>

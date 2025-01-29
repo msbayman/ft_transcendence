@@ -1,4 +1,4 @@
-version: "3.8"
+version: '3.8'
 
 services:
   backend:
@@ -10,8 +10,7 @@ services:
       - .env
     volumes:
       - ./back:/app
-    ports:
-      - "8000:8000"
+      - media:/app/media
     environment:
       - DB_NAME=${DB_NAME}
       - DB_USER=${DB_USER}
@@ -30,22 +29,22 @@ services:
       - elk
     restart: always
 
-
   frontend:
     build:
       context: ./front
       dockerfile: Dockerfile.frontend
     container_name: frontend
+    env_file:
+      - .env
     volumes:
       - ./front:/app
       - /app/node_modules
-    ports:
-      - "5173:5173"
     depends_on:
       - backend
     networks:
       - elk
-      
+    restart: always
+
   db:
     image: postgres:17
     container_name: postgres_db
@@ -55,11 +54,9 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
     volumes:
       - pgdata:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
     networks:
       - elk
-
+    restart: always
 
   redis:
     image: redis:7
@@ -68,79 +65,23 @@ services:
       - .env
     networks:
       - elk
+    restart: always
+
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile.nginx
     ports:
-      - "6380:6379"
-  
-  # elasticsearch:
-  #   image: docker.elastic.co/elasticsearch/elasticsearch:7.15.0
-  #   container_name: elasticsearch
-  #   env_file:
-  #     - .env
-  #   ports:
-  #     - "${ELK_PORT}:${ELK_PORT}"
-  #   environment:
-  #     - discovery.type=${discovery_type}
-  #     - xpack.security.enabled=${xpack_security_enabled}
-  #     - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
-  #   volumes:
-  #     - ${elk_volume}:/usr/share/elasticsearch/config/elasticsearch.yml
-  #   networks:
-  #     - elk
-  #   restart: on-failure
-
-  # kibana:
-  #   image: docker.elastic.co/kibana/kibana:7.15.0
-  #   container_name: kibana
-  #   env_file:
-  #     - .env
-  #   ports:
-  #     - "${KIBANA_PORT}:${KIBANA_PORT}"
-  #   environment:
-  #     - ELASTICSEARCH_HOSTS=http://elasticsearch:${ELK_PORT}
-  #     - ELASTICSEARCH_USERNAME=${ELASTICSEARCH_USERNAME}
-  #     - ELASTICSEARCH_PASSWORD=${ELASTIC_PASSWORD}
-  #   depends_on:
-  #     - elasticsearch
-  #   networks:
-  #     - elk
-  #   restart: on-failure
-
-  # logstash:
-  #   build:
-  #     context: .
-  #     dockerfile: logstash/Dockerfile.logstash
-  #   container_name: logstash
-  #   env_file:
-  #     - .env
-  #   ports:
-  #     - "${LOGSTASH_PORT}:${LOGSTASH_PORT}"
-  #   environment:
-  #     - ELASTICSEARCH_USERNAME=${ELASTICSEARCH_USERNAME}
-  #     - ELASTICSEARCH_PASSWORD=${ELASTIC_PASSWORD}
-  #   depends_on:
-  #     - elasticsearch
-  #   networks:
-  #     - elk
-  #   restart: on-failure
-  #   volumes:
-  #     - ./logstash:/usr/share/logstash/pipeline
-  #     - ./back:/usr/share/logstash/back
-  #   command: >
-  #     logstash -f /usr/share/logstash/pipeline/logstash.conf
-
-
-  # nginx:
-  #   image: nginx:latest
-  #   container_name: nginx
-  #   volumes:
-  #     - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-  #   ports:
-  #     - "80:80"
-  #   depends_on:
-  #     - frontend
-  #     - backend
-  #   networks:
-  #     - elk
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - frontend
+      - backend
+    volumes:
+      - media:/usr/share/nginx/media
+    networks:
+      - elk
+    restart: always
 
 networks:
   elk:
@@ -148,4 +89,6 @@ networks:
 
 volumes:
   pgdata:
+    driver: local
+  media:
     driver: local

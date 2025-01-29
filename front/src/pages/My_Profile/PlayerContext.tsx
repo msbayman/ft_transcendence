@@ -54,18 +54,20 @@ interface WebSocketMessage {
 
 const PlayerContext = createContext<PlayerContextType | undefined>(undefined);
 
-export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   const [playerData, setPlayerData] = useState<PlayerData | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [ws, setWs] = useState<WebSocket | null>(null);
   const [onlineFriends, setOnlineFriends] = useState<UserOnline[]>([]);
   const wsRef = useRef<WebSocket | null>(null);
   const connectionAttemptedRef = useRef(false);
-  // const [isAuthenticated, setIsAuthenticated] = useState(!!Cookies.get('access_token'));
+
 
   const fetchPlayerData = useCallback(async () => {
     const token = Cookies.get('access_token');
-    if (!token) {  // <-- The isAuthenticated check here is redundant
+    if (!token) {
         console.log('No access token found or user not authenticated');
         return;
     }
@@ -73,7 +75,7 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     setIsLoading(true);
     try {
       const response = await axios.get(
-        "http://localhost:8000/api/user_auth/UserDetailView", 
+        "https://localhost/api/user_auth/UserDetailView",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -82,7 +84,7 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       );
       setPlayerData(response.data);
     } catch (error) {
-      console.error('Error fetching player data:', error);
+      console.error("Error fetching player data:", error);
       setPlayerData(null);
     } finally {
       setIsLoading(false);
@@ -102,7 +104,7 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       return;
     }
 
-    // Prevent multiple connection attempts
+ 
     if (connectionAttemptedRef.current) {
       return;
     }
@@ -112,7 +114,7 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     }
 
     connectionAttemptedRef.current = true;
-    const wsUrl = `ws://127.0.0.1:8000/ws/notifications/?token=${token}`;
+    const wsUrl = `wss://localhost/ws/notifications/?token=${token}`;
     const newWs = new WebSocket(wsUrl);
     wsRef.current = newWs;
 
@@ -129,11 +131,6 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({ childr
           return;
         }
 
-          console.log("heeere we gooooooooooooooooooooooooooooooooooooooooooooooo", data);
-        // if (data.type === "challenge_notification")
-        // {
-        // }
-
         if (data.type === "friend_status" && typeof data.online === 'boolean') {
           setOnlineFriends((prev) => {
             const exists = prev.find((friend) => friend.username === data.username);
@@ -142,7 +139,7 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({ childr
                 ...prev,
                 {
                   username: data.username,
-                  profile_image: data.profile_image || "",
+                  profile_image: data.profile_image|| "default_profile_image_url", // Fallback for undefined
                   is_online: true,
                 },
               ];
@@ -159,14 +156,14 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 
     newWs.onerror = (error) => {
       console.error("WebSocket error:", error);
-      connectionAttemptedRef.current = false; // Allow reconnection attempt on error
+      connectionAttemptedRef.current = false;
     };
 
     newWs.onclose = (event) => {
       console.log("Notification WebSocket disconnected", event);
       wsRef.current = null;
       setWs(null);
-      connectionAttemptedRef.current = false; // Allow reconnection attempt after close
+      connectionAttemptedRef.current = false;
     };
 
   }, []);
@@ -220,7 +217,7 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 export const usePlayer = () => {
   const context = useContext(PlayerContext);
   if (!context) {
-    throw new Error('usePlayer must be used within a PlayerProvider');
+    throw new Error("usePlayer must be used within a PlayerProvider");
   }
   return context;
 };

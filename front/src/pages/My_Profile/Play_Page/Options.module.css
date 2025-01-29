@@ -1,0 +1,11 @@
+.active {
+	background-color: #8151EE;
+	border-radius: 50px;
+	box-shadow: 0 0 5px none;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 70%;
+	width: 35%;
+	transition: ease 0.8s;
+}

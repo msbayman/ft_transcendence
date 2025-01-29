@@ -1,13 +1,12 @@
 // import ph_pro from "../../Images/profile.png";
 import other from "./Info_Player.module.css";
 import { LinearProgress } from "@mui/material";
-import etoile from "/public/Etoile.svg";
+import etoile from "/Etoile.svg";
 import { CircularProgress, CircularProgressLabel } from "@chakra-ui/progress";
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 
 export const Info_Player = ({ username }: { username: string | undefined }) => {
-
   interface data_of_player {
     username: string;
     level: number;
@@ -24,103 +23,84 @@ export const Info_Player = ({ username }: { username: string | undefined }) => {
   const [data, Setdata] = useState<data_of_player | null>(null);
 
   useEffect(() => {
-        const get_data = async () => {
-        try {
-          const response = await fetch(
-            `http://127.0.0.1:8000/api/user_auth/get-player/${username}/`,
-            {
-              method: "GET",
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            }
-          );
-          if (response.ok) {
-            // console.log("Data of player is ok");
-          } else {
-            console.error("Data of player is not ok");
+    const get_data = async () => {
+      try {
+        const response = await fetch(
+          `https://localhost/api/user_auth/get-player/${username}/`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
           }
-          const info = await response.json();
-          Setdata(info);
-        } catch (error) {
-          console.error("Error:", error);
+        );
+        if (response.ok) {
+          // console.log("Data of player is ok");
+        } else {
+          console.error("Data of player is not ok");
         }
-      };
+        const info = await response.json();
+        Setdata(info);
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
     get_data();
-  },[username]);
+  }, [username]);
 
   const percentage = (total: number | undefined, win: number | undefined) => {
-    if (total === undefined || win === undefined || total === 0)
-      return 0
+    if (total === undefined || win === undefined || total === 0) return 0;
     const result = (win / total) * 100;
-    return result
+    return result;
   };
 
-  const percentage_lose = (total: number | undefined, lose: number | undefined) => {
-    if (total === undefined || lose === undefined || total === 0)
-      return 0
+  const percentage_lose = (
+    total: number | undefined,
+    lose: number | undefined
+  ) => {
+    if (total === undefined || lose === undefined || total === 0) return 0;
     const result = (lose / total) * 100;
-    return result
+    return result;
   };
 
   const percentage_acheiv = (lose: number | undefined) => {
-    if (lose == undefined)
-        return 0
+    if (lose == undefined) return 0;
     const result = (lose / 17) * 100;
-    return result
+    return result;
   };
 
   const percentage_exp = () => {
-
     const result = (50 / 100) * 100;
-    return result
+    return result;
   };
 
-  const check_rank = (points:number | undefined) :string | undefined => {
+  const check_rank = (points: number | undefined): string | undefined => {
+    if (points === undefined) return "CHEAT";
+    else if (points < 100) return "IRON";
+    else if (points > 100 && points < 200) return "BRONZE";
+    else if (points > 200 && points < 300) return "SILVER";
+    else if (points > 300 && points < 500) return "GOLD";
+    else if (points > 500 && points < 700) return "PLATIUM";
+    else if (points > 700 && points < 1200) return "MASTER";
+    else return "CHALLENGER";
+  };
 
-    if(points === undefined)
-      return "CHEAT"
-    else if (points < 100)
-      return "IRON"
-    else if (points > 100 && points < 200)
-      return "BRONZE"
-    else if (points > 200 && points < 300)
-      return "SILVER"
-    else if (points > 300 && points < 500)
-      return "GOLD"
-    else if (points > 500 && points < 700)
-      return "PLATIUM"
-    else if (points > 700 && points < 1200)
-      return "MASTER"
-    else
-      return "CHALLENGER"
-  }
-
-  const check_next_rank = (points:number | undefined) :string => {
-
-    if(points === undefined)
-      return ""
-    else if (points < 100)
-      return "BRONZE"
-    else if (points > 100 && points < 200)
-      return "SILVER"
-    else if (points > 200 && points < 300)
-      return "GOLD"
-    else if (points > 300 && points < 500)
-      return "PLATIUM"
-    else if (points > 500 && points < 700)
-      return "MASTER"
-    else if (points > 700 && points < 1200)
-      return "CHALLENGER"
-    else
-      return "IN_MAX"
-  }
+  const check_next_rank = (points: number | undefined): string => {
+    if (points === undefined) return "";
+    else if (points < 100) return "BRONZE";
+    else if (points > 100 && points < 200) return "SILVER";
+    else if (points > 200 && points < 300) return "GOLD";
+    else if (points > 300 && points < 500) return "PLATIUM";
+    else if (points > 500 && points < 700) return "MASTER";
+    else if (points > 700 && points < 1200) return "CHALLENGER";
+    else return "IN_MAX";
+  };
 
   return (
     <div className={other.details_of_the_profile}>
       <div className={other.Photo_and_state}>
         <div className={other.Photo_of_the_profile}>
-          <img src={"http://127.0.0.1:8000" + data?.profile_image} className={other.Photo_P2} />
+          <img src={data?.profile_image} className={other.Photo_P2} />
         </div>
         <div className={other.States_Profile1}>
           <div className={other.Win_and_Achievem}>
@@ -138,7 +118,7 @@ export const Info_Player = ({ username }: { username: string | undefined }) => {
                 }}
               >
                 <CircularProgressLabel fontSize="calc(90px * 0.2)">
-                {percentage(data?.total_games, data?.win_games)}%
+                  {percentage(data?.total_games, data?.win_games)}%
                 </CircularProgressLabel>
               </CircularProgress>
               <span className={other.hover_text1}>Win Rate</span>
@@ -180,7 +160,7 @@ export const Info_Player = ({ username }: { username: string | undefined }) => {
                 }}
               >
                 <CircularProgressLabel fontSize="calc(90px * 0.2)">
-                {percentage_lose(data?.total_games, data?.lose_games)}%
+                  {percentage_lose(data?.total_games, data?.lose_games)}%
                 </CircularProgressLabel>
               </CircularProgress>
               <span className={other.hover_text11}>Lose Rate</span>
@@ -226,7 +206,7 @@ export const Info_Player = ({ username }: { username: string | undefined }) => {
               />
             </div>
             <div className={other.lvl_progress}>
-              <img src={etoile} className={other.Etoile_lvl} />
+              <img src="/Etoile.svg" className={other.Etoile_lvl} />
               <div className={`${other.lvl_value} ${other.hover_container1}`}>
                 {data?.level}
                 <span className={other.hover_text1}>Level {data?.level}</span>
@@ -239,19 +219,20 @@ export const Info_Player = ({ username }: { username: string | undefined }) => {
           <ul className={other.Static_Game}>
             <li className={other.title_of_player_stats}>Player stats</li>
             <li className={other.Static_Text}>
-              <span className={other.Color_Yellow}>GAMES WON:</span>
-              {" "}
-              {data?.win_games} OF {" "}
-              {data?.total_games}
+              <span className={other.Color_Yellow}>GAMES WON:</span>{" "}
+              {data?.win_games} OF {data?.total_games}
             </li>
             <li className={other.Static_Text}>
-              <span className={other.Color_Yellow}>WIN PERCENTAGE:</span> {percentage(data?.total_games, data?.win_games)}%
+              <span className={other.Color_Yellow}>WIN PERCENTAGE:</span>{" "}
+              {percentage(data?.total_games, data?.win_games)}%
             </li>
             <li className={other.Static_Text}>
-              <span className={other.Color_Yellow}>RANK:</span> {check_rank(data?.points)}
+              <span className={other.Color_Yellow}>RANK:</span>{" "}
+              {check_rank(data?.points)}
             </li>
             <li className={other.Static_Text}>
-              <span className={other.Color_Yellow}>NEXT RANK:</span> {check_next_rank(data?.points)}
+              <span className={other.Color_Yellow}>NEXT RANK:</span>{" "}
+              {check_next_rank(data?.points)}
             </li>
           </ul>
         </div>

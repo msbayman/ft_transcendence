@@ -39,16 +39,12 @@ export const WebSocketProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     const wsUrl = `${url}?token=${token}`;
     const ws = new WebSocket(wsUrl);
 
-    ws.onopen = () => {
-      console.log("chat WebSocket Connected");
-    };
-
     ws.onmessage = (event) => {
       try {
         const data = JSON.parse(event.data);
 
-        if (data.type === 'block_error' || data.error) {
-          const errorMessage = data.message || data.error;
+        if (data.type === 'block_error') {
+          const errorMessage = data.message;
           setBlockedMessage(errorMessage);
           setErrorPopUp(true);
           setTimeout(() => setErrorPopUp(false), 3000);

@@ -26,7 +26,7 @@ const Search = () => {
       if (query.length >= minLength) {
         try {
           const response = await axios.get(
-            `http://localhost:8000/api/user_auth/search-users/?q=${query}`,
+            `https://localhost/api/user_auth/search-users/?q=${query}`,
             {
               headers: {
                 Authorization: `Bearer ${token}`,
@@ -90,7 +90,7 @@ const Search = () => {
 
   return (
     <>
-      <img src="/public/Navbar/Search.svg" className={search_css.imgg_s} />
+      <img src="/Navbar/Search.svg" className={search_css.imgg_s} />
       <input
         className={search_css.inside_input}
         ref={inputRef}

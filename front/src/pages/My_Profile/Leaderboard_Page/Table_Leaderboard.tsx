@@ -1,17 +1,12 @@
 import leader from "./Table_Leaderboard.module.css";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import The_one from "/public/Icones/Leader_1.svg";
-import The_two from "/public/Icones/Leader_2.svg";
-import The_tree from "/public/Icones/Leader_3.svg";
 import { usePlayer } from "../PlayerContext";
 import axios from "axios";
 import Cookies from "js-cookie";
 
-
 const Table_Leaderboard = () => {
-
-  const token = Cookies.get("access_token")
+  const token = Cookies.get("access_token");
 
   interface list_leaderboard_user {
     username: string;
@@ -37,11 +32,17 @@ const Table_Leaderboard = () => {
   const rankImages = (key: number): JSX.Element | null => {
     switch (key) {
       case 1:
-        return <img src={The_one} alt="Top1" className={leader.rank} />;
+        return (
+          <img src="/Icones/Leader_1.svg" alt="Top1" className={leader.rank} />
+        );
       case 2:
-        return <img src={The_two} alt="Top2" className={leader.rank} />;
+        return (
+          <img src="/Icones/Leader_2.svg" alt="Top2" className={leader.rank} />
+        );
       case 3:
-        return <img src={The_tree} alt="Top3" className={leader.rank} />;
+        return (
+          <img src="/Icones/Leader_3.svg" alt="Top3" className={leader.rank} />
+        );
       default:
         return null;
     }
@@ -49,11 +50,7 @@ const Table_Leaderboard = () => {
 
   useEffect(() => {
     axios
-      .get("http://127.0.0.1:8000/api/user_auth/leaderboard/", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+      .get("https://localhost/api/user_auth/leaderboard")
       .then((response) => {
         Setlist_users(response.data);
       })
@@ -81,7 +78,7 @@ const Table_Leaderboard = () => {
               </div>
               <div className={leader.imgclass}>
                 <img
-                  src={"http://127.0.0.1:8000" + data.profile_image}
+                  src={"https://localhost" + data.profile_image}
                   alt="photo_Profile"
                   className={leader.class_img}
                 />

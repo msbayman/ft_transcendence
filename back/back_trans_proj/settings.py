@@ -8,7 +8,7 @@ load_dotenv()
 
 
 
-# OAuth 42 Configuration
+# 42 OAuth Configuration
 OAUTH_42_CLIENT_ID = os.getenv('OAUTH_42_CLIENT_ID')
 OAUTH_42_CLIENT_SECRET = os.getenv('OAUTH_42_CLIENT_SECRET')
 OAUTH_42_REDIRECT_URI = os.getenv('OAUTH_42_REDIRECT_URI')
@@ -25,65 +25,12 @@ EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL')
 
-# Discord OAuth Configuration
-OAUTH_DISCORD_CLIENT_ID = os.getenv('OAUTH_DISCORD_CLIENT_ID')
-OAUTH_DISCORD_CLIENT_SECRET = os.getenv('OAUTH_DISCORD_CLIENT_SECRET')
-OAUTH_DISCORD_REDIRECT_URI = os.getenv('OAUTH_DISCORD_REDIRECT_URI')
-OAUTH_DISCORD_TOKEN_URL = 'https://discord.com/api/oauth2/token'
-DISCORD_OAUTH_URL = f"https://discord.com/oauth2/authorize?client_id={OAUTH_DISCORD_CLIENT_ID}&response_type=code&redirect_uri={OAUTH_DISCORD_REDIRECT_URI}&scope=email+identify"
-DSCORD_API_V6 = 'https://discord.com/api/v6/users/@me'
-
-# LOGGING = {
-#     'version': 1,
-#     'disable_existing_loggers': False,
-#     'formatters': {
-#         'json': {
-#             'format': '{"timestamp": "%(asctime)s", "level": "%(levelname)s", "message": "%(message)s", "module": "%(module)s", "user": "%(user)s", "event_type": "%(event_type)s"}',
-#             'datefmt': '%Y-%m-%d %H:%M:%S'
-#         },
-#         'verbose': {
-#             'format': '{levelname} {asctime} {module} {message} {user} {event_type}',
-#             'style': '{',
-#         },
-#     },
-#     'handlers': {
-#         'console': {
-#             'class': 'logging.StreamHandler',
-#             'formatter': 'json',
-#         },
-#         'file': {
-#             'level': 'INFO',
-#             'class': 'logging.FileHandler',
-#             'filename': 'django_debug.log',
-#             'formatter': 'json',  # Changed to JSON for better Elasticsearch indexing
-#         },
-#     },
-#     'loggers': {
-#         'django': {
-#             'handlers': ['console', 'file'],
-#             'level': 'INFO',
-#             'propagate': True,
-#         },
-#         'user_auth': {  # Add specific logger for your user_auth app
-#             'handlers': ['console', 'file'],
-#             'level': 'INFO',
-#             'propagate': True,
-#         },
-#     },
-# }
-
-
-OAUTH_DISCORD_CLIENT_ID = "1272193976983752706"
-OAUTH_DISCORD_CLIENT_SECRET = "gDEzOmoJ_gNmEBP4IPAfN9v_S3oQn_tK"
-OAUTH_DISCORD_REDIRECT_URI = 'http://127.0.0.1:8000/api/discord/login_redirect'
-OAUTH_DISCORD_TOKEN_URL = 'https://discord.com/api/oauth2/token'
-DISCORD_OAUTH_URL = "https://discord.com/oauth2/authorize?client_id=1272193976983752706&response_type=code&redirect_uri=http%3A%2F%2F127.0.0.1%3A8000%2Fapi%2Fdiscord%2Flogin_redirect&scope=identify+email"
-DSCORD_API_V6 = 'https://discord.com/api/v6/users/@me'
+# settings.py
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'django-insecure-!9+ns2!3$k!*vdvy1#i+l7$&l67w_4j(x$4ln2ij$+7dorextm')
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'f*g_tr0l-1ye@_kq+704os5-(f5rzm21sjb6a)4*hdm!aecefm')
 
 DEBUG = True
 
@@ -128,13 +75,15 @@ INSTALLED_APPS = [
 ]
 
 # CORS_ALLOWED_ORIGINS = [
-#     'http://localhost:5173',
+#     'https://localhost',
+#     'https://127.0.0.1',
+
 # ]
 
-# CSRF_TRUSTED_ORIGINS = [
-#     'http://localhost:5173',
-# ]
-
+# CORS_ORIGIN_WHITELIST = (
+#     'https://localhost',
+#     'https://127.0.0.1',
+# )
 CSRF_COOKIE_SECURE = False  # Set to True in production
 CSRF_COOKIE_HTTPONLY = True
 CSRF_COOKIE_SAMESITE = 'Lax'  # Can be 'Strict' in production if appropriate
@@ -225,7 +174,7 @@ CHANNEL_LAYERS = {
         },
     },
 }
-MEDIA_URL = '/media/'
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+MEDIA_ROOT = '/app/media'  
 CORS_ALLOW_ALL_ORIGINS = True

@@ -4,7 +4,6 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { TextField, Button, Box, Typography, Alert } from "@mui/material";
 import "./Valid_otp.css";
-import { string } from "zod";
 
 const ValidOtp: React.FC = () => {
   const [searchParams] = useSearchParams();
@@ -16,7 +15,6 @@ const ValidOtp: React.FC = () => {
   const inputsRef = useRef<HTMLInputElement[]>([]);
 
   const handlePaste = (code: string) => {
-
     if (code.length === 6) {
       const newOtp = code.split("");
       setOtp(newOtp);
@@ -26,9 +24,7 @@ const ValidOtp: React.FC = () => {
         }
       });
       inputsRef.current[5]?.focus();
-    }
-    else
-    alert("you need 6 digits");
+    } else alert("you need 6 digits");
   };
 
   const handleOtpChange =
@@ -57,7 +53,7 @@ const ValidOtp: React.FC = () => {
 
     try {
       const response = await axios.post(
-        "http://127.0.0.1:8000/api/user_auth/VerifyOTP",
+        "https://localhost:443/api/user_auth/VerifyOTP",
         {
           username,
           otp: otpCode,

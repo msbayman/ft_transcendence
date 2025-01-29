@@ -28,7 +28,7 @@ const Online_Friends_Overview = () => {
             {onlineFriends.map((friend) => (
               <li key={friend.username} className="Every_User">
                 <img
-                  src={`http://127.0.0.1:8000${friend.profile_image}`}
+                  src={`https://localhost/${friend.profile_image}`}
                   className="Ps_Profile"
                   alt={`${friend.username}'s profile`}
                 />

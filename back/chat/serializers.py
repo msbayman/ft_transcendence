@@ -2,7 +2,6 @@ from rest_framework import serializers
 from user_auth.models import Player
 from .models import Message
 
-
 class PlayerSerializer(serializers.ModelSerializer):
     profile_image = serializers.ImageField(default='profile_images/default_profile.jpeg')
 
@@ -21,18 +20,3 @@ class ConversationSerializer(serializers.ModelSerializer):
         fields = ['id', 'sender', 'receiver', 'content', 'timestamp', 'is_read', 'sender_profile_image', 'receiver_profile_image']
     
         
-class MessageSerializer(serializers.ModelSerializer):
-    sender = PlayerSerializer()
-    receiver = PlayerSerializer()
-
-    class Meta:
-        model = Message
-        fields = ['id', 'sender', 'receiver', 'content', 'timestamp']
-        
-        
-        
-        
-# id: number;
-# text: string;
-# sent: boolean;
-# avatar: string;

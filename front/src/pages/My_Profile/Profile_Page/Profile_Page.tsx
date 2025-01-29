@@ -1,11 +1,10 @@
 import { useNavigate } from "react-router-dom";
-import Button_Play from "/public/Button_Play.svg";
+import Button_Play from "/Button_Play.svg";
 import "./Profile_Page.css";
 import Info_Player from "./Info_Player";
 import Acheiev_Profile from "./Acheiev_Profile";
 import States_Profile from "./States_Profile";
 import Recent_Game from "./Recent_Game";
-import To_settings from "/public/Into_settings.svg";
 import { usePlayer } from "../PlayerContext";
 
 export const Profile_Page = () => {
@@ -23,11 +22,19 @@ export const Profile_Page = () => {
   return (
     <div className="Profile_Page_all">
       <div className="all_content_Profile">
-        <div className="cover_profile" style={{ backgroundImage: `url(${data.playerData?.cover_image})`}}>
+        <div
+          className="cover_profile"
+          style={{
+            backgroundImage: `url(${data.playerData?.cover_image.replace(
+              "http://",
+              "https://"
+            )})`,
+          }}
+        >
           <div className="button_settings">
             <button className="hover-container1" onClick={click_to_settings}>
-              <img src={To_settings} />
-            <span className="hover-text">Edit Profile</span>
+              <img src="/Into_settings.svg" />
+              <span className="hover-text">Edit Profile</span>
             </button>
           </div>
         </div>
@@ -36,7 +43,7 @@ export const Profile_Page = () => {
             <Info_Player />
             <div className="Play_Button">
               <button onClick={Onclick} className="play">
-                <img src={Button_Play} />
+                <img src="/Button_Play.svg" />
               </button>
             </div>
           </div>

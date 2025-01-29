@@ -14,7 +14,7 @@ class PlayerSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, required=False)
     re_password = serializers.CharField(write_only=True, required=False)
     profile_image = serializers.ImageField(default='profile_images/default_profile.jpeg')
-    cover_image = serializers.ImageField(default='cover_pictures/cover_picture_1.png')
+    cover_image = serializers.ImageField(default='cover_pictures/Cover_Picture_1.png')
 
     class Meta:
         model = Player
@@ -38,25 +38,25 @@ class PlayerSerializer(serializers.ModelSerializer):
         # Full name validation: 2-40 characters, only letters and spaces
         if not re.match(r'^[a-zA-Z ]+$', value):
             raise serializers.ValidationError("Full name must contain only letters and spaces.")
-        if not (2 <= len(value) <= 40):
-            raise serializers.ValidationError("Full name length must be between 7 and 30 characters.")
+        if not (4 <= len(value) <= 40):
+            raise serializers.ValidationError("Full name length must be between 4 and 40 characters.")
         return value
 
     def validate_username(self, value):
-        # Username validation: 2-40 characters, only letters, numbers, hyphens, and underscores
+        # Username validation: 4-16 characters, only letters, numbers, hyphens, and underscores
         if not re.match(r'^[a-zA-Z0-9-_]+$', value):
             raise serializers.ValidationError("Username must contain only letters, numbers, hyphens, and underscores.")
-        if 2 <= len(value) <= 40:
+        if 4 <= len(value) <= 16:
             return value
         elif 'prov_name' == "Discord" or 'prov_name' == "42":
             return value
         else:
-            raise serializers.ValidationError("Username length must be between 3 and 15 characters.")
+            raise serializers.ValidationError("Username length must be between 4 and 40 characters.")
 
 
     def validate_password(self, value):
         # Password validation: 2-40 characters
-        if not (2 <= len(value) <= 40):
+        if not (6 <= len(value) <= 40):
             raise serializers.ValidationError("Password length must be between 6 and 30 characters.")
         return value
 

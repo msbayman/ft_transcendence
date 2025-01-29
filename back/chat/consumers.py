@@ -23,6 +23,10 @@ class NotifConsumer(AsyncJsonWebsocketConsumer):
     
     async def receive(self, text_data):
         data = json.loads(text_data)
+        if data.get('type') == 'request_status_update':
+            await self.handle_status_update(data)
+        elif data.get('type') == 'notify_friend':
+            await self.handle_notify_friend(data)
         if data.get('type') == 'send_challenge':
             username = data.get('sender')
             if not username:
@@ -36,21 +40,54 @@ class NotifConsumer(AsyncJsonWebsocketConsumer):
             if not challenge_receiver.is_online:
                 await self.send_json({"type": "error", "message": "User is offline"})
                 return
-            
+            profile_image = await self.get_user_profile_image(self.user)
             await self.channel_layer.group_send(
+                
                 f"user_{challenge_receiver.id}_notifications",
                 {
                     "type": "challenge_notification",
                     "sender": self.user.username,
                     "content": "You have a new challenge!",
+                    "profile_image": profile_image,
                 }
             )
+
+    async def handle_status_update(self, data):
+        friend = await self.get_user_by_username(data['friend_username'])
+        if friend:
+            is_online = await self.get_user_online_status(friend)
+            profile_image = await self.get_user_profile_image(friend)
+            await self.send_json({
+                "type": "friend_status",
+                "username": friend.username,
+                "online": is_online,
+                "profile_image": profile_image,
+            })
+
+
+    async def handle_notify_friend(self, data):
+        friend = await self.get_user_by_username(data['friend_username'])
+        if friend:
+            my_status = self.user.is_online
+            my_profile = await self.get_user_profile_image(self.user)
+            
+            await self.channel_layer.group_send(
+                f"user_{friend.id}_notifications",
+                {
+                    "type": "friend.status",
+                    "username": self.user.username,
+                    "online": my_status,
+                    "profile_image": my_profile,
+                }
+            )
+
 
     async def challenge_notification(self, event):
         await self.send_json({
             "type": "challenge_notification",
             "sender": event["sender"],
-            "content": event["content"]
+            "content": event["content"],
+            "profile_image": event["profile_image"],
         })
 
     @sync_to_async
@@ -139,7 +176,6 @@ class ChatConsumer(AsyncWebsocketConsumer):
         if not self.user.is_authenticated:
             return
         
-        # Initialize user object
         self.user_obj = await self.get_user_obj(self.user.username)
         self.user1_id = self.user.id
         self.user1_room = f'chat_{self.user1_id}'
@@ -151,7 +187,6 @@ class ChatConsumer(AsyncWebsocketConsumer):
             sender_player = await database_sync_to_async(User.objects.get)(username=sender)
             receiver_player = await database_sync_to_async(User.objects.get)(username=receiver)
             
-            # Check both directions of blocking
             sender_blocked = await database_sync_to_async(lambda: receiver_player in sender_player.blocked_users.all())()
             receiver_blocked = await database_sync_to_async(lambda: sender_player in receiver_player.blocked_users.all())()
             
