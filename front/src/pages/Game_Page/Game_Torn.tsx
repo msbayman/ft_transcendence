@@ -1,17 +1,16 @@
-import Cookies from 'js-cookie';
-import { usePlayer } from '../My_Profile/PlayerContext';
-import Game_Remot from "./Game_Remot";
 import { useEffect, useState, createContext, useContext } from 'react';
-import Player_Profil from '../../components/ui/game_comp/loby_profil';
 import { TournContext } from './TournContext';
+import Tournaments from './Tournaments';
 
-function Game_Tourn() {
+function Tourn_manage() {
     const matchdata = useContext(TournContext);
+   
 
     return (
         <>
+            <Tournaments/>
         </>
     );
 }
 
-export default Game_Tourn;
+export default Tourn_manage;

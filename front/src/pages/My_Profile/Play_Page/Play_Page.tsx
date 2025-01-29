@@ -2,13 +2,15 @@ import "./Play_Page.css";
 import EmblaCarousel from "./EmblaCarousel/EmblaCarousel";
 import { EmblaOptionsType } from "embla-carousel";
 import Options from "./Options";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom"; // Import if using react-router
 import { NextButton } from "./Buttons";
 import classes from "./style.module.css";
 import Cookies from "js-cookie";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
+import { TournContext } from './../../Game_Page/TournContext';
+
 
 interface SelectedIds {
   mode: number | null;
@@ -26,9 +28,8 @@ const OPTIONS: EmblaOptionsType = { loop: true };
 
 const SLIDEIMAPS = [
   { mapPath: "1v1.png", id: 0, mapName: "1v1" },
-  { mapPath: "2v2.png", id: 1, mapName: "2v2" },
-  { mapPath: "vsBot.png", id: 2, mapName: "vsBot" },
-  { mapPath: "Tourn.png", id: 3, mapName: "Tournement" },
+  { mapPath: "/public/local_custom.svg", id: 1, mapName: "local" },
+  { mapPath: "Tourn.png", id: 2, mapName: "Tournement" },
 ];
 
 const SLIDECUES = [
@@ -55,31 +56,25 @@ const SLIDECUES = [
 ];
 
 const SLIDEBALLS = [
-  { mapPath: "Balls/pink-ball.svg", id: 0, mapName: "8BallPool" },
-  { mapPath: "Balls/green-ball.svg", id: 1, mapName: "FootBall" },
-  { mapPath: "Balls/cyan-ball.svg", id: 2, mapName: "BasketBall" },
-  { mapPath: "Balls/violet-ball.svg", id: 3, mapName: "BasketBall" },
+  { mapPath: "skins-png/Balls/8BallPool.png", id: 0, mapName: "8BallPool" },
+  { mapPath: "skins-png/Balls/Foot-Ball.png", id: 1, mapName: "FootBall" },
+  { mapPath: "skins-png/Balls/Basket-Ball.png", id: 2, mapName: "BasketBall" },
 ];
 
 const SLIDEBOARDS = [
   {
-    mapPath: "skins-svg/Boards/FootBall.svg",
-    id: 0,
-    mapName: "FootBall-Board",
-  },
-  {
     mapPath: "skins-svg/Boards/BlueBoard.svg",
-    id: 1,
+    id: 0,
     mapName: "BlueBoard-Board",
   },
   {
     mapPath: "skins-svg/Boards/GreenBoard.svg",
-    id: 2,
+    id: 1,
     mapName: "GreenBoard-Board",
   },
   {
     mapPath: "skins-svg/Boards/BrownBoard.svg",
-    id: 3,
+    id: 2,
     mapName: "brownBoard",
   },
 ];
@@ -89,6 +84,11 @@ const Play_Page: React.FC = () => {
   const challenge = location.state?.challenge;
   const navigate = useNavigate(); // If using react-router for navigation
   const [value, setValue] = useState("Modes");
+  const [tourninput1, settourninput1] = useState("");
+  const [tourninput2, settourninput2] = useState("");
+  const [tourninput3, settourninput3] = useState("");
+  const [tourninput4, settourninput4] = useState("");
+  const { tournamentState, setTournamentState } = useContext(TournContext);
   const [selectedIds, setSelectedIds] = useState<SelectedIds>({
     mode: null,
     board: null,
@@ -102,6 +102,20 @@ const Play_Page: React.FC = () => {
     },
   });
   const [currentSlideIndex, setCurrentSlideIndex] = useState<number>(0);
+
+  const handletourChange1 = (e: React.ChangeEvent<HTMLInputElement>) => {
+    settourninput1(e.target.value);
+  };
+  const handletourChange2 = (e: React.ChangeEvent<HTMLInputElement>) => {
+    settourninput2(e.target.value);
+  };
+  const handletourChange3 = (e: React.ChangeEvent<HTMLInputElement>) => {
+    settourninput3(e.target.value);
+  };
+  const handletourChange4 = (e: React.ChangeEvent<HTMLInputElement>) => {
+    settourninput4(e.target.value);
+  };
+  
 
   const isOneOfSlidesSelected = () => {
     switch (value) {
@@ -190,7 +204,9 @@ const Play_Page: React.FC = () => {
       case "Finish":
         setValue("");
         // Navigate to play page with selected skins
+        
         navigate("/game", { state: { selectedIds } });
+
         break;
       default:
         setValue("Modes");
@@ -271,7 +287,13 @@ const Play_Page: React.FC = () => {
 
   const handlePlayClick = () => {
     // Navigate to play page with selected skins
-    navigate("/game", { state: { selectedIds } });
+    if (SLIDEIMAPS[selectedIds.mode!]?.mapName === "1v1")
+      navigate( "/remote_game" , { state: { 
+     } })
+    if (SLIDEIMAPS[selectedIds.mode!]?.mapName === "local")
+      navigate( "/local_game" , { state: { selectedIds } })
+    if (SLIDEIMAPS[selectedIds.mode!]?.mapName === "Tournement")
+      navigate( "/Tournament" , { state: { selectedIds } })
   };
 
   return (
@@ -317,55 +339,72 @@ const Play_Page: React.FC = () => {
                         <label className="w-[15rem] text-[30px] relative bottom-[5px] left-[1rem] font-alexandria text-white ">
                           Set Nicknames :
                         </label>
-                        <div className="flex flex-row min-w-[99rem] items-center justify-center">
-                          <div className="flex flex-col items-center justify-center">
-                            <div className="flex flex-col items-center justify-center gap-3">
+                        <div className="flex flex-row  min-w-[99rem] items-center justify-center">
+                          <div className="flex flex-col items-center justify-center gap-4">
+                            <div className="flex flex-col items-center justify-center"> 
                               <input
                                 type="text"
                                 name="username"
                                 id="1"
                                 placeholder="Player 1"
-                                onChange={handleInputChange}
-                                className="w-[350px] h-[68px] font-alexandria justify-center items-center text-center rounded-[11px] px-3 bg-[#3a0ca3] text-white text-[32px] m-3"
+                                value={tourninput1}
+                                onChange={handletourChange1}
+                                className="w-[350px] h-[68px] font-alexandria justify-center items-center text-center rounded-[11px] px-3 bg-[#3a0ca3] text-white text-[32px] m-7"
                                 style={{ border: "2px solid #8151EE" }}
                               />
+                              <button onClick={() => setTournamentState({ ...tournamentState, p1: tourninput1 })} className="relative bottom-2 w-[180px] h-[39px] font-alexandria text-white shadow-md rounded-[36.5px] bg-[#8151EE] flex justify-center items-center text-[16px] hover:bg-white hover:text-[#3a0ca3]">
+                                DONE
+                              </button>
+                            </div>
+                            <div className="flex flex-col items-center justify-center">
                               <input
                                 type="text"
                                 name="username"
                                 id="2"
                                 placeholder="Player 2"
-                                onChange={handleInputChange}
-                                className="w-[350px] h-[68px] font-alexandria justify-center items-center text-center rounded-[11px] px-3 bg-[#3a0ca3] text-white text-[32px] m-3"
+                                value={tourninput2}
+                                onChange={handletourChange2}
+                                className="w-[350px] h-[68px] font-alexandria justify-center items-center text-center rounded-[11px] px-3 bg-[#3a0ca3] text-white text-[32px] m-7"
                                 style={{ border: "2px solid #8151EE" }}
                               />
+                              <button onClick={() => setTournamentState({ ...tournamentState, p2: tourninput2 })} className="relative bottom-2 w-[180px] h-[39px] font-alexandria text-white shadow-md rounded-[36.5px] bg-[#8151EE] flex justify-center items-center text-[16px] hover:bg-white hover:text-[#3a0ca3]">
+                                DONE
+                              </button>
                             </div>
                           </div>
-                          <div className="flex flex-col items-center justify-center">
-                            <div className="flex flex-col items-center justify-center gap-3">
+                          <div className="flex flex-col items-center justify-center gap-4">
+                            <div className="flex flex-col items-center justify-center"> 
                               <input
                                 type="text"
                                 name="username"
-                                id="1"
+                                id="3"
                                 placeholder="Player 3"
-                                onChange={handleInputChange}
-                                className="w-[350px] h-[68px] font-alexandria justify-center items-center text-center rounded-[11px] px-3 bg-[#3a0ca3] text-white text-[32px] m-3"
+                                value={tourninput3}
+                                onChange={handletourChange3}
+                                className="w-[350px] h-[68px] font-alexandria justify-center items-center text-center rounded-[11px] px-3 bg-[#3a0ca3] text-white text-[32px] m-7"
                                 style={{ border: "2px solid #8151EE" }}
                               />
+                              <button onClick={() => setTournamentState({ ...tournamentState, p3: tourninput3 })} className="relative bottom-2 w-[180px] h-[39px] font-alexandria text-white shadow-md rounded-[36.5px] bg-[#8151EE] flex justify-center items-center text-[16px] hover:bg-white hover:text-[#3a0ca3]">
+                                DONE
+                              </button>
+                            </div>
+                            <div className="flex flex-col items-center justify-center"> 
                               <input
                                 type="text"
                                 name="username"
-                                id="2"
+                                id="4"
                                 placeholder="Player 4"
-                                onChange={handleInputChange}
-                                className="w-[350px] h-[68px] font-alexandria justify-center items-center text-center rounded-[11px] px-3 bg-[#3a0ca3] text-white text-[32px] m-3"
+                                value={tourninput4}
+                                onChange={handletourChange4}
+                                className="w-[350px] h-[68px] font-alexandria justify-center items-center text-center rounded-[11px] px-3 bg-[#3a0ca3] text-white text-[32px] m-7"
                                 style={{ border: "2px solid #8151EE" }}
                               />
+                              <button onClick={() => setTournamentState({ ...tournamentState, p4: tourninput4 })} className="relative bottom-2 w-[180px] h-[39px] font-alexandria text-white shadow-md rounded-[36.5px] bg-[#8151EE] flex justify-center items-center text-[16px] hover:bg-white hover:text-[#3a0ca3]">
+                                DONE
+                              </button>
                             </div>
                           </div>
                         </div>
-                        <button className="relative top-[2rem] w-[180px] h-[48px] font-alexandria text-white shadow-md rounded-[36.5px] bg-[#8151EE] flex justify-center items-center text-[24px] hover:bg-white hover:text-[#3a0ca3]">
-                          DONE
-                        </button>
                       </div>
                       <img
                         src={SLIDEIMAPS[selectedIds.mode!]?.mapPath}
@@ -429,26 +468,24 @@ const Play_Page: React.FC = () => {
                 {isCurrentSlideSelected() ? "SELECTED" : "SELECT"}
               </button>
               {value !== "Finish" && (
-                <div
-                  onClick={
+                <button
+                  className="rounded-full border text-[#3A0CA3] bg-white hover:bg-[#3A0CA3] hover:text-white transition-all duration-400 group"
+                  onClick={() => {
+                    console.log(selectedIds);
+                    setCurrentSlideIndex(0);
+                    handleNextClick();
+                  }}
+                  disabled={
                     isOneOfSlidesSelected()
-                      ? () => {
-                          setCurrentSlideIndex(0);
-                          handleNextClick();
-                        }
-                      : undefined
+                      ? false
+                      : true
                   }
-                  className={`rounded-full border text-[#3A0CA3] bg-white hover:bg-[#3A0CA3] hover:text-white transition-all duration-400 group ${
-                    isOneOfSlidesSelected()
-                      ? ""
-                      : "opacity-50 cursor-not-allowed"
-                  }`}
                 >
                   <NextButton />
                   <span className="hidden opacity-0 absolute transform  bg-black text-white px-2.5 py-1 rounded whitespace-nowrap transition-opacity duration-200 group-hover:block group-hover:opacity-100">
                     NEXT
                   </span>
-                </div>
+                </button>
               )}
             </div>
           )}
