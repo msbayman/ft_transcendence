@@ -517,6 +517,7 @@ const Action_Friends = ({ username }: { username: string | undefined }) => {
 
       if (response.ok) {
         console.log("Friend request accepted successfully");
+        mine.ws?.onmessage
       } else {
         console.error("Failed to accept friend request");
       }
@@ -524,7 +525,10 @@ const Action_Friends = ({ username }: { username: string | undefined }) => {
       console.error("Error:", error);
     }
   };
-  const navig_to_msg = useNavigate();
+  const navigate = useNavigate();
+  const navig_to_msg = (username: string) => {
+    navigate(`/Friends?user=${username}`);
+  };
 
   const Is_Send = () => {
     SetSendRequestFriend((SendRequestFriend) => !SendRequestFriend);
@@ -539,7 +543,7 @@ const Action_Friends = ({ username }: { username: string | undefined }) => {
     // SetSendRequestFriend(!SendRequestFriend);
   };
   const to_message = () => {
-    navig_to_msg("/Friends");
+    navig_to_msg(username || "");
   };
 
   return <div className={other.All_Action}>{if_state(Data?.states)}</div>;

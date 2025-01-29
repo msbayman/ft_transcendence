@@ -33,31 +33,25 @@ export const WebSocketProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   const currentUser = PlayerInstance.playerData?.username
 
   const connect = (url: string) => {
-    console.log('<<<<<<<<<<' + url)
     if (websocketRef.current?.readyState === WebSocket.OPEN) return;
 
     const token = Cookies.get("access_token");
     const wsUrl = `${url}?token=${token}`;
     const ws = new WebSocket(wsUrl);
 
-    ws.onopen = () => {
-      console.log("WebSocket Connected");
-    };
-
     ws.onmessage = (event) => {
       try {
         const data = JSON.parse(event.data);
-        console.log("Received message is :", data);
 
-        if (data.type === 'block_error' || data.error) {
-          const errorMessage = data.message || data.error;
+        if (data.type === 'block_error') {
+          const errorMessage = data.message;
           setBlockedMessage(errorMessage);
           setErrorPopUp(true);
           setTimeout(() => setErrorPopUp(false), 3000);
           return;
         }
 
-        if (data.message) {  // Only process if it's a valid message
+        if (data.message) {
           const newMessage: Message = {
             id: data.id,
             text: data.message,
@@ -79,12 +73,6 @@ export const WebSocketProvider: React.FC<{ children: React.ReactNode }> = ({ chi
       }
     };
 
-
-    ws.onclose = () => {
-      console.log("WebSocket Disconnected");
-      setTimeout(() => connect(url), 3000);
-    };
-
     ws.onerror = (error) => {
       console.error("WebSocket Error:", error);
       ws.close();
@@ -95,6 +83,7 @@ export const WebSocketProvider: React.FC<{ children: React.ReactNode }> = ({ chi
 
   const disconnect = () => {
     if (websocketRef.current) {
+      console.log("chat WebSocket Disconnected");
       websocketRef.current.close();
     }
   };

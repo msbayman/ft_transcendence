@@ -6,6 +6,8 @@ from user_auth.models import Player
 from .models import Friend_request
 from django.db import models
 from django.http import JsonResponse
+from channels.layers import get_channel_layer
+from asgiref.sync import async_to_sync
 
 
 class SendFriendRequest(APIView):
@@ -26,16 +28,39 @@ class SendFriendRequest(APIView):
 
         if Friend_request.objects.filter(my_user=sender, other_user=receiver, states='accepted').exists():
             return Response({"error": "Friend request already sent"}, status=status.HTTP_400_BAD_REQUEST)
-        
-        # denied = Friend_request.objects.filter(my_user=sender, other_user=receiver, states='denied').exists()
-        # if denied:
-        #     denied.states = 'pending'
-        #     denied.save()
-        #     return Response({"error": "Friend Denied request already sent"}, status=status.HTTP_200_OK)
 
         # Create a new friend request
         Friend_request.objects.create(my_user=sender, other_user=receiver, states='pending')
+        # channel_layer = get_channel_layer()
+        
+        # Send mutual status updates
+        self.notify_users(request.user, receiver)
         return Response({"message": "Friend request sent successfully"}, status=status.HTTP_201_CREATED)
+    
+    def notify_users(self, user1, user2):
+        channel_layer = get_channel_layer()
+        
+        # Notify user1 about user2's status
+        async_to_sync(channel_layer.group_send)(
+            f"user_{user1.id}_notifications",
+            {
+                "type": "friend.status",
+                "username": user2.username,
+                "online": user2.is_online,
+                "profile_image": user2.profile_image.url if user2.profile_image else None,
+            }
+        )
+        
+        # Notify user2 about user1's status
+        async_to_sync(channel_layer.group_send)(
+            f"user_{user2.id}_notifications",
+            {
+                "type": "friend.status",
+                "username": user1.username,
+                "online": user1.is_online,
+                "profile_image": user1.profile_image.url if user1.profile_image else None,
+            }
+        )
 
 
 class AcceptFriendRequest(APIView):

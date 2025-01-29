@@ -189,6 +189,7 @@
     /* width: calc(100vw - 100px); */
     width: calc(100vw - 300px);
     height: 100%;
+    /* left: 300px; hna ayman was here*/
     left: 300px;
     backdrop-filter: blur(10px);
     z-index: 2;

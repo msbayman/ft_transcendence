@@ -30,13 +30,14 @@ import { Toaster } from 'react-hot-toast';
 function AppContent() {
   const navigate = useNavigate();
   const location = useLocation();
-  const { fetchPlayerData, clearPlayerData } = usePlayer();
+  const { fetchPlayerData, clearPlayerData, wsConnection } = usePlayer();
 
   useEffect(() => {
     const accessToken = Cookies.get("access_token");
 
     const validateAccessToken = async () => {
       try {
+
         const response = await axios.get(
           "https://localhost/api/check_csrf_tok/validate_token",
           {
@@ -45,6 +46,7 @@ function AppContent() {
             },
           }
         );
+        wsConnection()
         return response.status === 200;
       } catch (error) {
         return false;
@@ -79,8 +81,18 @@ function AppContent() {
       }
     };
 
-    checkToken();
-  }, [location.pathname, navigate, fetchPlayerData, clearPlayerData]);
+    if (
+      !accessToken &&
+      location.pathname !== "/" &&
+      location.pathname !== "/signup" &&
+      location.pathname !== "/Valid_otp"
+    ) {
+      clearPlayerData();
+      navigate("/login");
+    } else {
+      checkToken();
+    }
+  }, [location.pathname, navigate, fetchPlayerData, clearPlayerData, wsConnection]);
 
   return (
     <Fragment>

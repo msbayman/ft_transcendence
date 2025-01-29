@@ -5,12 +5,13 @@ import The_Leaderboard from "./Leaderboard";
 import Online_Friends_Overview from "./Online_Friends_Overview";
 import { useNavigate } from "react-router-dom";
 import { usePlayer } from "../PlayerContext";
+import React, { useEffect  } from "react";
 import Cookies from "js-cookie";
-import { useEffect } from "react";
+
 
 export const Overview_Page: React.FC = () => {
-  const token = Cookies.get("access_token");
   useEffect(() => {
+    const token = Cookies.get("access_token");
     const url = "wss://localhost/ws/notifications/";
     const wsUrl = `${url}?token=${token}`;
     const ws = new WebSocket(wsUrl);
@@ -26,7 +27,7 @@ export const Overview_Page: React.FC = () => {
     ws.onclose = () => {
       console.log("WebSocket Disconnected");
     };
-  }, [token]);
+  }, []);
 
   const navigate = useNavigate();
   const dataPlayer = usePlayer();

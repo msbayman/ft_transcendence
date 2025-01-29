@@ -1,6 +1,13 @@
-import React, { createContext, useContext, useState, useCallback } from "react";
-import axios from "axios";
-import Cookies from "js-cookie";
+import React, { createContext, useContext, useState, useCallback, useRef, useEffect  } from 'react';
+import axios from 'axios';
+import Cookies from 'js-cookie';
+
+interface UserOnline {
+  username: string;
+  profile_image: string;
+  is_online: boolean;
+}
+
 
 interface PlayerData {
   full_name: string;
@@ -23,6 +30,7 @@ interface PlayerData {
   perfect_win_game:boolean;
   perfect_win_tournaments:boolean;
   active_2fa:boolean;
+  onlineFriends: string[];
 }
 
 interface PlayerContextType {
@@ -31,6 +39,18 @@ interface PlayerContextType {
   isLoading: boolean;
   fetchPlayerData: () => Promise<void>;
   clearPlayerData: () => void;
+  ws: WebSocket | null;
+  setWs: React.Dispatch<React.SetStateAction<WebSocket | null>>;
+  wsConnection: () => void;
+  closeWsConnection: () => void;
+  onlineFriends: UserOnline[];
+}
+
+interface WebSocketMessage {
+  type: string;
+  username: string;
+  profile_image?: string;
+  online?: boolean;
 }
 
 const PlayerContext = createContext<PlayerContextType | undefined>(undefined);
@@ -40,10 +60,18 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const [playerData, setPlayerData] = useState<PlayerData | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [ws, setWs] = useState<WebSocket | null>(null);
+  const [onlineFriends, setOnlineFriends] = useState<UserOnline[]>([]);
+  const wsRef = useRef<WebSocket | null>(null);
+  const connectionAttemptedRef = useRef(false);
+
 
   const fetchPlayerData = useCallback(async () => {
-    const token = Cookies.get("access_token");
-    if (!token) return;
+    const token = Cookies.get('access_token');
+    if (!token) {
+        console.log('No access token found or user not authenticated');
+        return;
+    }
 
     setIsLoading(true);
     try {
@@ -66,7 +94,106 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const clearPlayerData = useCallback(() => {
     setPlayerData(null);
+    setOnlineFriends([]);
+    closeWsConnection();
   }, []);
+
+  const wsConnection = useCallback(() => {
+    const token = Cookies.get('access_token');
+    if (!token) {
+      console.log('No access token found or user not authenticated');
+      return;
+    }
+
+ 
+    if (connectionAttemptedRef.current) {
+      return;
+    }
+
+    if (wsRef.current?.readyState === WebSocket.OPEN) {
+      return;
+    }
+
+    connectionAttemptedRef.current = true;
+    const wsUrl = `wss://localhost/ws/notifications/?token=${token}`;
+    const newWs = new WebSocket(wsUrl);
+    wsRef.current = newWs;
+
+    newWs.onopen = () => {
+      console.log('Notification WebSocket connected');
+      setWs(newWs);
+    };
+
+    newWs.onmessage = (event) => {
+      try {
+        const data = JSON.parse(event.data) as WebSocketMessage;
+        
+        if (data.username === playerData?.username) {
+          return;
+        }
+
+        if (data.type === "friend_status" && typeof data.online === 'boolean') {
+          setOnlineFriends((prev) => {
+            const exists = prev.find((friend) => friend.username === data.username);
+            if (data.online && !exists) {
+              return [
+                ...prev,
+                {
+                  username: data.username,
+                  profile_image: data.profile_image|| "default_profile_image_url", // Fallback for undefined
+                  is_online: true,
+                },
+              ];
+            } else if (!data.online && exists) {
+              return prev.filter((friend) => friend.username !== data.username);
+            }
+            return prev;
+          });
+        }
+      } catch (error) {
+        console.error('Error processing WebSocket message:', error);
+      }
+    };
+
+    newWs.onerror = (error) => {
+      console.error("WebSocket error:", error);
+      connectionAttemptedRef.current = false;
+    };
+
+    newWs.onclose = (event) => {
+      console.log("Notification WebSocket disconnected", event);
+      wsRef.current = null;
+      setWs(null);
+      connectionAttemptedRef.current = false;
+    };
+
+  }, []);
+
+  const closeWsConnection = useCallback(() => {
+    if (wsRef.current?.readyState === WebSocket.OPEN) {
+      console.log("Notification WebSocket disconnected")
+      wsRef.current.close();
+    }
+    wsRef.current = null;
+    setWs(null);
+    connectionAttemptedRef.current = false;
+  }, []);
+
+  useEffect(() => {
+    const token = Cookies.get('access_token');
+    if (token) {
+        wsConnection();
+    } else {
+        closeWsConnection();
+    }
+}, [wsConnection, closeWsConnection]);
+
+
+  useEffect(() => {
+    return () => {
+      closeWsConnection();
+    };
+  }, [closeWsConnection]);
 
   return (
     <PlayerContext.Provider
@@ -76,6 +203,11 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({
         isLoading,
         fetchPlayerData,
         clearPlayerData,
+        ws,
+        setWs,
+        wsConnection,
+        closeWsConnection,
+        onlineFriends,
       }}
     >
       {children}

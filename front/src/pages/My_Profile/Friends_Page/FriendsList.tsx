@@ -8,7 +8,6 @@ interface Friend {
   id: string;
   name: string;
   avatar: string;
-  online: boolean;
   content: string;
   timestamp: string;
 }
@@ -17,7 +16,6 @@ interface OnlineFriends {
   id: string;
   name: string;
   avatar: string;
-  online: boolean;
 }
 
 interface SelectedUser {
@@ -44,7 +42,6 @@ const FriendsList: React.FC<SelectedUser> = ({ onClick }) => {
           id: index.toString(),
           name: user.user2.username,
           avatar: user.user2.profile_image.replace("http://","https://"),
-          online: index < 4,
           content: user.last_message.content.length > 10 
           ? user.last_message.content.substring(0, 10) + '...' 
           : user.last_message.content,
@@ -70,7 +67,6 @@ const FriendsList: React.FC<SelectedUser> = ({ onClick }) => {
           id: index.toString(),
           name: user.username,
           avatar: user.profile_image.replace("http://","https://"),
-          online: index < 4,
         }))
       );
     } catch (error) {
@@ -79,14 +75,11 @@ const FriendsList: React.FC<SelectedUser> = ({ onClick }) => {
   };
 
   useEffect(() => {
-    // const token = Cookies.get("access_token");
-    // if (token) {
-    // }
     fetchLastMessages();
     fetchOnlineFriends();
   }, []);
 
-  // Update when new messages arrive
+
   useEffect(() => {
     if (messages.length > 0) {
       fetchLastMessages();
@@ -135,9 +128,6 @@ const FriendsList: React.FC<SelectedUser> = ({ onClick }) => {
                   alt={friend.name}
                   className="w-12 h-12 rounded-full"
                 />
-                {friend.online && (
-                  <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-[#3A0CA3]" />
-                )}
               </div>
               <span className="text-sm mt-1">{friend.name}</span>
             </button>

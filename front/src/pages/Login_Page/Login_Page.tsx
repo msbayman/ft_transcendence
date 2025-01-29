@@ -4,6 +4,7 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import Cookies from "js-cookie";
 import "./Login_Page.css";
+import { usePlayer } from "../My_Profile/PlayerContext";
 
 function Login_Page() {
   const navigate = useNavigate();
@@ -72,6 +73,7 @@ function Login_Page() {
           axios.defaults.headers.common[
             "Authorization"
           ] = `Bearer ${Cookies.get("access_token")}`;
+          // playerinstence.wsConnection()
           navigate(response.data.redirect_to);
         }
       } else if (response.status === 401) {

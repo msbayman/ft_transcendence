@@ -9,7 +9,6 @@ interface PlayerInfo {
   id: number;
   username: string;
   profile_image: string;
-  status: boolean;
 }
 
 interface APIResponse {
@@ -26,7 +25,7 @@ interface Message {
   id: number;
   text: string;
   sent: boolean;
-  avatar: string;
+  profile_image: string;
   timestamp: number;
   sender: string;
   receiver: string;
@@ -47,16 +46,17 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
   const token = Cookies.get("access_token");
   const profile_redirec = useNavigate();
 
+
   const toggleDiv = () => {
     setShowDiv((prevState) => !prevState);
   };
-
-  const [isblock, setIsBlock] = useState(false); // Initially, not blocked
+  
+  const [isblock, setIsBlock] = useState(false);
   const block = async () => {
     try {
       if (!isblock) {
         await axios.post(
-          `https://localhost/api/chat/block_user/${value}`,
+          `https://localhost/api/chat/block_user/${value}/`,
           {}, // empty body
           {
             headers: {
@@ -67,7 +67,7 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
         setIsBlock(true);
       } else {
         await axios.post(
-          `https://localhost/api/chat/unblock_user/${value}`,
+          `https://localhost/api/chat/unblock_user/${value}/`,
           {}, // empty body
           {
             headers: {
@@ -94,14 +94,15 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
             },
           }
         );
+        console.log("player profile pic: ", response.data.profile_image)
         if (response.status === 200) {
+          console.log("player profile pic: ", response.data.profile_image)
           setPlayerInfo({
             ...response.data,
             profile_image: response.data.profile_image.replace(
               "http://",
               "https://"
-            ), // Prepend base URL
-            status: response.data.is_online,
+            ),
           });
         }
       } catch (error) {
@@ -111,17 +112,14 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
     };
     fetchPlayerInfo();
   }, [value, token]);
-  // console.log("-------***************** " + playerInfo?.username)
-  // console.log("-------***************** " + playerInfo?.status)
 
   useEffect(() => {
     if (value === "") return;
 
     const fetchData = async () => {
       try {
-        // Fetch the conversation
         const conversationResponse = await axios.get(
-          `https://localhost/api/chat/getconversation/${value}`,
+          `https://localhost/api/chat/getconversation/${value}/`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -136,7 +134,7 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
               id: msg.id,
               text: msg.content,
               sent: msg.sender !== loggedplayer.playerData?.username,
-              avatar: `${msg.sender_profile_image}`,
+              profile_image: `${msg.sender_profile_image}`,
               timestamp: msg.timestamp,
               sender: msg.sender,
               receiver: msg.receiver,
@@ -188,13 +186,13 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
             if (existingMessageIndex === -1) {
               newMessages.push({
                 ...wsMessage,
-                avatar:
+                profile_image:
                   wsMessage.sender === value
-                    ? playerInfo?.profile_image.replace("http://", "https://")
+                    ? playerInfo?.profile_image.replace("http://", "https://") || ""
                     : loggedplayer.playerData?.profile_image.replace(
                         "http://",
                         "https://"
-                      ),
+                      ) || "",
                 sent: wsMessage.sender !== loggedplayer.playerData?.username,
               });
             }
@@ -203,13 +201,21 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
         return newMessages.sort((a, b) => a.id - b.id);
       });
     }
-  }, [messages, value, loggedplayer.playerData?.username]);
+  }, [messages, value, loggedplayer.playerData?.username, playerInfo?.profile_image, loggedplayer.playerData?.profile_image]);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
   useEffect(scrollToBottom, [localMessages]);
+  const sendChallenge = (name: string) => {
+    if (loggedplayer.ws && loggedplayer.ws?.readyState === WebSocket.OPEN) {
+      loggedplayer.ws.send(JSON.stringify({
+        type: "send_challenge",
+        sender: name
+      }));
+    }
+  };
 
   const handleSend = () => {
     if (!input.trim() || !value) return;
@@ -222,12 +228,6 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
     setInput("");
   };
 
-  // const formatTimestamp = (timestamp: number) => {
-  //   return new Date(timestamp * 1000).toLocaleTimeString('en-US', {
-  //     hour: '2-digit',
-  //     minute: '2-digit'
-  //   });
-  // };
 
   if (value === "") {
     return (
@@ -277,9 +277,6 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
             />
             <div>
               <h1 className="text-2xl">{playerInfo?.username}</h1>
-              <h1 className="text-2xl text-lime-600">
-                {playerInfo?.status ? "online" : "offline"}
-              </h1>
             </div>
             <button
               onClick={() => go_to_profile(playerInfo?.username)}
@@ -295,7 +292,7 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
           </div>
           <hr className="max-w-lg mt-1.5" />
           <div className="flex justify-between align-middle m-5">
-            <button className="w-[100px] flex flex-col items-center justify-center gap-1 rounded hover:bg-[#8f6edd]">
+            <button  onClick={() => sendChallenge(playerInfo?.username || "")} className="w-[100px] flex flex-col items-center justify-center gap-1 rounded hover:bg-[#8f6edd]">
               <img className="" src="/Chat/challenge.svg" alt="" />
               <p>chalenge</p>
             </button>
@@ -307,10 +304,6 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
               <p> {isblock ? "ubblock user" : "block user"}</p>
             </button>
           </div>
-          {/* <button onClick={block}>
-            <img src={icon} alt="" />
-            {isblock ? "ubblock user": "block user"}
-          </button> */}
         </div>
       )}
 
@@ -325,7 +318,6 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
           </div>
           <div>
             <h1 className="text-xl font-semibold text-white">{value}</h1>
-            <p className="text-sm text-white/70">Online</p>
           </div>
           <button
             className="ml-auto p-2 rounded-full hover:bg-white/10 focus:outline-none"
@@ -360,7 +352,7 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
               {message.sent && (
                 <div className="h-10 w-10">
                   <img
-                    src={message.avatar}
+                    src={message.profile_image}
                     alt="Profile"
                     className="rounded-full"
                   />
@@ -376,18 +368,11 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
                 <p className="whitespace-normal max-w-screen-lg">
                   {message.text}
                 </p>
-                {/* <div className="text-xs text-gray-400 mt-1">
-                  {formatTimestamp(message.timestamp)}
-                  {message.sent ? 
-                    <span className="ml-2">Sent ✓</span> : 
-                    <span className="ml-2">Received</span>
-                  }
-                </div> */}
               </div>
               {!message.sent && (
                 <div className="h-10 w-10">
                   <img
-                    src={message.avatar}
+                    src={message.profile_image}
                     alt="Profile"
                     className="rounded-full"
                   />

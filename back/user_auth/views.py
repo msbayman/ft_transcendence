@@ -35,41 +35,7 @@ from django.core.exceptions import ValidationError
 from django.contrib.auth.hashers import make_password
 import math
 
-# Logger setup
 logger = logging.getLogger(__name__)
-
-# @api_view(['GET'])
-# @permission_classes([AllowAny])
-# def health_check(request):
-#     return JsonResponse({"status": "ok"})
-
-
-
-
-# @api_view(['GET'])
-
-# @permission_classes([IsAuthenticated])
-
-# class UpdatePass(APIView):
-#     permission_classes = [IsAuthenticated]
-#     authentication_classes = [JWTAuthentication]
-
-#     def post(self, request):
-#         data = request.data
-#         new_password = data.get('newPassword')
-#         old_password = data.get('oldPassword')
-#         user = Player.objects.filter(username=data.username).first()
-#         if not user.check_password(old_password):
-#             return Response({'error': 'Invalid old password'}, status=status.HTTP_400_BAD_REQUEST)
-#         try:
-#             password_validation.validate_password(new_password)
-#             if old_password == new_password:
-#                 return JsonResponse({'error': 'New password cannot be the same as old password'}, status=status.HTTP_400_BAD_REQUEST)
-#         except ValidationError as e:
-#             return Response({'error': ' '.join(e.messages)}, status=status.HTTP_400_BAD_REQUEST)
-#         user.set_password(new_password)
-#         user.save()
-#         return Response({'success': True, 'message': 'Password changed successfully'}, status=status.HTTP_200_OK)
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
@@ -440,9 +406,9 @@ class LogoutAPIView(APIView):
     def post(self, request):
         try:
             user = request.user
-            player = Player.objects.get(username=user.username)  # Get the Player instance
-            player.is_online = False  # Set is_online to False
-            player.save()  # Save the changes
+            player = Player.objects.get(username=user.username)
+            player.is_online = False
+            player.save()
 
 
             return Response({"detail": "Successfully logged out."}, status=status.HTTP_200_OK)
@@ -474,7 +440,6 @@ def upload_profile_image(request):
         username = request.user.username
         player = Player.objects.get(username=username)
         
-        # Fix 1: FILES instead of FILE
         if 'profile_image' not in request.FILES:
             return Response({'error': 'No image file provided'}, status=400)
             
@@ -482,20 +447,18 @@ def upload_profile_image(request):
         
         # Fix 2: Proper file handling
         img_temp = NamedTemporaryFile(delete=True)
-        for chunk in image_file.chunks(): # iterate over the image file chunks
-            img_temp.write(chunk) # write each chunk to the temporary file 
+        for chunk in image_file.chunks():
+            img_temp.write(chunk) 
         img_temp.flush()
         
-        # Fix 3: Save image with proper filename
         player.profile_image.save(
-            f"{player.username}.jpg", # we save the image with the username as the filename
-            File(img_temp), # we use img_temp instead of image_file here to save the image 
+            f"{player.username}.jpg",
+            File(img_temp), 
             save=True
         )
         
         logger.info(f"Profile image uploaded for player {username}")
         
-        # Fix 4: Return proper response
         return Response({
             'message': 'Profile image uploaded successfully',
             'image_url': player.profile_image.url
@@ -516,14 +479,6 @@ class SearchUser(APIView):
 
     def get(self, request):
         query = request.GET.get('q', '')
-
-        # Validate minimum query length
-        # min_length = 3
-        # if len(query) < min_length:
-        #     return Response(
-        #         {"error": f"Query must be at least {min_length} characters long."},
-        #         status=status.HTTP_400_BAD_REQUEST
-        #     )
 
         if query:
             players = Player.objects.exclude(username='admin').filter(username__icontains=query)
