@@ -93,8 +93,8 @@ function AppContent() {
 
           <Route path="/local_game" element={<Game_Local />} />
           <Route path="/remote_game" element={<Game_Loby />} />
-          <Route path="/Tournament" element={<Tourn_manage />} />
-          <Route path="/tourn_game" element={<Tournaments />} />
+          <Route path="/tourn_game" element={<Game_Tourn />} />
+          <Route path="/tourn" element={<Tournaments />} />
 
         </Routes>
       </main>

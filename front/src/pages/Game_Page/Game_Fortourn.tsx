@@ -30,7 +30,7 @@ function Game_Tourn() {
       setlPlayers(tournamentState?.p1);
       setrPlayers(tournamentState?.p3);
     }
-    if (!tournamentState?.semi1)
+    if (!tournamentState?.semi2)
     {
       setlPlayers(tournamentState?.p2);
       setrPlayers(tournamentState?.p4);

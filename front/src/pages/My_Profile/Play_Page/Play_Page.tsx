@@ -288,7 +288,8 @@ const Play_Page: React.FC = () => {
   const handlePlayClick = () => {
     // Navigate to play page with selected skins
     if (SLIDEIMAPS[selectedIds.mode!]?.mapName === "1v1")
-      navigate( "/remote_game" , { state: { selectedIds } })
+      navigate( "/remote_game" , { state: { 
+     } })
     if (SLIDEIMAPS[selectedIds.mode!]?.mapName === "local")
       navigate( "/local_game" , { state: { selectedIds } })
     if (SLIDEIMAPS[selectedIds.mode!]?.mapName === "Tournement")

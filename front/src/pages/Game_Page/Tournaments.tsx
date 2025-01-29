@@ -16,6 +16,7 @@ const Tournaments = () => {
 			goTogame();
 		else if (tournamentState.final)
 			goToover();
+		console.log("----> ", time);
 		const timer = setInterval(() => {
 		setTime((prevTime) => prevTime - 1);
 		}, 1000);
@@ -204,7 +205,6 @@ const Tournaments = () => {
 		  </div>
 
 		  {/* -------------------------------------------------->>> part3 button*/}
-
 		   
 		</div>
 	  </div>	
