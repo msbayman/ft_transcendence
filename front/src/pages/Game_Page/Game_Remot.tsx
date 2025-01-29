@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { usePlayer } from '../My_Profile/PlayerContext';
 
-function Game_Remot( { id } ) {
+function Game_Remot( { id, selectedIds } ) {
 	const mydata = usePlayer();
 	const [socket, setSocket] = useState<WebSocket | null>(null);
 	const [win, setwin] = useState(null);
@@ -14,9 +14,6 @@ function Game_Remot( { id } ) {
 		winner : null,
 		side: {up: null, down: null}
 	  });
-
-	const location = useLocation();
-	const { selectedIds } = location.state || {};
 	const navigate = useNavigate();
 
 	  const SLIDEBOARDS = [
@@ -26,7 +23,7 @@ function Game_Remot( { id } ) {
 		  mapName: "BlueBoard-Board",
 		},
 		{
-		  mapPath: "/public/green_table.svg",
+		  mapPath: "green_table.svg",
 		  id: 1,
 		  mapName: "GreenBoard-Board",
 		},
@@ -39,35 +36,37 @@ function Game_Remot( { id } ) {
 	  
 	  const SLIDECUES = [
 		{
-		  mapPath: "red",
+		  mapPath: "#2BBDB6",
 		  id: 0,
-		  mapName: "red-Cue",
+		  mapName: "Cyan-Paddle",
 		},
 		{
-		  mapPath: "blue",
+		  mapPath: "#24BA26",
 		  id: 1,
-		  mapName: "blue-Cue",
+		  mapName: "Green-Paddle",
 		},
 		{
-		  mapPath: "green",
+		  mapPath: "#FB2F98",
 		  id: 2,
-		  mapName: "green-Cue",
+		  mapName: "N-Blossom-Paddles",
 		},
 		{
-		  mapPath: "black",
+		  mapPath: "#7F00FF",
 		  id: 3,
-		  mapName: "black-Cue",
+		  mapName: "Violet-Paddles",
 		},
 	  ];
 	  
 	  const SLIDEBALLS = [
-		{ mapPath: "red", id: 0, mapName: "red" },
-		{ mapPath: "green", id: 1, mapName: "green" },
-		{ mapPath: "yellow", id: 2, mapName: "yellow" },
+		{ mapPath: "#FB2F98", id: 0, mapName: "pinkBall" },
+		{ mapPath: "#24BA26", id: 1, mapName: "greenBall" },
+		{ mapPath: "#2BBDB6", id: 2, mapName: "cyanBall" },
+		{ mapPath: "#7F00FF", id: 3, mapName: "violetBall" },
 	  ];
 	  
 
 	useEffect(() => {
+		console.log("-----> ",  selectedIds);
 		const token = Cookies.get("access_token");
 		const ws = new WebSocket(`wss://localhost/ws/game/${id}/?token=${token}`);
 
@@ -201,4 +200,5 @@ function Game_Remot( { id } ) {
   }
   
   export default Game_Remot;
+  
   

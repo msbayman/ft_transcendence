@@ -9,8 +9,7 @@ import classes from "./style.module.css";
 import Cookies from "js-cookie";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
-import { TournContext } from './../../Game_Page/TournContext';
-
+import { TournContext } from "./../../Game_Page/TournContext";
 
 interface SelectedIds {
   mode: number | null;
@@ -56,9 +55,10 @@ const SLIDECUES = [
 ];
 
 const SLIDEBALLS = [
-  { mapPath: "skins-png/Balls/8BallPool.png", id: 0, mapName: "8BallPool" },
-  { mapPath: "skins-png/Balls/Foot-Ball.png", id: 1, mapName: "FootBall" },
-  { mapPath: "skins-png/Balls/Basket-Ball.png", id: 2, mapName: "BasketBall" },
+  { mapPath: "Balls/pink-ball.svg", id: 0, mapName: "pinkBall" },
+  { mapPath: "Balls/green-ball.svg", id: 1, mapName: "greenBall" },
+  { mapPath: "Balls/cyan-ball.svg", id: 2, mapName: "cyanBall" },
+  { mapPath: "Balls/violet-ball.svg", id: 3, mapName: "violetBall" },
 ];
 
 const SLIDEBOARDS = [
@@ -82,7 +82,7 @@ const SLIDEBOARDS = [
 const Play_Page: React.FC = () => {
   const location = useLocation();
   const challenge = location.state?.challenge;
-  const navigate = useNavigate(); // If using react-router for navigation
+  const navigate = useNavigate();
   const [value, setValue] = useState("Modes");
   const [tourninput1, settourninput1] = useState("");
   const [tourninput2, settourninput2] = useState("");
@@ -115,7 +115,6 @@ const Play_Page: React.FC = () => {
   const handletourChange4 = (e: React.ChangeEvent<HTMLInputElement>) => {
     settourninput4(e.target.value);
   };
-  
 
   const isOneOfSlidesSelected = () => {
     switch (value) {
@@ -204,7 +203,7 @@ const Play_Page: React.FC = () => {
       case "Finish":
         setValue("");
         // Navigate to play page with selected skins
-        
+
         navigate("/game", { state: { selectedIds } });
 
         break;
@@ -288,12 +287,11 @@ const Play_Page: React.FC = () => {
   const handlePlayClick = () => {
     // Navigate to play page with selected skins
     if (SLIDEIMAPS[selectedIds.mode!]?.mapName === "1v1")
-      navigate( "/remote_game" , { state: { 
-     } })
+      navigate("/remote_game", { state: {selectedIds} });
     if (SLIDEIMAPS[selectedIds.mode!]?.mapName === "local")
-      navigate( "/local_game" , { state: { selectedIds } })
+      navigate("/local_game", { state: { selectedIds } });
     if (SLIDEIMAPS[selectedIds.mode!]?.mapName === "Tournement")
-      navigate( "/Tournament" , { state: { selectedIds } })
+      navigate("/Tournament", { state: { selectedIds } });
   };
 
   return (
@@ -341,7 +339,7 @@ const Play_Page: React.FC = () => {
                         </label>
                         <div className="flex flex-row  min-w-[99rem] items-center justify-center">
                           <div className="flex flex-col items-center justify-center gap-4">
-                            <div className="flex flex-col items-center justify-center"> 
+                            <div className="flex flex-col items-center justify-center">
                               <input
                                 type="text"
                                 name="username"
@@ -352,7 +350,15 @@ const Play_Page: React.FC = () => {
                                 className="w-[350px] h-[68px] font-alexandria justify-center items-center text-center rounded-[11px] px-3 bg-[#3a0ca3] text-white text-[32px] m-7"
                                 style={{ border: "2px solid #8151EE" }}
                               />
-                              <button onClick={() => setTournamentState({ ...tournamentState, p1: tourninput1 })} className="relative bottom-2 w-[180px] h-[39px] font-alexandria text-white shadow-md rounded-[36.5px] bg-[#8151EE] flex justify-center items-center text-[16px] hover:bg-white hover:text-[#3a0ca3]">
+                              <button
+                                onClick={() =>
+                                  setTournamentState({
+                                    ...tournamentState,
+                                    p1: tourninput1,
+                                  })
+                                }
+                                className="relative bottom-2 w-[180px] h-[39px] font-alexandria text-white shadow-md rounded-[36.5px] bg-[#8151EE] flex justify-center items-center text-[16px] hover:bg-white hover:text-[#3a0ca3]"
+                              >
                                 DONE
                               </button>
                             </div>
@@ -367,13 +373,21 @@ const Play_Page: React.FC = () => {
                                 className="w-[350px] h-[68px] font-alexandria justify-center items-center text-center rounded-[11px] px-3 bg-[#3a0ca3] text-white text-[32px] m-7"
                                 style={{ border: "2px solid #8151EE" }}
                               />
-                              <button onClick={() => setTournamentState({ ...tournamentState, p2: tourninput2 })} className="relative bottom-2 w-[180px] h-[39px] font-alexandria text-white shadow-md rounded-[36.5px] bg-[#8151EE] flex justify-center items-center text-[16px] hover:bg-white hover:text-[#3a0ca3]">
+                              <button
+                                onClick={() =>
+                                  setTournamentState({
+                                    ...tournamentState,
+                                    p2: tourninput2,
+                                  })
+                                }
+                                className="relative bottom-2 w-[180px] h-[39px] font-alexandria text-white shadow-md rounded-[36.5px] bg-[#8151EE] flex justify-center items-center text-[16px] hover:bg-white hover:text-[#3a0ca3]"
+                              >
                                 DONE
                               </button>
                             </div>
                           </div>
                           <div className="flex flex-col items-center justify-center gap-4">
-                            <div className="flex flex-col items-center justify-center"> 
+                            <div className="flex flex-col items-center justify-center">
                               <input
                                 type="text"
                                 name="username"
@@ -384,11 +398,19 @@ const Play_Page: React.FC = () => {
                                 className="w-[350px] h-[68px] font-alexandria justify-center items-center text-center rounded-[11px] px-3 bg-[#3a0ca3] text-white text-[32px] m-7"
                                 style={{ border: "2px solid #8151EE" }}
                               />
-                              <button onClick={() => setTournamentState({ ...tournamentState, p3: tourninput3 })} className="relative bottom-2 w-[180px] h-[39px] font-alexandria text-white shadow-md rounded-[36.5px] bg-[#8151EE] flex justify-center items-center text-[16px] hover:bg-white hover:text-[#3a0ca3]">
+                              <button
+                                onClick={() =>
+                                  setTournamentState({
+                                    ...tournamentState,
+                                    p3: tourninput3,
+                                  })
+                                }
+                                className="relative bottom-2 w-[180px] h-[39px] font-alexandria text-white shadow-md rounded-[36.5px] bg-[#8151EE] flex justify-center items-center text-[16px] hover:bg-white hover:text-[#3a0ca3]"
+                              >
                                 DONE
                               </button>
                             </div>
-                            <div className="flex flex-col items-center justify-center"> 
+                            <div className="flex flex-col items-center justify-center">
                               <input
                                 type="text"
                                 name="username"
@@ -399,7 +421,15 @@ const Play_Page: React.FC = () => {
                                 className="w-[350px] h-[68px] font-alexandria justify-center items-center text-center rounded-[11px] px-3 bg-[#3a0ca3] text-white text-[32px] m-7"
                                 style={{ border: "2px solid #8151EE" }}
                               />
-                              <button onClick={() => setTournamentState({ ...tournamentState, p4: tourninput4 })} className="relative bottom-2 w-[180px] h-[39px] font-alexandria text-white shadow-md rounded-[36.5px] bg-[#8151EE] flex justify-center items-center text-[16px] hover:bg-white hover:text-[#3a0ca3]">
+                              <button
+                                onClick={() =>
+                                  setTournamentState({
+                                    ...tournamentState,
+                                    p4: tourninput4,
+                                  })
+                                }
+                                className="relative bottom-2 w-[180px] h-[39px] font-alexandria text-white shadow-md rounded-[36.5px] bg-[#8151EE] flex justify-center items-center text-[16px] hover:bg-white hover:text-[#3a0ca3]"
+                              >
                                 DONE
                               </button>
                             </div>
@@ -468,24 +498,26 @@ const Play_Page: React.FC = () => {
                 {isCurrentSlideSelected() ? "SELECTED" : "SELECT"}
               </button>
               {value !== "Finish" && (
-                <button
-                  className="rounded-full border text-[#3A0CA3] bg-white hover:bg-[#3A0CA3] hover:text-white transition-all duration-400 group"
-                  onClick={() => {
-                    console.log(selectedIds);
-                    setCurrentSlideIndex(0);
-                    handleNextClick();
-                  }}
-                  disabled={
+                <div
+                  onClick={
                     isOneOfSlidesSelected()
-                      ? false
-                      : true
+                      ? () => {
+                          setCurrentSlideIndex(0);
+                          handleNextClick();
+                        }
+                      : undefined
                   }
+                  className={`rounded-full border text-[#3A0CA3] bg-white hover:bg-[#3A0CA3] hover:text-white transition-all duration-400 group ${
+                    isOneOfSlidesSelected()
+                      ? ""
+                      : "opacity-50 cursor-not-allowed"
+                  }`}
                 >
                   <NextButton />
                   <span className="hidden opacity-0 absolute transform  bg-black text-white px-2.5 py-1 rounded whitespace-nowrap transition-opacity duration-200 group-hover:block group-hover:opacity-100">
                     NEXT
                   </span>
-                </button>
+                </div>
               )}
             </div>
           )}
