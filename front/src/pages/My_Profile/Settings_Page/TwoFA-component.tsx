@@ -344,6 +344,7 @@ function TwoFA_Component() {
         if (response.status === 200) {
           setChecked(response.data.is2FAEnabled);
           setIsInitialized(true);
+          data.fetchPlayerData();
         }
       } catch (error) {
         console.error("Failed to fetch 2FA status:", error);
