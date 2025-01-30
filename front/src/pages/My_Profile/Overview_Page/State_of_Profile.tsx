@@ -140,7 +140,7 @@ const State_of_Profile = () => {
               {percentage_exp(player.playerData?.points, player.playerData?.level)}%
             </CircularProgressLabel>
           </CircularProgress>
-          <span className="hover-text">Exp Rate <br /> LEVEL {player.playerData?.points}</span>
+          <span className="hover-text text-center">Exp Rate <br /> LEVEL {player.playerData?.level}</span>
         </div>
       </div>
     </div>

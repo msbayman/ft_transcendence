@@ -24,8 +24,8 @@ def get_username_for_players(request):
 
 class UserMatchHistoryView(ListAPIView):
     serializer_class = MatchHistorySerializer
-    permission_classes = [IsAuthenticated]
-    authentication_classes = [JWTAuthentication]
+    permission_classes = []
+    # authentication_classes = [JWTAuthentication]
 
     def get_queryset(self):
         try:
@@ -34,29 +34,7 @@ class UserMatchHistoryView(ListAPIView):
                 Q(player1=username) | Q(player2=username)
             ).order_by('-date')
         except Exception as e:
-            raise Http404("this given username not found")
-
-# class get_matches_by_username(APIView):
-#     permission_classes = [IsAuthenticated]
-
-#     def get(self, request, username):
-#         matches = Match.objects.filter(player1=username).order_by('date')
-
-#         if not matches:
-#             return Response({'error','no matches'}, status=status.HTTP_404_NOT_FOUND)
-
-#         match_data = [
-#             {
-#                 "player1": match.player1,
-#                 "player2": match.player2,
-#                 "player1_score": match.player1_score,
-#                 "player2_score": match.player2_score,
-#                 "status": match.status,
-#                 "date": match.date
-#             }
-#             for match in matches
-#         ]
-#         return Response(match_data, status=status.HTTP_200_OK)
+            raise Http404(f"this given username not found {e}")
 
 
 @api_view(['GET'])

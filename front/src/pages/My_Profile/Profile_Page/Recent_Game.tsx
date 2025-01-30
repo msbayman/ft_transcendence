@@ -1,31 +1,90 @@
-import React from "react";
+import { useEffect, useState } from "react";
 import "./Recent_Game.css";
+import { usePlayer } from "../PlayerContext";
+import Cookies from "js-cookie";
 
 export const Recent_Game = () => {
-  const win_or_lose = (check: string) => {
-    return check === "WIN"
-      ? "state_of_match green_color"
-      : "state_of_match red_color";
+  const token = Cookies.get("access_token");
+
+  interface Match {
+    player1: string;
+    player2: string;
+    player1_score: number;
+    player2_score: number;
+    date: string;
+  }
+
+  const my_data = usePlayer();
+  const [historyGame, setHistoryGame] = useState<Match[]>([]);
+  const username = my_data.playerData?.username;
+
+  useEffect(() => {
+    const get_data = async () => {
+      try {
+        const response = await fetch(
+          `https://localhost/api/game/get_match/${username}/`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        if (response.ok) {
+          const info = await response.json();
+          setHistoryGame(info);
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+
+    get_data();
+  }, []);
+
+  const win_or_lose_state = (
+    player1_score: number,
+    player2_score: number,
+    username: string | undefined,
+    player1: string,
+    player2: string
+  ) => {
+    if (!username) return "state_of_match";
+    if (username === player1) {
+      return player1_score > player2_score ? "WIN" : "LOSE";
+    }
+    if (username === player2) {
+      return player2_score > player1_score ? "WIN" : "LOSE";
+    }
   };
-  const historyGame = [
-    {
-      id: 1,
-      player1: "Kacimo",
-      status: "WIN",
-      score1: 5,
-      score2: 1,
-      player2: "lwajdi",
-    },
-    {
-      id: 2,
-      player1: "Kacimo",
-      status: "LOSE",
-      score1: 2,
-      score2: 5,
-      player2: "ilyass",
-    },
-  ];
-  
+  const win_or_lose = (
+    player1_score: number,
+    player2_score: number,
+    username: string | undefined,
+    player1: string,
+    player2: string
+  ) => {
+    if (!username) return "state_of_match";
+    if (username === player1) {
+      return player1_score > player2_score
+        ? "state_of_match green_color"
+        : "state_of_match red_color";
+    } else if (username === player2) {
+      return player2_score > player1_score
+        ? "state_of_match green_color"
+        : "state_of_match red_color";
+    }
+    return "state_of_match";
+  };
+
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+    });
+  };
 
   return (
     <div className="all_content_recent">
@@ -35,50 +94,57 @@ export const Recent_Game = () => {
       </div>
       <div className="content_Recent">
         <div className="table_dd">
-          {historyGame.map((field, index) => (
-            <div key={index} className="inside_the_match_history">
-              <div
-                className={`${win_or_lose(
-                  field.status
-                )} pt-[30px] pr-[40px] pl-[30px] text-center flex flex-row w-[100%] gap-3 justify-between items-center`}
-              >
-                <div className="text-6xl">{field.status}</div>
-
-                <div className="text-white font-alexandria text-lg pb-[18px]">
-                  {" "}
-                  21-12-2020{" "}
-                </div>
-              </div>
-              <div className="who_played" key={field.id}>
-                <div style={{ width: "150px", fontWeight: "600" }}>
-                  {field.player1}
-                </div>
-                {/* <div> */}
-                <div className="bg-white font-medium text-[#3a0ca3] pr-[20px] pl-[20px] rounded-3xl">
-                  {field.score1} - {field.score2}
-                </div>
+          {historyGame.length > 0 ? (
+            historyGame.map((field, index) => (
+              <div key={index} className="inside_the_match_history">
                 <div
-                  style={{
-                    width: "150px",
-                    alignSelf: "end",
-                    textAlign: "end",
-                    fontWeight: "600",
-                  }}
+                  className={`${win_or_lose(
+                    field.player1_score,
+                    field.player2_score,
+                    username,
+                    field.player1,
+                    field.player2
+                  )} pt-[30px] pr-[40px] pl-[30px] text-center flex flex-row w-[100%] gap-3 justify-between items-center`}
                 >
-                  {field.player2}
+                  {win_or_lose_state(
+                    field.player1_score,
+                    field.player2_score,
+                    username,
+                    field.player1,
+                    field.player2
+                  )}
+                  <div className="text-white font-alexandria text-lg pb-[18px]">
+                    {formatDate(field.date)}
+                  </div>
                 </div>
+                <div className="who_played" key={index}>
+                  <div style={{ width: "150px", fontWeight: "600" }}>
+                    {field.player1}
+                  </div>
+                  <div className="bg-white font-medium text-[#3a0ca3] pr-[20px] pl-[20px] rounded-3xl">
+                    {field.player1_score} - {field.player2_score}
+                  </div>
+                  <div
+                    style={{
+                      width: "150px",
+                      alignSelf: "end",
+                      textAlign: "end",
+                      fontWeight: "600",
+                    }}
+                  >
+                    {field.player2}
+                  </div>
+                </div>
+                {index !== historyGame.length - 1 && (
+                  <span className="bar_sepe">
+                    <hr />
+                  </span>
+                )}
               </div>
-              {(index !== historyGame.length - 1 && (
-                <span className="bar_sepe">
-                  <hr />
-                </span>
-              )) || (
-                <span className="bar_sepe1">
-                  <hr />
-                </span>
-              )}
-            </div>
-          ))}
+            ))
+          ) : (
+            <div className="text-white text-center py-4">No matches found.</div>
+          )}
         </div>
       </div>
     </div>
