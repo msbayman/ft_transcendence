@@ -56,7 +56,7 @@ const Info_Profile = () => {
             className="Photo_dProfile"
           />
         </div>
-        <div className="Name_of_Profile">{my_user.playerData?.username}</div>
+        <div className="Name_of_Profile font-alexandria">{my_user.playerData?.username}</div>
         <div className="The_level">
           <div className="level_Profile">
             <div className="Progress_bar_lvl">

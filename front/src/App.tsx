@@ -20,6 +20,7 @@ import Game_Loby from "./pages/Game_Page/Game_loby";
 import Tournaments from "./pages/Game_Page/Tournaments";
 import { TournProvider } from "./pages/Game_Page/TournContext";
 import { Toaster } from 'react-hot-toast';
+import End_of_Game from './pages/Game_Page/End_of_Game';
 
 function AppContent() {
   const navigate = useNavigate();
@@ -101,6 +102,7 @@ function AppContent() {
           <Route path="/remote_game" element={<Game_Loby />} />
           <Route path="/tourn_game" element={<Game_Tourn />} />
           <Route path="/tourn" element={<Tournaments />} />
+          <Route path="/Game_Result" element={<End_of_Game />} />
 
         </Routes>
         <Toaster />

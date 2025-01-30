@@ -15,8 +15,6 @@
     flex-direction: row;
     justify-content: space-around;
     width: 100%;
-    /* max-width: 530px; */
-    /* flex-grow: 1; */
     min-height: 165px;
     padding: 10px 20px;
     gap: 20px;
@@ -27,6 +25,7 @@
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
+    width: 130px;
     gap: 10px;
     color: aliceblue;
     text-align: center;
@@ -84,9 +83,6 @@
     text-align: center;
 }
 
-.ach_img {
-    /* width: 60px; */
-}
 .icone_Acheiv{
     height: 10%;
     display: inline-flex;
@@ -96,11 +92,7 @@
 }
 
 .Achiev_Title {
-    /* display: flex;
-    justify-content: center;
-    align-items: center; */
     position: relative;
-
 }
 
 
@@ -111,18 +103,6 @@
     align-items: center;
     font-size: large;
     gap: 15px;
-}
-
-.part_2_achv {
-    /* margin: 0 20px 0 0; */
-    /* display: flex ;
-    position: relative;
-    justify-content: center;
-    align-items: center; */
-    /* padding: 0 200px; */
-    /* width: 280px; */
-    /* margin: 30px; */
-    /* margin-bottom: -50px; */
 }
 
 .Titre_Acheivement {
