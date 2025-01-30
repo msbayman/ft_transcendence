@@ -1,66 +1,69 @@
-import React from "react";
+import { useState } from "react";
 import other from "./Acheiev_Profile.module.css";
-import { usePlayer } from "../../PlayerContext";
+import { data_of_player } from "./interface";
 
-const Acheiev_Profile = () => {
+interface data_interface {
+  other_data: data_of_player | null;
+}
+
+const Acheiev_Profile = ({ other_data }: data_interface) => {
   const if_true = (status: boolean | undefined) => {
     return status === true ? other.true : other.false;
   };
-  const my_data = usePlayer();
 
   const total = [
     {
       id: 1,
       title_achievement: "Win 1 Game",
-      status: my_data.playerData?.win_1_game,
+      status: other_data?.win_1_game,
       path_image: "/Achievements/win_1_game.png",
     },
     {
       id: 2,
       title_achievement: "Win 3 Games",
-      status: my_data.playerData?.win_3_games,
+      status: other_data?.win_3_games,
       path_image: "/Achievements/win_3_game.png",
     },
     {
       id: 3,
       title_achievement: "Win 10 Games",
-      status: my_data.playerData?.win_10_games,
+      status: other_data?.win_10_games,
       path_image: "/Achievements/win_10_game.png",
     },
     {
       id: 4,
       title_achievement: "Win 30 Games",
-      status: my_data.playerData?.win_30_games,
+      status: other_data?.win_30_games,
       path_image: "/Achievements/win_20_game.png",
     },
     {
       id: 5,
       title_achievement: "Reach Level 5",
-      status: my_data.playerData?.reach_level_5,
+      status: other_data?.reach_level_5,
       path_image: "/Achievements/reach_level_5.png",
     },
     {
       id: 6,
       title_achievement: "Reach Level 15",
-      status: my_data.playerData?.reach_level_15,
+      status: other_data?.reach_level_15,
       path_image: "/Achievements/reach_level_15.png",
     },
     {
       id: 7,
       title_achievement: "Reach Level 30",
-      status: my_data.playerData?.reach_level_30,
+      status: other_data?.reach_level_30,
       path_image: "/Achievements/reach_level_30.png",
     },
     {
       id: 8,
       title_achievement: "Perfect Win in Normal Game",
-      status: my_data.playerData?.perfect_win_game,
+      status: other_data?.perfect_win_game,
       path_image: "/Achievements/perfect_win_game.png",
     },
     {
       id: 9,
       title_achievement: "Perfect Win in Tournament",
-      status: my_data.playerData?.perfect_win_tournaments,
+      status: other_data?.perfect_win_tournaments,
       path_image: "/Achievements/perfect_win_tournament.png",
     },
   ];

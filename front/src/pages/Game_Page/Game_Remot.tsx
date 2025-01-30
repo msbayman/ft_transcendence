@@ -64,6 +64,9 @@ function Game_Remot( { id, selectedIds } ) {
 		{ mapPath: "#7F00FF", id: 3, mapName: "violetBall" },
 	  ];
 	  
+	const handleSleep = async () => {
+	await new Promise((resolve) => setTimeout(resolve, 3000));
+	};
 
 	useEffect(() => {
 		console.log("-----> ",  selectedIds);
@@ -78,7 +81,10 @@ function Game_Remot( { id, selectedIds } ) {
 		ws.onmessage = (event) => {
 			const gameState = JSON.parse(event.data);
 			if (gameState.type == "game_end")
+			{
+				handleSleep();
 				navigate("/overview");
+			}
 			else
 			{
 				setGameState({
@@ -132,8 +138,8 @@ function Game_Remot( { id, selectedIds } ) {
 			{/* Table Images */}
 			<img src="/public/table.svg" alt="table background" className="absolute" />
 			<img
-			  src={!selectedIds ? SLIDEBOARDS[0].mapPath : SLIDEBOARDS[selectedIds].mapPath}
-			  alt={!selectedIds ? SLIDEBOARDS[0].mapPath : SLIDEBOARDS[selectedIds.board].mapName}
+			  src={selectedIds?.board !== undefined ? SLIDEBOARDS[selectedIds.board]?.mapPath : SLIDEBOARDS[0].mapPath}
+			  alt={selectedIds?.board !== undefined ? SLIDEBOARDS[selectedIds.board]?.mapName : SLIDEBOARDS[0].mapName}
 			  className={gameState.winner ? "absolute mx-auto top-[120px] blur-sm" : "absolute mx-auto top-[120px]"}
 			/>
   

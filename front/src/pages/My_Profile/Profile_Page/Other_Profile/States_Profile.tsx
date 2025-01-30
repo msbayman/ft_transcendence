@@ -47,8 +47,10 @@ export const States_Profile = () => {
           />
         </div>
         <div className={other.info_table_stats}>
+          <span className={other.win_info}></span>
           <span className={other.text_win}> win</span>
-          <span className={other.text_lose}> Lose</span>
+          <span className={other.lose_info}></span>
+          <span className={other.text_win}> win</span>
         </div>
       </div>
     </div>

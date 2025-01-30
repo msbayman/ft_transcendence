@@ -44,7 +44,7 @@ function Game_challeng() {
     }, [matchData]);
 
     if (startGame) {
-        return <Game_Remot id={matchData.match_id} slectedIds={null} />;
+        return <Game_Remot id={matchData.match_id} selectedIds={null} />;
     }
 
     if (matchData) {

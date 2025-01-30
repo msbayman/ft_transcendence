@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 // import name from "../../assets/name_hold_game.svg";
 // import logo from "../../../public/logo_game.svg";
 // import Game_Tourn from "./Game_Torn";
@@ -17,6 +17,56 @@ function Game_Tourn() {
   const [rplayers, setrPlayers] = useState("");
   const { tournamentState, setTournamentState } = useContext(TournContext);
   const navigate = useNavigate();
+  const location = useLocation();
+  const { selectedIds } = location.state || {};
+
+    const SLIDEBOARDS = [
+      {
+        mapPath: "/public/table_blue.svg",
+        id: 0,
+        mapName: "BlueBoard-Board",
+      },
+      {
+        mapPath: "green_table.svg",
+        id: 1,
+        mapName: "GreenBoard-Board",
+      },
+      {
+        mapPath: "/public/BrownBoard.svg",
+        id: 2,
+        mapName: "brownBoard",
+      },
+      ];
+      
+      const SLIDECUES = [
+      {
+        mapPath: "#2BBDB6",
+        id: 0,
+        mapName: "Cyan-Paddle",
+      },
+      {
+        mapPath: "#24BA26",
+        id: 1,
+        mapName: "Green-Paddle",
+      },
+      {
+        mapPath: "#FB2F98",
+        id: 2,
+        mapName: "N-Blossom-Paddles",
+      },
+      {
+        mapPath: "#7F00FF",
+        id: 3,
+        mapName: "Violet-Paddles",
+      },
+      ];
+      
+      const SLIDEBALLS = [
+      { mapPath: "#FB2F98", id: 0, mapName: "pinkBall" },
+      { mapPath: "#24BA26", id: 1, mapName: "greenBall" },
+      { mapPath: "#2BBDB6", id: 2, mapName: "cyanBall" },
+      { mapPath: "#7F00FF", id: 3, mapName: "violetBall" },
+      ];
 
   const handleSleep = async () => {
     await new Promise((resolve) => setTimeout(resolve, 3000));
@@ -30,7 +80,7 @@ function Game_Tourn() {
       setlPlayers(tournamentState?.p1);
       setrPlayers(tournamentState?.p3);
     }
-    if (!tournamentState?.semi1)
+    if (!tournamentState?.semi2)
     {
       setlPlayers(tournamentState?.p2);
       setrPlayers(tournamentState?.p4);
@@ -180,7 +230,10 @@ const resetBall = () => {
 		  <div className="relative flex justify-center top-[90px] ">
 			{/* Table Images */}
 			<img src="/public/table.svg" alt="table background " className="absolute"/>
-			<img src="/public/table_blue.svg" alt="baorde" className={isPaused || Ballscore.l == 3 || Ballscore.r == 3 ? "absolute mx-auto top-[120px] blur-sm" : "absolute mx-auto top-[120px]"} />
+			<img 
+          src={selectedIds?.board !== undefined ? SLIDEBOARDS[selectedIds.board]?.mapPath : SLIDEBOARDS[0].mapPath}
+          alt={selectedIds?.board !== undefined ? SLIDEBOARDS[selectedIds.board]?.mapName : SLIDEBOARDS[0].mapName}
+       className={isPaused || Ballscore.l == 3 || Ballscore.r == 3 ? "absolute mx-auto top-[120px] blur-sm" : "absolute mx-auto top-[120px]"} />
 
 			{/* Game Elements */}
 			<div className="absolute">
@@ -198,13 +251,17 @@ const resetBall = () => {
 				{/* Left Paddle */}
 				<div
 				  className={isPaused || Ballscore.l == 3 || Ballscore.r == 3  ? "absolute w-[140px] h-[10px] bg-[#0026EB] top-[20px] transition-left duration-100 rounded-lg ease-linear blur-sm" : "absolute w-[140px] h-[10px] bg-[#0026EB] top-[20px] transition-left duration-100 rounded-lg ease-linear"}
-				  style={{ left: paddleLeftPosition }}
+				  style={{ left: paddleLeftPosition ,
+            backgroundColor: !selectedIds ? SLIDECUES[0].mapPath : SLIDECUES[selectedIds.paddel].mapPath 
+          }}
 				></div>
 
 				{/* Right Paddle */}
 				<div
 				  className={isPaused || Ballscore.l == 3 || Ballscore.r == 3 ? "absolute w-[140px] h-[10px] bg-[#FFE500] transition-left bottom-[20px] duration-100 rounded-lg ease-linear blur-sm" : "absolute w-[140px] h-[10px] bg-[#FFE500] transition-left bottom-[20px] duration-100 rounded-lg ease-linear"}
-				  style={{ left: paddleRightPosition }}
+				  style={{ left: paddleRightPosition ,
+            backgroundColor: !selectedIds ? SLIDECUES[0].mapPath : SLIDECUES[selectedIds.paddel].mapPath 
+          }}
 				></div>
 	  
 				{/* Ball */}
@@ -213,6 +270,7 @@ const resetBall = () => {
 				  style={{
 					top: ballPosition.top,
 					left: ballPosition.left,
+          backgroundColor: !selectedIds ? SLIDEBALLS[0].mapPath : SLIDEBALLS[selectedIds.ball].mapName
 				  }}
 				></div>
 			  </div>

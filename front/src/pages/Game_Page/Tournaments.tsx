@@ -1,7 +1,6 @@
-import React from "react";
 import { useContext, useState, useEffect } from 'react';
 import { usePlayer } from "../My_Profile/PlayerContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { TournContext } from './TournContext';
 // import { ToastContainer, toast } from 'react-toastify';
 
@@ -10,6 +9,8 @@ const Tournaments = () => {
 	const { tournamentState, setTournamentState } = useContext(TournContext);
   	const navigate = useNavigate();
   	const [time, setTime] = useState(10);
+	const location = useLocation();
+	const { selectedIds } = location.state || {};
 
   	useEffect(() => {
 		if (time <= 0)
@@ -23,7 +24,7 @@ const Tournaments = () => {
 	}, [time]);
 
 	const goTogame = () => {
-		navigate("/tourn_game");
+		navigate("/tourn_game", {state: {selectedIds} });
 	  };
 
 	const goToover = () => {
@@ -204,7 +205,6 @@ const Tournaments = () => {
 		  </div>
 
 		  {/* -------------------------------------------------->>> part3 button*/}
-
 		   
 		</div>
 	  </div>	

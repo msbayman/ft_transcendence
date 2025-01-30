@@ -13,6 +13,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='player',
             name='cover_image',
-            field=models.ImageField(default='cover_pictures/Cover_Picture_1.png', upload_to='cover_pictures/'),
+            field=models.ImageField(default='cover_pictures/cover_picture_1.png', upload_to='cover_pictures/'),
         ),
     ]

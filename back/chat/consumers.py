@@ -135,13 +135,13 @@ class NotifConsumer(AsyncJsonWebsocketConsumer):
 
     async def add_user_to_online_list(self):
         await self.channel_layer.group_add(
-            f"user_{self.user.id}_notifications", 
+            f"user_{self.user.id}_notifications",
             self.channel_name
         )
     
     async def remove_user_from_online_list(self):
         await self.channel_layer.group_discard(
-            f"user_{self.user.id}_notifications", 
+            f"user_{self.user.id}_notifications",
             self.channel_name
         )
 

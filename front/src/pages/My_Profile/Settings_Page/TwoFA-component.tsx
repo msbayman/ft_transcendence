@@ -1,5 +1,5 @@
 import "./Settings_Page.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import React from "react";
 import { styled } from "@mui/material/styles";
 import Dialog from "@mui/material/Dialog";
@@ -9,6 +9,7 @@ import { ChangeEvent, useRef } from "react";
 import { usePlayer } from "../PlayerContext";
 import axios from "axios";
 import Cookies from "js-cookie";
+import toast from "react-hot-toast";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
@@ -31,12 +32,10 @@ function TFA({
   setChecked,
   checked,
   email,
-  username,
 }: {
   setChecked: React.Dispatch<React.SetStateAction<boolean>>;
   checked: boolean;
   email: string;
-  username: string;
 }) {
   const [otp, setOtp] = useState<string[]>(Array(6).fill(""));
   const [open, setOpen] = useState<boolean>(false);
@@ -76,9 +75,7 @@ function TFA({
     status: boolean;
   }
 
-  const handleClickOpen = async ({
-    status,
-  }: HandleClickOpenProps): Promise<void> => {
+  const handleClickOpen = async (): Promise<void> => {
     setOpen(true);
 
     try {
@@ -89,14 +86,10 @@ function TFA({
         throw new Error("No access token found.");
       }
 
-      console.log(data.playerData?.username);
-      console.log(status);
-
-      const response = await axios.post( // line: 95
-        "https://localhost:443/api/user_auth/VerifyOTPSettings/",
+      const response = await axios.post(
+        "https://localhost:443/api/user_auth/SendOtpForSettings",
         {
           username: data.playerData?.username,
-          state: status,
         },
         {
           headers: {
@@ -116,15 +109,21 @@ function TFA({
     }
   };
   const resendCode = async (): Promise<void> => {
+    setOpen(true);
+
     try {
       const token = Cookies.get("access_token");
 
       if (!token) {
+        console.log("No access token found.");
         throw new Error("No access token found.");
       }
 
-      const respone = await axios.post(
-        "https://localhost:443/api/user_auth/resend_otp",
+      const response = await axios.post(
+        "https://localhost:443/api/user_auth/SendOtpForSettings",
+        {
+          username: data.playerData?.username,
+        },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -133,12 +132,12 @@ function TFA({
         }
       );
 
-      if (respone.status === 200) {
-        setError("OTP resent successfully!");
+      if (response.status === 200) {
+        setError(response.data.message);
         setTimeout(() => setError(null), 3000);
       }
-    } catch (err) {
-      setError("Failed to resend code");
+    } catch (err: any) {
+      setError(err.response?.data?.detail || "Failed to send OTP");
       setTimeout(() => setError(null), 3000);
     }
   };
@@ -154,9 +153,10 @@ function TFA({
     setOpen(false);
   };
 
-  const checkOtpCode = async (): Promise<void> => {
+  const checkOtpCode = async ({
+    status,
+  }: HandleClickOpenProps): Promise<void> => {
     const otpString = otp.join("");
-    console.log(otpString);
     if (otpString.length !== 6) {
       setError("Invalid OTP code");
       setChecked(false);
@@ -165,18 +165,29 @@ function TFA({
     }
 
     try {
-      console.log("Start A");
+      const token = Cookies.get("access_token");
+
+      if (!token) {
+        console.log("No access token found.");
+        throw new Error("No access token found.");
+      }
       const response = await axios.post(
-        "https://localhost:443/api/user_auth/VerifyOTP",
+        "https://localhost:443/api/user_auth/VerifyOTPSettings",
         {
-          username: username,
+          username: data.playerData?.username,
           otp: otpString,
+          state: status,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
         }
       );
-      console.log("this is respone ", response);
       if (response.status === 200) {
-        setError("Verification successful!");
-        setChecked(true);
+        toast.success("Verification successful!");
+        setChecked((prev) => (prev === true ? false : true));
         setTimeout(() => setError(null), 3000);
         handleClose();
       }
@@ -187,13 +198,18 @@ function TFA({
     }
   };
 
+  const Deactivate: string =
+    "cursor-pointer border-[2px] p-2 rounded-md relative top-3 transition-transform duration-200 ease-in-out hover:scale-105 hover:bg-red-500 hover:text-white";
+  const Activate: string =
+    "cursor-pointer border-[2px] p-2 rounded-md relative top-3 transition-transform duration-300 ease-in-out hover:scale-105 hover:bg-[#28a745] hover:text-white";
+  const if_true = (status: boolean) => {
+    return !status ? Activate : Deactivate;
+  };
+
   return (
     <React.Fragment>
-      <h4
-        onClick={() => handleClickOpen({ status: checked })} // line: 193
-        className="cursor-pointer border relative top-4 rounded-lg p-2 hover:bg-[#abe8df47]"
-      >
-        Activate Two-factor authentication (2FA)
+      <h4 onClick={() => handleClickOpen()} className={`${if_true(checked)}`}>
+        {checked ? "Deactivate [2FA]" : "Activate [2FA]"}
       </h4>
       <BootstrapDialog
         onClose={handleClose}
@@ -205,16 +221,16 @@ function TFA({
       >
         <DialogContent
           dividers
-          className="rounded-[42px] bg-white grid grid-cols-1 relative "
+          className="rounded-[42px] bg-white grid grid-cols-1 relative"
         >
-          <h1 className="font-manjari text-2xl relative bottom-5 flex right-3 justify-center">
+          <h1 className="font-manjari text-2xl relative bottom-2 flex right-3 justify-center">
             Verify Code
           </h1>
-          <div className="flex justify-center items-center relative bottom-[2rem] text-lg font-manjari">
+          <div className="flex justify-center items-center relative bottom-[1rem] text-lg font-manjari">
             <h4>Code has been sent to</h4>
             <h4 className="text-xl font-bold ">&nbsp;{email}</h4>
           </div>
-          <div className="flex justify-center items-center">
+          <div className="flex justify-center items-center relative top-[1rem]">
             {otp.map((digit, index) => (
               <TextField
                 onPaste={(e) => handlePaste(e.clipboardData.getData("text"))}
@@ -228,23 +244,24 @@ function TFA({
                   style: {
                     textAlign: "center",
                     color: "black",
-                    fontSize: "45px",
+                    fontSize: "46px",
                     fontWeight: "bold",
                     fontFamily: "Manjari",
                     position: "relative",
-                    top: "7px",
+                    bottom: "8px",
                     width: "59px",
                   },
                 }}
                 variant="outlined"
                 sx={{
-                  width: "59px",
+                  width: "69px",
                   position: "relative",
-                  bottom: "1.8rem",
-                  margin: "0 5px",
+                  bottom: "1.3rem",
+                  margin: "0 6px",
                   "& .MuiOutlinedInput-root": {
                     "& fieldset": {
                       borderColor: "#3C0CAB",
+                      height: "75px",
                       borderRadius: "9px",
                       borderWidth: "2px",
                     },
@@ -261,7 +278,7 @@ function TFA({
           </div>
           {error && (
             <div
-              className={`text-center mb-4 ${
+              className={`text-center absolute top-[55%] left-[37%] ${
                 error.includes("success") ? "text-green-600" : "text-red-600"
               }`}
             >
@@ -287,7 +304,7 @@ function TFA({
             <h4
               className="cursor-pointer text-2xl text-white font-manjari relative top-[4px]"
               onClick={() => {
-                checkOtpCode();
+                checkOtpCode({ status: checked });
                 setTimeout(() => {}, 3000);
               }}
             >
@@ -301,14 +318,52 @@ function TFA({
 }
 
 function TwoFA_Component() {
-  const [checked, setChecked] = useState(false);
-
   const data = usePlayer();
+  const [checked, setChecked] = useState<boolean>(false);
+  const [isInitialized, setIsInitialized] = useState<boolean>(false);
+
+  useEffect(() => {
+    const fetchAndSetInitialState = async () => {
+      try {
+        const token = Cookies.get("access_token");
+        if (!token) {
+          console.log("No access token found.");
+          return;
+        }
+
+        const response = await axios.get(
+          "https://localhost:443/api/user_auth/get2FAStatus",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        if (response.status === 200) {
+          setChecked(response.data.is2FAEnabled);
+          setIsInitialized(true);
+        }
+      } catch (error) {
+        console.error("Failed to fetch 2FA status:", error);
+        // Fallback to context data if API fails
+        setChecked(data.playerData?.active_2fa ?? false);
+        setIsInitialized(true);
+      }
+    };
+
+    if (!isInitialized) {
+      fetchAndSetInitialState();
+    }
+  }, [data.playerData?.active_2fa, isInitialized]);
 
   return (
     <>
       <div className="relative right-[22%]">
-        <h4 className="relative font-size mt-[1.6rem] ">Two-Factor Authentication (2FA)</h4>
+        <h4 className="relative font-size mt-[1.6rem] ">
+          Two-Factor Authentication (2FA)
+        </h4>
       </div>
       <div className="TwoFA">
         <p className="description">
@@ -322,7 +377,6 @@ function TwoFA_Component() {
             setChecked={setChecked}
             checked={checked}
             email={data.playerData?.email ?? ""}
-            username={data.playerData?.username ?? ""}
           />
           {checked ? (
             <div className="flex items-center justify-center text-green-400 relative top-1">
