@@ -14,7 +14,7 @@ class Player(AbstractUser):
     active_2fa = models.BooleanField(default=True)  # 2FA status
     is_validate = models.BooleanField(default=False)
     profile_image = models.ImageField(upload_to='profile_images/', default='profile_images/default_profile.jpeg')
-    cover_image = models.ImageField(upload_to='cover_pictures/', default='cover_pictures/cover_picture_1.png')
+    cover_image = models.ImageField(upload_to='cover_pictures/', default='cover_pictures/Cover_Picture_1.png')
     points = models.IntegerField(default=0)
     is_online = models.BooleanField(default=False)
     level = models.IntegerField(default=0)
@@ -37,6 +37,7 @@ class Player(AbstractUser):
 
     def is_blocked(self, user):
         return self.blocked_users.filter(pk=user.pk).exists()
+        
     ####################################################################
 
     win_1_game = models.BooleanField(default=False)

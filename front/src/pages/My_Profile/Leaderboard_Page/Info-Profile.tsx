@@ -16,7 +16,7 @@ const Info_Profile = () => {
 
   const percentage_exp = (points: number | undefined, level: number | undefined) => {
     if (points == undefined || level == undefined) return 0;
-    const result = (points / level) * 100;
+    const result = (points / 1000) * 100;
     return result;
   };
 

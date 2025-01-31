@@ -139,34 +139,20 @@ class GameConsumer(AsyncWebsocketConsumer):
         game_state = room["game_state"]
 
         if game_state["winner"]:
-            await self.broadcast_end_game(game_state)
-        else:
-            if room['players']['up'] == self.user:
-                game_state["winner"] = room['players']['down'].username if room['players']['down'] else None
-                game_state["score"]["p2"] = 3
-                game_state["score"]["p1"] = 0
-            elif room['players']['down'] == self.user:
-                game_state["winner"] = room['players']['up'].username if room['players']['up'] else None
-                game_state["score"]["p1"] = 3
-                game_state["score"]["p2"] = 0
 
-            await self.update_match_score(game_state["score"]["p1"], game_state["score"]["p2"])
-            await self.broadcast_end_game(game_state)
-
-        if game_state["winner"]:
             winner = await Player.objects.aget(username=game_state["winner"])
-            loser = self.user
+            loser = await Player.objects.aget(username=self.user.username) 
 
             winner.total_games += 1
             winner.win_games += 1
             winner.points += 300
-            winner.level = math.floor(winner.points / 1000 ) + 1
-            print('--------------------------------')
-            await winner.asave()
+            winner.level = math.floor( winner.points / 1000 ) + 1
+            print(f"winner is: {winner.username} and he won {winner.points} and his level is : {winner.level}")
 
             loser.total_games += 1
             loser.lose_games += 1
-            await loser.asave()
+            loser.level = math.floor( loser.points / 1000 ) + 1
+            print(f"loser is: {loser.username} and he lose with {loser.points} and his level is : {loser.level}")
 
             if winner.win_games == 1:
                 winner.win_1_game = True
@@ -184,7 +170,25 @@ class GameConsumer(AsyncWebsocketConsumer):
                 winner.reach_level_30 = True
             if game_state["score"]["p2"] == 0:
                 winner.perfect_win_game = True
+
+
+            await loser.asave()
             await winner.asave()
+
+            await self.broadcast_end_game(game_state)
+        else:
+            if room['players']['up'] == self.user:
+                game_state["winner"] = room['players']['down'].username if room['players']['down'] else None
+                game_state["score"]["p2"] = 3
+                game_state["score"]["p1"] = 0
+            elif room['players']['down'] == self.user:
+                game_state["winner"] = room['players']['up'].username if room['players']['up'] else None
+                game_state["score"]["p1"] = 3
+                game_state["score"]["p2"] = 0
+
+            await self.update_match_score(game_state["score"]["p1"], game_state["score"]["p2"])
+            await self.broadcast_end_game(game_state)
+
 
         await self.channel_layer.group_discard(self.room_group_name, self.channel_name)
 
