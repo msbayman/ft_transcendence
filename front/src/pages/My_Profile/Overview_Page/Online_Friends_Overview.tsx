@@ -2,15 +2,12 @@ import { usePlayer } from "../PlayerContext";
 import "./Online_Friends_Overview.css";
 import { useNavigate } from "react-router-dom";
 
-
-
-
 const Online_Friends_Overview = () => {
   const { onlineFriends } = usePlayer();
   const navigate = useNavigate();
 
-  const to_message = () => {
-    navigate("/Friends");
+  const to_message = (username:string) => {
+    navigate(`/Friends?user=${username}`);
   };
 
   const to_play = () => {
@@ -35,7 +32,7 @@ const Online_Friends_Overview = () => {
                 <span className="User_name">{friend.username}</span>
                 <div className="click">
                   <div className="hove_contain">
-                    <button onClick={to_message}>
+                    <button onClick={() => to_message(friend.username || "")}>
                       <img src="/public/Icones/Message_to_User.svg" className="img_siz" alt="Message" />
                       <span className="hove">Message</span>
                     </button>

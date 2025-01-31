@@ -44,14 +44,14 @@ function Overview() {
       const handleWebSocketMessage = (event: MessageEvent) => {
         try {
           const data = JSON.parse(event.data);
-         
           if (data.type === "challenge_accepted") {
-            navigate('/Game_challeng', { state: { challenged: data.reciver, challenger:data.sender} });
+            console.log("data is :", data)
+            navigate('/Game_challeng', { state: { challenged: data.receiver, challenger:data.sender} });
           }
           if (data.type === "challenge_notification") {
             const notificationWithId = { 
               ...data, 
-              id: Date.now().toString() // Ensure unique ID
+              id: Date.now().toString()
             };
             setNotifications((prev) => [...prev, notificationWithId]);
           }

@@ -82,7 +82,7 @@ class NotifConsumer(AsyncJsonWebsocketConsumer):
             {
                 "type": "challenge_accepted",
                 "sender": self.user.username,
-                "receiver": challenger.username,
+                "receiver": self.challenger.username,
                 "content": f"{self.user.username} has accepted your challenge!",
                 "profile_image": profile_image,
             }
