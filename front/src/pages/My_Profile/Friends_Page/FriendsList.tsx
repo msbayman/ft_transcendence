@@ -12,10 +12,27 @@ interface Friend {
   timestamp: string;
 }
 
+interface LastMessage {
+  content: string;
+}
+
+interface User2 {
+  username: string;
+  profile_image: string;
+}
+
+interface ChatData {
+  user2: User2;
+  last_message: LastMessage;
+  timestamp: string;
+}
+
+
+
 interface OnlineFriends {
   id: string;
-  name: string;
-  avatar: string;
+  username: string;
+  profile_image: string;
 }
 
 interface SelectedUser {
@@ -28,63 +45,79 @@ const FriendsList: React.FC<SelectedUser> = ({ onClick }) => {
   const { messages } = useWebSocket();
   const token = Cookies.get("access_token");
   
-  const fetchLastMessages = async () => {
-    try {
-      const response = await axios.get(
-        "https://localhost/api/chat/last-message/",
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
-      const lastMessages = response.data;
-      setFriends(
-        lastMessages.map((user: any, index: number) => ({
-          id: index.toString(),
-          name: user.user2.username,
-          avatar: user.user2.profile_image.replace("http://","https://"),
-          content: user.last_message.content.length > 10 
-          ? user.last_message.content.substring(0, 10) + '...' 
-          : user.last_message.content,
-          timestamp: user.timestamp,
-        }))
-      );
-    } catch (error) {
-      console.error("Error fetching last messages:", error);
-    }
-  };
 
-  const fetchOnlineFriends = async () => {
-    try {
-      const response = await axios.get(
-        "https://localhost/api/chat/api/users/",
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
-      const onlineUsersList = response.data;
-      setOnlineFriends(
-        onlineUsersList.map((user: any, index: number) => ({
-          id: index.toString(),
-          name: user.username,
-          avatar: user.profile_image.replace("http://","https://"),
-        }))
-      );
-    } catch (error) {
-      console.error("Error fetching online friends:", error);
-    }
-  };
 
-  useEffect(() => {
-    fetchLastMessages();
-    fetchOnlineFriends();
-  }, []);
+useEffect(() => {
+    const fetchOnlineFriends = async () => {
+      try {
+        const response = await axios.get<[OnlineFriends]>(
+          "https://localhost/api/chat/api/users/",
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+        const onlineUsersList = response.data;
+        setOnlineFriends(
+          onlineUsersList.map((user: OnlineFriends, index: number) => ({
+            id: index.toString(),
+            username: user.username,
+            profile_image: user.profile_image.replace("http://","https://"),
+          }))
+        );
+      } catch (error) {
+        console.error("Error fetching online friends:", error);
+      }
+    };
+    fetchOnlineFriends()
+  }, [messages, token]);
 
 
   useEffect(() => {
+    const fetchLastMessages = async () => {
+      try {
+        const response = await axios.get<ChatData[]>(
+          "https://localhost/api/chat/last-message/",
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+        
+        const lastMessages = response.data;
+        
+        setFriends(
+          lastMessages.map((user: ChatData, index: number) => ({
+            id: index.toString(),
+            name: user.user2.username,
+            avatar: user.user2.profile_image.replace("http://", "https://"),
+            content:
+              user.last_message.content.length > 10
+                ? user.last_message.content.substring(0, 10) + "..."
+                : user.last_message.content,
+            timestamp: user.timestamp,
+          }))
+        );
+      } catch (error) {
+        console.error("Error fetching last messages:", error);
+      }
+    };
+    fetchLastMessages()
     if (messages.length > 0) {
       fetchLastMessages();
     }
-  }, [messages]);
+  }, [token, messages]);
+
+
+  // useEffect(() => {
+  //   fetchLastMessages();
+  //   fetchOnlineFriends();
+  // }, []);
+
+
+  // useEffect(() => {
+  //   if (messages.length > 0) {
+  //     fetchLastMessages();
+  //   }
+  // }, [messages]);
 
   const handleClick = (friendName: string) => {
     onClick(friendName);
@@ -121,15 +154,15 @@ const FriendsList: React.FC<SelectedUser> = ({ onClick }) => {
             >
               <div
                 className="relative"
-                onClick={() => handleClick(friend.name)}
+                onClick={() => handleClick(friend.username)}
               >
                 <img
-                  src={friend.avatar.replace("http://","https://")}
-                  alt={friend.name}
+                  src={friend.profile_image.replace("http://","https://")}
+                  alt={friend.username}
                   className="w-12 h-12 rounded-full"
                 />
               </div>
-              <span className="text-sm mt-1">{friend.name}</span>
+              <span className="text-sm mt-1">{friend.username}</span>
             </button>
           ))}
         </div>

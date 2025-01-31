@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext, useRef } from "react";
+import React, { createContext, useState, useContext, useRef, useCallback } from "react";
 import Cookies from "js-cookie";
 import Alert from '@mui/material/Alert';
 import { usePlayer } from '../PlayerContext';
@@ -32,12 +32,15 @@ export const WebSocketProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   const [blockedMessage, setBlockedMessage] = useState('');
   const currentUser = PlayerInstance.playerData?.username
 
-  const connect = (url: string) => {
+  const connect = useCallback ((url: string) => {
     if (websocketRef.current?.readyState === WebSocket.OPEN) return;
 
     const token = Cookies.get("access_token");
     const wsUrl = `${url}?token=${token}`;
     const ws = new WebSocket(wsUrl);
+    ws.onopen = () => {
+      console.log("chat ws connected")
+    }
 
     ws.onmessage = (event) => {
       try {
@@ -79,14 +82,14 @@ export const WebSocketProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     };
 
     websocketRef.current = ws;
-  };
+  }, [currentUser]);
 
-  const disconnect = () => {
+  const disconnect = useCallback( () => {
     if (websocketRef.current) {
       console.log("chat WebSocket Disconnected");
       websocketRef.current.close();
     }
-  };
+  }, []);
 
   const sendMessage = (message: { username: string; message: string }) => {
     if (websocketRef.current?.readyState === WebSocket.OPEN) {
