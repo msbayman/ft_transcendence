@@ -143,7 +143,9 @@ export const Recent_Game = () => {
               </div>
             ))
           ) : (
-            <div className="text-white text-center py-4">No matches found.</div>
+            <div className="flex gap-[10px] justify-center items-center text-white text-center py-4">
+              <img className="w-[20px] h-[20px]" src="/Navbar/No.png" alt="" />
+              No matches found.</div>
           )}
         </div>
       </div>
