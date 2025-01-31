@@ -15,9 +15,6 @@ class GameConsumer(AsyncWebsocketConsumer):
         self.user = self.scope['user']
         self.room_name = self.scope["url_route"]["kwargs"]["id"]
 
-        if self.room_name.startswith("tournament_"):
-            self.tourn_game[self.user.username] = self.room_name
-
         self.room_group_name = f'game_{self.room_name}'
 
         if not self.is_part_of_the_game(self.user, self.room_name):
@@ -81,8 +78,7 @@ class GameConsumer(AsyncWebsocketConsumer):
             print(self.user)
             if room['players']['down'] == self.user:
                 self.game_task = asyncio.create_task(self.game_loop())
-                self.game_task.add_done_callback(self.call_back) # del
-    
+                self.game_task.add_done_callback(self.call_back)
 
     async def is_part_of_the_game(self, name, id):
         try:
@@ -126,38 +122,36 @@ class GameConsumer(AsyncWebsocketConsumer):
             print(f"Error saving match score: {e}")
 
     async def disconnect(self, close_code):
-        print(f"player {self.user.username} desconnect")
+        print(f"player {self.user.username} disconnected")
+
         if self.user.username in self.act_ply:
             del self.act_ply[self.user.username]
+
         if not self.rooms.get(self.room_name):
             return
 
         room = self.rooms[self.room_name]
+        game_state = room["game_state"]
 
-        if room['players']['up'] == self.user:
-            await self.update_match_score(3, 0)
-            room['players']['up'] = None
-        elif room['players']['down'] == self.user:
-            await self.update_match_score(0, 3)
-            room['players']['down'] = None
+        if game_state["winner"]:
+            await self.broadcast_end_game(game_state)
+        else:
+            if room['players']['up'] == self.user:
+                game_state["winner"] = room['players']['down'].username if room['players']['down'] else None
+                game_state["score"]["p2"] = 3
+                game_state["score"]["p1"] = 0
+            elif room['players']['down'] == self.user:
+                game_state["winner"] = room['players']['up'].username if room['players']['up'] else None
+                game_state["score"]["p1"] = 3
+                game_state["score"]["p2"] = 0
 
-        await self.channel_layer.group_send(
-            self.room_group_name,
-            {
-                "type": "game_end",
-                "winner": room["game_state"]["winner"],
-                "score": room["game_state"]["score"],
-            }
-        )
+            await self.update_match_score(game_state["score"]["p1"], game_state["score"]["p2"])
+            await self.broadcast_end_game(game_state)
 
-        await self.channel_layer.group_discard(
-            self.room_group_name,
-            self.channel_name,
-        )
+        await self.channel_layer.group_discard(self.room_group_name, self.channel_name)
 
         if not any(room['players'].values()):
             del self.rooms[self.room_name]
-
 
     async def receive(self, text_data):
         room = self.rooms[self.room_name]
@@ -233,7 +227,7 @@ class GameConsumer(AsyncWebsocketConsumer):
             await self.reset_ball()
             if game_state["score"]["p2"] == 3:
                 game_state["winner"] = room["players"]["down"].username
-                await self.update_match_score(game_state["score"]["p1"], game_state["score"]["p2"])
+            await self.update_match_score(game_state["score"]["p1"], game_state["score"]["p2"])
 
         # bott player scores
         if ball_y > 725:
@@ -241,7 +235,7 @@ class GameConsumer(AsyncWebsocketConsumer):
             await self.reset_ball()
             if game_state["score"]["p1"] == 3:
                 game_state["winner"] = room["players"]["up"].username
-                await self.update_match_score(game_state["score"]["p1"], game_state["score"]["p2"])
+            await self.update_match_score(game_state["score"]["p1"], game_state["score"]["p2"])
 
 
     async def reset_ball(self):

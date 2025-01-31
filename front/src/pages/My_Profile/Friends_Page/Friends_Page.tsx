@@ -40,7 +40,6 @@ const Friends_Page_Content: React.FC = () => {
   }, []);
 
   const handleUser = (newUser: string) => {
-    console.log("Setting new user:", newUser);
     setUser(newUser);
   };
 

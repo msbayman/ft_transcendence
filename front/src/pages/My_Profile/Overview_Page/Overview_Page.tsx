@@ -35,8 +35,6 @@ export const Overview_Page: React.FC = () => {
   const Onclick = () => {
     navigate("/Play");
   };
-  // console.log('the cover image is : ', dataPlayer.playerData?.cover_image.replace("http://","https://"));
-  // console.log('the profile image is : ', dataPlayer.playerData?.profile_image.replace("http://","https://"));
   return (
     <div className="Overview_Page">
       <div className="Part_1">

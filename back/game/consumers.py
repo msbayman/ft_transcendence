@@ -10,9 +10,16 @@ class ChalleConsumer(AsyncWebsocketConsumer):
 
     async def connect(self):
         self.user = self.scope["user"]
-        if not self.user.is_authenticated:  
+        self.ply = self.scope["url_route"]["kwargs"]["id"].split("+")
+        
+        if not self.user.is_authenticated:
             await self.close()
             return
+        
+        if not self.user.username in self.ply:
+            await self.close()
+            return 
+        
         if self.user in self.players:
             await self.close()
             return
@@ -136,7 +143,7 @@ class MatchMakingConsumer(AsyncWebsocketConsumer):
     @database_sync_to_async
     def get_player_data(self, player):
         return {
-            "username": player.full_name,
+            "username": player.username,
             "email": player.email,
             "profile_image": player.profile_image.url if player.profile_image else None,
             "points": player.points,

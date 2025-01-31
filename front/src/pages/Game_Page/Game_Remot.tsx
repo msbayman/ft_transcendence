@@ -63,10 +63,7 @@ function Game_Remot( { id, selectedIds } ) {
 		{ mapPath: "#2BBDB6", id: 2, mapName: "cyanBall" },
 		{ mapPath: "#7F00FF", id: 3, mapName: "violetBall" },
 	  ];
-	  
-	const handleSleep = async () => {
-	await new Promise((resolve) => setTimeout(resolve, 3000));
-	};
+	var timer: number | undefined = undefined;
 
 	useEffect(() => {
 		const token = Cookies.get("access_token");
@@ -76,13 +73,15 @@ function Game_Remot( { id, selectedIds } ) {
 			console.log("Connected to WebSocket");
 			setSocket(ws);
 		};
-
+		
+	
 		ws.onmessage = (event) => {
 			const gameState = JSON.parse(event.data);
 			if (gameState.type == "game_end")
 			{
-				handleSleep();
-				navigate("/overview");
+				timer = setTimeout(() => {
+					navigate("/overview");
+				  }, 2000);
 			}
 			else
 			{
@@ -111,7 +110,7 @@ function Game_Remot( { id, selectedIds } ) {
 
 		ws.onclose = () => console.log("WebSocket closed");
 
-		return () => {if (ws) ws.close()}
+		return () => {if (ws) ws.close(); clearTimeout(timer);}
 	}, []);
 
 	const handleKeyPress = (event: KeyboardEvent) => {
@@ -132,7 +131,7 @@ function Game_Remot( { id, selectedIds } ) {
 
 	return (
 	  <>
-		<div className="bg-[url('/public/background.png')] bg-cover bg-center h-screen w-full">
+		<div className="bg-[url('/background.png')] bg-cover bg-center h-screen w-full">
 		  <div className="relative flex justify-center top-[90px]">
 			{/* Table Images */}
 			<img src="/public/table.svg" alt="table background" className="absolute" />
@@ -181,7 +180,7 @@ function Game_Remot( { id, selectedIds } ) {
   
 			{/* Player Info */}
 			<div className="absolute flex justify-center top-[30px] w-full px-4">
-			  <div className="relative bg-[url('/public/name_hold_game.svg')] h-[70px] w-[250px] bg-cover bg-center transform scale-x-[-1] flex justify-center items-center">
+			  <div className="relative bg-[url('/name_hold_game.svg')] h-[70px] w-[250px] bg-cover bg-center transform scale-x-[-1] flex justify-center items-center">
 				<p className="absolute text-white text-4xl transform scale-x-[-1] font-luckiest right-[25px]">
 				  {gameState.side.up}
 				</p>
@@ -192,7 +191,7 @@ function Game_Remot( { id, selectedIds } ) {
 			  <div className="flex justify-items-center">
 				<img src="/public/logo_game.svg" alt="logo" />
 			  </div>
-			  <div className="relative bg-[url('/public/name_hold_game.svg')] h-[70px] w-[250px] bg-cover bg-center flex justify-center items-center">
+			  <div className="relative bg-[url('/name_hold_game.svg')] h-[70px] w-[250px] bg-cover bg-center flex justify-center items-center">
 				<p className="absolute text-white text-4xl font-luckiest right-[25px]">
 				{gameState.side.down}
 				</p>

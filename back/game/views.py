@@ -1,13 +1,29 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.generics import ListAPIView
 from rest_framework import status
-
 from .models import Match
 from .serializer import MatchSerializer
-
 from .serializer import PlayerSerializer
 from user_auth.models import Player
+from .serializer import MatchHistorySerializer
+from django.db.models import Q
+from django.http import Http404
+
+class UserMatchHistoryView(ListAPIView):
+    serializer_class = MatchHistorySerializer
+    permission_classes = []
+    # authentication_classes = [JWTAuthentication]
+
+    def get_queryset(self):
+        try:
+            username = self.kwargs.get('username')
+            return Match.objects.filter(
+                Q(player1=username) | Q(player2=username)
+            ).order_by('-date')
+        except Exception as e:
+            raise Http404("this given username not found")
 
 @api_view(['GET'])
 def get_username_for_players(request):

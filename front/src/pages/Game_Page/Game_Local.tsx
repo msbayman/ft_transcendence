@@ -115,7 +115,7 @@ useEffect(() => {
     if (Ballscore.l === 5 || Ballscore.r === 5) {
       clearInterval(interval);
       handleSleep();
-      navigate("/Overview");
+      // navigate("/Overview");
       return ;
     }
 
@@ -225,7 +225,7 @@ const resetBall = () => {
 				  style={{
 					top: ballPosition.top,
 					left: ballPosition.left,
-          backgroundColor: SLIDEBALLS[selectedIds.ball].mapName
+          backgroundColor: SLIDEBALLS[selectedIds.ball].mapPath
 				  }}
 				></div>
 			  </div>
