@@ -13,51 +13,52 @@ function Game_Local() {
   const navigate = useNavigate();
 
   const SLIDEBOARDS = [
-    {
-      mapPath: "/public/table_blue.svg",
-      id: 0,
-      mapName: "BlueBoard-Board",
-    },
-    {
-      mapPath: "/public/green_table.svg",
-      id: 1,
-      mapName: "GreenBoard-Board",
-    },
-    {
-      mapPath: "/public/BrownBoard.svg",
-      id: 2,
-      mapName: "brownBoard",
-    },
-  ];
-  
-  const SLIDECUES = [
-    {
-      mapPath: "red",
-      id: 0,
-      mapName: "red-Cue",
-    },
-    {
-      mapPath: "blue",
-      id: 1,
-      mapName: "blue-Cue",
-    },
-    {
-      mapPath: "green",
-      id: 2,
-      mapName: "green-Cue",
-    },
-    {
-      mapPath: "black",
-      id: 3,
-      mapName: "black-Cue",
-    },
-  ];
-  
-  const SLIDEBALLS = [
-    { mapPath: "red", id: 0, mapName: "red" },
-    { mapPath: "green", id: 1, mapName: "green" },
-    { mapPath: "yellow", id: 2, mapName: "yellow" },
-  ];
+		{
+		  mapPath: "/public/table_blue.svg",
+		  id: 0,
+		  mapName: "BlueBoard-Board",
+		},
+		{
+		  mapPath: "green_table.svg",
+		  id: 1,
+		  mapName: "GreenBoard-Board",
+		},
+		{
+		  mapPath: "/public/BrownBoard.svg",
+		  id: 2,
+		  mapName: "brownBoard",
+		},
+	  ];
+	  
+	  const SLIDECUES = [
+		{
+		  mapPath: "#2BBDB6",
+		  id: 0,
+		  mapName: "Cyan-Paddle",
+		},
+		{
+		  mapPath: "#24BA26",
+		  id: 1,
+		  mapName: "Green-Paddle",
+		},
+		{
+		  mapPath: "#FB2F98",
+		  id: 2,
+		  mapName: "N-Blossom-Paddles",
+		},
+		{
+		  mapPath: "#7F00FF",
+		  id: 3,
+		  mapName: "Violet-Paddles",
+		},
+	  ];
+	  
+	  const SLIDEBALLS = [
+		{ mapPath: "#FB2F98", id: 0, mapName: "pinkBall" },
+		{ mapPath: "#24BA26", id: 1, mapName: "greenBall" },
+		{ mapPath: "#2BBDB6", id: 2, mapName: "cyanBall" },
+		{ mapPath: "#7F00FF", id: 3, mapName: "violetBall" },
+	  ];
   
 
 
@@ -114,7 +115,7 @@ useEffect(() => {
     if (Ballscore.l === 5 || Ballscore.r === 5) {
       clearInterval(interval);
       handleSleep();
-      navigate("/Overview");
+      // navigate("/Overview");
       return ;
     }
 
@@ -224,7 +225,7 @@ const resetBall = () => {
 				  style={{
 					top: ballPosition.top,
 					left: ballPosition.left,
-          backgroundColor: SLIDEBALLS[selectedIds.ball].mapName
+          backgroundColor: SLIDEBALLS[selectedIds.ball].mapPath
 				  }}
 				></div>
 			  </div>

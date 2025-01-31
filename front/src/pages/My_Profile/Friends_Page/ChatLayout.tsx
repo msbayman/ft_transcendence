@@ -78,7 +78,7 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
         setIsBlock(false);
       }
     } catch (error) {
-      console.log("Error:", error);
+      console.error("Error:", error);
     }
   };
   useEffect(() => {
@@ -94,9 +94,7 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
             },
           }
         );
-        console.log("player profile pic: ", response.data.profile_image)
         if (response.status === 200) {
-          console.log("player profile pic: ", response.data.profile_image)
           setPlayerInfo({
             ...response.data,
             profile_image: response.data.profile_image.replace(

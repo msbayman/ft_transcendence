@@ -1,8 +1,11 @@
+
 import json
 from channels.generic.websocket import AsyncWebsocketConsumer
 from channels.db import database_sync_to_async
 import asyncio
 from .models import Match
+from user_auth.models import Player
+import math
 
 # check if you have per and game was ended (done)
 # check if user are already playnig and he disconnect (momkin tkherejhom bjoj)
@@ -14,9 +17,6 @@ class GameConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         self.user = self.scope['user']
         self.room_name = self.scope["url_route"]["kwargs"]["id"]
-
-        if self.room_name.startswith("tournament_"):
-            self.tourn_game[self.user.username] = self.room_name
 
         self.room_group_name = f'game_{self.room_name}'
 
@@ -81,8 +81,7 @@ class GameConsumer(AsyncWebsocketConsumer):
             print(self.user)
             if room['players']['down'] == self.user:
                 self.game_task = asyncio.create_task(self.game_loop())
-                self.game_task.add_done_callback(self.call_back) # del
-    
+                self.game_task.add_done_callback(self.call_back)
 
     async def is_part_of_the_game(self, name, id):
         try:
@@ -125,6 +124,8 @@ class GameConsumer(AsyncWebsocketConsumer):
         except Exception as e:
             print(f"Error saving match score: {e}")
 
+    
+#--------------------------------------------------------------------------------------
     async def disconnect(self, close_code):
         print(f"player {self.user.username} disconnected")
 
@@ -137,11 +138,9 @@ class GameConsumer(AsyncWebsocketConsumer):
         room = self.rooms[self.room_name]
         game_state = room["game_state"]
 
-        # If game already has a winner, do not override the score
         if game_state["winner"]:
             await self.broadcast_end_game(game_state)
         else:
-            # Assign 3-0 only if the game wasn't decided
             if room['players']['up'] == self.user:
                 game_state["winner"] = room['players']['down'].username if room['players']['down'] else None
                 game_state["score"]["p2"] = 3
@@ -154,13 +153,45 @@ class GameConsumer(AsyncWebsocketConsumer):
             await self.update_match_score(game_state["score"]["p1"], game_state["score"]["p2"])
             await self.broadcast_end_game(game_state)
 
+        if game_state["winner"]:
+            winner = await Player.objects.aget(username=game_state["winner"])
+            loser = self.user
+
+            winner.total_games += 1
+            winner.win_games += 1
+            winner.points += 300
+            winner.level = math.floor(winner.points / 1000 ) + 1
+            print('--------------------------------')
+            await winner.asave()
+
+            loser.total_games += 1
+            loser.lose_games += 1
+            await loser.asave()
+
+            if winner.win_games == 1:
+                winner.win_1_game = True
+            if winner.win_games == 3:
+                winner.win_3_games = True
+            if winner.win_games == 10:
+                winner.win_10_games = True
+            if winner.win_games == 30:
+                winner.win_30_games = True
+            if winner.level > 5:
+                winner.reach_level_5 = True
+            if winner.level > 15:
+                winner.reach_level_15 = True
+            if winner.level > 30:
+                winner.reach_level_30 = True
+            if game_state["score"]["p2"] == 0:
+                winner.perfect_win_game = True
+            await winner.asave()
+
         await self.channel_layer.group_discard(self.room_group_name, self.channel_name)
 
         if not any(room['players'].values()):
             del self.rooms[self.room_name]
 
-
-
+#--------------------------------------------------------------------------------------
     async def receive(self, text_data):
         room = self.rooms[self.room_name]
         data = json.loads(text_data)
@@ -235,7 +266,7 @@ class GameConsumer(AsyncWebsocketConsumer):
             await self.reset_ball()
             if game_state["score"]["p2"] == 3:
                 game_state["winner"] = room["players"]["down"].username
-            await self.update_match_score(game_state["score"]["p2"], game_state["score"]["p1"])
+            await self.update_match_score(game_state["score"]["p1"], game_state["score"]["p2"])
 
         # bott player scores
         if ball_y > 725:
@@ -243,7 +274,7 @@ class GameConsumer(AsyncWebsocketConsumer):
             await self.reset_ball()
             if game_state["score"]["p1"] == 3:
                 game_state["winner"] = room["players"]["up"].username
-            await self.update_match_score(game_state["score"]["p2"], game_state["score"]["p1"])
+            await self.update_match_score(game_state["score"]["p1"], game_state["score"]["p2"])
 
 
     async def reset_ball(self):
@@ -267,12 +298,12 @@ class GameConsumer(AsyncWebsocketConsumer):
         )
 
     async def broadcast_end_game(self, game_state):
+        room = self.rooms[self.room_name]
         await self.channel_layer.group_send(
             self.room_group_name,
             {
                 "type": "game_end",
-                "winner": game_state["winner"],
-                "score": game_state["score"],
+                "game_state": room["game_state"],
             },
         )
     

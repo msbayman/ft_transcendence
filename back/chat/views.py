@@ -56,7 +56,7 @@ class LastMessageView(APIView):
             last_messages_list = list(last_messages.values())
             return Response(last_messages_list, status=200)
         except Exception as e:
-            return Response({"error": "An unexpected error occurred."}, status=500)
+            return Response({"error": "An unexpected error occurred."}, status=400)
 
 
 class GetUserInfo(APIView):
@@ -71,7 +71,7 @@ class GetUserInfo(APIView):
         except Player.DoesNotExist:
             return Response({"error": "Player not found"}, status=404)
         except Exception as e:
-            return Response({"error": "An error occurred: " + str(e)}, status=500)
+            return Response({"error": "An error occurred: " + str(e)}, status=400)
 
 
 class GetConversation(APIView):
@@ -104,7 +104,7 @@ class GetConversation(APIView):
                 return Response(serialized_message, status=200)
 
         except Exception as e:
-            return Response({"error": str(e)}, status=500)
+            return Response({"error": str(e)}, status=400)
         
 class BlockUser(APIView):
     authentication_classes = [JWTAuthentication]

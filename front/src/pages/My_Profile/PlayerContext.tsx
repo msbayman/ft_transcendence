@@ -101,7 +101,6 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({
   const wsConnection = useCallback(() => {
     const token = Cookies.get('access_token');
     if (!token) {
-      console.log('No access token found or user not authenticated');
       return;
     }
 

@@ -291,7 +291,7 @@ const Play_Page: React.FC = () => {
     if (SLIDEIMAPS[selectedIds.mode!]?.mapName === "local")
       navigate("/local_game", { state: { selectedIds } });
     if (SLIDEIMAPS[selectedIds.mode!]?.mapName === "Tournement")
-      navigate("/Tournament", { state: { selectedIds } });
+      navigate("/tourn", { state: { selectedIds } });
   };
 
   return (
