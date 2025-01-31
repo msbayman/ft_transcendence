@@ -14,6 +14,12 @@ const Info_Profile = () => {
     return result;
   };
 
+  const percentage_exp = (points: number | undefined, level: number | undefined) => {
+    if (points == undefined || level == undefined) return 0;
+    const result = (points / level) * 100;
+    return result;
+  };
+
   const check_rank = (points: number | undefined): string | undefined => {
     if (points === undefined) return "CHEAT";
     else if (points < 100) return "IRON";
@@ -50,13 +56,13 @@ const Info_Profile = () => {
             className="Photo_dProfile"
           />
         </div>
-        <div className="Name_of_Profile">{my_user.playerData?.username}</div>
+        <div className="Name_of_Profile font-alexandria">{my_user.playerData?.username}</div>
         <div className="The_level">
           <div className="level_Profile">
             <div className="Progress_bar_lvl">
               <LinearProgress
                 variant="determinate"
-                value={5}
+                value={percentage_exp(is_me?.points, is_me?.level)}
                 sx={{
                   height: "12px",
                   borderRadius: "30px",
@@ -72,7 +78,7 @@ const Info_Profile = () => {
               <div className="lvl_value">{is_me?.level}</div>
             </div>
           </div>
-          <div className="Exp_Level">20 OF 365</div>
+          <div className="Exp_Level">{percentage_exp(is_me?.points, is_me?.level)}% OF EXP</div>
         </div>
       </div>
       <div className="part22">

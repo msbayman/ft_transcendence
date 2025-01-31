@@ -1,4 +1,3 @@
-import { useState } from "react";
 import other from "./Acheiev_Profile.module.css";
 import { data_of_player } from "./interface";
 

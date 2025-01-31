@@ -26,8 +26,9 @@ const State_of_Profile = () => {
     return result;
   };
 
-  const percentage_exp = () => {
-    const result = (50 / 100) * 100;
+  const percentage_exp = (points: number | undefined, level: number | undefined) => {
+    if (points == undefined || level == undefined) return 0;
+    const result = (points / level) * 100;
     return result;
   };
 
@@ -126,7 +127,7 @@ const State_of_Profile = () => {
         <div className="exp_state hover-container">
           <CircularProgress
             capIsRound
-            value={percentage_exp()}
+            value={percentage_exp(player.playerData?.points, player.playerData?.level)}
             color="yellow"
             size="100%"
             sx={{
@@ -135,13 +136,11 @@ const State_of_Profile = () => {
               },
             }}
           >
-            <CircularProgressLabel fontSize="calc(80px * 0.2)">
-              50
-              <br />
-              /100
+            <CircularProgressLabel fontSize="calc(100px * 0.2)">
+              {percentage_exp(player.playerData?.points, player.playerData?.level)}%
             </CircularProgressLabel>
           </CircularProgress>
-          <span className="hover-text">Exp Rate</span>
+          <span className="hover-text text-center">Exp Rate <br /> LEVEL {player.playerData?.level}</span>
         </div>
       </div>
     </div>

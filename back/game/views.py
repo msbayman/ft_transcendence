@@ -3,6 +3,12 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.generics import ListAPIView
 from rest_framework import status
+from rest_framework_simplejwt.authentication import JWTAuthentication
+from rest_framework.permissions import IsAuthenticated
+from .serializer import MatchHistorySerializer
+from django.db.models import Q
+from django.http import Http404
+
 from .models import Match
 from .serializer import MatchSerializer
 from .serializer import PlayerSerializer
@@ -30,6 +36,22 @@ def get_username_for_players(request):
     matchs = Match.objects.all()
     Mserializer = MatchSerializer(matchs, many=True).data
     return Response(Mserializer)
+
+
+class UserMatchHistoryView(ListAPIView):
+    serializer_class = MatchHistorySerializer
+    permission_classes = []
+    # authentication_classes = [JWTAuthentication]
+
+    def get_queryset(self):
+        try:
+            username = self.kwargs.get('username')
+            return Match.objects.filter(
+                Q(player1=username) | Q(player2=username)
+            ).order_by('-date')
+        except Exception as e:
+            raise Http404(f"this given username not found {e}")
+
 
 @api_view(['GET'])
 def get_players(request):

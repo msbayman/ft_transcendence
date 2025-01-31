@@ -32,11 +32,11 @@ class GameConsumer(AsyncWebsocketConsumer):
         if self.room_name not in self.rooms:
             self.rooms[self.room_name] = {
                 'game_state': {
-                    'ball': {'x': 250, 'y': 365, 'dx': 5, 'dy': 5},
+                    'ball': {'x': 250, 'y': 365, 'dx': 10, 'dy': 10},
                     'paddles': {'up': 180, 'down': 180},
                     'score': {'p1': 0, 'p2': 0},
+                    'side': {'up': None, 'down': None},
                     'winner' : None,
-                    'side': {'up': None, 'down': None}
                 },
                 'players': {
                     'up': None,
@@ -237,7 +237,6 @@ class GameConsumer(AsyncWebsocketConsumer):
                 game_state["winner"] = room["players"]["up"].username
             await self.update_match_score(game_state["score"]["p1"], game_state["score"]["p2"])
 
-
     async def reset_ball(self):
         room = self.rooms[self.room_name]
         room["game_state"]["ball"] = {
@@ -259,12 +258,12 @@ class GameConsumer(AsyncWebsocketConsumer):
         )
 
     async def broadcast_end_game(self, game_state):
+        room = self.rooms[self.room_name]
         await self.channel_layer.group_send(
             self.room_group_name,
             {
                 "type": "game_end",
-                "winner": game_state["winner"],
-                "score": game_state["score"],
+                "game_state": room["game_state"],
             },
         )
     

@@ -80,7 +80,7 @@ export const Other_Profile_Page = ({
               <Info_Player username={username} />
             </div>
             <div className={other.Recent_Game}>
-              <Recent_Game />
+              <Recent_Game other_data={data}/>
             </div>
             <div className={other.Acheivement_and_States}>
               <div className={other.action_to_accept}>

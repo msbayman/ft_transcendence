@@ -107,23 +107,28 @@ function Overview() {
 
   const localistation = useLocation();
 
-  const getNavLink = (path: string) => {
-    const currentPath = "/" + localistation.pathname.split("/")[1];
-    const baseClass = `${over.navbar_item1} ${currentPath === path ? over.nav_color1 : ""}`;
 
-    switch (path) {
-      case "/Overview":
-        return `${baseClass} ${over.Overview}`;
-      case "/Profile":
-        return `${baseClass} ${over.Profile}`;
-      case "/Play":
-        return `${baseClass} ${over.Play}`;
-      case "/Friends":
-        return `${baseClass} ${over.Friends}`;
-      case "/Leaderboard":
-        return `${baseClass} ${over.Leaderboard}`;
-      default:
-        return baseClass;
+  const getNavLink = (path: string) => {
+    if (path === "/Overview") {
+      return "/" + localistation.pathname.split("/")[1] === path
+        ? `${over.navbar_item1} ${over.nav_color1} ${over.Overview}`
+        : over.navbar_item1;
+    } else if (path === "/Profile") {
+      return "/" + localistation.pathname.split("/")[1] === path
+        ? `${over.navbar_item1} ${over.nav_color1} ${over.Profile}`
+        : over.navbar_item1;
+    } else if (path === "/Play") {
+      return "/" + localistation.pathname.split("/")[1] === path
+        ? `${over.navbar_item1} ${over.nav_color1} ${over.Play}`
+        : over.navbar_item1;
+    } else if (path === "/Friends") {
+      return "/" + localistation.pathname.split("/")[1] === path
+        ? `${over.navbar_item1} ${over.nav_color1} ${over.Friends}`
+        : over.navbar_item1;
+    } else if (path === "/Leaderboard") {
+      return "/" + localistation.pathname.split("/")[1] === path
+        ? `${over.navbar_item1} ${over.nav_color1} ${over.Shop}`
+        : over.navbar_item1;
     }
   };
 
