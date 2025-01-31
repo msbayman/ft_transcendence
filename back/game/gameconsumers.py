@@ -124,7 +124,45 @@ class GameConsumer(AsyncWebsocketConsumer):
         except Exception as e:
             print(f"Error saving match score: {e}")
 
-    
+    async def update_user_after_game(self, winner, score, ply_update):
+        if ply_update["down"] == winner:
+            winner = await Player.objects.aget(username=ply_update["down"])
+            loser = await Player.objects.aget(username=ply_update["up"])
+        else:
+            winner = await Player.objects.aget(username=ply_update["up"])
+            loser = await Player.objects.aget(username=ply_update["down"])
+
+        winner.total_games += 1
+        winner.win_games += 1
+        winner.points += 300
+        winner.level = math.floor( winner.points / 1000 ) + 1
+        print(f"winner is: {winner.username} and he won {winner.points} and his level is : {winner.level}")
+
+        loser.total_games += 1
+        loser.lose_games += 1
+        loser.level = math.floor( loser.points / 1000 ) + 1
+        print(f"loser is: {loser.username} and he lose with {loser.points} and his level is : {loser.level}")
+
+        if winner.win_games == 1:
+            winner.win_1_game = True
+        if winner.win_games == 3:
+            winner.win_3_games = True
+        if winner.win_games == 10:
+            winner.win_10_games = True
+        if winner.win_games == 30:
+            winner.win_30_games = True
+        if winner.level > 5:
+            winner.reach_level_5 = True
+        if winner.level > 15:
+            winner.reach_level_15 = True
+        if winner.level > 30:
+            winner.reach_level_30 = True
+        if score == 0:
+            winner.perfect_win_game = True
+
+        await loser.asave()
+        await winner.asave()
+        
 #--------------------------------------------------------------------------------------
     async def disconnect(self, close_code):
         print(f"player {self.user.username} disconnected")
@@ -137,43 +175,9 @@ class GameConsumer(AsyncWebsocketConsumer):
 
         room = self.rooms[self.room_name]
         game_state = room["game_state"]
+        ply_update = room["players"]
 
         if game_state["winner"]:
-
-            winner = await Player.objects.aget(username=game_state["winner"])
-            loser = await Player.objects.aget(username=self.user.username) 
-
-            winner.total_games += 1
-            winner.win_games += 1
-            winner.points += 300
-            winner.level = math.floor( winner.points / 1000 ) + 1
-            print(f"winner is: {winner.username} and he won {winner.points} and his level is : {winner.level}")
-
-            loser.total_games += 1
-            loser.lose_games += 1
-            loser.level = math.floor( loser.points / 1000 ) + 1
-            print(f"loser is: {loser.username} and he lose with {loser.points} and his level is : {loser.level}")
-
-            if winner.win_games == 1:
-                winner.win_1_game = True
-            if winner.win_games == 3:
-                winner.win_3_games = True
-            if winner.win_games == 10:
-                winner.win_10_games = True
-            if winner.win_games == 30:
-                winner.win_30_games = True
-            if winner.level > 5:
-                winner.reach_level_5 = True
-            if winner.level > 15:
-                winner.reach_level_15 = True
-            if winner.level > 30:
-                winner.reach_level_30 = True
-            if game_state["score"]["p2"] == 0:
-                winner.perfect_win_game = True
-
-
-            await loser.asave()
-            await winner.asave()
 
             await self.broadcast_end_game(game_state)
         else:
@@ -189,6 +193,7 @@ class GameConsumer(AsyncWebsocketConsumer):
             await self.update_match_score(game_state["score"]["p1"], game_state["score"]["p2"])
             await self.broadcast_end_game(game_state)
 
+        await self.update_user_after_game(game_state["winner"], game_state["score"]["p2"], ply_update)
 
         await self.channel_layer.group_discard(self.room_group_name, self.channel_name)
 
