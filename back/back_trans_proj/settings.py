@@ -26,7 +26,7 @@ EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL')
 
 # settings.py
-
+HOST_URL= os.getenv('HOST_URL')
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 

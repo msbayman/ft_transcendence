@@ -62,13 +62,13 @@ def login_redirect(request: DRFRequest):
     if code:
         user_info = exchange_code_for_token_42(code)
         if "error" in user_info:
-            return redirect(f"https://localhost/login?oauth_err=Failed to retrieve user info: {user_info['error']}")
+            return redirect(f"{settings.HOST_URL}/login?oauth_err=Failed to retrieve user info: {user_info['error']}")
         
         # Extract the Django HttpRequest object
         django_request = request._request
         return handle_oauth_user_42(django_request, user_info)
     else:
-        return redirect("https://localhost/login?oauth_err=No code provided")
+        return redirect("{settings.HOST_URL}/login?oauth_err=No code provided")
 
 @api_view(['GET'])
 @permission_classes([AllowAny])
@@ -84,7 +84,7 @@ def handle_oauth_user_42(request: HttpRequest, user_info: dict) -> HttpResponse:
         return redirect(login_url)
 
     if Player.objects.filter(email__iexact=email).exclude(prov_name="42").exists():
-        login_url = f"https://localhost/login?oauth_err=email already exists"
+        login_url = f"{settings.HOST_URL}/login?oauth_err=email already exists"
         return redirect(login_url)
 
     try:
@@ -120,7 +120,7 @@ def handle_oauth_user_42(request: HttpRequest, user_info: dict) -> HttpResponse:
         else:
             error_message = "Failed to create or update user"
             error_details = urlencode({"details": str(serializer.errors)})
-            redirect_url = f"https://localhost/login?oauth_err={error_message}&{error_details}"
+            redirect_url = f"{settings.HOST_URL}/login?oauth_err={error_message}&{error_details}"
             return redirect(redirect_url)
 
     # Check if 2FA is enabled
@@ -135,7 +135,7 @@ def handle_oauth_user_42(request: HttpRequest, user_info: dict) -> HttpResponse:
         user.is_validate = True
         user.save()
 
-        frontend_url = "https://localhost/Valid_otp"
+        frontend_url = "{settings.HOST_URL}/Valid_otp"
         redirect_url = f"{frontend_url}?username={user.username}"
 
         return redirect(redirect_url)
@@ -144,7 +144,7 @@ def handle_oauth_user_42(request: HttpRequest, user_info: dict) -> HttpResponse:
         access_token = str(refresh.access_token)
         refresh_token = str(refresh)
 
-        frontend_url = "https://localhost/Overview"
+        frontend_url = "{settings.HOST_URL}/Overview"
         redirect_url = f"{frontend_url}?access_token={access_token}&refresh_token={refresh_token}"
 
         return redirect(redirect_url)
