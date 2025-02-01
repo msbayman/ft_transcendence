@@ -159,7 +159,7 @@ CHANNEL_LAYERS = {
         },
     },
 }
-
+APPEND_SLASH = True
 MEDIA_URL = '/media/'
 MEDIA_ROOT = '/app/media'  
 CORS_ALLOW_ALL_ORIGINS = True
