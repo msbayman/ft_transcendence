@@ -1,6 +1,7 @@
 // import * as React from "react";
 import "./States_Profile.css";
 import { BarChart } from "@mui/x-charts/BarChart";
+import { usePlayer } from "../PlayerContext";
 
 
 

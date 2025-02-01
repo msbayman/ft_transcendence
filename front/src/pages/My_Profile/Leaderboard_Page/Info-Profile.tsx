@@ -10,35 +10,36 @@ const Info_Profile = () => {
 
   const percentage = (total: number | undefined, win: number | undefined) => {
     if (total === undefined || win === undefined || total === 0) return 0;
-    const result = (win / total) * 100;
+    const result = ((win / total) * 100).toFixed(0);
     return result;
   };
 
   const percentage_exp = (points: number | undefined, level: number | undefined) => {
     if (points == undefined || level == undefined) return 0;
-    const result = (points / level) * 100;
+    if (points == undefined || level == undefined) return 0;
+    const result = ((points / 1000 / level) * 100).toFixed(0);
     return result;
   };
 
   const check_rank = (points: number | undefined): string | undefined => {
-    if (points === undefined) return "CHEAT";
-    else if (points < 100) return "IRON";
-    else if (points > 100 && points < 200) return "BRONZE";
-    else if (points > 200 && points < 300) return "SILVER";
-    else if (points > 300 && points < 500) return "GOLD";
-    else if (points > 500 && points < 700) return "PLATIUM";
-    else if (points > 700 && points < 1200) return "MASTER";
+    if (points === undefined) return "";
+    else if (points < 1000) return "IRON";
+    else if (points > 1000 && points < 2500) return "BRONZE";
+    else if (points > 2500 && points < 5000) return "SILVER";
+    else if (points > 5000 && points < 9000) return "GOLD";
+    else if (points > 9000 && points < 13000) return "PLATIUM";
+    else if (points > 13000 && points < 20000) return "MASTER";
     else return "CHALLENGER";
   };
 
   const check_next_rank = (points: number | undefined): string => {
     if (points === undefined) return "";
-    else if (points < 100) return "BRONZE";
-    else if (points > 100 && points < 200) return "SILVER";
-    else if (points > 200 && points < 300) return "GOLD";
-    else if (points > 300 && points < 500) return "PLATIUM";
-    else if (points > 500 && points < 700) return "MASTER";
-    else if (points > 700 && points < 1200) return "CHALLENGER";
+    else if (points < 1000) return "BRONZE";
+    else if (points > 1000 && points < 2500) return "SILVER";
+    else if (points > 2500 && points < 5000) return "GOLD";
+    else if (points > 5000 && points < 9000) return "PLATIUM";
+    else if (points > 9000 && points < 13000) return "MASTER";
+    else if (points > 13000 && points < 20000) return "CHALLENGER";
     else return "IN_MAX";
   };
 
@@ -78,7 +79,7 @@ const Info_Profile = () => {
               <div className="lvl_value">{is_me?.level}</div>
             </div>
           </div>
-          <div className="Exp_Level">{percentage_exp(is_me?.points, is_me?.level)}% OF EXP</div>
+          <div className="Exp_Level">{percentage_exp(is_me?.points, is_me?.level)}% COMPLETE</div>
         </div>
       </div>
       <div className="part22">

@@ -26,29 +26,33 @@
 
 .Content_Ach {
     background-color: #3a0ca3;
+    /* height: 100%;
+    width: 100%; */
+    /* min-height: 250px; */
     height: 100%;
-    width: 100%;
+    
     border-radius: 20px;
     display: flex;
     justify-content: center;
     align-items: start;
     padding-top: 20px;
-    padding-bottom: 20px;
-    gap: 10px;
+    /* gap: 70px; */
     overflow-y: scroll;
 
 }
 .inside_content_ach {
-    width: 100%;
-    padding-bottom: 36px;
+    width: 95%;
+    /* padding-bottom: 36px; */
+    padding-bottom: 90px;
+
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: center;
     flex-wrap: wrap;
     overflow-y: scroll;
     /* padding-right: 20px;
     padding-left: 20px; */
-    gap: 20px;
+    gap: 30px;
 }
 
 .inside_ache {
