@@ -38,33 +38,6 @@ from django.contrib.auth.hashers import make_password
 # Logger setup
 logger = logging.getLogger(__name__)
 
-# @api_view(['GET'])
-# @permission_classes([AllowAny])
-# def health_check(request):
-#     return JsonResponse({"status": "ok"})
-
-
-# class UpdatePass(APIView):
-#     permission_classes = [IsAuthenticated]
-#     authentication_classes = [JWTAuthentication]
-
-#     def post(self, request):
-#         data = request.data
-#         new_password = data.get('newPassword')
-#         old_password = data.get('oldPassword')
-#         user = Player.objects.filter(username=data.username).first()
-#         if not user.check_password(old_password):
-#             return Response({'error': 'Invalid old password'}, status=status.HTTP_400_BAD_REQUEST)
-#         try:
-#             password_validation.validate_password(new_password)
-#             if old_password == new_password:
-#                 return JsonResponse({'error': 'New password cannot be the same as old password'}, status=status.HTTP_400_BAD_REQUEST)
-#         except ValidationError as e:
-#             return Response({'error': ' '.join(e.messages)}, status=status.HTTP_400_BAD_REQUEST)
-#         user.set_password(new_password)
-#         user.save()
-#         return Response({'success': True, 'message': 'Password changed successfully'}, status=status.HTTP_200_OK)
-
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def display_users(request):
@@ -209,8 +182,11 @@ def changePassword(request):
 
         # Change password in transaction
         with transaction.atomic():
+            # serializer = PlayerSerializer()
+            # Set the new password
             player.set_password(new_password)
             player.save()
+            # serializer.update(player, {'password': make_password(new_password)})
 
             # Log successful password change
             logger.info(f"Password successfully changed for user: {username}")

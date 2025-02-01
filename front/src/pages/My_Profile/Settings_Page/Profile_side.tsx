@@ -103,6 +103,11 @@ function Profile_side() {
                 const file = e.target.files?.[0];
                 if (!file) return;
 
+                if (file.size === 0) {
+                  toast.error("File is empty. Please upload a valid image.");
+                  return;
+                }
+
                 const formData = new FormData();
                 formData.append("profile_image", file);
 
