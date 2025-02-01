@@ -93,7 +93,7 @@ export const Recent_Game = ({ other_data }: data_interface) => {
     <div className={other.all_content_recent}>
       <div className={other.rece_title}>
         <div className={other.Title_Recent}>RECENT GAMES</div>
-        <div className={other.subTitle_Recent}>(LAST 10 PLAYED)</div>
+        <div className={other.subTitle_Recent}>( ALL GAMES PLAYED )</div>
       </div>
       <div className={other.content_Recent}>
         <div className={other.table_dd}>

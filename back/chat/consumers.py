@@ -173,8 +173,16 @@ class NotifConsumer(AsyncJsonWebsocketConsumer):
 
     @sync_to_async
     def update_status(self, online):
-        self.user.is_online = online
-        self.user.save()
+        # pass
+        # self.user = self.user_obj
+        # self.user_obj.is_online = online
+        try:
+            self.user = User.objects.get(username=self.user.username)
+        
+            self.user.is_online = online
+            self.user.save()
+        except User.DoesNotExist:
+            return
     
     @sync_to_async
     def get_user_online_status(self, user):

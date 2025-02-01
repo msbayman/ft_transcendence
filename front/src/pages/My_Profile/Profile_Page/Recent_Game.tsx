@@ -90,7 +90,7 @@ export const Recent_Game = () => {
     <div className="all_content_recent">
       <div className="rece_title">
         <div className="Title_Recent">RECENT GAMES</div>
-        <div className="subTitle_Recent">(LAST 10 PLAYED)</div>
+        <div className="subTitle_Recent">( ALL GAMES PLAYED )</div>
       </div>
       <div className="content_Recent">
         <div className="table_dd">
