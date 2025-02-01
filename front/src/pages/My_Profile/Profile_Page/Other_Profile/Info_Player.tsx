@@ -1,7 +1,6 @@
 // import ph_pro from "../../Images/profile.png";
 import other from "./Info_Player.module.css";
 import { LinearProgress } from "@mui/material";
-import etoile from "/Etoile.svg";
 import { CircularProgress, CircularProgressLabel } from "@chakra-ui/progress";
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
@@ -50,7 +49,7 @@ export const Info_Player = ({ username }: { username: string | undefined }) => {
 
   const percentage = (total: number | undefined, win: number | undefined) => {
     if (total === undefined || win === undefined || total === 0) return 0;
-    const result = (win / total) * 100;
+    const result = ((win / total) * 100).toFixed(0);
     return result;
   };
 
@@ -59,40 +58,45 @@ export const Info_Player = ({ username }: { username: string | undefined }) => {
     lose: number | undefined
   ) => {
     if (total === undefined || lose === undefined || total === 0) return 0;
-    const result = (lose / total) * 100;
+    const result = ((lose / total) * 100).toFixed(0);
     return result;
   };
 
-  const percentage_acheiv = (lose: number | undefined) => {
-    if (lose == undefined) return 0;
-    const result = (lose / 17) * 100;
+  const percentage_acheiv = (trueCount: number | undefined) => {
+    if (trueCount == undefined) return 0;
+    const result = ((trueCount / 9) * 100).toFixed(0);
     return result;
   };
 
-  const percentage_exp = () => {
-    const result = (50 / 100) * 100;
+  const percentage_exp = (
+    points: number | undefined,
+    level: number | undefined
+  ) => {
+    if (points == undefined || level == undefined) return 0;
+    if (points == undefined || level == undefined) return 0;
+    const result = ((points / 1000 / level) * 100).toFixed(0);
     return result;
   };
 
   const check_rank = (points: number | undefined): string | undefined => {
-    if (points === undefined) return "CHEAT";
-    else if (points < 100) return "IRON";
-    else if (points > 100 && points < 200) return "BRONZE";
-    else if (points > 200 && points < 300) return "SILVER";
-    else if (points > 300 && points < 500) return "GOLD";
-    else if (points > 500 && points < 700) return "PLATIUM";
-    else if (points > 700 && points < 1200) return "MASTER";
+    if (points === undefined) return "";
+    else if (points < 1000) return "IRON";
+    else if (points > 1000 && points < 2500) return "BRONZE";
+    else if (points > 2500 && points < 5000) return "SILVER";
+    else if (points > 5000 && points < 9000) return "GOLD";
+    else if (points > 9000 && points < 13000) return "PLATIUM";
+    else if (points > 13000 && points < 20000) return "MASTER";
     else return "CHALLENGER";
   };
 
   const check_next_rank = (points: number | undefined): string => {
     if (points === undefined) return "";
-    else if (points < 100) return "BRONZE";
-    else if (points > 100 && points < 200) return "SILVER";
-    else if (points > 200 && points < 300) return "GOLD";
-    else if (points > 300 && points < 500) return "PLATIUM";
-    else if (points > 500 && points < 700) return "MASTER";
-    else if (points > 700 && points < 1200) return "CHALLENGER";
+    else if (points < 1000) return "BRONZE";
+    else if (points > 1000 && points < 2500) return "SILVER";
+    else if (points > 2500 && points < 5000) return "GOLD";
+    else if (points > 5000 && points < 9000) return "PLATIUM";
+    else if (points > 9000 && points < 13000) return "MASTER";
+    else if (points > 13000 && points < 20000) return "CHALLENGER";
     else return "IN_MAX";
   };
 
@@ -168,7 +172,7 @@ export const Info_Player = ({ username }: { username: string | undefined }) => {
             <div className={`${other.Exp_State} ${other.hover_container1}`}>
               <CircularProgress
                 capIsRound
-                value={percentage_exp()}
+                value={percentage_exp(data?.points, data?.level)}
                 color="#AE445A"
                 size="100%"
                 thickness={13}
@@ -179,7 +183,7 @@ export const Info_Player = ({ username }: { username: string | undefined }) => {
                 }}
               >
                 <CircularProgressLabel fontSize="calc(90px * 0.2)">
-                  50/100 <br /> EXP
+                {percentage_exp(data?.points, data?.level)}%
                 </CircularProgressLabel>
               </CircularProgress>
               <span className={other.hover_text1}>Exp Rate</span>
@@ -194,7 +198,7 @@ export const Info_Player = ({ username }: { username: string | undefined }) => {
             <div className={other.Progress_bar_lvl}>
               <LinearProgress
                 variant="determinate"
-                value={70}
+                value={percentage_exp(data?.points, data?.level)}
                 sx={{
                   height: "12px",
                   borderRadius: "30px",
@@ -213,7 +217,7 @@ export const Info_Player = ({ username }: { username: string | undefined }) => {
               </div>
             </div>
           </div>
-          <div className={other.Exp_Level}>125 OF 365</div>
+          <div className={other.Exp_Level}>{percentage_exp(data?.points, data?.level)}% OF EXP</div>
         </div>
         <div className={other.inside_ul}>
           <ul className={other.Static_Game}>

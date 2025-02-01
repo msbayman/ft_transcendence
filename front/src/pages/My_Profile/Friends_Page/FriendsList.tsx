@@ -108,18 +108,6 @@ useEffect(() => {
   }, [token, messages]);
 
 
-  // useEffect(() => {
-  //   fetchLastMessages();
-  //   fetchOnlineFriends();
-  // }, []);
-
-
-  // useEffect(() => {
-  //   if (messages.length > 0) {
-  //     fetchLastMessages();
-  //   }
-  // }, [messages]);
-
   const handleClick = (friendName: string) => {
     onClick(friendName);
   };

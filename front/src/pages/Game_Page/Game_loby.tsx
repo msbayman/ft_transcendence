@@ -38,7 +38,7 @@ function Game_Loby() {
     if (matchData) {
       const timer = setTimeout(() => {
         setStartGame(true);
-      }, 2000);
+      }, 3000);
 
       return () => clearTimeout(timer);
     }
@@ -52,11 +52,12 @@ function Game_Loby() {
       <div className="flex justify-center items-center h-screen w-screen bg-[url('/background.png')] bg-cover bg-center bg-no-repeat">
         <Player_Profil mydata={mydata.playerData} />
         <img src="/public/vs_img.svg" alt="vs tag" />
+
         <Player_Profil
           mydata={
             matchData.player1.username === mydata.playerData?.username
-              ? matchData.player2
-              : matchData.player1
+            ? matchData.player2
+            : matchData.player1
           }
         />
       </div>
@@ -64,7 +65,7 @@ function Game_Loby() {
   }
 
   return (
-    <div className="flex justify-center items-center h-screen w-screen bg-[url('/public/loby_back.svg')] bg-cover bg-center bg-no-repeat">
+    <div className="flex justify-center items-center h-screen w-screen bg-[url('/background.png')] bg-cover bg-center bg-no-repeat">
       <Player_Profil mydata={mydata.playerData} />
       <img src="/public/vs_img.svg" alt="vs tag" />
       <Player_Profil mydata={null} />

@@ -31,7 +31,7 @@ DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL')
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'f*g_tr0l-1ye@_kq+704os5-(f5rzm21sjb6a)4*hdm!aecefm')
-# DEBUG = os.getenv('DEBUG').lower() == 'true'
+# DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 

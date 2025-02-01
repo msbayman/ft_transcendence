@@ -21,16 +21,8 @@ wss("https://localhost:80/api/login")
 
 TO DO:
 
---> warn user of his paddel #
---> add a timer in befor lance the game #
---> add a timer after the game #
---> fix local bot
---> policy of password
+--> add a timer in befor lance the game
+--> add state for matchs
 
-
-
-
-nicknames for tourn (done)
-change pic for game custome
-disconnect in game (done)
-notif in tourn
+for alae
+--> notif in tourn

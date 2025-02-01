@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useWebSocket } from "./useWebSocket";
-// import { useWebSocket } from "../path-to/useWebSocket";
 
 import Cookies from "js-cookie";
 import axios from "axios";

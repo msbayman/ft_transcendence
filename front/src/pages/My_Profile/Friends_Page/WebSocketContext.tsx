@@ -35,8 +35,8 @@ export const WebSocketProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     ws.onmessage = (event) => {
       try {
         const data = JSON.parse(event.data);
-
-        if (data.type === 'block_error') {
+        console.log("data type:", data)
+        if (data.type === 'error') {
           setBlockedMessage(data.message);
           setErrorPopUp(true);
           setTimeout(() => setErrorPopUp(false), 3000);

@@ -6,9 +6,8 @@ import { usePlayer } from '../My_Profile/PlayerContext';
 function Game_Remot( { id, selectedIds } ) {
 	const mydata = usePlayer();
 	const [socket, setSocket] = useState<WebSocket | null>(null);
-	const [win, setwin] = useState(null);
 	const [gameState, setGameState] = useState({
-		paddles: {left: 180, right: 180},
+		paddles: {up: 180, down: 180},
 		ball: { x: 250, y: 365, dx: 5, dy: 5 },
 		score: { player1: 0, player2: 0 },
 		winner : null,
@@ -63,13 +62,9 @@ function Game_Remot( { id, selectedIds } ) {
 		{ mapPath: "#2BBDB6", id: 2, mapName: "cyanBall" },
 		{ mapPath: "#7F00FF", id: 3, mapName: "violetBall" },
 	  ];
-	  
-	const handleSleep = async () => {
-	await new Promise((resolve) => setTimeout(resolve, 3000));
-	};
+	var timer: number | undefined = undefined;
 
 	useEffect(() => {
-		console.log("-----> ",  selectedIds);
 		const token = Cookies.get("access_token");
 		const ws = new WebSocket(`wss://localhost/ws/game/${id}/?token=${token}`);
 
@@ -82,37 +77,35 @@ function Game_Remot( { id, selectedIds } ) {
 			const gameState = JSON.parse(event.data);
 			if (gameState.type == "game_end")
 			{
-				handleSleep();
-				navigate("/overview");
+				timer = setTimeout(() => {
+					navigate("/Game_Result");
+				  }, 2000);
 			}
-			else
-			{
-				setGameState({
-					...gameState,
-					paddles: {
-						left: gameState.paddles.up,
-						right: gameState.paddles.down,
-					},
-					ball:{
-						x: gameState.ball.x,
-						y: gameState.ball.y,
-					},
-					score:{
-						player1: gameState.score.p1,
-						player2: gameState.score.p2,
-					},
-					side:{
-						up: gameState.side.up,
-						down: gameState.side.down,
-					},
-					winner: gameState.winner
-				});
-			}
+			setGameState({
+				...gameState,
+				paddles: {
+					up: gameState.paddles.up,
+					down: gameState.paddles.down,
+				},
+				ball:{
+					x: gameState.ball.x,
+					y: gameState.ball.y,
+				},
+				score:{
+					player1: gameState.score.p1,
+					player2: gameState.score.p2,
+				},
+				side:{
+					up: gameState.side.up,
+					down: gameState.side.down,
+				},
+				winner: gameState.winner
+			});
 		};
 
 		ws.onclose = () => console.log("WebSocket closed");
 
-		return () => {if (ws) ws.close()}
+		return () => {if (ws) ws.close(); clearTimeout(timer);}
 	}, []);
 
 	const handleKeyPress = (event: KeyboardEvent) => {
@@ -133,7 +126,7 @@ function Game_Remot( { id, selectedIds } ) {
 
 	return (
 	  <>
-		<div className="bg-[url('/public/background.png')] bg-cover bg-center h-screen w-full">
+		<div className="bg-[url('/background.png')] bg-cover bg-center h-screen w-full">
 		  <div className="relative flex justify-center top-[90px]">
 			{/* Table Images */}
 			<img src="/public/table.svg" alt="table background" className="absolute" />
@@ -152,22 +145,22 @@ function Game_Remot( { id, selectedIds } ) {
 				{/* Left Paddle */}
 				<div
 				  className={gameState.winner ? "hidden" : "absolute w-[140px] h-[10px] top-[20px] transition-left duration-100 rounded-lg ease-linear"}
-				  style={{ left: `${gameState.paddles.left}px`, backgroundColor: !selectedIds ? SLIDECUES[0].mapPath : SLIDECUES[selectedIds.paddel].mapPath }}
+				  style={{ left: `${gameState.paddles.up}px`, backgroundColor: !selectedIds ? SLIDECUES[0].mapPath : SLIDECUES[selectedIds.paddel].mapPath }}
 				></div>
 
 				{/* Right Paddle */}
 				<div
 				  className={gameState.winner ? "hidden" : "absolute w-[140px] h-[10px] transition-left bottom-[20px] duration-100 rounded-lg ease-linear"}
 				  style={{	
-							left: `${gameState.paddles.right}px`,
+							left: `${gameState.paddles.down}px`,
 				  			backgroundColor: !selectedIds ? SLIDECUES[0].mapPath : SLIDECUES[selectedIds.paddel].mapPath 
 						}}
 				></div>
   
 				{/* Ball */}
 				<div
-				  className={gameState.winner ? "hidden" : "absolute w-[15px] h-[15px] bg-red-600 rounded-[50%]"}
-				  style={{ left: `${gameState.ball.x}px`, top: `${gameState.ball.y}px`, backgroundColor: !selectedIds ? SLIDEBALLS[0].mapPath : SLIDEBALLS[selectedIds.ball].mapName }}
+				  className={gameState.winner ? "hidden" : "absolute w-[15px] h-[15px] transition-transform duration-100 ease-linear rounded-[50%] bg-red-600"}
+				  style={{ left: `${gameState.ball.x}px`, top: `${gameState.ball.y}px`, backgroundColor: !selectedIds ? SLIDEBALLS[0].mapName : SLIDEBALLS[selectedIds.ball].mapName }}
 				></div>
 			  </div>
 			</div>
@@ -182,7 +175,7 @@ function Game_Remot( { id, selectedIds } ) {
   
 			{/* Player Info */}
 			<div className="absolute flex justify-center top-[30px] w-full px-4">
-			  <div className="relative bg-[url('/public/name_hold_game.svg')] h-[70px] w-[250px] bg-cover bg-center transform scale-x-[-1] flex justify-center items-center">
+			  <div className="relative bg-[url('/name_hold_game.svg')] h-[70px] w-[250px] bg-cover bg-center transform scale-x-[-1] flex justify-center items-center">
 				<p className="absolute text-white text-4xl transform scale-x-[-1] font-luckiest right-[25px]">
 				  {gameState.side.up}
 				</p>
@@ -193,7 +186,7 @@ function Game_Remot( { id, selectedIds } ) {
 			  <div className="flex justify-items-center">
 				<img src="/public/logo_game.svg" alt="logo" />
 			  </div>
-			  <div className="relative bg-[url('/public/name_hold_game.svg')] h-[70px] w-[250px] bg-cover bg-center flex justify-center items-center">
+			  <div className="relative bg-[url('/name_hold_game.svg')] h-[70px] w-[250px] bg-cover bg-center flex justify-center items-center">
 				<p className="absolute text-white text-4xl font-luckiest right-[25px]">
 				{gameState.side.down}
 				</p>

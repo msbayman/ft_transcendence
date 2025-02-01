@@ -1,11 +1,19 @@
+from django.db import transaction
 import json
 from channels.generic.websocket import AsyncWebsocketConsumer
 from channels.db import database_sync_to_async
 import asyncio
 from .models import Match
+from user_auth.models import Player
+import math
+from asgiref.sync import sync_to_async
+import logging
+
 
 # check if you have per and game was ended (done)
 # check if user are already playnig and he disconnect (momkin tkherejhom bjoj)
+logger = logging.getLogger(__name__)
+
 
 class GameConsumer(AsyncWebsocketConsumer):
     rooms = {}
@@ -14,9 +22,6 @@ class GameConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         self.user = self.scope['user']
         self.room_name = self.scope["url_route"]["kwargs"]["id"]
-
-        if self.room_name.startswith("tournament_"):
-            self.tourn_game[self.user.username] = self.room_name
 
         self.room_group_name = f'game_{self.room_name}'
 
@@ -38,8 +43,8 @@ class GameConsumer(AsyncWebsocketConsumer):
                     'ball': {'x': 250, 'y': 365, 'dx': 5, 'dy': 5},
                     'paddles': {'up': 180, 'down': 180},
                     'score': {'p1': 0, 'p2': 0},
+                    'side': {'up': None, 'down': None},
                     'winner' : None,
-                    'side': {'up': None, 'down': None}
                 },
                 'players': {
                     'up': None,
@@ -81,8 +86,7 @@ class GameConsumer(AsyncWebsocketConsumer):
             print(self.user)
             if room['players']['down'] == self.user:
                 self.game_task = asyncio.create_task(self.game_loop())
-                self.game_task.add_done_callback(self.call_back) # del
-    
+                self.game_task.add_done_callback(self.call_back)
 
     async def is_part_of_the_game(self, name, id):
         try:
@@ -125,40 +129,109 @@ class GameConsumer(AsyncWebsocketConsumer):
         except Exception as e:
             print(f"Error saving match score: {e}")
 
+    @database_sync_to_async
+    def save_user(self):
+        self.user.save()
+        # self.user.save(update_fields=['points'])
+
+    async def update_user_after_game(self, winnner, score):
+        if self.user.username == winnner:
+    
+            self.user.total_games += 1
+            self.user.win_games += 1
+            self.user.points += 300
+            self.user.level = math.floor( self.user.points / 1000 ) + 1
+    
+            if self.user.win_games == 1:
+                self.user.win_1_game = True
+            if self.user.win_games == 3:
+                self.user.win_3_games = True
+            if self.user.win_games == 10:
+                self.user.win_10_games = True
+            if self.user.win_games == 30:
+                self.user.win_30_games = True
+            if self.user.level > 5:
+                self.user.reach_level_5 = True
+            if self.user.level > 15:
+                self.user.reach_level_15 = True
+            if self.user.level > 30:
+                self.user.reach_level_30 = True
+            if score == 0:
+                self.user.perfect_win_game = True
+            # if score == 0 and :
+            #     self.user.perfect_win_game = True
+            #     self.user.points += 250
+
+        else:
+            self.user.total_games += 1
+            self.user.lose_games += 1
+            self.user.level = math.floor( self.user.points / 1000 ) + 1
+                
+        await self.save_user()
+
+
+
+
+            # print(f"self.user is: {self.user.username} and he won {self.user.points} and his level is : {self.user.level}")
+            # await self.user.save(update_fields=['points'])
+
+
+
+
+        # elif self.user.username != winnner:
+
+        #     self.user.total_games += 1
+        #     self.user.lose_games += 1
+
+        #     self.user.level = math.floor( self.user.points / 1000 ) + 1
+
+        #     print(f"self.user is: {self.user.username} and he lose up to {self.user.lose_games} and his level is : {self.user.level}")
+        #     await self.save_user()
+
+
+
+
+        
+#--------------------------------------------------------------------------------------
     async def disconnect(self, close_code):
-        print(f"player {self.user.username} desconnect")
+        print(f"player {self.user.username} disconnected")
+
         if self.user.username in self.act_ply:
             del self.act_ply[self.user.username]
+
         if not self.rooms.get(self.room_name):
             return
 
         room = self.rooms[self.room_name]
+        game_state = room["game_state"]
+        # ply_update = room["players"]
 
-        if room['players']['up'] == self.user:
-            await self.update_match_score(3, 0)
-            room['players']['up'] = None
-        elif room['players']['down'] == self.user:
-            await self.update_match_score(0, 3)
-            room['players']['down'] = None
+        if not game_state["winner"]:
+            logger.error(f"they not have a winner")
+            if room['players']['up'] == self.user:
+                game_state["winner"] = room['players']['down'].username if room['players']['down'] else None
+                game_state["score"]["p2"] = 3
+                game_state["score"]["p1"] = 0 
+            elif room['players']['down'] == self.user:
+                game_state["winner"] = room['players']['up'].username if room['players']['up'] else None
+                game_state["score"]["p1"] = 3
+                game_state["score"]["p2"] = 0
+            # await self.update_user_after_game(game_state["winner"], game_state["score"]["p2"])
+            # await self.broadcast_end_game(game_state)
+        # else:
+        # logger.error(f"they have a winner") 
+        await self.update_user_after_game(game_state["winner"], game_state["score"]["p2"])
+        await self.broadcast_end_game(game_state)
 
-        await self.channel_layer.group_send(
-            self.room_group_name,
-            {
-                "type": "game_end",
-                "winner": room["game_state"]["winner"],
-                "score": room["game_state"]["score"],
-            }
-        )
 
-        await self.channel_layer.group_discard(
-            self.room_group_name,
-            self.channel_name,
-        )
+
+        # await self.update_user_after_game(game_state["winner"], game_state["score"]["p2"])
+        await self.channel_layer.group_discard(self.room_group_name, self.channel_name)
 
         if not any(room['players'].values()):
             del self.rooms[self.room_name]
 
-
+#--------------------------------------------------------------------------------------
     async def receive(self, text_data):
         room = self.rooms[self.room_name]
         data = json.loads(text_data)
@@ -233,7 +306,7 @@ class GameConsumer(AsyncWebsocketConsumer):
             await self.reset_ball()
             if game_state["score"]["p2"] == 3:
                 game_state["winner"] = room["players"]["down"].username
-                await self.update_match_score(game_state["score"]["p1"], game_state["score"]["p2"])
+            await self.update_match_score(game_state["score"]["p1"], game_state["score"]["p2"])
 
         # bott player scores
         if ball_y > 725:
@@ -241,16 +314,15 @@ class GameConsumer(AsyncWebsocketConsumer):
             await self.reset_ball()
             if game_state["score"]["p1"] == 3:
                 game_state["winner"] = room["players"]["up"].username
-                await self.update_match_score(game_state["score"]["p1"], game_state["score"]["p2"])
-
+            await self.update_match_score(game_state["score"]["p1"], game_state["score"]["p2"])
 
     async def reset_ball(self):
         room = self.rooms[self.room_name]
         room["game_state"]["ball"] = {
             "x": 250,
             "y": 365,
-            "dx": 3,
-            "dy": 3,
+            "dx": 5,
+            "dy": 5,
         }
         await self.broadcast_game_state()
 
@@ -265,16 +337,17 @@ class GameConsumer(AsyncWebsocketConsumer):
         )
 
     async def broadcast_end_game(self, game_state):
+        room = self.rooms[self.room_name]
         await self.channel_layer.group_send(
             self.room_group_name,
             {
                 "type": "game_end",
-                "winner": game_state["winner"],
-                "score": game_state["score"],
+                "game_state": room["game_state"],
             },
         )
     
     async def game_end(self, event):
+
         # end_game_message = event["end_game"]
         await self.send(text_data=json.dumps(event))
 

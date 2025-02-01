@@ -78,14 +78,14 @@ function Game_Tourn() {
     if (!tournamentState?.semi1)
     {
       setlPlayers(tournamentState?.p1);
-      setrPlayers(tournamentState?.p3);
+      setrPlayers(tournamentState?.p2);
     }
-    if (!tournamentState?.semi2)
+    else if (!tournamentState?.semi2)
     {
-      setlPlayers(tournamentState?.p2);
+      setlPlayers(tournamentState?.p3);
       setrPlayers(tournamentState?.p4);
     }
-    if (!tournamentState?.final)
+    else if (!tournamentState?.final)
     {
       setlPlayers(tournamentState?.semi1);
       setrPlayers(tournamentState?.semi2);
@@ -153,7 +153,7 @@ useEffect(() => {
       }
       await handleSleep();
       clearInterval(interval);
-      navigate("/tourn");
+      // navigate("/tourn");
       return;
     }
 
@@ -242,10 +242,10 @@ const resetBall = () => {
 				<div className={isPaused ? "relative top-[340px] left-[155px] text-white font-luckiest text-6xl" : "hidden"}>
 					PAUSED
 				</div>
-				<div className={Ballscore.l == 3 ? "relative top-[340px] left-[50px] text-white font-luckiest text-6xl" : "hidden"}>
+				<div className={Ballscore.l == 3 ? "relative top-[340px] left-[50px] text-white text-center font-luckiest text-6xl" : "hidden"}>
 				  {iswin} IS WIN
 				</div>
-				<div className={Ballscore.r == 3 ? "relative top-[340px] left-[50px] text-white font-luckiest text-6xl" : "hidden"}>
+				<div className={Ballscore.r == 3 ? "relative top-[340px] left-[50px] text-white text-center font-luckiest text-6xl" : "hidden"}>
           {iswin} IS WIN
 				</div>
 				{/* Left Paddle */}
@@ -270,7 +270,7 @@ const resetBall = () => {
 				  style={{
 					top: ballPosition.top,
 					left: ballPosition.left,
-          backgroundColor: !selectedIds ? SLIDEBALLS[0].mapPath : SLIDEBALLS[selectedIds.ball].mapName
+          backgroundColor: !selectedIds ? SLIDEBALLS[0].mapPath : SLIDEBALLS[selectedIds.ball].mapPath
 				  }}
 				></div>
 			  </div>
@@ -291,14 +291,14 @@ const resetBall = () => {
 			/>
 			</div>
           <div className="absolute flex justify-between items-center top-[30px]">
-            <div className="relative bg-[url('/public/name_hlder_game.svg')] h-[70px] w-[250px] bg-cover bg-center transform scale-x-[-1] flex justify-center items-center">
+            <div className="relative bg-[url('/name_hlder_game.svg')] h-[70px] w-[250px] bg-cover bg-center transform scale-x-[-1] flex justify-center items-center">
                 <p className="absolute text-white text-4xl transform scale-x-[-1] font-luckiest right-[25px] ">{lplayers}</p>
                 <p className="absolute text-black text-2xl transform scale-x-[-1] font-luckiest left-[9px] bottom-[10px] ">NoN</p>
             </div>
             <div className="flex justify-items-center">
                 <img src="/public/logo_game.svg" alt="logo"/>
             </div>
-            <div className="relative bg-[url('/public/name_hlder_game.svg')] h-[70px] w-[250px] bg-cover bg-center flex justify-center items-center">
+            <div className="relative bg-[url('/name_hlder_game.svg')] h-[70px] w-[250px] bg-cover bg-center flex justify-center items-center">
         		<p className="absolute text-white text-4xl font-luckiest right-[25px] ">{rplayers}</p>
             	<p className="absolute text-black text-2xl font-luckiest left-[9px] bottom-[10px] ">NoN</p>
             </div>

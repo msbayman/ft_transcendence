@@ -143,7 +143,7 @@ class MatchMakingConsumer(AsyncWebsocketConsumer):
     @database_sync_to_async
     def get_player_data(self, player):
         return {
-            "username": player.full_name,
+            "username": player.username,
             "email": player.email,
             "profile_image": player.profile_image.url if player.profile_image else None,
             "points": player.points,
