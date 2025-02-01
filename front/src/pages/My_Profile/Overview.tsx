@@ -77,10 +77,8 @@ function Overview() {
   // Clear notification handler
   const clearNotification = (id?: string) => {
     if (id) {
-      // Remove specific notification
       setNotifications((prev) => prev.filter(notif => notif.id !== id));
     } else {
-      // Clear all notifications (if needed)
       setNotifications([]);
     }
   };
@@ -248,7 +246,7 @@ function Overview() {
             <hr className={over.brr} />
           </div>
 
-          <button onClick={Notifications_f}>
+          <button className={notifications.length > 0 ? "bg-red-500" : ""} onClick={Notifications_f}>
             <span className={`${over.navbar_item2} ${over.Notifications}`}>
               <img src="/Navbar/Notifications.svg" className={over.imgg} alt="Notifications" />
               <span className={over.hidden_name}>Notifications</span>

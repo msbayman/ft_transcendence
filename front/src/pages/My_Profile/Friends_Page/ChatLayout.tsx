@@ -344,7 +344,7 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
           {localMessages.map((message) => (
             <div
               key={message.id}
-              className={`flex items-start gap-3 ${
+              className={`flex items-start gap-3 max-w-full break-words whitespace-normal p-2 ${
                 message.sent ? "" : "justify-end"
               }`}
             >

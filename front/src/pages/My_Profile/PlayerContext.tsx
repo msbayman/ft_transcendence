@@ -63,7 +63,7 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({
   const [ws, setWs] = useState<WebSocket | null>(null);
   const [onlineFriends, setOnlineFriends] = useState<UserOnline[]>([]);
   const wsRef = useRef<WebSocket | null>(null);
-  const connectionAttemptedRef = useRef(false);
+
 
 
   const fetchPlayerData = useCallback(async () => {
@@ -104,16 +104,9 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({
       return;
     }
 
- 
-    if (connectionAttemptedRef.current) {
-      return;
-    }
-
     if (wsRef.current?.readyState === WebSocket.OPEN) {
       return;
     }
-
-    connectionAttemptedRef.current = true;
     const wsUrl = `wss://localhost/ws/notifications/?token=${token}`;
     const newWs = new WebSocket(wsUrl);
     wsRef.current = newWs;
@@ -156,14 +149,13 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({
 
     newWs.onerror = (error) => {
       console.error("WebSocket error:", error);
-      connectionAttemptedRef.current = false;
     };
 
     newWs.onclose = (event) => {
       console.log("Notification WebSocket disconnected", event);
       wsRef.current = null;
       setWs(null);
-      connectionAttemptedRef.current = false;
+      setTimeout(() => {setWs(null)}, 5000)
     };
 
   }, []);
@@ -175,7 +167,6 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({
     }
     wsRef.current = null;
     setWs(null);
-    connectionAttemptedRef.current = false;
   }, []);
 
   useEffect(() => {
