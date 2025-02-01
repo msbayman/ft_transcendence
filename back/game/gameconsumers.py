@@ -207,7 +207,7 @@ class GameConsumer(AsyncWebsocketConsumer):
         # ply_update = room["players"]
 
         if not game_state["winner"]:
-            logger.error(f"they not have a winner")
+            # logger.error(f"they not have a winner")
             if room['players']['up'] == self.user:
                 game_state["winner"] = room['players']['down'].username if room['players']['down'] else None
                 game_state["score"]["p2"] = 3

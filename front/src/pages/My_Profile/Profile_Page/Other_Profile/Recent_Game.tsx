@@ -35,7 +35,6 @@ export const Recent_Game = ({ other_data }: data_interface) => {
         if (response.ok) {
           const info = await response.json();
           setHistoryGame(info);
-          console.log("the matchs is here: ", historyGame);
         }
       } catch (error) {
         console.error("Error:", error);

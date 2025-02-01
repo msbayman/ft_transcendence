@@ -26,15 +26,11 @@ const Leaderboard = () => {
         setListPlayers(response.data);
       })
       .catch((error) => console.error("Error fetching leaderboard:", error));
-    console.log("here");
-  }, [listPlayers]);
+  }, []);
 
   const the_list = useMemo(() => {
-    console.log('here2')
     return listPlayers.slice(0, 10);
   }, [listPlayers]);
-
-  console.log('-->>,,' ,listPlayers);
 
   return (
     <div className={lead.All_Content_Leaderboard}>

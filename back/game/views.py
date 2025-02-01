@@ -8,14 +8,12 @@ from rest_framework.permissions import IsAuthenticated
 from .serializer import MatchHistorySerializer
 from django.db.models import Q
 from django.http import Http404
-
 from .models import Match
 from .serializer import MatchSerializer
 from .serializer import PlayerSerializer
 from user_auth.models import Player
-from .serializer import MatchHistorySerializer
-from django.db.models import Q
-from django.http import Http404
+from django.utils import timezone
+from datetime import timedelta
 
 class UserMatchHistoryView(ListAPIView):
     serializer_class = MatchHistorySerializer
@@ -37,20 +35,24 @@ def get_username_for_players(request):
     Mserializer = MatchSerializer(matchs, many=True).data
     return Response(Mserializer)
 
-
-class UserMatchHistoryView(ListAPIView):
+class Last_5_Days(ListAPIView):
     serializer_class = MatchHistorySerializer
     permission_classes = []
-    # authentication_classes = [JWTAuthentication]
-
     def get_queryset(self):
+        five_days_ago = timezone.now() - timedelta(days=5)
+        username = self.kwargs.get('username')
+
         try:
-            username = self.kwargs.get('username')
-            return Match.objects.filter(
-                Q(player1=username) | Q(player2=username)
-            ).order_by('-date')
-        except Exception as e:
-            raise Http404(f"this given username not found {e}")
+            player = Player.objects.get(username=username)
+        except Player.DoesNotExist:
+            raise Http404("Player with the given username not found")
+
+        list_matches = Match.objects.filter(
+            (Q(player1=username) | Q(player2=username)) & Q(date__gte=five_days_ago)
+        ).order_by('-date')
+
+        return list_matches
+
 
 
 @api_view(['GET'])

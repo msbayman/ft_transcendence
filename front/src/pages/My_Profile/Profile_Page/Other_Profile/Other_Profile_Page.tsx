@@ -80,17 +80,17 @@ export const Other_Profile_Page = ({
               <Info_Player username={username} />
             </div>
             <div className={other.Recent_Game}>
-              <Recent_Game other_data={data}/>
+              <Recent_Game other_data={data} />
             </div>
             <div className={other.Acheivement_and_States}>
               <div className={other.action_to_accept}>
                 <Action_Friends username={username} />
               </div>
               <div className={other.Content_of_Acheievment}>
-                <Acheiev_Profile other_data={data}/>
+                <Acheiev_Profile other_data={data} />
               </div>
               <div className={other.Content_of_States}>
-                <States_Profile />
+                <States_Profile other_data={data} />
               </div>
             </div>
           </div>
