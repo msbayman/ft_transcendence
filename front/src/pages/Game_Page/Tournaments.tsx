@@ -8,7 +8,7 @@ const Tournaments = () => {
 	const my_data = usePlayer();
 	const { tournamentState, setTournamentState } = useContext(TournContext);
   	const navigate = useNavigate();
-  	const [time, setTime] = useState(10);
+  	const [time, setTime] = useState(5);
 	const location = useLocation();
 	const { selectedIds } = location.state || {};
 
@@ -16,7 +16,18 @@ const Tournaments = () => {
 		if (time <= 0)
 			goTogame();
 		else if (tournamentState.final)
-			goToover();
+		{
+			setTournamentState({
+				final: "",
+				semi1: "",
+				semi2: "",
+				p1: "def-1",
+				p2: "def-2",
+				p3: "def-3",
+				p4: "def-4",
+			  });
+			navigate("/Overview");
+		}
 		const timer = setInterval(() => {
 		setTime((prevTime) => prevTime - 1);
 		}, 1000);
@@ -25,10 +36,6 @@ const Tournaments = () => {
 
 	const goTogame = () => {
 		navigate("/tourn_game", {state: {selectedIds} });
-	  };
-
-	const goToover = () => {
-		navigate("/Overview");
 	  };
 
     // 	const notify = () => toast("Wow so easy!");

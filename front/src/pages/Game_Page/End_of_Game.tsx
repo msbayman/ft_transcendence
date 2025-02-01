@@ -1,10 +1,13 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { usePlayer } from "../My_Profile/PlayerContext";
+import { useLocation } from "react-router-dom";
 
 const End_of_Game = () => {
   const navigate = useNavigate();
   const data = usePlayer();
+  const location = useLocation();
+  const { selectedIds } = location.state || {};
 
   const navig_to_home = () => {
     navigate("/Overview");
