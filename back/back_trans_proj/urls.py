@@ -32,8 +32,8 @@ urlpatterns = [
     # path("api/discord/",include("oauth2_discord.urls")),
     path("api/42/",include("oauth2_42.urls")),
     path("api/check_csrf_tok/",include("check_csrf_token.urls")),
-    path('game/', include('game.urls')),
-    path('api/chat/',include("chat.urls")),
+    path('api/game/', include('game.urls')),
+    path("api/chat/",include("chat.urls")),
     # path("listfriends/",include("listfriends.urls")),
     path('api/listfriends/', include('listfriends.urls')),  # Include the app's URLs
 

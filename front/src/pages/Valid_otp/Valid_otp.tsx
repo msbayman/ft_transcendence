@@ -4,7 +4,6 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { TextField, Button, Box, Typography, Alert } from "@mui/material";
 import "./Valid_otp.css";
-import { string } from "zod";
 
 const ValidOtp: React.FC = () => {
   const [searchParams] = useSearchParams();

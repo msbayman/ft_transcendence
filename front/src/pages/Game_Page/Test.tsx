@@ -1,34 +1,30 @@
-import React, { useEffect, useState } from "react";
-import Cookies from "js-cookie";
+// import React, { useEffect, useState } from "react";
+// import Cookies from "js-cookie";
+// import Tournaments from "./Tournaments";
+// import Tourn_game from "./Game_Fortourn";
+// import { TournContext } from "./TournContext";
 
-function Test() {
-  const [socket, setSocket] = useState<WebSocket | null>(null);
-  const [connectionStatus, setConnectionStatus] = useState("Disconnected");
-  const [error, setError] = useState<string | null>(null);
+	
+// function Test(){
 
-  useEffect(() => {
-    const token = Cookies.get("access_token");
-    const ws = new WebSocket(`wss://backend/ws/loby/?token=${token}`);
+// 	export const TournProvider = ({ children }) => {
+// 		const [tournamentState, setTournamentState] = useState({
+// 		  p1: "Player 1",
+// 		  p2: "Player 2",
+// 		  p3: "Player 3",
+// 		  p4: "Player 4",
+// 		  semi1: null,
+// 		  semi2: null,
+// 		  final: null,
+// 		});
 
-    ws.onopen = () => {
-      console.log("Connected to WebSocket");
-      setConnectionStatus("Connected");
-      setError(null);
-    };
+// 	return (
+// 		<>
+// 			<TournContext.Provider value={{ tournamentState, setTournamentState }}>
+//       			{1 ? <Tournaments />: <Tourn_game />}
+//     		</TournContext.Provider>
+// 		</>
+// 	);
+// };
 
-    return () => {
-      if (ws) {
-        ws.close();
-      }
-    };
-  }, []);
-
-  return (
-    <div>
-      <h2>WebSocket Status: {connectionStatus}</h2>
-      {error && <p style={{ color: "red" }}>{error}</p>}
-    </div>
-  );
-}
-
-export default Test;
+// export default Test;

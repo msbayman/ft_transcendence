@@ -1,16 +1,17 @@
-import "./Overview_page.css"
+import "./Overview_page.css";
 import State_of_Profile from "./State_of_Profile";
 import Top_of_Achievement from "./Top_of_Achievement";
-import The_Leaderboard from "./Leaderboard"
+import The_Leaderboard from "./Leaderboard";
 import Online_Friends_Overview from "./Online_Friends_Overview";
 import { useNavigate } from "react-router-dom";
 import { usePlayer } from "../PlayerContext";
+import React, { useEffect  } from "react";
 import Cookies from "js-cookie";
-import { useEffect } from "react";
+
 
 export const Overview_Page: React.FC = () => {
-const token = Cookies.get("access_token");
- useEffect(() => {
+  useEffect(() => {
+    const token = Cookies.get("access_token");
     const url = "wss://localhost/ws/notifications/";
     const wsUrl = `${url}?token=${token}`;
     const ws = new WebSocket(wsUrl);
@@ -25,25 +26,27 @@ const token = Cookies.get("access_token");
 
     ws.onclose = () => {
       console.log("WebSocket Disconnected");
-    }},[token]);
-
-  
-
+    };
+  }, []);
 
   const navigate = useNavigate();
   const dataPlayer = usePlayer();
 
-
   const Onclick = () => {
     navigate("/Play");
-  } 
+  };
   return (
     <div className="Overview_Page">
       <div className="Part_1">
         <div className="part_welcome">
           <div className="Welcome_Back">Welcome Back !</div>
         </div>
-        <div style={{ backgroundImage: `url(${dataPlayer.playerData?.cover_image.replace("http://", "https://")})`}} className="Background_Profile" >
+        <div
+          style={{
+            backgroundImage: `url(${dataPlayer.playerData?.cover_image.replace("http://","https://")})`,
+          }}
+          className="Background_Profile"
+        >
           <div className="States_Profile">
             <State_of_Profile />
           </div>
@@ -64,7 +67,7 @@ const token = Cookies.get("access_token");
         </div>
         <div className="Play_Button">
           <button onClick={Onclick} className="play">
-            <img src="/public/Button_Play.svg"/>
+            <img src="/Button_Play.svg" />
           </button>
         </div>
       </div>

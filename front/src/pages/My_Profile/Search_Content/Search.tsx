@@ -90,7 +90,7 @@ const Search = () => {
 
   return (
     <>
-      <img src="/public/Navbar/Search.svg" className={search_css.imgg_s} />
+      <img src="/Navbar/Search.svg" className={search_css.imgg_s} />
       <input
         className={search_css.inside_input}
         ref={inputRef}

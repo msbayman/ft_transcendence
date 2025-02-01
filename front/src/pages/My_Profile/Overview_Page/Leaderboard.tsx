@@ -14,7 +14,7 @@ const Leaderboard = () => {
   const navigate = useNavigate();
 
   const onclick = () => {
-    navigate("/Leadearboard");
+    navigate("/Leaderboard");
   };
 
   const [listPlayers, setListPlayers] = useState<data_Player[]>([]);

@@ -5,10 +5,8 @@ import { usePlayer } from "../PlayerContext";
 import axios from "axios";
 import Cookies from "js-cookie";
 
-
 const Table_Leaderboard = () => {
-
-  const token = Cookies.get("access_token")
+  const token = Cookies.get("access_token");
 
   interface list_leaderboard_user {
     username: string;
@@ -34,11 +32,17 @@ const Table_Leaderboard = () => {
   const rankImages = (key: number): JSX.Element | null => {
     switch (key) {
       case 1:
-        return <img src="/public/Icones/Leader_1.svg" alt="Top1" className={leader.rank} />;
+        return (
+          <img src="/Icones/Leader_1.svg" alt="Top1" className={leader.rank} />
+        );
       case 2:
-        return <img src="/public/Icones/Leader_2.svg" alt="Top2" className={leader.rank} />;
+        return (
+          <img src="/Icones/Leader_2.svg" alt="Top2" className={leader.rank} />
+        );
       case 3:
-        return <img src="/public/Icones/Leader_3.svg" alt="Top3" className={leader.rank} />;
+        return (
+          <img src="/Icones/Leader_3.svg" alt="Top3" className={leader.rank} />
+        );
       default:
         return null;
     }

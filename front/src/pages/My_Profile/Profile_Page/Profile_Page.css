@@ -25,6 +25,7 @@
   min-height: 200px;
   background-repeat: no-repeat;
   background-position: center;
+  background-position-y: 33%;
   background-size: cover;
   border-radius: 20px;
 }

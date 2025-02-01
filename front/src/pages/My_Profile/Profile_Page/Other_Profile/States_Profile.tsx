@@ -1,20 +1,68 @@
 // import * as React from "react";
 import other from "./States_Profile.module.css";
 import { BarChart } from "@mui/x-charts/BarChart";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import { data_of_player } from "./interface";
 
-const getLast5Days = () => {
-  const days = [];
-  const currentDate = new Date();
 
-  for (let i = 4; i >= 0; i--) {
-    const day = new Date(currentDate);
-    day.setDate(currentDate.getDate() - i);
-    days.push(day.toLocaleDateString());
-  }
-  return days;
-};
+interface data_interface {
+  other_data: data_of_player | null;
+}
 
-export const States_Profile = () => {
+export const States_Profile = ({ other_data }: data_interface) => {
+
+  const [winData, setWinData] = useState([0, 0, 0, 0, 0]); // Wins for last 5 days
+  const [lossData, setLossData] = useState([0, 0, 0, 0, 0]); // Losses for last 5 days
+  const getLast5Days = () => {
+    const days = [];
+    const currentDate = new Date();
+    for (let i = 4; i >= 0; i--) {
+      const day = new Date(currentDate);
+      day.setDate(currentDate.getDate() - i);
+      days.push(day.toLocaleDateString());
+    }
+    return days;
+  };
+
+  useEffect(() => {
+    const fetchMatchHistory = async () => {
+      try {
+        const response = await axios.get(
+          `https://localhost/api/game/last_5_days/${other_data?.username}/`
+        );
+        const matches = response.data;
+        // Initialize win and loss counts for the last 5 days
+        const last5Days = getLast5Days();
+        const winCounts = new Array(5).fill(0);
+        const lossCounts = new Array(5).fill(0);
+
+        // Process each match
+        matches.forEach((match: any) => {
+          const matchDate = new Date(match.date).toLocaleDateString();
+          const dayIndex = last5Days.indexOf(matchDate);
+
+          if (dayIndex !== -1) {
+            if (
+              match.player1_score > match.player2_score &&
+              match.player1 === other_data?.username
+            ) {
+              winCounts[dayIndex] += 1; // Increment win count
+            } else {
+              lossCounts[dayIndex] += 1; // Increment loss count
+            }
+          }
+        });
+
+        // Update state with the processed data
+        setWinData(winCounts);
+        setLossData(lossCounts);
+      } catch (err) {
+        console.error("Error fetching Matches:", err);
+      }
+    };
+    fetchMatchHistory();
+  }, [other_data?.username]);
   const last5day = getLast5Days();
   return (
     <div className={other.all_content_stat}>
@@ -33,11 +81,11 @@ export const States_Profile = () => {
             ]}
             series={[
               {
-                data: [0, 0, 0, 0, 0],
+                data: winData,
                 color: "#04D100",
               },
               {
-                data: [0, 0, 0, 0, 0],
+                data: lossData,
                 color: "red",
               },
             ]}
@@ -47,8 +95,10 @@ export const States_Profile = () => {
           />
         </div>
         <div className={other.info_table_stats}>
+          <span className={other.win_info}></span>
           <span className={other.text_win}> win</span>
-          <span className={other.text_lose}> Lose</span>
+          <span className={other.lose_info}></span>
+          <span className={other.text_win}> win</span>
         </div>
       </div>
     </div>

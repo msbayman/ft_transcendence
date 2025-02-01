@@ -14,7 +14,7 @@ class PlayerSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, required=False)
     re_password = serializers.CharField(write_only=True, required=False)
     profile_image = serializers.ImageField(default='profile_images/default_profile.jpeg')
-    cover_image = serializers.ImageField(default='cover_pictures/cover_picture_1.png')
+    cover_image = serializers.ImageField(default='cover_pictures/Cover_Picture_1.png')
 
     class Meta:
         model = Player
@@ -25,7 +25,7 @@ class PlayerSerializer(serializers.ModelSerializer):
             'level', 'total_games', 'win_games', 'lose_games',
             'win_1_game', 'win_3_games', 'win_10_games', 'win_30_games',
             'reach_level_5', 'reach_level_15', 'reach_level_30', 'perfect_win_game',
-            'perfect_win_tournaments',
+            'perfect_win_tournaments', 'active_2fa',
         ]
         extra_kwargs = {
             'username': {'required': True},

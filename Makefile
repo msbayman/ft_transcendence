@@ -5,14 +5,14 @@ COMPOSE_FILE = docker-compose.yml
 .PHONY: up down restart build clean clean-all logs clean-cache
 
 # Start the containers
+build:
+	@echo "Building containers..."
+	docker compose -f $(COMPOSE_FILE) up --build
+
+# Stop the containers
 up:
 	@echo "Starting containers..."
 	docker compose -f $(COMPOSE_FILE) up
-
-# Stop the containers
-down:
-	@echo "Stopping containers..."
-	docker compose -f $(COMPOSE_FILE) down
 
 # Restart the containers
 restart:
@@ -21,9 +21,9 @@ restart:
 	docker compose -f $(COMPOSE_FILE) up
 
 # Build or rebuild the containers
-build:
-	@echo "Building containers..."
-	docker compose -f $(COMPOSE_FILE) up --build
+down:
+	@echo "Stopping containers..."
+	docker compose -f $(COMPOSE_FILE) down
 
 # Clean up (stop containers and remove volumes)
 clean:

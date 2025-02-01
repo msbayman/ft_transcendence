@@ -11,13 +11,13 @@ class Player(AbstractUser):
     provider_identifier = models.CharField(max_length=100, blank=True, null=True)
     otp_code = models.CharField(max_length=6,blank=True)  # OTP code
     created_at = models.DateTimeField(auto_now_add=True)  # Time when the OTP was created
-    active_2fa = models.BooleanField(default=True)
+    active_2fa = models.BooleanField(default=True)  # 2FA status
     is_validate = models.BooleanField(default=False)
     profile_image = models.ImageField(upload_to='profile_images/', default='profile_images/default_profile.jpeg')
-    cover_image = models.ImageField(upload_to='cover_pictures/', default='cover_pictures/cover_picture_1.png')
+    cover_image = models.ImageField(upload_to='cover_pictures/', default='cover_pictures/Cover_Picture_1.png')
     points = models.IntegerField(default=0)
     is_online = models.BooleanField(default=False)
-    level = models.IntegerField(default=1)
+    level = models.IntegerField(default=0)
     total_games = models.IntegerField(default=0)
     win_games = models.IntegerField(default=0)
     lose_games = models.IntegerField(default=0)
@@ -37,9 +37,7 @@ class Player(AbstractUser):
 
     def is_blocked(self, user):
         return self.blocked_users.filter(pk=user.pk).exists()
-
-    # nickname = models.CharField('', blank=True)
-
+        
     ####################################################################
 
     win_1_game = models.BooleanField(default=False)

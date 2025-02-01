@@ -15,22 +15,29 @@ import Valid_otp from "./pages/Valid_otp/Valid_otp";
 import Overview from "./pages/My_Profile/Overview";
 import { PlayerProvider, usePlayer } from "./pages/My_Profile/PlayerContext";
 import Game_Local from "./pages/Game_Page/Game_Local";
-import Game_Bot from "./pages/Game_Page/Game_Bot";
-import Game_Remot from "./pages/Game_Page/Game_Remot";
-import Test from "./pages/Game_Page/Test";
+// import Game_Remot from "./pages/Game_Page/Game_Remot";
+// import Tourn_manage from "./pages/Game_Page/Game_Torn";
+import Game_Tourn from "./pages/Game_Page/Game_Fortourn";
 import Game_Loby from "./pages/Game_Page/Game_loby";
-import { isValid } from "zod";
+import Tournaments from "./pages/Game_Page/Tournaments";
+import { TournProvider } from "./pages/Game_Page/TournContext";
+import { Toaster } from 'react-hot-toast';
+import End_of_Game from './pages/Game_Page/End_of_Game';
+// import Game_challeng from "./pages/Game_Page/Game_Challenge";
+// import NotFound from "./NotFound";
+
 
 function AppContent() {
   const navigate = useNavigate();
   const location = useLocation();
-  const { fetchPlayerData, clearPlayerData } = usePlayer();
+  const { fetchPlayerData, clearPlayerData, wsConnection } = usePlayer();
 
   useEffect(() => {
     const accessToken = Cookies.get("access_token");
 
     const validateAccessToken = async () => {
       try {
+
         const response = await axios.get(
           "https://localhost/api/check_csrf_tok/validate_token",
           {
@@ -39,7 +46,10 @@ function AppContent() {
             },
           }
         );
-        return response.status === 200;
+        if (response.status === 200) {
+          wsConnection()
+          return response.status;
+      }
       } catch (error) {
         return false;
       }
@@ -61,7 +71,7 @@ function AppContent() {
 
       if (isPublicPath) {
         if (isValidToken) {
-          navigate("/overview");
+          navigate("/Overview");
         }
       } else {
         if (!isValidToken) {
@@ -73,8 +83,18 @@ function AppContent() {
       }
     };
 
-    checkToken();
-  }, [location.pathname, navigate, fetchPlayerData, clearPlayerData]);
+    if (
+      !accessToken &&
+      location.pathname !== "/" &&
+      location.pathname !== "/signup" &&
+      location.pathname !== "/Valid_otp"
+    ) {
+      clearPlayerData();
+      navigate("/login");
+    } else {
+      checkToken();
+    }
+  }, [location.pathname, navigate, fetchPlayerData, clearPlayerData, wsConnection]);
 
   return (
     <Fragment>
@@ -86,11 +106,13 @@ function AppContent() {
           <Route path="/*" element={<Overview />} />
           <Route path="Valid_otp" element={<Valid_otp />} />
           <Route path="/local_game" element={<Game_Local />} />
-          <Route path="/local_bot" element={<Game_Bot />} />
-          <Route path="/remote_game" element={<Game_Remot />} />
-          <Route path="/test" element={<Test />} />
-          {/* <Route path="/game_loby" element={<Game_Loby />} /> */}
+          <Route path="/remote_game" element={<Game_Loby />} />
+          <Route path="/tourn_game" element={<Game_Tourn />} />
+          <Route path="/tourn" element={<Tournaments />} />
+          <Route path="/Game_Result" element={<End_of_Game />} />
+
         </Routes>
+        <Toaster />
       </main>
     </Fragment>
   );
@@ -99,7 +121,9 @@ function AppContent() {
 function App() {
   return (
     <PlayerProvider>
-      <AppContent />
+      <TournProvider>
+        <AppContent />
+      </TournProvider>
     </PlayerProvider>
   );
 }

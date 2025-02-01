@@ -4,7 +4,7 @@
 }
 
 .all {
-  /* background-image: url(/public/Navbar/Back_left_Side.png); */
+  /* background-image: url(/Navbar/Back_left_Side.png); */
   background-size: cover;
   background-position: center;
   display: flex;
@@ -185,10 +185,11 @@
     border: 1px solid white;
   }
   .notif {
-    position:absolute;
+    position: absolute;
     /* width: calc(100vw - 100px); */
     width: calc(100vw - 300px);
     height: 100%;
+    /* left: 300px; hna ayman was here*/
     left: 300px;
     backdrop-filter: blur(10px);
     z-index: 2;

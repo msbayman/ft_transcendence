@@ -7,22 +7,13 @@ import Action_Friends from "./Action_Friends";
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
+import { data_of_player } from "./interface";
 
 export const Other_Profile_Page = ({
   username,
 }: {
   username: string | undefined;
 }) => {
-  interface data_of_player {
-    username: string;
-    level: number;
-    total_games: number;
-    win_games: number;
-    lose_games: number;
-    points: number;
-    profile_image: string;
-    cover_image: string;
-  }
 
   const token = Cookies.get("access_token");
 
@@ -89,17 +80,17 @@ export const Other_Profile_Page = ({
               <Info_Player username={username} />
             </div>
             <div className={other.Recent_Game}>
-              <Recent_Game />
+              <Recent_Game other_data={data} />
             </div>
             <div className={other.Acheivement_and_States}>
               <div className={other.action_to_accept}>
                 <Action_Friends username={username} />
               </div>
               <div className={other.Content_of_Acheievment}>
-                <Acheiev_Profile />
+                <Acheiev_Profile other_data={data} />
               </div>
               <div className={other.Content_of_States}>
-                <States_Profile />
+                <States_Profile other_data={data} />
               </div>
             </div>
           </div>

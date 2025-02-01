@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react";
-// import "./Friends_Page.css";
+import { useLocation } from 'react-router-dom';
 import FriendsList from "./FriendsList";
 import ChatInterface from "./ChatLayout";
 import { WebSocketProvider, useWebSocket } from "./WebSocketContext";
-// import { usePlayer } from '../PlayerContext';
 
-// const PlayerInstance = usePlayer()
 
 interface ChatContainerProps {
   user: string;
@@ -16,7 +14,6 @@ const ChatContainer: React.FC<ChatContainerProps> = ({
   user,
   onUserSelect,
 }) => {
-  // user = PlayerInstance.playerData?.username
   return (
     <>
       <ChatInterface value={user} />
@@ -26,7 +23,11 @@ const ChatContainer: React.FC<ChatContainerProps> = ({
 };
 
 const Friends_Page_Content: React.FC = () => {
-  const [user, setUser] = useState<string>("");
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const initialUser = queryParams.get('user') || '';
+
+  const [user, setUser] = useState<string>(initialUser);
   const { connect, disconnect } = useWebSocket();
 
   useEffect(() => {
@@ -39,7 +40,6 @@ const Friends_Page_Content: React.FC = () => {
   }, []);
 
   const handleUser = (newUser: string) => {
-    console.log("Setting new user:", newUser);
     setUser(newUser);
   };
 

@@ -2,16 +2,13 @@ import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useWebSocket } from "./WebSocketContext";
 import Cookies from "js-cookie";
-import axios from 'axios';
+import axios from "axios";
 import { usePlayer } from "../PlayerContext";
-
-
 
 interface PlayerInfo {
   id: number;
   username: string;
   profile_image: string;
-  status: boolean;
 }
 
 interface APIResponse {
@@ -21,14 +18,14 @@ interface APIResponse {
   content: string;
   timestamp: number;
   is_read: boolean;
-  sender_profile_image:string;
+  sender_profile_image: string;
 }
 
 interface Message {
   id: number;
   text: string;
   sent: boolean;
-  avatar: string;
+  profile_image: string;
   timestamp: number;
   sender: string;
   receiver: string;
@@ -39,7 +36,7 @@ interface UserName {
 }
 
 const ChatInterface: React.FC<UserName> = ({ value }) => {
-  const loggedplayer = usePlayer()
+  const loggedplayer = usePlayer();
   const [localMessages, setLocalMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -49,16 +46,17 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
   const token = Cookies.get("access_token");
   const profile_redirec = useNavigate();
 
+
   const toggleDiv = () => {
     setShowDiv((prevState) => !prevState);
   };
   
-  const [isblock, setIsBlock] = useState(false);  // Initially, not blocked
+  const [isblock, setIsBlock] = useState(false);
   const block = async () => {
     try {
       if (!isblock) {
         await axios.post(
-          `https://localhost/api/chat/block_user/${value}`,
+          `https://localhost/api/chat/block_user/${value}/`,
           {}, // empty body
           {
             headers: {
@@ -69,7 +67,7 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
         setIsBlock(true);
       } else {
         await axios.post(
-          `https://localhost/api/chat/unblock_user/${value}`,
+          `https://localhost/api/chat/unblock_user/${value}/`,
           {}, // empty body
           {
             headers: {
@@ -80,12 +78,11 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
         setIsBlock(false);
       }
     } catch (error) {
-      console.log("Error:", error);
+      console.error("Error:", error);
     }
   };
   useEffect(() => {
     if (value === "") return;
-  
     const fetchPlayerInfo = async () => {
       try {
         const response = await axios.get<PlayerInfo>(
@@ -100,8 +97,10 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
         if (response.status === 200) {
           setPlayerInfo({
             ...response.data,
-            profile_image: response.data.profile_image.replace("http://","https://"), // Prepend base URL
-            status: response.data.is_online
+            profile_image: response.data.profile_image.replace(
+              "http://",
+              "https://"
+            ),
           });
         }
       } catch (error) {
@@ -109,20 +108,16 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
         setPlayerInfo(null);
       }
     };
-    
     fetchPlayerInfo();
   }, [value, token]);
-  // console.log("-------***************** " + playerInfo?.username)
-  // console.log("-------***************** " + playerInfo?.status)
 
   useEffect(() => {
     if (value === "") return;
 
     const fetchData = async () => {
       try {
-        // Fetch the conversation
         const conversationResponse = await axios.get(
-          `https://localhost/api/chat/getconversation/${value}`,
+          `https://localhost/api/chat/getconversation/${value}/`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -137,7 +132,7 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
               id: msg.id,
               text: msg.content,
               sent: msg.sender !== loggedplayer.playerData?.username,
-              avatar: `${msg.sender_profile_image}`,
+              profile_image: `${msg.sender_profile_image}`,
               timestamp: msg.timestamp,
               sender: msg.sender,
               receiver: msg.receiver,
@@ -151,7 +146,6 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
         setLocalMessages([]);
       }
     };
-    
     const fetchBlockStatus = async () => {
       try {
         const blockStatusResponse = await axios.get(
@@ -173,9 +167,9 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
     fetchBlockStatus();
   }, [value, token, loggedplayer.playerData?.username]);
 
-  const go_to_profile = (username:string | undefined) => {
-    profile_redirec(`/Profile/${username}`)
-  }
+  const go_to_profile = (username: string | undefined) => {
+    profile_redirec(`/Profile/${username}`);
+  };
 
   useEffect(() => {
     if (messages.length > 0) {
@@ -186,11 +180,17 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
             const existingMessageIndex = newMessages.findIndex(
               (msg) => msg.id === wsMessage.id
             );
-  
+
             if (existingMessageIndex === -1) {
               newMessages.push({
                 ...wsMessage,
-                avatar: wsMessage.sender === value ? playerInfo?.profile_image.replace("http://", "https://") : loggedplayer.playerData?.profile_image.replace("http://", "https://"),
+                profile_image:
+                  wsMessage.sender === value
+                    ? playerInfo?.profile_image.replace("http://", "https://") || ""
+                    : loggedplayer.playerData?.profile_image.replace(
+                        "http://",
+                        "https://"
+                      ) || "",
                 sent: wsMessage.sender !== loggedplayer.playerData?.username,
               });
             }
@@ -199,14 +199,21 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
         return newMessages.sort((a, b) => a.id - b.id);
       });
     }
-  }, [messages, value, loggedplayer.playerData?.username]);
-  
+  }, [messages, value, loggedplayer.playerData?.username, playerInfo?.profile_image, loggedplayer.playerData?.profile_image]);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
   useEffect(scrollToBottom, [localMessages]);
+  const sendChallenge = (name: string) => {
+    if (loggedplayer.ws && loggedplayer.ws?.readyState === WebSocket.OPEN) {
+      loggedplayer.ws.send(JSON.stringify({
+        type: "send_challenge",
+        sender: name
+      }));
+    }
+  };
 
   const handleSend = () => {
     if (!input.trim() || !value) return;
@@ -219,19 +226,19 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
     setInput("");
   };
 
-  // const formatTimestamp = (timestamp: number) => {
-  //   return new Date(timestamp * 1000).toLocaleTimeString('en-US', {
-  //     hour: '2-digit',
-  //     minute: '2-digit'
-  //   });
-  // };
 
   if (value === "") {
-    return <div className="flex justify-center items-center gap-[60px] text-white w-11/12 rounded-l-[44px] flex-col bg-[#5012C4] p-4 font-alexandria">
-      <span className="font-semibold text-5xl	text-white">Welcome to Transcendance Chat ..</span>
-      <img src="/public/empty_chat.png" alt="chat_image" className="w-[700px]" />
-      <span className="font-medium text-xl tracking-wider">Start Texting..</span>
-    </div>;
+    return (
+      <div className="flex justify-center items-center gap-[60px] text-white w-11/12 rounded-l-[44px] flex-col bg-[#5012C4] p-4 font-alexandria">
+        <span className="font-semibold text-5xl	text-white">
+          Welcome to Transcendance Chat ..
+        </span>
+        <img src="/empty_chat.png" alt="chat_image" className="w-[700px]" />
+        <span className="font-medium text-xl tracking-wider">
+          Start Texting..
+        </span>
+      </div>
+    );
   }
 
   return (
@@ -261,45 +268,54 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
           </div>
           <hr className="max-w-lg mt-1.5" />
           <div className="mt-5 grid justify-center text-center gap-2">
-            <img src={playerInfo?.profile_image.replace("http://", "https://")} className="rounded-full w-20 h-20" alt="" />
+            <img
+              src={playerInfo?.profile_image.replace("http://", "https://")}
+              className="rounded-full w-20 h-20"
+              alt=""
+            />
             <div>
               <h1 className="text-2xl">{playerInfo?.username}</h1>
-              <h1 className="text-2xl text-lime-600">{playerInfo?.status ? "online" : "offline"}</h1>
             </div>
-            <button onClick={() => go_to_profile(playerInfo?.username)} className="mt-5 flex flex-col items-center justify-center text-white rounded hover:bg-[#8f6edd]">
-              <img src="/public/Chat/viewprofile.svg" alt="View Profile" className="w-8 h-8" />
+            <button
+              onClick={() => go_to_profile(playerInfo?.username)}
+              className="mt-5 flex flex-col items-center justify-center text-white rounded hover:bg-[#8f6edd]"
+            >
+              <img
+                src="/Chat/viewprofile.svg"
+                alt="View Profile"
+                className="w-8 h-8"
+              />
               <p>View Profile</p>
             </button>
           </div>
           <hr className="max-w-lg mt-1.5" />
           <div className="flex justify-between align-middle m-5">
-            <button className="w-[100px] flex flex-col items-center justify-center gap-1 rounded hover:bg-[#8f6edd]">
-              <img className="" src="/public/Chat/challenge.svg" alt="" />
+            <button  onClick={() => sendChallenge(playerInfo?.username || "")} className="w-[100px] flex flex-col items-center justify-center gap-1 rounded hover:bg-[#8f6edd]">
+              <img className="" src="/Chat/challenge.svg" alt="" />
               <p>chalenge</p>
             </button>
             <button
               onClick={block}
               className="w-[100px] flex flex-col items-center justify-center gap-1 rounded hover:bg-[#8f6edd]"
             >
-              <img src="/public/Chat/block.svg" alt="" />
+              <img src="/Chat/block.svg" alt="" />
               <p> {isblock ? "ubblock user" : "block user"}</p>
             </button>
           </div>
-          {/* <button onClick={block}>
-            <img src={icon} alt="" />
-            {isblock ? "ubblock user": "block user"}
-          </button> */}
         </div>
       )}
 
       <div className="flex-1 rounded-l-[44px] flex flex-col bg-[#5012C4] p-4">
         <div className="flex items-center gap-3 p-4 border-b border-white/10">
           <div className="h-14 w-14">
-            <img src={playerInfo?.profile_image.replace("http://", "https://")} alt="Profile" className="rounded-full" />
+            <img
+              src={playerInfo?.profile_image.replace("http://", "https://")}
+              alt="Profile"
+              className="rounded-full"
+            />
           </div>
           <div>
             <h1 className="text-xl font-semibold text-white">{value}</h1>
-            <p className="text-sm text-white/70">Online</p>
           </div>
           <button
             className="ml-auto p-2 rounded-full hover:bg-white/10 focus:outline-none"
@@ -334,7 +350,7 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
               {message.sent && (
                 <div className="h-10 w-10">
                   <img
-                    src={message.avatar}
+                    src={message.profile_image}
                     alt="Profile"
                     className="rounded-full"
                   />
@@ -347,19 +363,14 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
                     : "bg-gray-200 text-black"
                 }`}
               >
-                <p className="whitespace-normal max-w-screen-lg">{message.text}</p>
-                {/* <div className="text-xs text-gray-400 mt-1">
-                  {formatTimestamp(message.timestamp)}
-                  {message.sent ? 
-                    <span className="ml-2">Sent ✓</span> : 
-                    <span className="ml-2">Received</span>
-                  }
-                </div> */}
+                <p className="whitespace-normal max-w-screen-lg">
+                  {message.text}
+                </p>
               </div>
               {!message.sent && (
                 <div className="h-10 w-10">
                   <img
-                    src={message.avatar}
+                    src={message.profile_image}
                     alt="Profile"
                     className="rounded-full"
                   />
