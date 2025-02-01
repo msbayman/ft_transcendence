@@ -104,7 +104,7 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({
       return;
     }
 
-    if (wsRef.current?.readyState === WebSocket.OPEN) {
+    if (wsRef.current && (wsRef.current.readyState === WebSocket.OPEN || wsRef.current.readyState === WebSocket.CONNECTING)) {
       return;
     }
     const wsUrl = `wss://localhost/ws/notifications/?token=${token}`;
@@ -157,8 +157,7 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({
       setWs(null);
       setTimeout(() => {setWs(null)}, 5000)
     };
-
-  }, []);
+  }, [playerData?.username]);
 
   const closeWsConnection = useCallback(() => {
     if (wsRef.current?.readyState === WebSocket.OPEN) {

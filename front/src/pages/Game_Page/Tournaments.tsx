@@ -2,23 +2,45 @@ import { useContext, useState, useEffect } from 'react';
 import { usePlayer } from "../My_Profile/PlayerContext";
 import { useNavigate, useLocation } from "react-router-dom";
 import { TournContext } from './TournContext';
-// import { ToastContainer, toast } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Tournaments = () => {
 	const my_data = usePlayer();
 	const { tournamentState, setTournamentState } = useContext(TournContext);
   	const navigate = useNavigate();
-  	const [time, setTime] = useState(10);
+  	const [time, setTime] = useState(5);
 	const location = useLocation();
 	const { selectedIds } = location.state || {};
 
   	useEffect(() => {
+		if (time == 3)
+			toast.success("Game gonna start in 3 seconds", {
+				position: "top-right",
+				autoClose: 3000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,});
 		if (time <= 0)
-			goTogame();
+			{
+				goTogame();
+			}
 		else if (tournamentState.final)
-			goToover();
+		{
+			setTournamentState({
+				final: "",
+				semi1: "",
+				semi2: "",
+				p1: "def-1",
+				p2: "def-2",
+				p3: "def-3",
+				p4: "def-4",
+			  });
+			navigate("/Overview");
+		}
 		const timer = setInterval(() => {
-		setTime((prevTime) => prevTime - 1);
+			setTime((prevTime) => prevTime - 1);
 		}, 1000);
 		return () => clearInterval(timer);
 	}, [time]);
@@ -27,14 +49,11 @@ const Tournaments = () => {
 		navigate("/tourn_game", {state: {selectedIds} });
 	  };
 
-	const goToover = () => {
-		navigate("/Overview");
-	  };
-
     // 	const notify = () => toast("Wow so easy!");
 
   return (
 	<div className="flex w-screen h-screen justify-center items-center bg-[url('/background.png')] bg-cover bg-center pb-[50px]">
+		<ToastContainer />
 	  <div className="flex justify-center items-center flex-col w-[100%] max-w-[1600px] h-[100%] gap-[10px]">
 		{/* -------------------------------------------------->>> part1 title*/}
 

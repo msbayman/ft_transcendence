@@ -15,6 +15,7 @@ import { usePlayer } from "./PlayerContext";
 import Search from "./Search_Content/Search";
 import NotFound from "../../NotFound";
 import { useNavigate } from 'react-router-dom';
+import { toast } from "react-hot-toast";
 
 
 interface Notification {
@@ -56,6 +57,7 @@ function Overview() {
             navigate('/Game_challeng', { state: { challenged: data.receiver, challenger:data.sender} });
           }
           if (data.type === "challenge_notification") {
+            toast.success("you have been challenged{}")
             const notificationWithId = { 
               ...data, 
               id: Date.now().toString()
@@ -88,7 +90,6 @@ function Overview() {
     if (dataPlayer?.ws)
       {
         dataPlayer?.ws.send(JSON.stringify({type: "clear_list"}))
-        console.log("logout")
       }
     dataPlayer?.closeWsConnection()
     const refreshToken = Cookies.get("refresh_token");

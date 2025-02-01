@@ -9,11 +9,7 @@ import math
 from asgiref.sync import sync_to_async
 import logging
 
-
-# check if you have per and game was ended (done)
-# check if user are already playnig and he disconnect (momkin tkherejhom bjoj)
 logger = logging.getLogger(__name__)
-
 
 class GameConsumer(AsyncWebsocketConsumer):
     rooms = {}
@@ -77,6 +73,11 @@ class GameConsumer(AsyncWebsocketConsumer):
             if not self.match:
                 await self.close()
                 return
+
+            if self.match.status == 2:
+                print(f"--------> the game is alredy end")
+                await self.close()
+                return
         except Exception as e:
             print(f"Error retrieving match: {e}")
             await self.close()
@@ -86,7 +87,6 @@ class GameConsumer(AsyncWebsocketConsumer):
             print(self.user)
             if room['players']['down'] == self.user:
                 self.game_task = asyncio.create_task(self.game_loop())
-                self.game_task.add_done_callback(self.call_back)
 
     async def is_part_of_the_game(self, name, id):
         try:
@@ -98,13 +98,6 @@ class GameConsumer(AsyncWebsocketConsumer):
         except Exception as e:
             print(f"Error saving match score: {e}")
         return 0
-
-
-    def call_back(self, game_task):
-        try:
-            game_task.result()
-        except Exception as e:
-            print(f"Error - task - : {e}")
              
     @database_sync_to_async
     def get_the_game_by_id(self, match_id):
@@ -123,6 +116,8 @@ class GameConsumer(AsyncWebsocketConsumer):
             match:Match = Match.objects.get(id=self.room_name)
             match.player1_score = score1
             match.player2_score = score2
+            if match.player1_score == 3 or match.player2_score == 3:
+                match.status = 2
             match.save()
         except Match.DoesNotExist:
             print(f"Match with ID {self.room_name} not found")
@@ -211,11 +206,13 @@ class GameConsumer(AsyncWebsocketConsumer):
             if room['players']['up'] == self.user:
                 game_state["winner"] = room['players']['down'].username if room['players']['down'] else None
                 game_state["score"]["p2"] = 3
-                game_state["score"]["p1"] = 0 
+                game_state["score"]["p1"] = 0
             elif room['players']['down'] == self.user:
                 game_state["winner"] = room['players']['up'].username if room['players']['up'] else None
                 game_state["score"]["p1"] = 3
                 game_state["score"]["p2"] = 0
+            await self.update_match_score(game_state["score"]["p1"], game_state["score"]["p2"])
+
             # await self.update_user_after_game(game_state["winner"], game_state["score"]["p2"])
             # await self.broadcast_end_game(game_state)
         # else:
@@ -347,8 +344,6 @@ class GameConsumer(AsyncWebsocketConsumer):
         )
     
     async def game_end(self, event):
-
-        # end_game_message = event["end_game"]
         await self.send(text_data=json.dumps(event))
 
     async def game_update(self, event):
