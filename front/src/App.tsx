@@ -16,7 +16,7 @@ import Overview from "./pages/My_Profile/Overview";
 import { PlayerProvider, usePlayer } from "./pages/My_Profile/PlayerContext";
 import Game_Local from "./pages/Game_Page/Game_Local";
 import Game_Tourn from "./pages/Game_Page/Game_Fortourn";
-import Game_Loby from "./pages/Game_Page/Game_Loby";
+import Game_Loby from  "./pages/Game_Page/Game_loby";                                                                                                                                                                                                                                                                                                                              
 import Tournaments from "./pages/Game_Page/Tournaments";
 import { TournProvider } from "./pages/Game_Page/TournContext";
 import { Toaster } from 'react-hot-toast';

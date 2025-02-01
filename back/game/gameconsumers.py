@@ -1,8 +1,12 @@
+from django.db import transaction
 import json
 from channels.generic.websocket import AsyncWebsocketConsumer
 from channels.db import database_sync_to_async
 import asyncio
 from .models import Match
+from user_auth.models import Player
+import math
+from asgiref.sync import sync_to_async
 
 # check if you have per and game was ended (done)
 # check if user are already playnig and he disconnect (momkin tkherejhom bjoj)
@@ -32,7 +36,7 @@ class GameConsumer(AsyncWebsocketConsumer):
         if self.room_name not in self.rooms:
             self.rooms[self.room_name] = {
                 'game_state': {
-                    'ball': {'x': 250, 'y': 365, 'dx': 10, 'dy': 10},
+                    'ball': {'x': 250, 'y': 365, 'dx': 5, 'dy': 5},
                     'paddles': {'up': 180, 'down': 180},
                     'score': {'p1': 0, 'p2': 0},
                     'side': {'up': None, 'down': None},
@@ -121,6 +125,44 @@ class GameConsumer(AsyncWebsocketConsumer):
         except Exception as e:
             print(f"Error saving match score: {e}")
 
+    @database_sync_to_async
+    def update_user_after_game(self, winnner, score, plys): 
+        if self.user.username == winnner:    
+            if self.user.username == 
+            self.user.total_games += 1
+            self.user.win_games += 1
+            self.user.points += 300
+            self.user.level = math.floor( self.user.points / 1000 ) + 1
+    
+            if self.user.win_games == 1:
+                self.user.win_1_game = True
+            if self.user.win_games == 3:
+                self.user.win_3_games = True
+            if self.user.win_games == 10:
+                self.user.win_10_games = True
+            if self.user.win_games == 30:
+                self.user.win_30_games = True
+            if self.user.level > 5:
+                self.user.reach_level_5 = True
+            if self.user.level > 15:
+                self.user.reach_level_15 = True
+            if self.user.level > 30:
+                self.user.reach_level_30 = True
+            if score == 0:
+                self.user.perfect_win_game = True
+            print(f"self.user is: {self.user.username} and he won {self.user.points} and his level is : {self.user.level}")
+
+        # else:
+
+        #     self.user.total_games += 1
+        #     self.user.lose_games += 1
+
+        #     self.user.level = math.floor( self.user.points / 1000 ) + 1
+
+        #     print(f"self.user is: {self.user.username} and he lose up to {self.user.lose_games} and his level is : {self.user.level}")
+
+        self.user.save()
+
     async def disconnect(self, close_code):
         print(f"player {self.user.username} disconnected")
 
@@ -132,8 +174,10 @@ class GameConsumer(AsyncWebsocketConsumer):
 
         room = self.rooms[self.room_name]
         game_state = room["game_state"]
+        ply_update = room["players"]
 
         if game_state["winner"]:
+            await self.update_user_after_game(game_state["winner"], game_state["score"]["p2"], ply_update)
             await self.broadcast_end_game(game_state)
         else:
             if room['players']['up'] == self.user:
@@ -146,7 +190,9 @@ class GameConsumer(AsyncWebsocketConsumer):
                 game_state["score"]["p2"] = 0
 
             await self.update_match_score(game_state["score"]["p1"], game_state["score"]["p2"])
+            await self.update_user_after_game(game_state["winner"], game_state["score"]["p2"])
             await self.broadcast_end_game(game_state)
+
 
         await self.channel_layer.group_discard(self.room_group_name, self.channel_name)
 
@@ -242,8 +288,8 @@ class GameConsumer(AsyncWebsocketConsumer):
         room["game_state"]["ball"] = {
             "x": 250,
             "y": 365,
-            "dx": 3,
-            "dy": 3,
+            "dx": 5,
+            "dy": 5,
         }
         await self.broadcast_game_state()
 

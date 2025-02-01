@@ -8,7 +8,7 @@ function Game_Remot( { id, selectedIds } ) {
 	const [socket, setSocket] = useState<WebSocket | null>(null);
 	const [gameState, setGameState] = useState({
 		paddles: {up: 180, down: 180},
-		ball: { x: 250, y: 365, dx: 10, dy: 10 },
+		ball: { x: 250, y: 365, dx: 5, dy: 5 },
 		score: { player1: 0, player2: 0 },
 		winner : null,
 		side: {up: null, down: null}
@@ -75,6 +75,12 @@ function Game_Remot( { id, selectedIds } ) {
 
 		ws.onmessage = (event) => {
 			const gameState = JSON.parse(event.data);
+			if (gameState.type == "game_end")
+			{
+				timer = setTimeout(() => {
+					navigate("/Game_Result");
+				  }, 2000);
+			}
 			setGameState({
 				...gameState,
 				paddles: {
@@ -95,12 +101,6 @@ function Game_Remot( { id, selectedIds } ) {
 				},
 				winner: gameState.winner
 			});
-			if (gameState.type == "game_end")
-			{
-				timer = setTimeout(() => {
-					navigate("/Game_Result", { state: {gameState} });
-				  }, 2000);
-			}
 		};
 
 		ws.onclose = () => console.log("WebSocket closed");
@@ -159,8 +159,8 @@ function Game_Remot( { id, selectedIds } ) {
   
 				{/* Ball */}
 				<div
-				  className={gameState.winner ? "hidden" : "absolute w-[15px] h-[15px] bg-red-600 rounded-[50%]"}
-				  style={{ left: `${gameState.ball.x}px`, top: `${gameState.ball.y}px`, backgroundColor: !selectedIds ? SLIDEBALLS[0].mapPath : SLIDEBALLS[selectedIds.ball].mapName }}
+				  className={gameState.winner ? "hidden" : "absolute w-[15px] h-[15px] transition-transform duration-100 ease-linear rounded-[50%] bg-red-600"}
+				  style={{ left: `${gameState.ball.x}px`, top: `${gameState.ball.y}px`, backgroundColor: !selectedIds ? SLIDEBALLS[0].mapName : SLIDEBALLS[selectedIds.ball].mapName }}
 				></div>
 			  </div>
 			</div>
