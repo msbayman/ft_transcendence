@@ -71,9 +71,12 @@ import { usePlayer } from '../PlayerContext';
         </div>
         <div className={notif.part2}>
           <span className={notif.text}>Notifications</span>
+          <button onClick={onClose} className='w-[50px]'>X</button>
         </div>
       </div>
     );
+    if (showNotifications)
+      return
   };
 
   export default Notifications_p;

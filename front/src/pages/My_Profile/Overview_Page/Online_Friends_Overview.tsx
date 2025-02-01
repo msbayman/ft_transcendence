@@ -5,14 +5,24 @@ import { useNavigate } from "react-router-dom";
 const Online_Friends_Overview = () => {
   const { onlineFriends } = usePlayer();
   const navigate = useNavigate();
-
+  const loggedplayer = usePlayer()
   const to_message = (username:string) => {
     navigate(`/Friends?user=${username}`);
   };
 
-  const to_play = () => {
-    navigate("/Play");
+
+  const to_play = (name: string) => {
+    if (loggedplayer.ws && loggedplayer.ws?.readyState === WebSocket.OPEN) {
+      loggedplayer.ws.send(JSON.stringify({
+        type: "send_challenge",
+        sender: name
+      }));
+    }
   };
+  
+  // const to_play = () => {
+  //   navigate("/Play");
+  // };
 
   return (
     <div className="all_content_Online">
@@ -38,7 +48,7 @@ const Online_Friends_Overview = () => {
                     </button>
                   </div>
                   <div className="hove_contain">
-                    <button onClick={to_play}>
+                    <button onClick={() => to_play(friend.username)}>
                       <img src="/public/Icones/Invite_to_play.svg" className="img_siz" alt="Challenge" />
                       <span className="hove">Challenge</span>
                     </button>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { useWebSocket } from "./WebSocketContext";
+import { useWebSocket } from "./useWebSocket";
 import ChatContainer from "./ChatContainer";
 
 const FriendsPageContent: React.FC = () => {

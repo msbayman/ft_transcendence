@@ -17,12 +17,19 @@ import NotFound from "../../NotFound";
 import { useNavigate } from 'react-router-dom';
 
 
+interface Notification {
+  sender: string;
+  profile_image: string;
+  content: string;
+  type: string;
+  id?: string;
+}
 
 function Overview() {
   const location = useLocation();
   const dataPlayer = usePlayer();
   const [showNotifications, setShowNotifications] = useState(false);
-  const [notifications, setNotifications] = useState<any[]>([]); // Array to store multiple notifications
+  const [notifications, setNotifications] = useState<Notification[]>([]);
   const navigate = useNavigate();
   useEffect(() => {
     const state = location.state as { fromOAuth?: boolean };
@@ -65,7 +72,7 @@ function Overview() {
         dataPlayer.ws?.removeEventListener('message', handleWebSocketMessage);
       };
     }
-  }, [dataPlayer?.ws]);
+  }, [dataPlayer?.ws, navigate]);
   
   // Clear notification handler
   const clearNotification = (id?: string) => {
@@ -80,7 +87,12 @@ function Overview() {
   const Notifications_f = () => setShowNotifications((prev) => !prev);
 
   const check_logout = async () => {
-    dataPlayer?.closeWsConnection();
+    if (dataPlayer?.ws)
+      {
+        dataPlayer?.ws.send(JSON.stringify({type: "clear_list"}))
+        console.log("logout")
+      }
+    dataPlayer?.closeWsConnection()
     const refreshToken = Cookies.get("refresh_token");
     const accessToken = Cookies.get("access_token");
 

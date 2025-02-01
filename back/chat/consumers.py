@@ -10,19 +10,21 @@ from channels.generic.websocket import AsyncJsonWebsocketConsumer
 User = get_user_model()
 
 class NotifConsumer(AsyncJsonWebsocketConsumer):
+    online_players = []
     async def connect(self):
         self.user = self.scope["user"]
         if not self.user.is_authenticated:
             return
         await self.accept()
+        self.online_players.append(self.user.username)
         await self.update_status(True)
         await self.add_user_to_online_list()
         await self.notify_friends_status(True)
-        await self.send_friends_online_status()
+        await self.send_friends_online_status() 
 # ------------------------------------------------------------------------------ #
     async def receive(self, text_data):
         try:
-            valid_types = {'send_challenge', 'accept_challenge'}
+            valid_types = {'send_challenge', 'accept_challenge', 'clear_list'}
             data = json.loads(text_data)
             message_type = data.get('type')
             if message_type not in valid_types:
@@ -32,6 +34,8 @@ class NotifConsumer(AsyncJsonWebsocketConsumer):
                 return
             elif message_type == 'send_challenge':
                 await self.handle_recive_challenge(data)
+            elif message_type == 'clear_list':
+                await self.handle_clear_list(data)
             elif message_type == 'accept_challenge':
                 await self.handle_accept_challenge(data)
         except json.JSONDecodeError:
@@ -39,10 +43,19 @@ class NotifConsumer(AsyncJsonWebsocketConsumer):
             return
 # ------------------------------------------------------------------------------ #
     async def disconnect(self, close_code):
+        print("before hasattr")
         if hasattr(self, 'user') and self.user.is_authenticated:
-            await self.update_status(False)
-            await self.notify_friends_status(False)
-            await self.remove_user_from_online_list()
+            print("after hasattr1")  
+            if self.user.username in self.online_players:
+                self.online_players.remove(self.user.username)
+                print("after hasattr2")
+            print("self.online_players:   ",self.online_players)
+            if self.user.username not in self.online_players:
+                print("after hasattr3")
+                await self.update_status(False)
+                await self.notify_friends_status(False)
+                await self.remove_user_from_online_list()
+                print("after hasattr4")
 # actions
 # ------------------------------------------------------------------------------ #
     async def check_data(self, data):
@@ -66,12 +79,23 @@ class NotifConsumer(AsyncJsonWebsocketConsumer):
             
             f"user_{self.challenge_receiver.id}_notifications",
             {
-                "type": "challenge_notification",
+                "type": "challenge_notification",  
                 "sender": self.user.username,
                 "content": "You have a new challenge!",
                 "profile_image": profile_image,
-            }
+            }   
         )
+# ------------------------------------------------------------------------------ #
+    async def handle_clear_list(self, data):
+        try:
+            while self.user.username in self.online_players:
+                self.online_players.remove(self.user.username)
+        except ValueError:
+            pass  # Handle case where username isn't in list 
+        
+        # Optionally notify other users about the status change
+        await self.update_status(False)
+        await self.notify_friends_status(False)
 # ------------------------------------------------------------------------------ #
     async def handle_accept_challenge(self, data):
         challenger_username = data.get('sender')  # Add this
@@ -86,7 +110,7 @@ class NotifConsumer(AsyncJsonWebsocketConsumer):
                 "content": f"{self.user.username} has accepted your challenge!",
                 "profile_image": profile_image,
             }
-        )
+        )  
 # ------------------------------------------------------------------------------ #     
     async def send_friends_online_status(self):
         friends = await self.get_friends()
@@ -154,11 +178,22 @@ class NotifConsumer(AsyncJsonWebsocketConsumer):
         
 # getters/setter 
 # ------------------------------------------------------------------------------ #
+# def update_status(self, online):
+#     try:
+#         user = Player.objects.select_for_update().get(id=self.user.id)
+#         user.is_online = online
+#         user.save()
+#     except Player.DoesNotExist:
+#         return
+
     @sync_to_async
     def update_status(self, online):
-        # user = User.objects.select_for_update().get(id=self.user.id)
-        self.user.is_online = online
-        self.user.save()
+        try:
+            user = User.objects.get(id=self.user.id)  
+            user.is_online = online
+            user.save()
+        except User.DosenotExist:
+            return
 # ------------------------------------------------------------------------------ #
     @sync_to_async
     def get_user_online_status(self, user):
@@ -167,7 +202,7 @@ class NotifConsumer(AsyncJsonWebsocketConsumer):
 
     @sync_to_async
     def get_friends(self):
-        print(list(self.user.list_users_friends.all()))  
+        # print(list(self.user.list_users_friends.all()))  
         return list(self.user.list_users_friends.all())
     
 # ------------------------------------------------------------------------------ #  

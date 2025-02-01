@@ -1,6 +1,6 @@
 import React from "react";
-import { WebSocketProvider } from "./WebSocketContext";
 import FriendsPageContent from "./FriendsPageContent";
+import { WebSocketProvider } from "./WebSocketContext.tsx"
 
 const Friends_Page: React.FC = () => {
   return (

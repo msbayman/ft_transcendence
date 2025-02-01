@@ -1,8 +1,8 @@
-import React, { createContext, useState, useContext, useRef, useCallback } from "react";
+import React, { useState, useRef, useCallback } from "react";
 import Cookies from "js-cookie";
 import Alert from '@mui/material/Alert';
 import { usePlayer } from '../PlayerContext';
-
+import { WebSocketContext } from "./WebSocketContext";  // Import the context
 
 interface Message {
   id: number;
@@ -14,41 +14,30 @@ interface Message {
   receiver: string;
 }
 
-interface WebSocketContextType {
-  messages: Message[];
-  connect: (url: string) => void;
-  disconnect: () => void;
-  sendMessage: (message: { username: string; message: string }) => void;
-  currentUser?: string;
-}
-
-const WebSocketContext = createContext<WebSocketContextType | undefined>(undefined);
-
 export const WebSocketProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const PlayerInstance = usePlayer()
+  const PlayerInstance = usePlayer();
   const [messages, setMessages] = useState<Message[]>([]);
   const websocketRef = useRef<WebSocket | null>(null);
   const [ErrorPopUp, setErrorPopUp] = useState(false);
   const [blockedMessage, setBlockedMessage] = useState('');
-  const currentUser = PlayerInstance.playerData?.username
+  const currentUser = PlayerInstance.playerData?.username;
 
-  const connect = useCallback ((url: string) => {
+  const connect = useCallback((url: string) => {
     if (websocketRef.current?.readyState === WebSocket.OPEN) return;
 
     const token = Cookies.get("access_token");
     const wsUrl = `${url}?token=${token}`;
     const ws = new WebSocket(wsUrl);
     ws.onopen = () => {
-      console.log("chat ws connected")
-    }
+      console.log("chat ws connected");
+    };
 
     ws.onmessage = (event) => {
       try {
         const data = JSON.parse(event.data);
 
         if (data.type === 'block_error') {
-          const errorMessage = data.message;
-          setBlockedMessage(errorMessage);
+          setBlockedMessage(data.message);
           setErrorPopUp(true);
           setTimeout(() => setErrorPopUp(false), 3000);
           return;
@@ -62,13 +51,12 @@ export const WebSocketProvider: React.FC<{ children: React.ReactNode }> = ({ chi
             avatar: "default-avatar.png",
             timestamp: data.timestamp,
             sender: data.sender,
-            receiver: data.receiver
+            receiver: data.receiver,
           };
 
           setMessages((prev) => {
             const isDuplicate = prev.some(msg => msg.id === newMessage.id);
-            if (isDuplicate) return prev;
-            return [...prev, newMessage].sort((a, b) => a.id - b.id);
+            return isDuplicate ? prev : [...prev, newMessage].sort((a, b) => a.id - b.id);
           });
         }
       } catch (error) {
@@ -84,7 +72,7 @@ export const WebSocketProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     websocketRef.current = ws;
   }, [currentUser]);
 
-  const disconnect = useCallback( () => {
+  const disconnect = useCallback(() => {
     if (websocketRef.current) {
       console.log("chat WebSocket Disconnected");
       websocketRef.current.close();
@@ -103,19 +91,10 @@ export const WebSocketProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     <WebSocketContext.Provider value={{ messages, connect, disconnect, sendMessage, currentUser }}>
       {children}
       {ErrorPopUp && (
-        <Alert  className="fixed top-4 right-4 bg-red-500 text-white px-4 py-2 rounded-md shadow-lg z-50 transition-opacity duration-300" variant="filled" severity="error">
-        <p>{blockedMessage}</p>
-      </Alert>
+        <Alert className="fixed top-4 right-4 bg-red-500 text-white px-4 py-2 rounded-md shadow-lg z-50 transition-opacity duration-300" variant="filled" severity="error">
+          <p>{blockedMessage}</p>
+        </Alert>
       )}
     </WebSocketContext.Provider>
   );
-};
-
-
-export const useWebSocket = (): WebSocketContextType => {
-  const context = useContext(WebSocketContext);
-  if (!context) {
-    throw new Error("useWebSocket must be used within a WebSocketProvider");
-  }
-  return context;
 };

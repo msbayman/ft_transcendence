@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { useWebSocket } from "./WebSocketContext";
+import { useWebSocket } from "./useWebSocket";
+// import { useWebSocket } from "../path-to/useWebSocket";
+
 import Cookies from "js-cookie";
 import axios from "axios";
 import { usePlayer } from "../PlayerContext";
@@ -57,7 +59,7 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
       if (!isblock) {
         await axios.post(
           `https://localhost/api/chat/block_user/${value}/`,
-          {}, // empty body
+          {},
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -68,7 +70,7 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
       } else {
         await axios.post(
           `https://localhost/api/chat/unblock_user/${value}/`,
-          {}, // empty body
+          {},
           {
             headers: {
               Authorization: `Bearer ${token}`,
