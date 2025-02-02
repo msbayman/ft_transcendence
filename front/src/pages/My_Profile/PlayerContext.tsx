@@ -64,8 +64,8 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({
   const [ws, setWs] = useState<WebSocket | null>(null);
   const [onlineFriends, setOnlineFriends] = useState<UserOnline[]>([]);
   const wsRef = useRef<WebSocket | null>(null);
-  const connectionAttemptedRef = useRef(false);
    const { HOST_URL, WS_HOST_URL } = config;
+
 
 
   const fetchPlayerData = useCallback(async () => {
@@ -106,16 +106,10 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({
       return;
     }
 
- 
-    if (connectionAttemptedRef.current) {
+    if (wsRef.current && (wsRef.current.readyState === WebSocket.OPEN || wsRef.current.readyState === WebSocket.CONNECTING)) {
       return;
     }
 
-    if (wsRef.current?.readyState === WebSocket.OPEN) {
-      return;
-    }
-
-    connectionAttemptedRef.current = true;
     const wsUrl = `${WS_HOST_URL}/ws/notifications/?token=${token}`;
     const newWs = new WebSocket(wsUrl);
     wsRef.current = newWs;
@@ -158,17 +152,15 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({
 
     newWs.onerror = (error) => {
       console.error("WebSocket error:", error);
-      connectionAttemptedRef.current = false;
     };
 
     newWs.onclose = (event) => {
       console.log("Notification WebSocket disconnected", event);
       wsRef.current = null;
       setWs(null);
-      connectionAttemptedRef.current = false;
+      setTimeout(() => {setWs(null)}, 5000)
     };
-
-  }, []);
+  }, [playerData?.username]);
 
   const closeWsConnection = useCallback(() => {
     if (wsRef.current?.readyState === WebSocket.OPEN) {
@@ -177,7 +169,6 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({
     }
     wsRef.current = null;
     setWs(null);
-    connectionAttemptedRef.current = false;
   }, []);
 
   useEffect(() => {
@@ -218,7 +209,6 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({
 
 export const usePlayer = () => {
   const context = useContext(PlayerContext);
-  // console.log('context', context?.playerData);
   
   if (!context) {
     throw new Error("usePlayer must be used within a PlayerProvider");

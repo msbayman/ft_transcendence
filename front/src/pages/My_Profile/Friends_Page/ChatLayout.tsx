@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { useWebSocket } from "./WebSocketContext";
+import { useWebSocket } from "./useWebSocket";
+
 import Cookies from "js-cookie";
 import axios from "axios";
 import { usePlayer } from "../PlayerContext";
@@ -344,7 +345,7 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
           {localMessages.map((message) => (
             <div
               key={message.id}
-              className={`flex items-start gap-3 ${
+              className={`flex items-start gap-3 max-w-full break-words whitespace-normal p-2 ${
                 message.sent ? "" : "justify-end"
               }`}
             >

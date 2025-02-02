@@ -34,34 +34,8 @@ class SendFriendRequest(APIView):
         # channel_layer = get_channel_layer()
         
         # Send mutual status updates
-        self.notify_users(request.user, receiver)
+        
         return Response({"message": "Friend request sent successfully"}, status=status.HTTP_201_CREATED)
-    
-    def notify_users(self, user1, user2):
-        channel_layer = get_channel_layer()
-        
-        # Notify user1 about user2's status
-        async_to_sync(channel_layer.group_send)(
-            f"user_{user1.id}_notifications",
-            {
-                "type": "friend.status",
-                "username": user2.username,
-                "online": user2.is_online,
-                "profile_image": user2.profile_image.url if user2.profile_image else None,
-            }
-        )
-        
-        # Notify user2 about user1's status
-        async_to_sync(channel_layer.group_send)(
-            f"user_{user2.id}_notifications",
-            {
-                "type": "friend.status",
-                "username": user1.username,
-                "online": user1.is_online,
-                "profile_image": user1.profile_image.url if user1.profile_image else None,
-            }
-        )
-
 
 class AcceptFriendRequest(APIView):
     permission_classes = [IsAuthenticated] 
@@ -84,10 +58,37 @@ class AcceptFriendRequest(APIView):
         friend_request.save()
 
         # Add each user to the other's friends list
+        self.notify_users(receiver, sender)
         receiver.list_users_friends.add(sender)
         sender.list_users_friends.add(receiver)
 
         return Response({"message": "Friend request accepted successfully"}, status=status.HTTP_200_OK)
+    
+    def notify_users(self, user1, user2):
+        channel_layer = get_channel_layer()
+        
+        # Notify user1 about user2's status
+        async_to_sync(channel_layer.group_send)(
+            f"user_{user1.id}_notifications",
+            {
+                "type": "friend_status",
+                "username": user2.username,
+                "online": user2.is_online,
+                "profile_image": user2.profile_image.url if user2.profile_image else None,
+            }
+        )
+        
+        # Notify user2 about user1's status
+        async_to_sync(channel_layer.group_send)(
+            f"user_{user2.id}_notifications",
+            {
+                "type": "friend_status",
+                "username": user1.username,
+                "online": user1.is_online,
+                "profile_image": user1.profile_image.url if user1.profile_image else None,
+            }
+        )
+
     
 
 def list_all_friend_requests(request):
@@ -118,11 +119,13 @@ class DeclineFriendRequest(APIView):
         # Find the pending friend request
         try:
             friend_request = Friend_request.objects.filter( models.Q(my_user=sender, other_user=receiver, states='pending') | models.Q(my_user=receiver, other_user=sender, states='pending') ).first()
+            if not friend_request:
+                return Response({"error": "No pending friend request found"}, status=status.HTTP_404_NOT_FOUND)
         except Friend_request.DoesNotExist:
             return Response({"error": "No pending friend request found"}, status=status.HTTP_404_NOT_FOUND)
 
-        # Update the friend request status to 'accepted'
         friend_request.delete()
+        # Update the friend request status to 'accepted'
 
         return Response({"message": "Friend request denied successfully"}, status=status.HTTP_200_OK)
 

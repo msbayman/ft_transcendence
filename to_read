@@ -1,0 +1,26 @@
+* Front-end
+
+--> hooks in react  
+--> typescript and javascript
+--> game logic
+--> setInterval
+--> usecontext
+
+* Back-end
+
+--> websockets
+--> rides
+--> channels
+--> channel-layers
+--> consumers
+--> async
+--> await
+--> coroutine functions
+
+wss("https://localhost:80/api/login")
+
+TO DO:
+
+--> up error in game console
+--> red in local
+

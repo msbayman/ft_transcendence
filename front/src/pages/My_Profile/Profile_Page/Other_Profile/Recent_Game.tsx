@@ -83,9 +83,10 @@ export const Recent_Game = ({ other_data }: data_interface) => {
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleDateString("en-US", {
-      year: "numeric",
       month: "short",
       day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
     });
   };
 
@@ -107,7 +108,7 @@ export const Recent_Game = ({ other_data }: data_interface) => {
                     other_data?.username,
                     field.player1,
                     field.player2
-                  )} pt-[30px] pr-[40px] pl-[30px] text-center flex flex-row w-[100%] gap-3 justify-between items-center`}
+                  )} pt-[30px] pr-[30px] pl-[30px] text-center flex flex-row w-[100%] gap-3 justify-between items-center`}
                 >
                   {win_or_lose_state(
                     field.player1_score,

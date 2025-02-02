@@ -19,6 +19,10 @@ import { config } from "../../../config";
 //   return days;
 // };
 
+interface CustomXAxisProps extends ChartsXAxisProps {
+  categoryGapRatio?: number;
+}
+
 
 export const States_Profile = () => {
     const [winData, setWinData] = useState([0, 0, 0, 0, 0]); // Wins for last 5 days

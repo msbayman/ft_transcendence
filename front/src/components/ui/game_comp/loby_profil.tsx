@@ -1,6 +1,17 @@
 import React from "react";
 
-function Player_Profil({ mydata }) {
+interface playersData {
+    username:string,
+    profile_image:string,
+    level:number,
+}
+
+interface PlayerProfileProps {
+    mydata?: playersData;
+  }
+  
+
+function Player_Profil({  mydata } : PlayerProfileProps) {
     return (
         <div className="relative h-[500px] w-[500px] flex justify-center">
             <img className="absolute rounded-[100%] w-[90%]" src={mydata ? mydata.profile_image : "/public/test_profile.svg"} alt="profil img" />
