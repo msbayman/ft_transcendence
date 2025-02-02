@@ -71,6 +71,8 @@ services:
     build:
       context: ./nginx
       dockerfile: Dockerfile.nginx
+      args:
+         - VITE_HOST_URL=${VITE_HOST_URL}
     ports:
       - "80:80"
       - "443:443"
