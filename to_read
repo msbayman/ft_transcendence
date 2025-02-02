@@ -21,8 +21,6 @@ wss("https://localhost:80/api/login")
 
 TO DO:
 
---> add a timer in befor lance the game (momkin)
---> add state for matchs
 --> up error in game console
 --> front of the challenge loby
 --> tourn buffer 

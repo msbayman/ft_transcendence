@@ -7,11 +7,14 @@ const End_of_Game = () => {
   const navigate = useNavigate();
   const data = usePlayer();
   const location = useLocation();
-  const { selectedIds } = location.state || {};
+  const gameState = location.state?.gameState;
+
 
   const navig_to_home = () => {
     navigate("/Overview");
   };
+
+  console.log("-------> ", gameState?.winner);
   return (
     <div className="flex justify-center items-center w-screen h-screen m-0 bg-[#3A0CA3] bg-cover bg-center bg-[url('/Background_Resultat.png')]">
       <div className="flex flex-col justify-center items-center h-[100%] w-[100%] gap-[40px] max-w-[1600px]">
@@ -47,10 +50,10 @@ const End_of_Game = () => {
           <div className="flex flex-col pb-[90px] gap-[20px] text-center justify-around align-center flex-grow-1 w-[450px] h-[100%]">
             <img className="" src="/Versus.png" alt="" />
             <div className="text-center text-[120px] text-nowrap text-white font-luckiest">
-              <span>YOU LOSE</span>
+              {/* <span>{data.playerData?.username === game_players?.side.up.username && game_players?.score.player1 === 3 ? "YOU WIN" : "YOU LOSE"}</span> */}
             </div>
             <div className="text-center text-[120px] text-nowrap text-white font-luckiest">
-              <span>5 - 2</span>
+              {/* <span>{game_players?.score.player1} - {game_players?.score.player2}</span> */}
             </div>
           </div>
 
@@ -68,7 +71,7 @@ const End_of_Game = () => {
                 src="/result_badge.png"
                 alt=""
               />
-              <span className="absolute text-black font-alexandria font-extrabold text-[25px] pt-[240px]">{data.playerData?.username}</span>
+              {/* <span className="absolute text-black font-alexandria font-extrabold text-[25px] pt-[240px]">{game_players.side?.down}</span> */}
               <span className="absolute text-black font-alexandria font-extrabold text-[25px] pt-[370px]">Level {data.playerData?.level}324</span>
             </div>
             <div className="text-center text-[60px] text-red-600 font-luckiest ">

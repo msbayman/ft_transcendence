@@ -78,7 +78,8 @@ function Game_Remot( { id, selectedIds } ) {
 			if (gameState.type == "game_end")
 			{
 				timer = setTimeout(() => {
-					navigate("/Game_Result", { state : gameState });
+					console.log("data -----> ", gameState);
+            		navigate("/Game_Result", { state: { gameState } });
 				  }, 2000);
 			}
 			setGameState({

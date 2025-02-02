@@ -29,6 +29,7 @@ class GameConsumer(AsyncWebsocketConsumer):
             await self.close()
             return
         
+        await self.accept()
         if self.user.username in self.act_ply:
             await self.close()
             return
@@ -48,43 +49,63 @@ class GameConsumer(AsyncWebsocketConsumer):
                 },
             }
 
-        room = self.rooms[self.room_name]
-        game_state = room["game_state"]
-        if room['players']['up'] is None:
-            room['players']['up'] = self.user
-            game_state["side"]["up"] = room['players']['up'].username
-        elif room['players']['down'] is None:
-            room['players']['down'] = self.user
-            game_state["side"]["down"] = room['players']['down'].username
-        else:
-            await self.close()
-            return
-
         self.act_ply[self.user.username] = self.room_name
 
         await self.channel_layer.group_add(
             self.room_group_name,
             self.channel_name,
         )
-        await self.accept()
 
+        room = self.rooms[self.room_name]
+        game_state = room["game_state"]
+        # if room['players']['up'] is None:
+        #     room['players']['up'] = self.user
+        #     game_state["side"]["up"] = room['players']['up'].username
+        # elif room['players']['down'] is None:
+        #     room['players']['down'] = self.user
+        #     game_state["side"]["down"] = room['players']['down'].username
+        # else:
+        #     await self.close()
+        #     return
         try:
             self.match = await self.get_the_game_by_id(self.room_name)
             if not self.match:
                 await self.close()
                 return
+            # -------------------------
 
+            if self.match.player1 == self.user.username:
+                logger.error(f"player {self.user.username} appah2") 
+                logger.error(f"player {self.user.username} appah3")
+                if room['players']['up'] is None:
+                    room['players']['up'] = self.user
+                    game_state["side"]["up"] = room['players']['up'].username
+                    logger.error(f"player {self.user.username} appah4")
+            elif self.match.player2 == self.user.username:
+                logger.error(f"player {self.user.username} appah5")
+                if room['players']['down'] is None:
+                    room['players']['down'] = self.user
+                    game_state["side"]["down"] = room['players']['down'].username
+                    logger.error(f"player {self.user.username} appah6")
+
+            # -------------------------
             if self.match.status == 2:
-                print(f"--------> the game is alredy end")
                 await self.close()
                 return
+            
         except Exception as e:
             print(f"Error retrieving match: {e}")
             await self.close()
             return
+        logger.error(f"player {self.user.username} set_ply1")
 
+        # if not await self.set_ply(self.room_name):
+        #     logger.error(f"player {self.user.username} set_ply2")
+        #     await self.close()
+        #     return
+        logger.error(f"player down is ----> {room['players']['down']}")
+        logger.error(f"player up is ----> {room['players']['up']}")
         if all(room['players'].values()):
-            print(self.user)
             if room['players']['down'] == self.user:
                 self.game_task = asyncio.create_task(self.game_loop())
 
@@ -120,10 +141,24 @@ class GameConsumer(AsyncWebsocketConsumer):
                 match.status = 2
             match.save()
         except Match.DoesNotExist:
-            print(f"Match with ID {self.room_name} not found")
+            print(f"Match with ID {self.room_name}  not found")
         except Exception as e:
             print(f"Error saving match score: {e}")
 
+    @database_sync_to_async
+    def set_ply(self, match):
+        logger.error(f"-----> match.player1: {match.player1}")
+        try:
+            logger.error(f"-----> match.player1: {match}")
+            
+            logger.error(f"player {self.user.username} appah7")
+            return True
+        except Match.DoesNotExist:
+            print(f"Match with ID {self.room_name} not found")
+        except Exception as e:
+            print(f"Error saving match score: {e}")
+        return False
+        
     @database_sync_to_async
     def save_user(self):
         self.user.save()
@@ -189,7 +224,7 @@ class GameConsumer(AsyncWebsocketConsumer):
         
 #--------------------------------------------------------------------------------------
     async def disconnect(self, close_code):
-        print(f"player {self.user.username} disconnected")
+        logger.error(f"player {self.user.username} disconnected")
 
         if self.user.username in self.act_ply:
             del self.act_ply[self.user.username]
