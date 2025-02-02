@@ -43,13 +43,18 @@ export const States_Profile = ({ other_data }: data_interface) => {
           const dayIndex = last5Days.indexOf(matchDate);
 
           if (dayIndex !== -1) {
-            if (
-              match.player1_score > match.player2_score &&
-              match.player1 === other_data?.username
-            ) {
-              winCounts[dayIndex] += 1; // Increment win count
-            } else {
-              lossCounts[dayIndex] += 1; // Increment loss count
+            if (match.player1 === my_data.playerData?.username) {
+              if (match.player1_score > match.player2_score) {
+                winCounts[dayIndex] += 1; // Increment win count
+              } else {
+                lossCounts[dayIndex] += 1; // Increment loss count
+              }
+            } else if (match.player2 === my_data.playerData?.username) {
+              if (match.player1_score > match.player2_score) {
+                lossCounts[dayIndex] += 1; // Increment loss count
+              } else {
+                winCounts[dayIndex] += 1; // Increment win count
+              }
             }
           }
         });

@@ -75,7 +75,7 @@ function Game_Remot( { id, selectedIds } ) {
 
 		ws.onmessage = (event) => {
 			const data = JSON.parse(event.data);
-			console.log("data is :", data)
+			// console.log("data is :", data)
 			if (data.type == "game_end")
 			{
 				timer = setTimeout(() => {
