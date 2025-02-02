@@ -18,6 +18,8 @@
   display: flex;
   flex-direction: column;
   flex: 4;
+  color: aliceblue;
+  text-shadow: 0 0 10px black;
 }
 .empty_footer {
   flex: 1;

@@ -216,7 +216,6 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({
 
 export const usePlayer = () => {
   const context = useContext(PlayerContext);
-  // console.log('context', context?.playerData);
   
   if (!context) {
     throw new Error("usePlayer must be used within a PlayerProvider");
