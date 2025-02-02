@@ -65,7 +65,7 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({
   const [onlineFriends, setOnlineFriends] = useState<UserOnline[]>([]);
   const wsRef = useRef<WebSocket | null>(null);
   const connectionAttemptedRef = useRef(false);
-   const { HOST_URL } = config;
+   const { HOST_URL, WS_HOST_URL } = config;
 
 
   const fetchPlayerData = useCallback(async () => {
@@ -116,7 +116,7 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({
     }
 
     connectionAttemptedRef.current = true;
-    const wsUrl = `wss://localhost/ws/notifications/?token=${token}`;
+    const wsUrl = `${WS_HOST_URL}/ws/notifications/?token=${token}`;
     const newWs = new WebSocket(wsUrl);
     wsRef.current = newWs;
 

@@ -16,7 +16,7 @@ export const Other_Profile_Page = ({
   username: string | undefined;
 }) => {
   const token = Cookies.get("access_token");
-  const { HOST_URL } = config;
+  const { HOST_URL, WS_HOST_URL } = config;
   const [data, Setdata] = useState<data_of_player | null>(null);
   const [data_ok, Setdata_ok] = useState(false);
   const [notFound, setnotFound] = useState(false);

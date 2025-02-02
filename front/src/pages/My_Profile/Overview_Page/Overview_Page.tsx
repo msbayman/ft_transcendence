@@ -7,12 +7,13 @@ import { useNavigate } from "react-router-dom";
 import { usePlayer } from "../PlayerContext";
 import React, { useEffect  } from "react";
 import Cookies from "js-cookie";
-
+import { config } from "../../../config";
 
 export const Overview_Page: React.FC = () => {
+  const { HOST_URL, WS_HOST_URL } = config;
   useEffect(() => {
     const token = Cookies.get("access_token");
-    const url = "wss://localhost/ws/notifications/";
+    const url = `${WS_HOST_URL}/ws/notifications/`;
     const wsUrl = `${url}?token=${token}`;
     const ws = new WebSocket(wsUrl);
 

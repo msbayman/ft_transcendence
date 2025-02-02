@@ -4,6 +4,7 @@ import { usePlayer } from "../My_Profile/PlayerContext";
 import Game_Remot from "./Game_Remot";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
+import { config } from "../../config";
 
 function Game_Loby() {
   const mydata = usePlayer();
@@ -18,10 +19,11 @@ function Game_Loby() {
   const [startGame, setStartGame] = useState(false);
   const location = useLocation();
   const { selectedIds } = location.state || {};
+  const { HOST_URL, WS_HOST_URL } = config;
 
   useEffect(() => {
     const matchmakingSocket = new WebSocket(
-      `wss://localhost/ws/matchmaking/?token=${token}`
+      `${WS_HOST_URL}/ws/matchmaking/?token=${token}`
     );
 
     matchmakingSocket.onopen = () => {
