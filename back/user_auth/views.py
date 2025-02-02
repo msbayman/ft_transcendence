@@ -33,7 +33,9 @@ from django.contrib.auth.password_validation import validate_password
 from django.db import transaction
 from django.core.exceptions import ValidationError
 from django.contrib.auth.hashers import make_password
+from django.db.models import Q
 import math
+from game.models import Match
 
 logger = logging.getLogger(__name__)
 
@@ -65,15 +67,15 @@ def delete_player(request):
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def update_player(request):
-    username = request.user.username
+    old_username = username = request.user.username
     new_username = request.data.get('username')
 
     
     if not new_username or len(new_username) < 4 or len(new_username) > 40 or new_username == 'admin':
         if len(new_username) < 4:
             return Response({'error': 'Username must be at least 4 characters long.'}, status=status.HTTP_400_BAD_REQUEST)
-        if len(new_username) > 40:
-            return Response({'error': 'Username must be at most 40 characters long.'}, status=status.HTTP_400_BAD_REQUEST)
+        if len(new_username) > 14:
+            return Response({'error': 'Username must be at most 14 characters long.'}, status=status.HTTP_400_BAD_REQUEST)
         if new_username == 'admin':
             return Response({'error': 'Username cannot be "admin".'}, status=status.HTTP_400_BAD_REQUEST)
         return Response({'error': 'Username is required.'}, status=status.HTTP_400_BAD_REQUEST)
@@ -95,6 +97,17 @@ def update_player(request):
             player_to_update.username = validated_username
             player_to_update.save()
             
+
+            games = Match.objects.filter(Q(player1=old_username) | Q(player2=old_username))
+            
+            for i in games:
+                if i.player1 == old_username:
+                    i.player1 = new_username
+                    i.save()
+                else:
+                    i.player2 = new_username
+                    i.save()
+
             return Response({
                 'message': 'Username updated successfully',
                 'username': validated_username

@@ -27,7 +27,7 @@ const Leaderboard = () => {
       })
       .catch((error) => console.error("Error fetching leaderboard:", error));
     console.log("here");
-  }, [listPlayers]);
+  }, []);
 
   const the_list = useMemo(() => {
     console.log('here2')

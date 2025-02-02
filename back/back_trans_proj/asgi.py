@@ -9,7 +9,7 @@ from .middleware import JwtAuthMiddleware
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'back_trans_proj.settings')
 
-all_websocket_urlpatterns = websocket_urlpatterns + game_websocket_urlpatterns
+all_websocket_urlpatterns = game_websocket_urlpatterns
 
 application = ProtocolTypeRouter({
     "http": get_asgi_application(),
