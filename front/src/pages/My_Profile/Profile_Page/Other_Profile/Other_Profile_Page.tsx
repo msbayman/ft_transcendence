@@ -57,6 +57,7 @@ export const Other_Profile_Page = ({
   if (notFound === true && !data)
     return (
       <div className={other.NotFound}>
+        <img src="/ERROR_404.gif" className="rounded-[30px] mt-[20px] h-[350px]" alt="Error_404" />
         <div className={other.Title}>Oops!</div>
         <div className={other.Title_sub}>404 - USER NOT FOUND</div>
         <button onClick={to_home} className={other.to_Home}>

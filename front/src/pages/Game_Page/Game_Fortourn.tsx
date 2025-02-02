@@ -69,7 +69,7 @@ function Game_Tourn() {
       ];
 
   const handleSleep = async () => {
-    await new Promise((resolve) => setTimeout(resolve, 3000));
+    await new Promise((resolve) => setTimeout(resolve, 1000));
   };
 
   useEffect(() => {
@@ -153,7 +153,7 @@ useEffect(() => {
       }
       await handleSleep();
       clearInterval(interval);
-      // navigate("/tourn");
+      navigate("/tourn");
       return;
     }
 

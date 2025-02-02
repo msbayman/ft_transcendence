@@ -41,8 +41,8 @@ class ChalleConsumer(AsyncWebsocketConsumer):
 
     async def creat_match(self):
         if len(self.players) >= 2:
-            ply1 = self.players.pop(0) 
-            ply2 = self.players.pop(0) 
+            ply1 = self.players.pop(0)
+            ply2 = self.players.pop(0)
             match_tb = await self.create_match_in_db(ply1, ply2)
             await self.start_game(ply1, ply2, match_tb)
 

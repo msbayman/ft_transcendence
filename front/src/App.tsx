@@ -18,7 +18,7 @@ import Game_Local from "./pages/Game_Page/Game_Local";
 // import Game_Remot from "./pages/Game_Page/Game_Remot";
 // import Tourn_manage from "./pages/Game_Page/Game_Torn";
 import Game_Tourn from "./pages/Game_Page/Game_Fortourn";
-import Game_Loby from "./pages/Game_Page/Game_loby";
+import Game_Loby from  "./pages/Game_Page/Game_loby";                                                                                                                                                                                                                                                                                                                              
 import Tournaments from "./pages/Game_Page/Tournaments";
 import { TournProvider } from "./pages/Game_Page/TournContext";
 import { Toaster } from 'react-hot-toast';

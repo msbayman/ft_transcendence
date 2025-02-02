@@ -2,7 +2,7 @@ from django.db import models
 
 # status {
     # 0 => panding
-    # 1 => in gaame
+    # 1 => in game
     # 2 => end game
 # }
 
