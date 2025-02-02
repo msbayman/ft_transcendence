@@ -5,19 +5,9 @@ import { usePlayer } from "../PlayerContext";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-
-
-// const getLast5Days = () => {
-//   const days = [];
-//   const currentDate = new Date();
-
-//   for (let i = 4; i >= 0; i--) {
-//     const day = new Date(currentDate);
-//     day.setDate(currentDate.getDate() - i);
-//     days.push(day.toLocaleDateString());
-//   }
-//   return days;
-// };
+interface CustomXAxisProps extends ChartsXAxisProps {
+  categoryGapRatio?: number;
+}
 
 
 export const States_Profile = () => {

@@ -49,7 +49,7 @@ export const Info_Player = ({ username }: { username: string | undefined }) => {
 
   const percentage = (total: number | undefined, win: number | undefined) => {
     if (total === undefined || win === undefined || total === 0) return 0;
-    const result = ((win / total) * 100).toFixed(0);
+    const result = Number(((win / total) * 100).toFixed(0));
     return result;
   };
 
@@ -58,13 +58,13 @@ export const Info_Player = ({ username }: { username: string | undefined }) => {
     lose: number | undefined
   ) => {
     if (total === undefined || lose === undefined || total === 0) return 0;
-    const result = ((lose / total) * 100).toFixed(0);
+    const result = Number(((lose / total) * 100).toFixed(0));
     return result;
   };
 
   const percentage_acheiv = (trueCount: number | undefined) => {
     if (trueCount == undefined) return 0;
-    const result = ((trueCount / 9) * 100).toFixed(0);
+    const result = Number(((trueCount / 9) * 100).toFixed(0));
     return result;
   };
 
@@ -72,9 +72,8 @@ export const Info_Player = ({ username }: { username: string | undefined }) => {
     points: number | undefined,
     level: number | undefined
   ) => {
-    if (points == undefined || level == undefined) return 0;
-    if (points == undefined || level == undefined) return 0;
-    const result = ((points / 1000 / level) * 100).toFixed(0);
+    if (points == undefined || level == undefined || points == 0) return 0;
+    const result = Number(((points / 1000 / level) * 100).toFixed(0));
     return result;
   };
 

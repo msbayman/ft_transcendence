@@ -80,7 +80,7 @@ function Game_Remot( { id, selectedIds } ) {
 			if (gameState.type == "game_end")
 			{
 				timer = setTimeout(() => {
-					navigate("/overview");
+					navigate("/Overview");
 				  }, 2000);
 			}
 			else
