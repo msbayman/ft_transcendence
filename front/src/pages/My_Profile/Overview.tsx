@@ -53,11 +53,11 @@ function Overview() {
         try {
           const data = JSON.parse(event.data);
           if (data.type === "challenge_accepted") {
-            console.log("data is :", data)
+            console.log("data.receiver: ", data.receiver, " data.sender: ", data.sender)
             navigate('/Game_challeng', { state: { challenged: data.receiver, challenger:data.sender} });
           }
           if (data.type === "challenge_notification") {
-            toast.success("you have been challenged{}")
+            toast.success(`you have been challenged by: ${data.sender}`)
             const notificationWithId = { 
               ...data, 
               id: Date.now().toString()
@@ -247,7 +247,7 @@ function Overview() {
             <hr className={over.brr} />
           </div>
 
-          <button className={notifications.length > 0 ? "bg-red-500" : ""} onClick={Notifications_f}>
+          <button onClick={Notifications_f}>
             <span className={`${over.navbar_item2} ${over.Notifications}`}>
               <img src="/Navbar/Notifications.svg" className={over.imgg} alt="Notifications" />
               <span className={over.hidden_name}>Notifications</span>

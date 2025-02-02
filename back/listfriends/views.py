@@ -119,11 +119,13 @@ class DeclineFriendRequest(APIView):
         # Find the pending friend request
         try:
             friend_request = Friend_request.objects.filter( models.Q(my_user=sender, other_user=receiver, states='pending') | models.Q(my_user=receiver, other_user=sender, states='pending') ).first()
+            if not friend_request:
+                return Response({"error": "No pending friend request found"}, status=status.HTTP_404_NOT_FOUND)
         except Friend_request.DoesNotExist:
             return Response({"error": "No pending friend request found"}, status=status.HTTP_404_NOT_FOUND)
 
-        # Update the friend request status to 'accepted'
         friend_request.delete()
+        # Update the friend request status to 'accepted'
 
         return Response({"message": "Friend request denied successfully"}, status=status.HTTP_200_OK)
 

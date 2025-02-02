@@ -35,8 +35,12 @@ class ChatConsumer(AsyncWebsocketConsumer):
             user2_username = data['username']      
             if not message.strip():
                 return
-            if len(message) > 100:
-                await self.handel_error('long_message')
+            self.receiver_id = await self.get_user_id_by_username(user2_username)
+            if not self.receiver_id:
+                await self.send(text_data=json.dumps({
+                    'type': 'error',
+                    'message': f'User {user2_username} not found'
+                }))
                 return
             is_friend = await self.check_friendship(user2_username)
             if not is_friend:
@@ -45,12 +49,8 @@ class ChatConsumer(AsyncWebsocketConsumer):
             if await self.is_blocked(self.user.username, user2_username):
                 await self.handel_error('blocked')
                 return
-            self.receiver_id = await self.get_user_id_by_username(user2_username)
-            if not self.receiver_id:
-                await self.send(text_data=json.dumps({
-                    'type': 'error',
-                    'message': f'User {user2_username} not found'
-                }))
+            if len(message) > 100:
+                await self.handel_error('long_message')
                 return
             try:
                 self.conversation = await self.get_or_create_conversation(self.receiver_id)

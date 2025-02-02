@@ -28,3 +28,6 @@ TO DO:
 --> tourn buffer 
 --> notif in tourn
 --> end game data
+
+https://localhost/api/game/postdata/ 500
+https://localhost/api/listfriends/decline-friend-requests/alae/ 500 decline non existen friend request
