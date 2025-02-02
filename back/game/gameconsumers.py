@@ -58,15 +58,6 @@ class GameConsumer(AsyncWebsocketConsumer):
 
         room = self.rooms[self.room_name]
         game_state = room["game_state"]
-        # if room['players']['up'] is None:
-        #     room['players']['up'] = self.user
-        #     game_state["side"]["up"] = room['players']['up'].username
-        # elif room['players']['down'] is None:
-        #     room['players']['down'] = self.user
-        #     game_state["side"]["down"] = room['players']['down'].username
-        # else:
-        #     await self.close()
-        #     return
         try:
             self.match = await self.get_the_game_by_id(self.room_name)
             if not self.match:
@@ -99,15 +90,11 @@ class GameConsumer(AsyncWebsocketConsumer):
             return
         logger.error(f"player {self.user.username} set_ply1")
 
-        # if not await self.set_ply(self.room_name):
-        #     logger.error(f"player {self.user.username} set_ply2")
-        #     await self.close()
-        #     return
         logger.error(f"player down is ----> {room['players']['down']}")
         logger.error(f"player up is ----> {room['players']['up']}")
-        if all(room['players'].values()):
-            if room['players']['down'] == self.user:
-                self.game_task = asyncio.create_task(self.game_loop())
+        if room['players']['up'] and room['players']['down']:
+            logger.error(f"game start ----> {self.user.username}")
+            self.game_task = asyncio.create_task(self.game_loop())
 
     async def is_part_of_the_game(self, name, id):
         try:
@@ -162,7 +149,6 @@ class GameConsumer(AsyncWebsocketConsumer):
     @database_sync_to_async
     def save_user(self):
         self.user.save()
-        # self.user.save(update_fields=['points'])
 
     async def update_user_after_game(self, winnner, score):
         if self.user.username == winnner:
@@ -188,40 +174,13 @@ class GameConsumer(AsyncWebsocketConsumer):
                 self.user.reach_level_30 = True
             if score == 0:
                 self.user.perfect_win_game = True
-            # if score == 0 and :
-            #     self.user.perfect_win_game = True
-            #     self.user.points += 250
-
         else:
             self.user.total_games += 1
             self.user.lose_games += 1
             self.user.level = math.floor( self.user.points / 1000 ) + 1
                 
         await self.save_user()
-
-
-
-
-            # print(f"self.user is: {self.user.username} and he won {self.user.points} and his level is : {self.user.level}")
-            # await self.user.save(update_fields=['points'])
-
-
-
-
-        # elif self.user.username != winnner:
-
-        #     self.user.total_games += 1
-        #     self.user.lose_games += 1
-
-        #     self.user.level = math.floor( self.user.points / 1000 ) + 1
-
-        #     print(f"self.user is: {self.user.username} and he lose up to {self.user.lose_games} and his level is : {self.user.level}")
-        #     await self.save_user()
-
-
-
-
-        
+    
 #--------------------------------------------------------------------------------------
     async def disconnect(self, close_code):
         logger.error(f"player {self.user.username} disconnected")

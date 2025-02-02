@@ -22,10 +22,5 @@ wss("https://localhost:80/api/login")
 TO DO:
 
 --> up error in game console
---> front of the challenge loby
---> tourn buffer 
---> notif in tourn
---> end game data
+--> red in local
 
-https://localhost/api/game/postdata/ 500
-https://localhost/api/listfriends/decline-friend-requests/alae/ 500 decline non existen friend request
