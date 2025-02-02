@@ -11,7 +11,9 @@ load_dotenv()
 # 42 OAuth Configuration
 OAUTH_42_CLIENT_ID = os.getenv('OAUTH_42_CLIENT_ID')
 OAUTH_42_CLIENT_SECRET = os.getenv('OAUTH_42_CLIENT_SECRET')
-OAUTH_42_REDIRECT_URI = os.getenv('OAUTH_42_REDIRECT_URI')
+VITE_HOST_URL = os.getenv('VITE_HOST_URL')
+OAUTH_42_REDIRECT_URI = f"https://{VITE_HOST_URL}/api/42/login_redirect"
+
 OAUTH_42_AUTHORIZATION_URL = 'https://api.intra.42.fr/oauth/authorize'
 OAUTH_42_TOKEN_URL = 'https://api.intra.42.fr/oauth/token'
 OAUTH_42_USER_INFO_URL = 'https://api.intra.42.fr/v2/me'
@@ -31,7 +33,8 @@ HOST_URL = 'https://' + os.getenv('VITE_HOST_URL')
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'f*g_tr0l-1ye@_kq+704os5-(f5rzm21sjb6a)4*hdm!aecefm')
-# DEBUG = False
+
+DEBUG = os.getenv('DJANGO_DEBUG', 'False').lower() == 'true'
 
 ALLOWED_HOSTS = ['*']
 
