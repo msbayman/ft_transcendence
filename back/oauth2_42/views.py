@@ -68,7 +68,7 @@ def login_redirect(request: DRFRequest):
         django_request = request._request
         return handle_oauth_user_42(django_request, user_info)
     else:
-        return redirect("{settings.HOST_URL}/login?oauth_err=No code provided")
+        return redirect(f"{settings.HOST_URL}/login?oauth_err=No code provided")
 
 @api_view(['GET'])
 @permission_classes([AllowAny])
@@ -135,7 +135,7 @@ def handle_oauth_user_42(request: HttpRequest, user_info: dict) -> HttpResponse:
         user.is_validate = True
         user.save()
 
-        frontend_url = "{settings.HOST_URL}/Valid_otp"
+        frontend_url = f"{settings.HOST_URL}/Valid_otp"
         redirect_url = f"{frontend_url}?username={user.username}"
 
         return redirect(redirect_url)
@@ -144,7 +144,7 @@ def handle_oauth_user_42(request: HttpRequest, user_info: dict) -> HttpResponse:
         access_token = str(refresh.access_token)
         refresh_token = str(refresh)
 
-        frontend_url = "{settings.HOST_URL}/Overview"
+        frontend_url = f"{settings.HOST_URL}/Overview"
         redirect_url = f"{frontend_url}?access_token={access_token}&refresh_token={refresh_token}"
 
         return redirect(redirect_url)

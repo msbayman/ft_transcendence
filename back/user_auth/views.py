@@ -318,7 +318,7 @@ class SendOtpForSettings(APIView):
             user = request.user
             if not isinstance(user, Player):
                 return Response({"error": "Invalid user type."}, status=status.HTTP_400_BAD_REQUEST)
-
+            
             # Generate a 6-digit OTP
             # if time.time() - user.created_at > 300:  # 5 minutes
             #     return Response({"detail": "OTP has expired, wait 5 min"}, status=status.HTTP_404_BAD_REQUEST)

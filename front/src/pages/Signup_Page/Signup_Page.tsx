@@ -11,8 +11,8 @@ import { config } from "../../config";
 const fullNameSchema = z
   .string()
   .trim()
-  .min(2, { message: "Must be 5-40 characters" })
-  .max(40, { message: "Must be 5-40 characters" })
+  .min(4, { message: "Must be 4-25 characters" })
+  .max(25, { message: "Must be 4-25 characters" })
   .refine(value => !/^\s/.test(value), { message: "Cannot start with a space" })
   .refine(value => !/\s{2,}/.test(value), { message: "Only one space between words allowed" })
   .refine(value => /^[a-zA-Z]+( [a-zA-Z]+)*$/.test(value), { 
@@ -22,8 +22,8 @@ const fullNameSchema = z
 const userNameSchema = z
   .string()
   .trim()
-  .min(2, { message: "Must be 5-16 characters" })
-  .max(16, { message: "Must be 5-16 characters" })
+  .min(4, { message: "Must be 4-14 characters" })
+  .max(14, { message: "Must be 4-14 characters" })
   .refine(value => !/^\s/.test(value), { message: "Cannot start with a space" })
   .refine(value => /^[a-zA-Z0-9-_]+$/.test(value), { 
     message: "Only letters, 0-9, _, -" 

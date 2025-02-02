@@ -1,4 +1,4 @@
 export const config = {
-  HOST_URL: import.meta.env.VITE_HOST_URL || "https://localhost", 
-  WS_HOST_URL: import.meta.env.VITE_WS_HOST_URL || "wss://localhost", 
+  HOST_URL: `https://${window.location.host}`, 
+  WS_HOST_URL: `wss://${window.location.host}`, 
 };

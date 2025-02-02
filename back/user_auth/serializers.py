@@ -35,23 +35,23 @@ class PlayerSerializer(serializers.ModelSerializer):
         }
 
     def validate_full_name(self, value):
-        # Full name validation: 2-40 characters, only letters and spaces
+        # Full name validation: 2-25 characters, only letters and spaces
         if not re.match(r'^[a-zA-Z ]+$', value):
             raise serializers.ValidationError("Full name must contain only letters and spaces.")
-        if not (4 <= len(value) <= 40):
-            raise serializers.ValidationError("Full name length must be between 4 and 40 characters.")
+        if not (4 <= len(value) <= 25):
+            raise serializers.ValidationError("Full name length must be between 4 and 25 characters.")
         return value
 
     def validate_username(self, value):
-        # Username validation: 4-16 characters, only letters, numbers, hyphens, and underscores
+        # Username validation: 4-14 characters, only letters, numbers, hyphens, and underscores
         if not re.match(r'^[a-zA-Z0-9-_]+$', value):
             raise serializers.ValidationError("Username must contain only letters, numbers, hyphens, and underscores.")
-        if 4 <= len(value) <= 16:
+        if 4 <= len(value) <= 14:
             return value
         elif 'prov_name' == "Discord" or 'prov_name' == "42":
             return value
         else:
-            raise serializers.ValidationError("Username length must be between 4 and 40 characters.")
+            raise serializers.ValidationError("Username length must be between 4 and 14 characters.")
 
 
     def validate_password(self, value):
