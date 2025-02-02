@@ -10,7 +10,7 @@ import Cookies from "js-cookie";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
 import { TournContext } from "./../../Game_Page/TournContext";
-import { config } from "../../config";
+import { config } from "../../../config";
 interface SelectedIds {
   mode: number | null;
   board: number | null;

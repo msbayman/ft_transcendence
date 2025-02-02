@@ -4,7 +4,7 @@ import { BarChart } from "@mui/x-charts/BarChart";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { data_of_player } from "./interface";
-import { config } from "../../../config";
+import { config } from "../../../../config";
 
 interface data_interface {
   other_data: data_of_player | null;

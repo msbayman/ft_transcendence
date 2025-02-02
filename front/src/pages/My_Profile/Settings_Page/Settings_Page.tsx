@@ -4,7 +4,7 @@ import Profile_side from "./Profile_side";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
-import { config } from "../../config";
+import { config } from "../../../config";
 
 const Settings_Page = () => {
   const [action, setAction] = useState("");

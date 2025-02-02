@@ -4,7 +4,7 @@ import { LinearProgress } from "@mui/material";
 import { CircularProgress, CircularProgressLabel } from "@chakra-ui/progress";
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
-import { config } from "../../../config";
+import { config } from "../../../../config";
 
 export const Info_Player = ({ username }: { username: string | undefined }) => {
   interface data_of_player {

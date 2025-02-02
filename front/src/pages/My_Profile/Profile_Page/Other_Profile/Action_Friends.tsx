@@ -3,7 +3,7 @@ import other from "./Action_Friends.module.css";
 import Cookies from "js-cookie";
 import { usePlayer } from "../../PlayerContext";
 import { useNavigate } from "react-router-dom";
-import { config } from "../../../config";
+import { config } from "../../../../config";
 
 interface data_request {
   my_user: string;
@@ -300,7 +300,6 @@ const Action_Friends = ({ username }: { username: string | undefined }) => {
   const { HOST_URL } = config;
   const token = Cookies.get("access_token");
 
-
   useEffect(() => {
     const check_status = async () => {
       try {
@@ -519,7 +518,7 @@ const Action_Friends = ({ username }: { username: string | undefined }) => {
 
       if (response.ok) {
         console.log("Friend request accepted successfully");
-        mine.ws?.onmessage
+        mine.ws?.onmessage;
       } else {
         console.error("Failed to accept friend request");
       }

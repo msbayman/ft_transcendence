@@ -6,7 +6,7 @@ import { useState } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { toast } from "react-hot-toast";
-import { config } from "../../config";
+import { config } from "../../../config";
 
 function Profile_side() {
   const data_player = usePlayer();

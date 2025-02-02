@@ -5,7 +5,7 @@ import Cookies from "js-cookie";
 import axios from "axios";
 import { usePlayer } from "../PlayerContext";
 import toast from 'react-hot-toast';
-import { config } from "../../config";
+import { config } from "../../../config";
 
 interface PlayerData {
   username: string;

@@ -2,7 +2,7 @@ import other from "./Recent_Game.module.css";
 import { data_of_player } from "./interface";
 import Cookies from "js-cookie";
 import { useState, useEffect } from "react";
-import { config } from "../../../config";
+import { config } from "../../../../config";
 
 interface data_interface {
   other_data: data_of_player | null;

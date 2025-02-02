@@ -10,15 +10,13 @@ import { useNavigate } from "react-router-dom";
 import { data_of_player } from "./interface";
 import { config } from "../../../../config";
 
-
 export const Other_Profile_Page = ({
   username,
 }: {
   username: string | undefined;
 }) => {
-
   const token = Cookies.get("access_token");
- const { HOST_URL } = config;
+  const { HOST_URL } = config;
   const [data, Setdata] = useState<data_of_player | null>(null);
   const [data_ok, Setdata_ok] = useState(false);
   const [notFound, setnotFound] = useState(false);
@@ -47,14 +45,14 @@ export const Other_Profile_Page = ({
   };
   useEffect(() => {
     if (data_ok === false) {
-    get_data();
+      get_data();
     }
   }, [username]);
 
   const navigate = useNavigate();
   const to_home = () => {
-    navigate("/Overview")
-  }
+    navigate("/Overview");
+  };
 
   if (notFound === true && !data)
     return (
