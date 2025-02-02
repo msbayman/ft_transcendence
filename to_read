@@ -17,8 +17,10 @@
 --> await
 --> coroutine functions
 
+wss("https://localhost:80/api/login")
+
 TO DO:
 
 --> up error in game console
---> front of the challenge loby (pandding)
---> end game data (pandding)
+--> red in local
+

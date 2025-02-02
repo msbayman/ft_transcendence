@@ -111,16 +111,15 @@ class BlockUser(APIView):
     permission_classes = [IsAuthenticated]
     
     def post(self, request, username):
+        other_user = get_object_or_404(Player, username=username)
+        user = request.user
         try:
-            other_user = get_object_or_404(Player, username=username)
-            user = request.user
             user.block_user(other_user) 
             return Response({"message": f"Successfully blocked user {username}"})
-            
-        except ObjectDoesNotExist:
-            return Response({"error": "User not found"}, status=404)
         except Exception as e:
             return Response({"error": str(e)}, status=400)
+
+
 
 class IsBlocked(APIView):
     authentication_classes = [JWTAuthentication]
@@ -129,24 +128,22 @@ class IsBlocked(APIView):
     def get(self, request, username):
         other_user = get_object_or_404(Player, username=username)
         user = request.user
+        try:
+            status = user.is_blocked(other_user)
+            return Response({"is_blocked": status})
+        except AttributeError:
+            return Response({"error": "Invalid user instance"}, status=400)
 
-        status = user.is_blocked(other_user)
-        
-
-        return Response({"is_blocked": status})
     
 class UnBlockUser(APIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
     
     def post(self, request, username):
+        other_user = get_object_or_404(Player, username=username)
+        user = request.user
         try:
-            other_user = get_object_or_404(Player, username=username)
-            user = request.user
             user.unblock_user(other_user) 
             return Response({"message": f"Successfully unblock_user user {username}"})
-            
-        except ObjectDoesNotExist:
-            return Response({"error": "User not found"}, status=404)
         except Exception as e:
             return Response({"error": str(e)}, status=400)

@@ -74,33 +74,38 @@ function Game_Remot( { id, selectedIds } ) {
 		};
 
 		ws.onmessage = (event) => {
-			const gameState = JSON.parse(event.data);
-			if (gameState.type == "game_end")
+			const data = JSON.parse(event.data);
+			console.log("data is :", data)
+			if (data.type == "game_end")
 			{
 				timer = setTimeout(() => {
-					navigate("/Overview");
+					// console.log("data -----> ", gameState);
+            		navigate("/Overview");
 				  }, 2000);
 			}
-			setGameState({
-				...gameState,
-				paddles: {
-					up: gameState.paddles.up,
-					down: gameState.paddles.down,
-				},
-				ball:{
-					x: gameState.ball.x,
-					y: gameState.ball.y,
-				},
-				score:{
-					player1: gameState.score.p1,
-					player2: gameState.score.p2,
-				},
-				side:{
-					up: gameState.side.up,
-					down: gameState.side.down,
-				},
-				winner: gameState.winner
-			});
+			else 
+			{
+				setGameState({
+					...data,
+					paddles: {
+						up: data.paddles.up,
+						down: data.paddles.down,
+					},
+					ball:{
+						x: data.ball.x,
+						y: data.ball.y,
+					},
+					score:{
+						player1: data.score.p1,
+						player2: data.score.p2,
+					},
+					side:{
+						up: data.side.up,
+						down: data.side.down,
+					},
+					winner: data.winner
+				});
+			}
 		};
 
 		ws.onclose = () => console.log("WebSocket closed");

@@ -23,7 +23,7 @@ import Tournaments from "./pages/Game_Page/Tournaments";
 import { TournProvider } from "./pages/Game_Page/TournContext";
 import { Toaster } from 'react-hot-toast';
 import End_of_Game from './pages/Game_Page/End_of_Game';
-// import Game_challeng from "./pages/Game_Page/Game_Challenge";
+import Game_challeng from "./pages/Game_Page/Game_Challenge";
 // import NotFound from "./NotFound";
 
 
@@ -109,6 +109,7 @@ function AppContent() {
           <Route path="/remote_game" element={<Game_Loby />} />
           <Route path="/tourn_game" element={<Game_Tourn />} />
           <Route path="/tourn" element={<Tournaments />} />
+          <Route path="/Game_challeng" element={<Game_challeng />} />
           <Route path="/Game_Result" element={<End_of_Game />} />
 
         </Routes>

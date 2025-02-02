@@ -27,7 +27,8 @@ import { usePlayer } from '../PlayerContext';
     const navigate = useNavigate();
     const acceptChallenge = (id?: string, sender?: string) => {
       if (loggedInPlayer.ws)
-        loggedInPlayer.ws.send(JSON.stringify({ type: "accepte_challenge", sender: sender }));
+        loggedInPlayer.ws.send(JSON.stringify({ type: "accept_challenge", sender: sender }));
+      console.log("notif redirect:", " sender: ",sender, " challenger: ",loggedInPlayer.playerData?.username)
     navigate('/Game_challeng', { state: { challenged: sender, challenger:loggedInPlayer.playerData?.username} });
     onClear(id);
     };
@@ -70,9 +71,12 @@ import { usePlayer } from '../PlayerContext';
         </div>
         <div className={notif.part2}>
           <span className={notif.text}>Notifications</span>
+          <button onClick={onClose} className='w-[50px]'>X</button>
         </div>
       </div>
     );
+    if (showNotifications)
+      return
   };
 
   export default Notifications_p;

@@ -15,14 +15,22 @@ import { usePlayer } from "./PlayerContext";
 import Search from "./Search_Content/Search";
 import NotFound from "../../NotFound";
 import { useNavigate } from 'react-router-dom';
+import { toast } from "react-hot-toast";
 
 
+interface Notification {
+  sender: string;
+  profile_image: string;
+  content: string;
+  type: string;
+  id?: string;
+}
 
 function Overview() {
   const location = useLocation();
   const dataPlayer = usePlayer();
   const [showNotifications, setShowNotifications] = useState(false);
-  const [notifications, setNotifications] = useState<any[]>([]); // Array to store multiple notifications
+  const [notifications, setNotifications] = useState<Notification[]>([]);
   const navigate = useNavigate();
   useEffect(() => {
     const state = location.state as { fromOAuth?: boolean };
@@ -44,14 +52,15 @@ function Overview() {
       const handleWebSocketMessage = (event: MessageEvent) => {
         try {
           const data = JSON.parse(event.data);
-         
           if (data.type === "challenge_accepted") {
-            navigate('/Game_challeng', { state: { challenged: data.reciver, challenger:data.sender} });
+            console.log("data.receiver: ", data.receiver, " data.sender: ", data.sender)
+            navigate('/Game_challeng', { state: { challenged: data.receiver, challenger:data.sender} });
           }
           if (data.type === "challenge_notification") {
+            toast.success(`you have been challenged by: ${data.sender}`)
             const notificationWithId = { 
               ...data, 
-              id: Date.now().toString() // Ensure unique ID
+              id: Date.now().toString()
             };
             setNotifications((prev) => [...prev, notificationWithId]);
           }
@@ -65,22 +74,24 @@ function Overview() {
         dataPlayer.ws?.removeEventListener('message', handleWebSocketMessage);
       };
     }
-  }, [dataPlayer?.ws]);
+  }, [dataPlayer?.ws, navigate]);
   
   // Clear notification handler
   const clearNotification = (id?: string) => {
     if (id) {
-      // Remove specific notification
       setNotifications((prev) => prev.filter(notif => notif.id !== id));
     } else {
-      // Clear all notifications (if needed)
       setNotifications([]);
     }
   };
   const Notifications_f = () => setShowNotifications((prev) => !prev);
 
   const check_logout = async () => {
-    dataPlayer?.closeWsConnection();
+    if (dataPlayer?.ws)
+      {
+        dataPlayer?.ws.send(JSON.stringify({type: "clear_list"}))
+      }
+    dataPlayer?.closeWsConnection()
     const refreshToken = Cookies.get("refresh_token");
     const accessToken = Cookies.get("access_token");
 
