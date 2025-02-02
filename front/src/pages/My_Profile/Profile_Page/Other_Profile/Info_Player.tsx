@@ -4,6 +4,7 @@ import { LinearProgress } from "@mui/material";
 import { CircularProgress, CircularProgressLabel } from "@chakra-ui/progress";
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
+import { config } from "../../../config";
 
 export const Info_Player = ({ username }: { username: string | undefined }) => {
   interface data_of_player {
@@ -20,12 +21,12 @@ export const Info_Player = ({ username }: { username: string | undefined }) => {
   const token = Cookies.get("access_token");
 
   const [data, Setdata] = useState<data_of_player | null>(null);
-
+ const { HOST_URL } = config;
   useEffect(() => {
     const get_data = async () => {
       try {
         const response = await fetch(
-          `https://localhost/api/user_auth/get-player/${username}/`,
+          `${HOST_URL}/api/user_auth/get-player/${username}/`,
           {
             method: "GET",
             headers: {

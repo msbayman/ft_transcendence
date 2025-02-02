@@ -8,6 +8,8 @@ import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import { data_of_player } from "./interface";
+import { config } from "../../../../config";
+
 
 export const Other_Profile_Page = ({
   username,
@@ -16,7 +18,7 @@ export const Other_Profile_Page = ({
 }) => {
 
   const token = Cookies.get("access_token");
-
+ const { HOST_URL } = config;
   const [data, Setdata] = useState<data_of_player | null>(null);
   const [data_ok, Setdata_ok] = useState(false);
   const [notFound, setnotFound] = useState(false);
@@ -24,7 +26,7 @@ export const Other_Profile_Page = ({
   const get_data = async () => {
     try {
       const response = await fetch(
-        `https://localhost/api/user_auth/get-player/${username}/`,
+        `${HOST_URL}/api/user_auth/get-player/${username}/`,
         {
           method: "GET",
           headers: {
@@ -72,7 +74,7 @@ export const Other_Profile_Page = ({
           <div
             className={other.cover_profile}
             style={{
-              backgroundImage: `url("https://localhost${data?.cover_image}")`,
+              backgroundImage: `url("${HOST_URL}${data?.cover_image}")`,
             }}
           ></div>
           <div className={other.content_profile}>

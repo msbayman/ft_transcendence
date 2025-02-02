@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useCallback, useRef, useEffect  } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import { config } from "../../config";
 
 interface UserOnline {
   username: string;
@@ -64,6 +65,7 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({
   const [onlineFriends, setOnlineFriends] = useState<UserOnline[]>([]);
   const wsRef = useRef<WebSocket | null>(null);
   const connectionAttemptedRef = useRef(false);
+   const { HOST_URL } = config;
 
 
   const fetchPlayerData = useCallback(async () => {
@@ -76,7 +78,7 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({
     setIsLoading(true);
     try {
       const response = await axios.get(
-        "https://localhost/api/user_auth/UserDetailView",
+        `${HOST_URL}/api/user_auth/UserDetailView`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import lead from "./Leaderboard.module.css";
 // import { usePlayer } from "../PlayerContext";
 import axios from "axios";
+import { config } from "../../../config";
 
 const Leaderboard = () => {
   interface data_Player {
@@ -12,7 +13,7 @@ const Leaderboard = () => {
     points: number;
   }
   const navigate = useNavigate();
-
+ const { HOST_URL } = config;
   const onclick = () => {
     navigate("/Leaderboard");
   };
@@ -21,7 +22,7 @@ const Leaderboard = () => {
 
   useEffect(() => {
     axios
-      .get("https://localhost/api/user_auth/leaderboard")
+      .get(`${HOST_URL}/api/user_auth/leaderboard`)
       .then((response) => {
         setListPlayers(response.data);
       })

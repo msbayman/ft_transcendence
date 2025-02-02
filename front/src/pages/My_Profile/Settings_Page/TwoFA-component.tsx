@@ -10,6 +10,7 @@ import { usePlayer } from "../PlayerContext";
 import axios from "axios";
 import Cookies from "js-cookie";
 import toast from "react-hot-toast";
+import { config } from "../../config";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
@@ -40,7 +41,7 @@ function TFA({
   const [otp, setOtp] = useState<string[]>(Array(6).fill(""));
   const [open, setOpen] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
-
+  const { HOST_URL } = config;
   const inputsRef = useRef<(HTMLInputElement | null)[]>([]);
 
   const data = usePlayer();
@@ -87,7 +88,7 @@ function TFA({
       }
 
       const response = await axios.post(
-        "https://localhost:443/api/user_auth/SendOtpForSettings",
+        `${HOST_URL}/api/user_auth/SendOtpForSettings`,
         {
           username: data.playerData?.username,
         },
@@ -120,7 +121,7 @@ function TFA({
       }
 
       const response = await axios.post(
-        "https://localhost:443/api/user_auth/SendOtpForSettings",
+        `${HOST_URL}/api/user_auth/SendOtpForSettings`,
         {
           username: data.playerData?.username,
         },
@@ -172,7 +173,7 @@ function TFA({
         throw new Error("No access token found.");
       }
       const response = await axios.post(
-        "https://localhost:443/api/user_auth/VerifyOTPSettings",
+        "${HOST_URL}/api/user_auth/VerifyOTPSettings",
         {
           username: data.playerData?.username,
           otp: otpString,
@@ -332,7 +333,7 @@ function TwoFA_Component() {
         }
 
         const response = await axios.get(
-          "https://localhost:443/api/user_auth/get2FAStatus",
+          "${HOST_URL}/api/user_auth/get2FAStatus",
           {
             headers: {
               Authorization: `Bearer ${token}`,

@@ -4,6 +4,7 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import Cookies from "js-cookie";
 import "./Login_Page.css";
+import { config } from "../../config";
 import { usePlayer } from "../My_Profile/PlayerContext";
 
 function Login_Page() {
@@ -14,6 +15,8 @@ function Login_Page() {
   const [Errmsg, setErrorMessage] = useState("");
   const [panding, ispanding] = useState(false);
   const [_Discord_42_err, set_Discord_42_err] = useState<string | null>(null);
+
+  const{HOST_URL} = config;
 
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
@@ -56,7 +59,7 @@ function Login_Page() {
 
     try {
       const response = await axios.post(
-        "https://localhost:443/api/user_auth/login_simple",
+        `${HOST_URL}/api/user_auth/login_simple`,
         {
           username,
           password,
@@ -103,10 +106,10 @@ function Login_Page() {
   };
 
   const handleOAuthLogin = () => {
-    window.location.href = "https://localhost:443/api/discord/login";
+    window.location.href = `${HOST_URL}/api/discord/login`;
   };
   const handleOAuthLogin_42 = () => {
-    window.location.href = "https://localhost:443/api/42/login";
+    window.location.href = `${HOST_URL}/api/42/login`;
   };
 
   return (

@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
+import { config } from "../../config";
 
 const fullNameSchema = z
   .string()
@@ -48,6 +49,7 @@ const SignupSchema = z
 function Signup_Page() {
   const [mailUsernameErr, setMailUsernameErr] = useState("");
   const navigate = useNavigate();
+  const { HOST_URL } = config;
   const {
     register,
     handleSubmit,
@@ -66,7 +68,7 @@ function Signup_Page() {
 
     try {
       const response = await axios.post(
-        "https://localhost:443/api/user_auth/add_player",
+        `${HOST_URL}/api/user_auth/add_player`,
         dataToSubmit
       );
 
@@ -97,10 +99,10 @@ function Signup_Page() {
   };
 
   const handleOAuthLogin = () => {
-    window.location.href = "https://localhost:443/api/discord/login";
+    window.location.href = `${HOST_URL}/api/discord/login`;
   };
   const handleOAuthLogin_42 = () => {
-    window.location.href = "https://localhost:443/api/42/login";
+    window.location.href = `${HOST_URL}/api/42/login`;
   };
 
   return (

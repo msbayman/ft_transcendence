@@ -3,6 +3,7 @@ import other from "./Action_Friends.module.css";
 import Cookies from "js-cookie";
 import { usePlayer } from "../../PlayerContext";
 import { useNavigate } from "react-router-dom";
+import { config } from "../../../config";
 
 interface data_request {
   my_user: string;
@@ -23,7 +24,7 @@ interface data_request {
 //     const check_status = async () => {
 //       try {
 //         const response = await fetch(
-//           `https://localhost/api/listfriends/check-friend-requests/${username}/`,
+//           `${HOST_URL}/api/listfriends/check-friend-requests/${username}/`,
 //           {
 //             method: "GET",
 //             headers: {
@@ -204,7 +205,7 @@ interface data_request {
 //   const sendFriendRequest = async (username: string | undefined) => {
 //     try {
 //       const response = await fetch(
-//         `https://localhost/api/listfriends/send-friend-request/${username}/`,
+//         `${HOST_URL}/api/listfriends/send-friend-request/${username}/`,
 //         {
 //           method: "POST",
 //           headers: {
@@ -227,7 +228,7 @@ interface data_request {
 //   const deniedFriendRequest = async (username: string | undefined) => {
 //     try {
 //       const response = await fetch(
-//         `https://localhost/api/listfriends/decline-friend-request/${username}/`,
+//         `${HOST_URL}/api/listfriends/decline-friend-request/${username}/`,
 //         {
 //           method: "POST",
 //           headers: {
@@ -250,7 +251,7 @@ interface data_request {
 //   const acceptFriendRequest = async (username: string | undefined) => {
 //     try {
 //       const response = await fetch(
-//         `https://localhost/api/listfriends/accept-friend-request/${username}/`,
+//         `${HOST_URL}/api/listfriends/accept-friend-request/${username}/`,
 //         {
 //           method: "POST",
 //           headers: {
@@ -296,14 +297,15 @@ const Action_Friends = ({ username }: { username: string | undefined }) => {
   const [SendRequestFriend, SetSendRequestFriend] = useState(true);
   const [Data, SetData] = useState<data_request | null>(null);
   const [AcceptFriend, SetAcceptFriend] = useState(true);
-
+  const { HOST_URL } = config;
   const token = Cookies.get("access_token");
+
 
   useEffect(() => {
     const check_status = async () => {
       try {
         const response = await fetch(
-          `https://localhost/api/listfriends/check-friend-requests/${username}/`,
+          `${HOST_URL}/api/listfriends/check-friend-requests/${username}/`,
           {
             method: "GET",
             headers: {
@@ -459,7 +461,7 @@ const Action_Friends = ({ username }: { username: string | undefined }) => {
   const sendFriendRequest = async (username: string | undefined) => {
     try {
       const response = await fetch(
-        `https://localhost/api/listfriends/send-friend-request/${username}/`,
+        `${HOST_URL}/api/listfriends/send-friend-request/${username}/`,
         {
           method: "POST",
           headers: {
@@ -482,7 +484,7 @@ const Action_Friends = ({ username }: { username: string | undefined }) => {
   const deniedFriendRequest = async (username: string | undefined) => {
     try {
       const response = await fetch(
-        `https://localhost/api/listfriends/decline-friend-requests/${username}/`,
+        `${HOST_URL}/api/listfriends/decline-friend-requests/${username}/`,
         {
           method: "POST",
           headers: {
@@ -505,7 +507,7 @@ const Action_Friends = ({ username }: { username: string | undefined }) => {
   const acceptFriendRequest = async (username: string | undefined) => {
     try {
       const response = await fetch(
-        `https://localhost/api/listfriends/accept-friend-request/${username}/`,
+        `${HOST_URL}/api/listfriends/accept-friend-request/${username}/`,
         {
           method: "POST",
           headers: {

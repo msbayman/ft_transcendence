@@ -2,6 +2,7 @@ import other from "./Recent_Game.module.css";
 import { data_of_player } from "./interface";
 import Cookies from "js-cookie";
 import { useState, useEffect } from "react";
+import { config } from "../../../config";
 
 interface data_interface {
   other_data: data_of_player | null;
@@ -9,7 +10,7 @@ interface data_interface {
 
 export const Recent_Game = ({ other_data }: data_interface) => {
   const token = Cookies.get("access_token");
-
+ const { HOST_URL } = config;
   interface Match {
     player1: string;
     player2: string;
@@ -24,7 +25,7 @@ export const Recent_Game = ({ other_data }: data_interface) => {
     const get_data = async () => {
       try {
         const response = await fetch(
-          `https://localhost/api/game/get_match/${other_data?.username}/`,
+          `${HOST_URL}/api/game/get_match/${other_data?.username}/`,
           {
             method: "GET",
             headers: {

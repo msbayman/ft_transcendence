@@ -4,7 +4,7 @@ import { BarChart } from "@mui/x-charts/BarChart";
 import { usePlayer } from "../PlayerContext";
 import { useEffect, useState } from "react";
 import axios from "axios";
-
+import { config } from "../../../config";
 
 
 // const getLast5Days = () => {
@@ -33,7 +33,7 @@ export const States_Profile = () => {
       }
       return days;
     };
-
+ const { HOST_URL } = config;
   const my_data = usePlayer();
   const my_username = my_data.playerData?.username;
 
@@ -41,7 +41,7 @@ export const States_Profile = () => {
     const fetchMatchHistory = async () => {
       try {
         const response = await axios.get(
-          `https://localhost/api/game/last_5_days/${my_data.playerData?.username}/`
+          `${HOST_URL}/api/game/last_5_days/${my_data.playerData?.username}/`
         );
         const matches = response.data;
         // Initialize win and loss counts for the last 5 days

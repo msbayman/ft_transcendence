@@ -15,10 +15,12 @@ import { usePlayer } from "./PlayerContext";
 import Search from "./Search_Content/Search";
 import NotFound from "../../NotFound";
 import { useNavigate } from 'react-router-dom';
+import { config } from "../../config";
 
 
 
 function Overview() {
+  const { HOST_URL } = config;
   const location = useLocation();
   const dataPlayer = usePlayer();
   const [showNotifications, setShowNotifications] = useState(false);
@@ -86,7 +88,7 @@ function Overview() {
 
     try {
       await axios.post(
-        "https://localhost/api/user_auth/LogoutAPIView/",
+        `${HOST_URL}/api/user_auth/LogoutAPIView/`,
         { refresh_token: refreshToken },
         { headers: { Authorization: `Bearer ${accessToken}` } }
       );

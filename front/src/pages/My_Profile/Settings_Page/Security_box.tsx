@@ -5,6 +5,7 @@ import Cookies from "js-cookie";
 import axios from "axios";
 import { usePlayer } from "../PlayerContext";
 import toast from 'react-hot-toast';
+import { config } from "../../config";
 
 interface PlayerData {
   username: string;
@@ -21,6 +22,7 @@ interface SecurityBoxProps {
 
 function Security_box({}: SecurityBoxProps) {
   const data = usePlayer();
+  const { HOST_URL } = config;
   const [playerData, setLocalPlayerData] = useState<Partial<PlayerData>>({
     username: data.playerData?.username,
     oldPassword: '',
@@ -49,7 +51,7 @@ function Security_box({}: SecurityBoxProps) {
       }
 
       const response = await axios.post(
-        "https://localhost/api/user_auth/changePassword",
+        `${HOST_URL}/api/user_auth/changePassword`,
         {
           username: playerData.username,
           oldPassword: playerData.oldPassword,

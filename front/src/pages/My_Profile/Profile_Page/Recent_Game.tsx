@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import "./Recent_Game.css";
 import { usePlayer } from "../PlayerContext";
 import Cookies from "js-cookie";
-
+import { config } from "../../../config";
 export const Recent_Game = () => {
   const token = Cookies.get("access_token");
 
@@ -17,12 +17,12 @@ export const Recent_Game = () => {
   const my_data = usePlayer();
   const [historyGame, setHistoryGame] = useState<Match[]>([]);
   const username = my_data.playerData?.username;
-
+  const { HOST_URL } = config;
   useEffect(() => {
     const get_data = async () => {
       try {
         const response = await fetch(
-          `https://localhost/api/game/get_match/${username}/`,
+          `${HOST_URL}/api/game/get_match/${username}/`,
           {
             method: "GET",
             headers: {

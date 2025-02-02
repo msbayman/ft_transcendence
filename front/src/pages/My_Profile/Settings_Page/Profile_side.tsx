@@ -6,10 +6,11 @@ import { useState } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { toast } from "react-hot-toast";
+import { config } from "../../config";
 
 function Profile_side() {
   const data_player = usePlayer();
-
+ const { HOST_URL } = config;
   const [changed, setChanged] = useState<boolean>(false);
 
   interface player_data {
@@ -39,7 +40,7 @@ function Profile_side() {
       }
 
       const response = await axios.post<player_data>(
-        "https://localhost/api/user_auth/update_player",
+        `${HOST_URL}/api/user_auth/update_player`,
         updateData,
         {
           headers: {
@@ -113,7 +114,7 @@ function Profile_side() {
                   }
 
                   const response = await axios.post(
-                    "https://localhost/api/user_auth/upload_profile_image",
+                    `${HOST_URL}/api/user_auth/upload_profile_image`,
                     formData,
                     {
                       headers: {

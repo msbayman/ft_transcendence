@@ -4,7 +4,7 @@ import { useWebSocket } from "./WebSocketContext";
 import Cookies from "js-cookie";
 import axios from "axios";
 import { usePlayer } from "../PlayerContext";
-
+import { config } from "../../../config";
 interface PlayerInfo {
   id: number;
   username: string;
@@ -45,6 +45,7 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
   const [playerInfo, setPlayerInfo] = useState<PlayerInfo | null>(null);
   const token = Cookies.get("access_token");
   const profile_redirec = useNavigate();
+    const { HOST_URL } = config;
 
 
   const toggleDiv = () => {
@@ -56,7 +57,7 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
     try {
       if (!isblock) {
         await axios.post(
-          `https://localhost/api/chat/block_user/${value}/`,
+          `${HOST_URL}/api/chat/block_user/${value}/`,
           {}, // empty body
           {
             headers: {
@@ -67,7 +68,7 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
         setIsBlock(true);
       } else {
         await axios.post(
-          `https://localhost/api/chat/unblock_user/${value}/`,
+          `${HOST_URL}/api/chat/unblock_user/${value}/`,
           {}, // empty body
           {
             headers: {
@@ -86,7 +87,7 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
     const fetchPlayerInfo = async () => {
       try {
         const response = await axios.get<PlayerInfo>(
-          `https://localhost/api/chat/get_user_info/${value}/`,
+          `${HOST_URL}/api/chat/get_user_info/${value}/`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -117,7 +118,7 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
     const fetchData = async () => {
       try {
         const conversationResponse = await axios.get(
-          `https://localhost/api/chat/getconversation/${value}/`,
+          `${HOST_URL}/api/chat/getconversation/${value}/`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -149,7 +150,7 @@ const ChatInterface: React.FC<UserName> = ({ value }) => {
     const fetchBlockStatus = async () => {
       try {
         const blockStatusResponse = await axios.get(
-          `https://localhost/api/chat/isblocked/${value}/`,
+          `${HOST_URL}/api/chat/isblocked/${value}/`,
           {
             headers: {
               Authorization: `Bearer ${token}`,

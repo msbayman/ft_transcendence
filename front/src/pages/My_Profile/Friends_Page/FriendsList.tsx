@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Cookies from "js-cookie";
 import axios from "axios";
 import { useWebSocket } from "./WebSocketContext";
-
+import { config } from "../../../config";
 
 interface Friend {
   id: string;
@@ -27,11 +27,12 @@ const FriendsList: React.FC<SelectedUser> = ({ onClick }) => {
   const [onlineFriends, setOnlineFriends] = useState<OnlineFriends[]>([]);
   const { messages } = useWebSocket();
   const token = Cookies.get("access_token");
-  
+   const { HOST_URL } = config;
+
   const fetchLastMessages = async () => {
     try {
       const response = await axios.get(
-        "https://localhost/api/chat/last-message/",
+        `${HOST_URL}/api/chat/last-message/`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -56,7 +57,7 @@ const FriendsList: React.FC<SelectedUser> = ({ onClick }) => {
   const fetchOnlineFriends = async () => {
     try {
       const response = await axios.get(
-        "https://localhost/api/chat/api/users/",
+        `${HOST_URL}/api/chat/api/users/`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }

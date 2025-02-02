@@ -1,0 +1,3 @@
+import { config } from "../../config";
+ const { HOST_URL } = config;
+${HOST_URL}
