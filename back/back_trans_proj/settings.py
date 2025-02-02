@@ -73,16 +73,6 @@ INSTALLED_APPS = [
     'listfriends'
 ]
 
-# CORS_ALLOWED_ORIGINS = [
-#     'https://localhost',
-#     'https://127.0.0.1',
-
-# ]
-
-# CORS_ORIGIN_WHITELIST = (
-#     'https://localhost',
-#     'https://127.0.0.1',
-# )
 CSRF_COOKIE_SECURE = False  # Set to True in production
 CSRF_COOKIE_HTTPONLY = True
 CSRF_COOKIE_SAMESITE = 'Lax'  # Can be 'Strict' in production if appropriate
