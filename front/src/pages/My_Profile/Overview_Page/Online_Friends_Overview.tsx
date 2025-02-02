@@ -78,5 +78,6 @@ const Online_Friends_Overview = () => {
     </div>
   );
 };
+}
 
 export default Online_Friends_Overview;

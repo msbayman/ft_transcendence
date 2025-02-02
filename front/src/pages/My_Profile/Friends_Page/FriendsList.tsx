@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Cookies from "js-cookie";
 import axios from "axios";
-import { useWebSocket } from "./WebSocketContext";
+import { useWebSocket } from './useWebSocket';
 import { config } from "../../../config";
 // import { useWebSocket } from "./WebSocketContext";;
 

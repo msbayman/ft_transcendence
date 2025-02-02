@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import { usePlayer } from '../My_Profile/PlayerContext';
-import { config } from "../../../config";
+import { config } from "../../config";
 
 function Game_Remot( { id, selectedIds } ) {
 	const mydata = usePlayer();
