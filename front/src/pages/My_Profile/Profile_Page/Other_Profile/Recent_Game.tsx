@@ -2,6 +2,7 @@ import other from "./Recent_Game.module.css";
 import { data_of_player } from "./interface";
 import Cookies from "js-cookie";
 import { useState, useEffect } from "react";
+import { config } from "../../../../config";
 
 interface data_interface {
   other_data: data_of_player | null;
@@ -9,7 +10,7 @@ interface data_interface {
 
 export const Recent_Game = ({ other_data }: data_interface) => {
   const token = Cookies.get("access_token");
-
+  const { HOST_URL } = config;
   interface Match {
     player1: string;
     player2: string;
@@ -24,7 +25,7 @@ export const Recent_Game = ({ other_data }: data_interface) => {
     const get_data = async () => {
       try {
         const response = await fetch(
-          `https://localhost/api/game/get_match/${other_data?.username}/`,
+          `${HOST_URL}/api/game/get_match/${other_data?.username}/`,
           {
             method: "GET",
             headers: {
@@ -35,7 +36,6 @@ export const Recent_Game = ({ other_data }: data_interface) => {
         if (response.ok) {
           const info = await response.json();
           setHistoryGame(info);
-          console.log("the matchs is here: ", historyGame);
         }
       } catch (error) {
         console.error("Error:", error);
@@ -83,9 +83,10 @@ export const Recent_Game = ({ other_data }: data_interface) => {
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleDateString("en-US", {
-      year: "numeric",
       month: "short",
       day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
     });
   };
 
@@ -107,7 +108,7 @@ export const Recent_Game = ({ other_data }: data_interface) => {
                     other_data?.username,
                     field.player1,
                     field.player2
-                  )} pt-[30px] pr-[40px] pl-[30px] text-center flex flex-row w-[100%] gap-3 justify-between items-center`}
+                  )} pt-[30px] pr-[30px] pl-[30px] text-center flex flex-row w-[100%] gap-3 justify-between items-center`}
                 >
                   {win_or_lose_state(
                     field.player1_score,

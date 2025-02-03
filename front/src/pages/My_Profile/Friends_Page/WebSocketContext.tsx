@@ -13,7 +13,25 @@ interface Message {
   sender: string;
   receiver: string;
 }
+// const { HOST_URL, WS_HOST_URL } = config;
+// useEffect(() => {
+//   const token = Cookies.get("access_token");
+//   const url = `${WS_HOST_URL}/ws/notifications/`;
+//   const wsUrl = `${url}?token=${token}`;
+//   const ws = new WebSocket(wsUrl);
 
+//   ws.onopen = () => {
+//     console.log("WebSocket Connected");
+//   };
+
+//   ws.onerror = (error) => {
+//     console.error("WebSocket Error:", error);
+//   };
+
+//   ws.onclose = () => {
+//     console.log("WebSocket Disconnected");
+//   };
+// }, []);
 export const WebSocketProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const PlayerInstance = usePlayer();
   const [messages, setMessages] = useState<Message[]>([]);

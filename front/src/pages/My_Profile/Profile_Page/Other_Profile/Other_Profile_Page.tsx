@@ -8,15 +8,15 @@ import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import { data_of_player } from "./interface";
+import { config } from "../../../../config";
 
 export const Other_Profile_Page = ({
   username,
 }: {
   username: string | undefined;
 }) => {
-
   const token = Cookies.get("access_token");
-
+  const { HOST_URL, WS_HOST_URL } = config;
   const [data, Setdata] = useState<data_of_player | null>(null);
   const [data_ok, Setdata_ok] = useState(false);
   const [notFound, setnotFound] = useState(false);
@@ -24,7 +24,7 @@ export const Other_Profile_Page = ({
   const get_data = async () => {
     try {
       const response = await fetch(
-        `https://localhost/api/user_auth/get-player/${username}/`,
+        `${HOST_URL}/api/user_auth/get-player/${username}/`,
         {
           method: "GET",
           headers: {
@@ -45,18 +45,19 @@ export const Other_Profile_Page = ({
   };
   useEffect(() => {
     if (data_ok === false) {
-    get_data();
+      get_data();
     }
   }, [username]);
 
   const navigate = useNavigate();
   const to_home = () => {
-    navigate("/Overview")
-  }
+    navigate("/Overview");
+  };
 
   if (notFound === true && !data)
     return (
       <div className={other.NotFound}>
+        <img src="/ERROR_404.gif" className="rounded-[30px] mt-[20px] h-[350px]" alt="Error_404" />
         <div className={other.Title}>Oops!</div>
         <div className={other.Title_sub}>404 - USER NOT FOUND</div>
         <button onClick={to_home} className={other.to_Home}>
@@ -72,7 +73,7 @@ export const Other_Profile_Page = ({
           <div
             className={other.cover_profile}
             style={{
-              backgroundImage: `url("https://localhost${data?.cover_image}")`,
+              backgroundImage: `url("${HOST_URL}${data?.cover_image}")`,
             }}
           ></div>
           <div className={other.content_profile}>
@@ -80,17 +81,17 @@ export const Other_Profile_Page = ({
               <Info_Player username={username} />
             </div>
             <div className={other.Recent_Game}>
-              <Recent_Game other_data={data}/>
+              <Recent_Game other_data={data} />
             </div>
             <div className={other.Acheivement_and_States}>
               <div className={other.action_to_accept}>
                 <Action_Friends username={username} />
               </div>
               <div className={other.Content_of_Acheievment}>
-                <Acheiev_Profile other_data={data}/>
+                <Acheiev_Profile other_data={data} />
               </div>
               <div className={other.Content_of_States}>
-                <States_Profile />
+                <States_Profile other_data={data} />
               </div>
             </div>
           </div>

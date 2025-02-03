@@ -1,10 +1,17 @@
 import { usePlayer } from "../PlayerContext";
 import "./Online_Friends_Overview.css";
 import { useNavigate } from "react-router-dom";
+import { config } from "../../../config";
+
+
 
 const Online_Friends_Overview = () => {
   const { onlineFriends } = usePlayer();
   const navigate = useNavigate();
+  const { HOST_URL } = config;
+
+  const to_message = () => {
+    navigate("/Friends");
   const loggedplayer = usePlayer()
   const to_message = (username:string) => {
     navigate(`/Friends?user=${username}`);
@@ -35,7 +42,7 @@ const Online_Friends_Overview = () => {
             {onlineFriends.map((friend) => (
               <li key={friend.username} className="Every_User">
                 <img
-                  src={`https://localhost/${friend.profile_image}`}
+                  src={`${HOST_URL}/${friend.profile_image}`}
                   className="Ps_Profile"
                   alt={`${friend.username}'s profile`}
                 />
@@ -60,12 +67,17 @@ const Online_Friends_Overview = () => {
         </div>
       ) : (
         <div className="No_One">
-          <img src="/public/Navbar/No.png" style={{ width: 30 }} alt="no friend" />
+          <img
+            src="/public/Navbar/No.png"
+            style={{ width: 30 }}
+            alt="no friend"
+          />
           <span>No Friends</span>
         </div>
       )}
     </div>
   );
 };
+}
 
 export default Online_Friends_Overview;

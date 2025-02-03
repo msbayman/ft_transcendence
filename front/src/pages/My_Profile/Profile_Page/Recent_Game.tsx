@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import "./Recent_Game.css";
 import { usePlayer } from "../PlayerContext";
 import Cookies from "js-cookie";
-
+import { config } from "../../../config";
 export const Recent_Game = () => {
   const token = Cookies.get("access_token");
 
@@ -17,12 +17,12 @@ export const Recent_Game = () => {
   const my_data = usePlayer();
   const [historyGame, setHistoryGame] = useState<Match[]>([]);
   const username = my_data.playerData?.username;
-
+  const { HOST_URL } = config;
   useEffect(() => {
     const get_data = async () => {
       try {
         const response = await fetch(
-          `https://localhost/api/game/get_match/${username}/`,
+          `${HOST_URL}/api/game/get_match/${username}/`,
           {
             method: "GET",
             headers: {
@@ -80,9 +80,10 @@ export const Recent_Game = () => {
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleDateString("en-US", {
-      year: "numeric",
       month: "short",
       day: "numeric",
+      hour:"2-digit",
+      minute:"2-digit"
     });
   };
 
@@ -104,7 +105,7 @@ export const Recent_Game = () => {
                     username,
                     field.player1,
                     field.player2
-                  )} pt-[30px] pr-[40px] pl-[30px] text-center flex flex-row w-[100%] gap-3 justify-between items-center`}
+                  )} pt-[30px] pr-[30px] pl-[30px] text-center flex flex-row w-[100%] gap-3 justify-between items-center`}
                 >
                   {win_or_lose_state(
                     field.player1_score,

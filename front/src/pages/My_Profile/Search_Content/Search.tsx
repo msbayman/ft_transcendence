@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { usePlayer } from "../PlayerContext";
 import Cookies from "js-cookie";
 import axios from "axios";
+import { config } from "../../../config";
 
 const Search = () => {
   const my_data = usePlayer();
@@ -16,7 +17,7 @@ const Search = () => {
   };
   const [searchResults, setSearchResults] = useState<Player_search[]>([]);
   const [query, setQuery] = useState("");
-
+const { HOST_URL } = config;
   useEffect(() => {
     const handleSearch = async (query: string) => {
       const token = Cookies.get("access_token");
@@ -26,7 +27,7 @@ const Search = () => {
       if (query.length >= minLength) {
         try {
           const response = await axios.get(
-            `https://localhost/api/user_auth/search-users/?q=${query}`,
+            `${HOST_URL}/api/user_auth/search-users/?q=${query}`,
             {
               headers: {
                 Authorization: `Bearer ${token}`,

@@ -4,6 +4,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { TextField, Button, Box, Typography, Alert } from "@mui/material";
 import "./Valid_otp.css";
+import { config } from "../../config";
 
 const ValidOtp: React.FC = () => {
   const [searchParams] = useSearchParams();
@@ -11,7 +12,7 @@ const ValidOtp: React.FC = () => {
   const [errMsg, setErrMsg] = useState<string>("");
   const navigate = useNavigate();
   const username = searchParams.get("username");
-
+const { HOST_URL } = config;
   const inputsRef = useRef<HTMLInputElement[]>([]);
 
   const handlePaste = (code: string) => {
@@ -53,7 +54,7 @@ const ValidOtp: React.FC = () => {
 
     try {
       const response = await axios.post(
-        "https://localhost:443/api/user_auth/VerifyOTP",
+        `${HOST_URL}/api/user_auth/VerifyOTP`,
         {
           username,
           otp: otpCode,

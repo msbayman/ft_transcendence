@@ -4,6 +4,7 @@ import { LinearProgress } from "@mui/material";
 import { CircularProgress, CircularProgressLabel } from "@chakra-ui/progress";
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
+import { config } from "../../../../config";
 
 export const Info_Player = ({ username }: { username: string | undefined }) => {
   interface data_of_player {
@@ -20,12 +21,12 @@ export const Info_Player = ({ username }: { username: string | undefined }) => {
   const token = Cookies.get("access_token");
 
   const [data, Setdata] = useState<data_of_player | null>(null);
-
+ const { HOST_URL } = config;
   useEffect(() => {
     const get_data = async () => {
       try {
         const response = await fetch(
-          `https://localhost/api/user_auth/get-player/${username}/`,
+          `${HOST_URL}/api/user_auth/get-player/${username}/`,
           {
             method: "GET",
             headers: {
@@ -49,7 +50,7 @@ export const Info_Player = ({ username }: { username: string | undefined }) => {
 
   const percentage = (total: number | undefined, win: number | undefined) => {
     if (total === undefined || win === undefined || total === 0) return 0;
-    const result = ((win / total) * 100).toFixed(0);
+    const result = Number(((win / total) * 100).toFixed(0));
     return result;
   };
 
@@ -58,13 +59,13 @@ export const Info_Player = ({ username }: { username: string | undefined }) => {
     lose: number | undefined
   ) => {
     if (total === undefined || lose === undefined || total === 0) return 0;
-    const result = ((lose / total) * 100).toFixed(0);
+    const result = Number(((lose / total) * 100).toFixed(0));
     return result;
   };
 
   const percentage_acheiv = (trueCount: number | undefined) => {
     if (trueCount == undefined) return 0;
-    const result = ((trueCount / 9) * 100).toFixed(0);
+    const result = Number(((trueCount / 9) * 100).toFixed(0));
     return result;
   };
 
@@ -72,9 +73,8 @@ export const Info_Player = ({ username }: { username: string | undefined }) => {
     points: number | undefined,
     level: number | undefined
   ) => {
-    if (points == undefined || level == undefined) return 0;
-    if (points == undefined || level == undefined) return 0;
-    const result = ((points / 1000 / level) * 100).toFixed(0);
+    if (points == undefined || level == undefined || points == 0) return 0;
+    const result = Number(((points / 1000 / level) * 100).toFixed(0));
     return result;
   };
 

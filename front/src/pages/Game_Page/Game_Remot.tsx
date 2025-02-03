@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react';
-import Cookies from 'js-cookie';
+import { useEffect, useState } from "react";
+import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import { usePlayer } from '../My_Profile/PlayerContext';
+import { config } from "../../config";
 
 interface GameRemotProps {
 	id: string;
@@ -11,6 +12,7 @@ interface GameRemotProps {
 function Game_Remot( { id , selectedIds }:GameRemotProps ) {
 	const mydata = usePlayer();
 	const [socket, setSocket] = useState<WebSocket | null>(null);
+	  const { HOST_URL, WS_HOST_URL } = config;
 	const [gameState, setGameState] = useState({
 		paddles: {up: 180, down: 180},
 		ball: { x: 250, y: 365, dx: 5, dy: 5 },
@@ -71,7 +73,7 @@ function Game_Remot( { id , selectedIds }:GameRemotProps ) {
 
 	useEffect(() => {
 		const token = Cookies.get("access_token");
-		const ws = new WebSocket(`wss://localhost/ws/game/${id}/?token=${token}`);
+		const ws = new WebSocket(`${WS_HOST_URL}/ws/game/${id}/?token=${token}`);
 
 		ws.onopen = () => {
 			console.log("Connected to WebSocket");

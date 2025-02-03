@@ -4,11 +4,12 @@ import Profile_side from "./Profile_side";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
+import { config } from "../../../config";
 
 const Settings_Page = () => {
   const [action, setAction] = useState("");
   const [tab, setTab] = useState<boolean>(true);
-
+    const { HOST_URL } = config;
   interface player_data {
     username: string;
   }
@@ -29,7 +30,7 @@ const Settings_Page = () => {
         if (!token) throw new Error("No access token found. Please log in.");
 
         const response = await axios.get<player_data>(
-          "https://localhost/api/user_auth/UserDetailView",
+          `${HOST_URL}/api/user_auth/UserDetailView`,
           {
             headers: {
               Authorization: `Bearer ${token}`,

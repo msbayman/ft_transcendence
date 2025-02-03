@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { usePlayer } from "../PlayerContext";
 import axios from "axios";
 import Cookies from "js-cookie";
+import { config } from "../../../config";
 
 const Table_Leaderboard = () => {
   const token = Cookies.get("access_token");
@@ -18,7 +19,7 @@ const Table_Leaderboard = () => {
   // const responce = axios.get("")
 
   const my_user = usePlayer();
-
+  const { HOST_URL } = config;
   const myusername = my_user.playerData?.username;
 
   const [list_users, Setlist_users] = useState<list_leaderboard_user[]>([]);
@@ -50,7 +51,7 @@ const Table_Leaderboard = () => {
 
   useEffect(() => {
     axios
-      .get("https://localhost/api/user_auth/leaderboard")
+      .get(`${HOST_URL}/api/user_auth/leaderboard`)
       .then((response) => {
         Setlist_users(response.data);
       })
@@ -78,7 +79,7 @@ const Table_Leaderboard = () => {
               </div>
               <div className={leader.imgclass}>
                 <img
-                  src={"https://localhost" + data.profile_image}
+                  src={ `${HOST_URL}` + data.profile_image}
                   alt="photo_Profile"
                   className={leader.class_img}
                 />

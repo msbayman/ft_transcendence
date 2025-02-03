@@ -6,12 +6,13 @@ import { Link, useNavigate } from "react-router-dom";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
+import { config } from "../../config";
 
 const fullNameSchema = z
   .string()
   .trim()
-  .min(2, { message: "Must be 5-40 characters" })
-  .max(40, { message: "Must be 5-40 characters" })
+  .min(4, { message: "Must be 4-25 characters" })
+  .max(25, { message: "Must be 4-25 characters" })
   .refine(value => !/^\s/.test(value), { message: "Cannot start with a space" })
   .refine(value => !/\s{2,}/.test(value), { message: "Only one space between words allowed" })
   .refine(value => /^[a-zA-Z]+( [a-zA-Z]+)*$/.test(value), { 
@@ -21,8 +22,8 @@ const fullNameSchema = z
 const userNameSchema = z
   .string()
   .trim()
-  .min(2, { message: "Must be 5-16 characters" })
-  .max(16, { message: "Must be 5-16 characters" })
+  .min(4, { message: "Must be 4-14 characters" })
+  .max(14, { message: "Must be 4-14 characters" })
   .refine(value => !/^\s/.test(value), { message: "Cannot start with a space" })
   .refine(value => /^[a-zA-Z0-9-_]+$/.test(value), { 
     message: "Only letters, 0-9, _, -" 
@@ -48,6 +49,7 @@ const SignupSchema = z
 function Signup_Page() {
   const [mailUsernameErr, setMailUsernameErr] = useState("");
   const navigate = useNavigate();
+  const { HOST_URL } = config;
   const {
     register,
     handleSubmit,
@@ -66,7 +68,7 @@ function Signup_Page() {
 
     try {
       const response = await axios.post(
-        "https://localhost:443/api/user_auth/add_player",
+        `${HOST_URL}/api/user_auth/add_player`,
         dataToSubmit
       );
 
@@ -97,10 +99,10 @@ function Signup_Page() {
   };
 
   const handleOAuthLogin = () => {
-    window.location.href = "https://localhost:443/api/discord/login";
+    window.location.href = `${HOST_URL}/api/discord/login`;
   };
   const handleOAuthLogin_42 = () => {
-    window.location.href = "https://localhost:443/api/42/login";
+    window.location.href = `${HOST_URL}/api/42/login`;
   };
 
   return (

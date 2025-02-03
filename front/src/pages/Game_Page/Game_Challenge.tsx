@@ -3,6 +3,7 @@ import Cookies from 'js-cookie';
 import { usePlayer } from '../My_Profile/PlayerContext';
 import Game_Remot from "./Game_Remot";
 import { useEffect, useState } from 'react';
+import { config } from "../../config";
 import { useLocation } from 'react-router-dom';
   
 interface MatchPlayer {
@@ -40,13 +41,13 @@ function Game_challeng() {
     const [matchData, setMatchData] = useState<MatchData | null>(null);
     const token = Cookies.get("access_token");
     const [startGame, setStartGame] = useState(false);
-
+    const { HOST_URL, WS_HOST_URL } = config;
 
     
     useEffect(() => {
         const name_socket = challenged + '+' + challenger;
         const matchmakingSocket = new WebSocket(
-            `wss://localhost/ws/challenge/${name_socket}/?token=${token}`
+            `${WS_HOST_URL}/ws/challenge/${name_socket}/?token=${token}`
         );
 
         matchmakingSocket.onopen = () => {

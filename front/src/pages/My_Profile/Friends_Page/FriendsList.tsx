@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import Cookies from "js-cookie";
 import axios from "axios";
-// import { useWebSocket } from "./WebSocketContext";
-import { useWebSocket } from "./useWebSocket";
+import { useWebSocket } from './useWebSocket';
+import { config } from "../../../config";
+// import { useWebSocket } from "./WebSocketContext";;
 
 
 interface Friend {
@@ -45,6 +46,53 @@ const FriendsList: React.FC<SelectedUser> = ({ onClick }) => {
   const [onlineFriends, setOnlineFriends] = useState<OnlineFriends[]>([]);
   const { messages } = useWebSocket();
   const token = Cookies.get("access_token");
+  const { HOST_URL, WS_HOST_URL } = config;
+
+  const fetchLastMessages = async () => {
+    try {
+      const response = await axios.get(
+        `${HOST_URL}/api/chat/last-message/`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      const lastMessages = response.data;
+      setFriends(
+        lastMessages.map((user: any, index: number) => ({
+          id: index.toString(),
+          name: user.user2.username,
+          avatar: user.user2.profile_image.replace("http://","https://"),
+          content: user.last_message.content.length > 10 
+          ? user.last_message.content.substring(0, 10) + '...' 
+          : user.last_message.content,
+          timestamp: user.timestamp,
+        }))
+      );
+    } catch (error) {
+      console.error("Error fetching last messages:", error);
+    }
+  };
+
+  const fetchOnlineFriends = async () => {
+    try {
+      const response = await axios.get(
+        `${HOST_URL}/api/chat/api/users/`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      const onlineUsersList = response.data;
+      setOnlineFriends(
+        onlineUsersList.map((user: any, index: number) => ({
+          id: index.toString(),
+          name: user.username,
+          avatar: user.profile_image.replace("http://","https://"),
+        }))
+      );
+    } catch (error) {
+      console.error("Error fetching online friends:", error);
+    }
+  };
   
 
 
@@ -52,7 +100,7 @@ useEffect(() => {
     const fetchOnlineFriends = async () => {
       try {
         const response = await axios.get<[OnlineFriends]>(
-          "https://localhost/api/chat/api/users/",
+          `${HOST_URL}/api/chat/api/users/`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -77,7 +125,7 @@ useEffect(() => {
     const fetchLastMessages = async () => {
       try {
         const response = await axios.get<ChatData[]>(
-          "https://localhost/api/chat/last-message/",
+          `${HOST_URL}/api/chat/last-message/`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }

@@ -11,7 +11,9 @@ load_dotenv()
 # 42 OAuth Configuration
 OAUTH_42_CLIENT_ID = os.getenv('OAUTH_42_CLIENT_ID')
 OAUTH_42_CLIENT_SECRET = os.getenv('OAUTH_42_CLIENT_SECRET')
-OAUTH_42_REDIRECT_URI = os.getenv('OAUTH_42_REDIRECT_URI')
+VITE_HOST_URL = os.getenv('VITE_HOST_URL')
+OAUTH_42_REDIRECT_URI = f"https://{VITE_HOST_URL}/api/42/login_redirect"
+
 OAUTH_42_AUTHORIZATION_URL = 'https://api.intra.42.fr/oauth/authorize'
 OAUTH_42_TOKEN_URL = 'https://api.intra.42.fr/oauth/token'
 OAUTH_42_USER_INFO_URL = 'https://api.intra.42.fr/v2/me'
@@ -26,12 +28,13 @@ EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL')
 
 # settings.py
-
+HOST_URL = 'https://' + os.getenv('VITE_HOST_URL')
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'f*g_tr0l-1ye@_kq+704os5-(f5rzm21sjb6a)4*hdm!aecefm')
-# DEBUG = False
+
+DEBUG = os.getenv('DJANGO_DEBUG', 'False').lower() == 'true'
 
 ALLOWED_HOSTS = ['*']
 
@@ -73,16 +76,6 @@ INSTALLED_APPS = [
     'listfriends'
 ]
 
-# CORS_ALLOWED_ORIGINS = [
-#     'https://localhost',
-#     'https://127.0.0.1',
-
-# ]
-
-# CORS_ORIGIN_WHITELIST = (
-#     'https://localhost',
-#     'https://127.0.0.1',
-# )
 CSRF_COOKIE_SECURE = False  # Set to True in production
 CSRF_COOKIE_HTTPONLY = True
 CSRF_COOKIE_SAMESITE = 'Lax'  # Can be 'Strict' in production if appropriate
@@ -159,7 +152,7 @@ CHANNEL_LAYERS = {
         },
     },
 }
-
+APPEND_SLASH = True
 MEDIA_URL = '/media/'
 MEDIA_ROOT = '/app/media'  
 CORS_ALLOW_ALL_ORIGINS = True

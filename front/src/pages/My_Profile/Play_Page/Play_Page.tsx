@@ -10,7 +10,7 @@ import Cookies from "js-cookie";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
 import { TournContext } from "./../../Game_Page/TournContext";
-
+import { config } from "../../../config";
 interface SelectedIds {
   mode: number | null;
   board: number | null;
@@ -88,6 +88,7 @@ const Play_Page: React.FC = () => {
   const [tourninput2, settourninput2] = useState("");
   const [tourninput3, settourninput3] = useState("");
   const [tourninput4, settourninput4] = useState("");
+    const { HOST_URL } = config;
   const { tournamentState, setTournamentState } = useContext(TournContext);
   const [selectedIds, setSelectedIds] = useState<SelectedIds>({
     mode: null,
@@ -160,7 +161,7 @@ const Play_Page: React.FC = () => {
         if (!token) throw new Error("No access token found. Please log in.");
 
         const response = await axios.get<player_data>(
-          "https://localhost/api/user_auth/UserDetailView",
+          `${HOST_URL}/api/user_auth/UserDetailView`,
           {
             headers: {
               Authorization: `Bearer ${token}`,

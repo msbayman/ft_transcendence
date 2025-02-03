@@ -23,6 +23,8 @@ import Tournaments from "./pages/Game_Page/Tournaments";
 import { TournProvider } from "./pages/Game_Page/TournContext";
 import { Toaster } from 'react-hot-toast';
 import End_of_Game from './pages/Game_Page/End_of_Game';
+import { config } from "./config";
+// import Game_challeng from "./pages/Game_Page/Game_Challenge";
 import Game_challeng from "./pages/Game_Page/Game_Challenge";
 // import NotFound from "./NotFound";
 
@@ -30,6 +32,7 @@ import Game_challeng from "./pages/Game_Page/Game_Challenge";
 function AppContent() {
   const navigate = useNavigate();
   const location = useLocation();
+  const { HOST_URL } = config;
   const { fetchPlayerData, clearPlayerData, wsConnection } = usePlayer();
 
   useEffect(() => {
@@ -39,7 +42,7 @@ function AppContent() {
       try {
 
         const response = await axios.get(
-          "https://localhost/api/check_csrf_tok/validate_token",
+          `${HOST_URL}/api/check_csrf_tok/validate_token`,
           {
             headers: {
               Authorization: `Bearer ${accessToken}`,

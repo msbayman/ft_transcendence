@@ -85,33 +85,32 @@ def update_player(request):
         serializer = PlayerSerializer()
         validated_username = serializer.validate_username(new_username)
 
-        with transaction.atomic(): # Use a transaction to ensure data consistency in the database # TODO : try to remove this line 
-            if Player.objects.filter(username=validated_username).exists():
-                return Response(
-                    {'error': 'This username is already taken.'},
-                    status=status.HTTP_400_BAD_REQUEST
-                )
+        if Player.objects.filter(username=validated_username).exists():
+            return Response(
+                {'error': 'This username is already taken.'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
 
-            # Fetch the player and update the username
-            player_to_update = Player.objects.get(username=username)
-            player_to_update.username = validated_username
-            player_to_update.save()
-            
+        # Fetch the player and update the username
+        player_to_update = Player.objects.get(username=username)
+        player_to_update.username = validated_username
+        player_to_update.save()
+        
 
-            games = Match.objects.filter(Q(player1=old_username) | Q(player2=old_username))
-            
-            for i in games:
-                if i.player1 == old_username:
-                    i.player1 = new_username
-                    i.save()
-                else:
-                    i.player2 = new_username
-                    i.save()
+        games = Match.objects.filter(Q(player1=old_username) | Q(player2=old_username))
+        
+        for i in games:
+            if i.player1 == old_username:
+                i.player1 = new_username
+                i.save()
+            else:
+                i.player2 = new_username
+                i.save()
 
-            return Response({
-                'message': 'Username updated successfully',
-                'username': validated_username
-            }, status=status.HTTP_200_OK)
+        return Response({
+            'message': 'Username updated successfully',
+            'username': validated_username
+        }, status=status.HTTP_200_OK)
 
     except ValidationError as e:
         return Response({'error': str(e.detail[0])}, status=status.HTTP_400_BAD_REQUEST)
@@ -331,7 +330,7 @@ class SendOtpForSettings(APIView):
             user = request.user
             if not isinstance(user, Player):
                 return Response({"error": "Invalid user type."}, status=status.HTTP_400_BAD_REQUEST)
-
+            
             # Generate a 6-digit OTP
             # if time.time() - user.created_at > 300:  # 5 minutes
             #     return Response({"detail": "OTP has expired, wait 5 min"}, status=status.HTTP_404_BAD_REQUEST)

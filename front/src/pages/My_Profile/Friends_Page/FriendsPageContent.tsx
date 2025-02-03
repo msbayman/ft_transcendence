@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { useWebSocket } from "./useWebSocket";
 import ChatContainer from "./ChatContainer";
+import { config } from "../../../config";
 
 const FriendsPageContent: React.FC = () => {
   const location = useLocation();
@@ -10,9 +11,10 @@ const FriendsPageContent: React.FC = () => {
 
   const [user, setUser] = useState<string>(initialUser);
   const { connect, disconnect } = useWebSocket();
+    const { HOST_URL, WS_HOST_URL } = config;
 
   useEffect(() => {
-    const wsUrl = "wss://localhost/ws/chat/";
+    const wsUrl = `${WS_HOST_URL}/ws/chat/`;
     connect(wsUrl);
 
     return () => {

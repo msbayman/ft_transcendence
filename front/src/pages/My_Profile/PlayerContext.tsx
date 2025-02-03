@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useCallback, useRef, useEffect  } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import { config } from "../../config";
 
 interface UserOnline {
   username: string;
@@ -63,6 +64,7 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({
   const [ws, setWs] = useState<WebSocket | null>(null);
   const [onlineFriends, setOnlineFriends] = useState<UserOnline[]>([]);
   const wsRef = useRef<WebSocket | null>(null);
+   const { HOST_URL, WS_HOST_URL } = config;
 
 
 
@@ -76,7 +78,7 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({
     setIsLoading(true);
     try {
       const response = await axios.get(
-        "https://localhost/api/user_auth/UserDetailView",
+        `${HOST_URL}/api/user_auth/UserDetailView`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -107,7 +109,8 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({
     if (wsRef.current && (wsRef.current.readyState === WebSocket.OPEN || wsRef.current.readyState === WebSocket.CONNECTING)) {
       return;
     }
-    const wsUrl = `wss://localhost/ws/notifications/?token=${token}`;
+
+    const wsUrl = `${WS_HOST_URL}/ws/notifications/?token=${token}`;
     const newWs = new WebSocket(wsUrl);
     wsRef.current = newWs;
 
@@ -206,7 +209,6 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({
 
 export const usePlayer = () => {
   const context = useContext(PlayerContext);
-  // console.log('context', context?.playerData);
   
   if (!context) {
     throw new Error("usePlayer must be used within a PlayerProvider");
