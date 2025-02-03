@@ -139,7 +139,7 @@ function Game_Remot( { id , selectedIds }:GameRemotProps ) {
 		<div className="bg-[url('/background.png')] bg-cover bg-center h-screen w-full">
 		  <div className="relative flex justify-center top-[90px]">
 			{/* Table Images */}
-			<img src="/public/table.svg" alt="table background" className="absolute" />
+			<img src="/table.svg" alt="table background" className="absolute" />
 			<img
 			  src={selectedIds?.board !== undefined ? SLIDEBOARDS[selectedIds.board]?.mapPath : SLIDEBOARDS[0].mapPath}
 			  alt={selectedIds?.board !== undefined ? SLIDEBOARDS[selectedIds.board]?.mapName : SLIDEBOARDS[0].mapName}
@@ -194,7 +194,7 @@ function Game_Remot( { id , selectedIds }:GameRemotProps ) {
 				</p>
 			  </div>
 			  <div className="flex justify-items-center">
-				<img src="/public/logo_game.svg" alt="logo" />
+				<img src="/logo_game.svg" alt="logo" />
 			  </div>
 			  <div className="relative bg-[url('/name_hold_game.svg')] h-[70px] w-[250px] bg-cover bg-center flex justify-center items-center">
 				<p className="absolute text-white text-4xl font-luckiest right-[25px]">

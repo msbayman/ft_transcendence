@@ -189,7 +189,7 @@ const resetBall = () => {
 		<div className="bg-[url('/background.png')] bg-cover bg-center h-screen w-full">
 		  <div className="relative flex justify-center top-[90px] ">
 			{/* Table Images */}
-			<img src="/public/table.svg" alt="table background " className="absolute"/>
+			<img src="/table.svg" alt="table background " className="absolute"/>
 			<img src={SLIDEBOARDS[selectedIds?.board ?? 0].mapPath} alt={SLIDEBOARDS[selectedIds?.board ?? 0].mapPath}  className={isPaused || Ballscore.l == 5 || Ballscore.r == 5 ? "absolute mx-auto top-[120px] blur-sm" : "absolute mx-auto top-[120px]"} />
 
 			{/* Game Elements */}
@@ -249,7 +249,7 @@ const resetBall = () => {
                 <p className="absolute text-black text-2xl transform scale-x-[-1] font-luckiest left-[9px] bottom-[10px] ">NoN</p>
             </div>
             <div className="flex justify-items-center">
-                <img src="/public/logo_game.svg" alt="logo"/>
+                <img src="/logo_game.svg" alt="logo"/>
             </div>
             <div className="relative bg-[url('/name_hold_game.svg')] h-[70px] w-[250px] bg-cover bg-center flex justify-center items-center">
         		<p className="absolute text-white text-4xl font-luckiest right-[25px] ">player2</p>

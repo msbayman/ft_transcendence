@@ -67,7 +67,7 @@ const Tournaments = () => {
 		  <div className="relative flex flex-row justify-around items-center rounded-[30px] bg-white w-[400px] max-h-[180px]">
 			<div className="flex pl-3 flex-col gap-4 justify-around items-center">
 			  <img
-				src="/public/profile.png"
+				src="/profile.png"
 				alt="photo_profile"
 				className="w-[100px] rounded-[50%]"
 			  />
@@ -94,7 +94,7 @@ const Tournaments = () => {
 			  <div className="flex justify-center items-center h-[280px] w-[40%] bg-white rounded-[40px]">
 				<div className="flex flex-col gap-4 justify-around items-center">
 				  <img
-					src="/public/profile.png"
+					src="/profile.png"
 					alt="photo_profile"
 					className="w-[120px] rounded-[50%] shadow-lg"
 				  />
@@ -122,7 +122,7 @@ const Tournaments = () => {
 				<div className="flex justify-center items-center h-[100%] w-[40%] bg-white rounded-[30px]">
 				  <div className="flex flex-col gap-4 justify-around items-center">
 					<img
-					  src="/public/profile.png"
+					  src="/profile.png"
 					  alt="photo_profile"
 					  className="w-[120px] rounded-[50%] shadow-lg"
 					/>
@@ -137,7 +137,7 @@ const Tournaments = () => {
 				<div className="flex justify-center items-center h-[100%] w-[40%] bg-white rounded-[30px]">
 				  <div className="flex flex-col gap-4 justify-around items-center">
 					<img
-					  src="/public/profile.png"
+					  src="/profile.png"
 					  alt="photo_profile"
 					  className="w-[120px] rounded-[50%] shadow-lg"
 					/>
@@ -162,7 +162,7 @@ const Tournaments = () => {
 			  <div className="flex justify-center items-center h-[280px] w-[40%] bg-white rounded-[40px]">
 				<div className="flex flex-col gap-4 justify-around items-center">
 				  <img
-					src="/public/profile.png"
+					src="/profile.png"
 					alt="photo_profile"
 					className="w-[120px] rounded-[50%] shadow-lg"
 				  />
@@ -190,7 +190,7 @@ const Tournaments = () => {
 				<div className="flex justify-center items-center h-[100%] w-[40%] bg-white rounded-[30px]">
 				  <div className="flex flex-col gap-4 justify-around items-center">
 					<img
-					  src="/public/profile.png"
+					  src="/profile.png"
 					  alt="photo_profile"
 					  className="w-[120px] rounded-[50%] shadow-lg"
 					/>
@@ -205,7 +205,7 @@ const Tournaments = () => {
 				<div className="flex justify-center items-center h-[100%] w-[40%] bg-white rounded-[30px]">
 				  <div className="flex flex-col gap-4 justify-around items-center">
 					<img
-					  src="/public/profile.png"
+					  src="/profile.png"
 					  alt="photo_profile"
 					  className="w-[120px] rounded-[50%] shadow-lg"
 					/>
