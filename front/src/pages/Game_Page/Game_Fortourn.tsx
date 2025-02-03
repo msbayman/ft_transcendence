@@ -145,12 +145,15 @@ useEffect(() => {
         setIswin(winner);
       } else if (!tournamentState.final) {
         const winner = Ballscore.l === 3 ? tournamentState?.semi1 : tournamentState?.semi2;
-        setTournamentState({ ...tournamentState, final: winner });
-        setIswin(winner);
+        setTournamentState({ ...tournamentState, final: winner, finish: true });
+        setIswin(winner);    
       }
+      navigate('/Overview')
       await handleSleep();
-      clearInterval(interval);
-      navigate("/tourn");
+      // clearInterval(interval);
+      // if (tournamentState.finish)
+      // else
+        // navigate("/tourn");
       return;
     }
 
@@ -240,10 +243,10 @@ const resetBall = () => {
 					PAUSED
 				</div>
 				<div className={Ballscore.l == 3 ? "relative top-[340px] left-[50px] text-white text-center font-luckiest text-6xl" : "hidden"}>
-				  {iswin} IS WIN
+				  {iswin} WIN
 				</div>
 				<div className={Ballscore.r == 3 ? "relative top-[340px] left-[50px] text-white text-center font-luckiest text-6xl" : "hidden"}>
-          {iswin} IS WIN
+          {iswin} WIN
 				</div>
 				{/* Left Paddle */}
 				<div

@@ -36,6 +36,7 @@ from django.contrib.auth.hashers import make_password
 from django.db.models import Q
 import math
 from game.models import Match
+from django.shortcuts import get_object_or_404
 
 logger = logging.getLogger(__name__)
 
@@ -47,7 +48,7 @@ def display_users(request):
     return Response(serializer.data)
 
 @api_view(['POST'])
-
+@permission_classes([IsAuthenticated])
 def delete_player(request):
     username = request.data.get('username')
     if not username:
@@ -61,7 +62,7 @@ def delete_player(request):
         return Response({'error': 'Player not found'}, status=status.HTTP_404_NOT_FOUND)
     except Exception as e:
         logger.error(f"Error deleting player {username}: {e}")
-        return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['POST'])
@@ -122,7 +123,7 @@ def update_player(request):
     except Exception as e:
         return Response(
             {'error': 'An error occurred while updating the username'},
-            status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            status=status.HTTP_400_BAD_REQUEST
         )
     
 
@@ -205,7 +206,7 @@ def changePassword(request):
         logger.error(f"Password change error for user {username}: {str(e)}")
         return Response({
             'error': 'An error occurred while updating the password'
-        }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        }, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['POST'])
@@ -246,80 +247,86 @@ class LoginAPIView(APIView):
     permission_classes = [AllowAny]
     
     def post(self, request):
-        username = request.data.get('username').lower()
-        password = request.data.get('password')
-        if not username or not password:
-            return Response({"detail": "Username and password are required."}, status=status.HTTP_400_BAD_REQUEST)
+        try:
+            username = request.data.get('username').lower()
+            password = request.data.get('password')
+            if not username or not password:
+                return Response({"detail": "Username and password are required."}, status=status.HTTP_400_BAD_REQUEST)
 
-        user = authenticate(request=request, username=username, password=password)
+            user = authenticate(request=request, username=username, password=password)
 
-        if user is not None:
-            player = Player.objects.get(username=username)
-            player.is_online = True
-            player.save()
-            if not player.prov_name:
-                player.prov_name = 'simple'
+            if user is not None:
+                player = Player.objects.get(username=username)
+                player.is_online = True
                 player.save()
-            
-            if not player.active_2fa:
-                refresh = RefreshToken.for_user(user)
-                return Response({
-                    'refresh': str(refresh),
-                    'access': str(refresh.access_token),
-                    'redirect_to': '/Overview'
-                }, status=status.HTTP_200_OK)
-            
-            else:
-                otp_code = generate_otp()
-                send_otp_via_email(user.email, otp_code)
+                if not player.prov_name:
+                    player.prov_name = 'simple'
+                    player.save()
                 
-                player.otp_code = otp_code
-                player.created_at = timezone.now()
-                player.save()
+                if not player.active_2fa:
+                    refresh = RefreshToken.for_user(user)
+                    return Response({
+                        'refresh': str(refresh),
+                        'access': str(refresh.access_token),
+                        'redirect_to': '/Overview'
+                    }, status=status.HTTP_200_OK)
+                
+                else:
+                    otp_code = generate_otp()
+                    send_otp_via_email(user.email, otp_code)
+                    
+                    player.otp_code = otp_code
+                    player.created_at = timezone.now()
+                    player.save()
 
-                return Response({
-                    "twofa_required": True,
-                    "username": player.username,
-                    "redirect_to": '/Valid_otp'
-                }, status=status.HTTP_200_OK)
-        else:
-            return Response({"detail": "Invalid username or password."}, status=status.HTTP_401_UNAUTHORIZED)
+                    return Response({
+                        "twofa_required": True,
+                        "username": player.username,
+                        "redirect_to": '/Valid_otp'
+                    }, status=status.HTTP_200_OK)
+            else:
+                return Response({"detail": "Invalid username or password."}, status=status.HTTP_401_UNAUTHORIZED)
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+            
 
 class VerifyOTP(APIView):
     permission_classes = [AllowAny]
     
     def post(self, request):
-        username = request.data.get('username')
-        otp = request.data.get('otp')
-
-        # print("=====>>> this is otp ", otp )
-
-        if not username or not otp:
-            return Response({"detail": "Username and OTP are required."}, status=status.HTTP_400_BAD_REQUEST)
-
         try:
-            player = Player.objects.get(username=username)
-        except Player.DoesNotExist:
-            return Response({"detail": "User not found."}, status=status.HTTP_404_NOT_FOUND)
+            username = request.data.get('username')
+            otp = request.data.get('otp')
 
-        if player.is_expired():
-            return Response({"detail": "OTP has expired."}, status=status.HTTP_400_BAD_REQUEST)
+            # print("=====>>> this is otp ", otp )
 
-        if player.otp_code == otp:
-            refresh = RefreshToken.for_user(player)
-            player.otp_code = 0
-            player.is_online = True
-            player.is_validate = True
-            player.save()
+            if not username or not otp:
+                return Response({"detail": "Username and OTP are required."}, status=status.HTTP_400_BAD_REQUEST)
 
-            return Response({
-                'refresh': str(refresh),
-                'access': str(refresh.access_token),
-                'redirect_to': '/Overview'
-            }, status=status.HTTP_200_OK)
-        else:
-            return Response({"detail": "Invalid OTP."}, status=status.HTTP_400_BAD_REQUEST)
-        
+            try:
+                player = Player.objects.get(username=username)
+            except Player.DoesNotExist:
+                return Response({"detail": "User not found."}, status=status.HTTP_404_NOT_FOUND)
+
+            if player.is_expired():
+                return Response({"detail": "OTP has expired."}, status=status.HTTP_400_BAD_REQUEST)
+
+            if player.otp_code == otp:
+                refresh = RefreshToken.for_user(player)
+                player.otp_code = 0
+                player.is_online = True
+                player.is_validate = True
+                player.save()
+
+                return Response({
+                    'refresh': str(refresh),
+                    'access': str(refresh.access_token),
+                    'redirect_to': '/Overview'
+                }, status=status.HTTP_200_OK)
+            else:
+                return Response({"detail": "Invalid OTP."}, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 class SendOtpForSettings(APIView):
     permission_classes = [IsAuthenticated]
@@ -342,7 +349,7 @@ class SendOtpForSettings(APIView):
             return Response({"message": "OTP sent successfully."}, status=status.HTTP_200_OK)
         
         except Exception as e:
-            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 @permission_classes([IsAuthenticated])
 class VerifyOTPSettings(APIView):
@@ -390,7 +397,7 @@ def get_2fa_status(request):
         return Response({
             'error': 'Failed to fetch 2FA status',
             'detail': str(e)
-        }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        }, status=status.HTTP_400_BAD_REQUEST)
 
 
 class UserDetailView(APIView):
@@ -445,7 +452,7 @@ class LogoutAPIView(APIView):
             return Response({"detail": "User not found."}, status=status.HTTP_404_NOT_FOUND)
         except Exception as e:
             logger.error(f"Error during logout: {e}")
-            return Response({"detail": "An error occurred during logout."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response({"detail": "An error occurred during logout."}, status=status.HTTP_400_BAD_REQUEST)
 
 
 
@@ -497,7 +504,7 @@ def upload_profile_image(request):
         return Response({'error': 'Player not found'}, status=404)
     except Exception as e:
         logger.error(f"Error uploading profile image: {str(e)}")
-        return Response({'error': 'Error uploading image'}, status=500)
+        return Response({'error': 'Error uploading image'}, status=HTTP_400_BAD_REQUEST)
 
 
 

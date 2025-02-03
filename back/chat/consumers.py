@@ -4,8 +4,6 @@ from django.contrib.auth import get_user_model
 from .models import Message, Conversation
 from django.db.models import Q
 import json
-from asgiref.sync import sync_to_async
-from channels.generic.websocket import AsyncJsonWebsocketConsumer
 
 User = get_user_model()
 

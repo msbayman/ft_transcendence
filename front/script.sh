@@ -1,4 +1,4 @@
 echo "runing this ---------------"
-npm run build
+npm run dev
 npm install -g serve
 serve -s dist -l 5173

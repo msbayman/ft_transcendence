@@ -8,6 +8,7 @@ interface TournInterface {
   semi1: string;
   semi2: string;
   final: string;
+  finish: boolean;
 }
 
 interface TournContextType {
@@ -23,6 +24,7 @@ const defaultValue: TournInterface = {
   semi1: "",
   semi2: "",
   final: "",
+  finish: false,
 };
 
 export const TournContext = createContext<TournContextType>({

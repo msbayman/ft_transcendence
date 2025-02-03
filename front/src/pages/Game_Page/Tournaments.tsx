@@ -20,12 +20,16 @@ const Tournaments = () => {
 				closeOnClick: true,
 				pauseOnHover: true,
 				draggable: true,});
-		if (time <= 0)
-			{
-				goTogame();
-			}
-		else if (tournamentState.final)
-		{
+		if (time <= 0 && !tournamentState.final)
+			goTogame();
+		const timer = setInterval(() => {
+			setTime((prevTime:any) => prevTime - 1);
+		}, 1000);
+		return () => clearInterval(timer);
+	}, [time]);
+
+	useEffect(() => {
+		if (tournamentState.final && !tournamentState.finish) {
 			setTournamentState({
 				final: "",
 				semi1: "",
@@ -34,20 +38,14 @@ const Tournaments = () => {
 				p2: "def-2",
 				p3: "def-3",
 				p4: "def-4",
-			  });
-			navigate("/Overview");
+			});
 		}
-		const timer = setInterval(() => {
-			setTime((prevTime) => prevTime - 1);
-		}, 1000);
-		return () => clearInterval(timer);
-	}, [time]);
+	}, [tournamentState.final]);
 
 	const goTogame = () => {
-		navigate("/tourn_game", {state: {selectedIds} });
+		// navigate("/tourn_game", {state: {selectedIds} });
+		console.log("try to navigate =>>>>>>>>>>>>>")
 	  };
-
-    // 	const notify = () => toast("Wow so easy!");
 
   return (
 	<div className="flex w-screen h-screen justify-center items-center bg-[url('/background.png')] bg-cover bg-center pb-[50px]">
