@@ -114,7 +114,6 @@ function AppContent() {
           <Route path="/tourn" element={<Tournaments />} />
           <Route path="/Game_challeng" element={<Game_challeng />} />
           <Route path="/Game_Result" element={<End_of_Game />} />
-
         </Routes>
         <Toaster />
       </main>

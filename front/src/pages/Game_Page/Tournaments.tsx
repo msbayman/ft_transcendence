@@ -1,12 +1,10 @@
 import { useContext, useState, useEffect } from 'react';
-import { usePlayer } from "../My_Profile/PlayerContext";
 import { useNavigate, useLocation } from "react-router-dom";
 import { TournContext } from './TournContext';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const Tournaments = () => {
-	const my_data = usePlayer();
 	const { tournamentState, setTournamentState } = useContext(TournContext);
   	const navigate = useNavigate();
   	const [time, setTime] = useState(5);

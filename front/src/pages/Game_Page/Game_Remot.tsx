@@ -4,7 +4,12 @@ import { useNavigate } from "react-router-dom";
 import { usePlayer } from '../My_Profile/PlayerContext';
 import { config } from "../../config";
 
-function Game_Remot( { id, selectedIds } ) {
+interface GameRemotProps {
+	id: string;
+	selectedIds?: { board?: number; paddel?: number; ball?: number };
+}
+
+function Game_Remot( { id , selectedIds }:GameRemotProps ) {
 	const mydata = usePlayer();
 	const [socket, setSocket] = useState<WebSocket | null>(null);
 	  const { HOST_URL, WS_HOST_URL } = config;
@@ -77,11 +82,9 @@ function Game_Remot( { id, selectedIds } ) {
 
 		ws.onmessage = (event) => {
 			const data = JSON.parse(event.data);
-			// console.log("data is :", data)
 			if (data.type == "game_end")
 			{
 				timer = setTimeout(() => {
-					// console.log("data -----> ", gameState);
             		navigate("/Overview");
 				  }, 2000);
 			}
@@ -152,7 +155,7 @@ function Game_Remot( { id, selectedIds } ) {
 				{/* Left Paddle */}
 				<div
 				  className={gameState.winner ? "hidden" : "absolute w-[140px] h-[10px] top-[20px] transition-left duration-100 rounded-lg ease-linear"}
-				  style={{ left: `${gameState.paddles.up}px`, backgroundColor: !selectedIds ? SLIDECUES[0].mapPath : SLIDECUES[selectedIds.paddel].mapPath }}
+				  style={{ left: `${gameState.paddles.up}px`, backgroundColor: SLIDECUES[selectedIds?.paddel ?? 0].mapPath }}
 				></div>
 
 				{/* Right Paddle */}
@@ -160,14 +163,14 @@ function Game_Remot( { id, selectedIds } ) {
 				  className={gameState.winner ? "hidden" : "absolute w-[140px] h-[10px] transition-left bottom-[20px] duration-100 rounded-lg ease-linear"}
 				  style={{	
 							left: `${gameState.paddles.down}px`,
-				  			backgroundColor: !selectedIds ? SLIDECUES[0].mapPath : SLIDECUES[selectedIds.paddel].mapPath 
+				  			backgroundColor: SLIDECUES[selectedIds?.paddel ?? 0].mapPath 
 						}}
 				></div>
   
 				{/* Ball */}
 				<div
-				  className={gameState.winner ? "hidden" : "absolute w-[15px] h-[15px] transition-transform duration-100 ease-linear rounded-[50%] bg-red-600"}
-				  style={{ left: `${gameState.ball.x}px`, top: `${gameState.ball.y}px`, backgroundColor: !selectedIds ? SLIDEBALLS[0].mapName : SLIDEBALLS[selectedIds.ball].mapName }}
+				  className={gameState.winner ? "hidden" : "absolute w-[15px] h-[15px] transition-transform duration-100 ease-linear rounded-[50%] "}
+				  style={{ left: `${gameState.ball.x}px`, top: `${gameState.ball.y}px`, backgroundColor: SLIDEBALLS[selectedIds?.ball ?? 0].mapPath }}
 				></div>
 			  </div>
 			</div>

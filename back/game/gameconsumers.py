@@ -63,7 +63,6 @@ class GameConsumer(AsyncWebsocketConsumer):
             if not self.match:
                 await self.close()
                 return
-            # -------------------------
 
             if self.match.player1 == self.user.username:
                 logger.error(f"player {self.user.username} appah2") 
