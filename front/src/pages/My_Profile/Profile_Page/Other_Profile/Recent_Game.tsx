@@ -10,7 +10,7 @@ interface data_interface {
 
 export const Recent_Game = ({ other_data }: data_interface) => {
   const token = Cookies.get("access_token");
- const { HOST_URL } = config;
+  const { HOST_URL } = config;
   interface Match {
     player1: string;
     player2: string;

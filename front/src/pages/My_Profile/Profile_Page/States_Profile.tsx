@@ -19,11 +19,6 @@ import { config } from "../../../config";
 //   return days;
 // };
 
-interface CustomXAxisProps extends ChartsXAxisProps {
-  categoryGapRatio?: number;
-}
-
-
 export const States_Profile = () => {
     const [winData, setWinData] = useState([0, 0, 0, 0, 0]); // Wins for last 5 days
     const [lossData, setLossData] = useState([0, 0, 0, 0, 0]); // Losses for last 5 days
@@ -59,17 +54,21 @@ export const States_Profile = () => {
           const dayIndex = last5Days.indexOf(matchDate);
 
           if (dayIndex !== -1) {
-            if (
-              match.player1_score > match.player2_score &&
-              match.player1 === my_data.playerData?.username
-            ) {
-              winCounts[dayIndex] += 1; // Increment win count
-            } else {
-              lossCounts[dayIndex] += 1; // Increment loss count
+            if (match.player1 === my_data.playerData?.username) {
+              if (match.player1_score > match.player2_score) {
+                winCounts[dayIndex] += 1; // Increment win count
+              } else {
+                lossCounts[dayIndex] += 1; // Increment loss count
+              }
+            } else if (match.player2 === my_data.playerData?.username) {
+              if (match.player1_score > match.player2_score) {
+                lossCounts[dayIndex] += 1; // Increment loss count
+              } else {
+                winCounts[dayIndex] += 1; // Increment win count
+              }
             }
           }
         });
-
         // Update state with the processed data
         setWinData(winCounts);
         setLossData(lossCounts);
