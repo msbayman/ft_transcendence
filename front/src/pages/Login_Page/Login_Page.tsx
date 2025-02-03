@@ -5,7 +5,6 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import "./Login_Page.css";
 import { config } from "../../config";
-import { usePlayer } from "../My_Profile/PlayerContext";
 
 function Login_Page() {
   const navigate = useNavigate();
@@ -105,9 +104,9 @@ function Login_Page() {
     }
   };
 
-  const handleOAuthLogin = () => {
-    window.location.href = `${HOST_URL}/api/discord/login`;
-  };
+  // const handleOAuthLogin = () => {
+  //   window.location.href = `${HOST_URL}/api/discord/login`;
+  // };
   const handleOAuthLogin_42 = () => {
     window.location.href = `${HOST_URL}/api/42/login`;
   };

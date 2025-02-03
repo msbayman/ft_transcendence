@@ -11,7 +11,7 @@ const FriendsPageContent: React.FC = () => {
 
   const [user, setUser] = useState<string>(initialUser);
   const { connect, disconnect } = useWebSocket();
-    const { HOST_URL, WS_HOST_URL } = config;
+    const {  WS_HOST_URL } = config;
 
   useEffect(() => {
     const wsUrl = `${WS_HOST_URL}/ws/chat/`;

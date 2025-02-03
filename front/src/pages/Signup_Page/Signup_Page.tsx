@@ -98,9 +98,9 @@ function Signup_Page() {
     }
   };
 
-  const handleOAuthLogin = () => {
-    window.location.href = `${HOST_URL}/api/discord/login`;
-  };
+  // const handleOAuthLogin = () => {
+  //   window.location.href = `${HOST_URL}/api/discord/login`;
+  // };
   const handleOAuthLogin_42 = () => {
     window.location.href = `${HOST_URL}/api/42/login`;
   };

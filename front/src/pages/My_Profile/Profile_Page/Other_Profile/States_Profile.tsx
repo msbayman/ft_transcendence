@@ -79,8 +79,8 @@ export const States_Profile = ({ other_data }: data_interface) => {
               {
                 scaleType: "band",
                 data: last5day,
-                categoryGapRatio: 0.4,
-                barGapRatio: 0.6,
+                // categoryGapRatio: 0.4,
+                // barGapRatio: 0.6,
               },
             ]}
             series={[

@@ -46,36 +46,11 @@ const FriendsList: React.FC<SelectedUser> = ({ onClick }) => {
   const [onlineFriends, setOnlineFriends] = useState<OnlineFriends[]>([]);
   const { messages } = useWebSocket();
   const token = Cookies.get("access_token");
-  const { HOST_URL, WS_HOST_URL } = config;
-
-  const fetchLastMessages = async () => {
-    try {
-      const response = await axios.get(
-        `${HOST_URL}/api/chat/last-message/`,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
-      const lastMessages = response.data;
-      setFriends(
-        lastMessages.map((user: any, index: number) => ({
-          id: index.toString(),
-          name: user.user2.username,
-          avatar: user.user2.profile_image.replace("http://","https://"),
-          content: user.last_message.content.length > 10 
-          ? user.last_message.content.substring(0, 10) + '...' 
-          : user.last_message.content,
-          timestamp: user.timestamp,
-        }))
-      );
-    } catch (error) {
-      console.error("Error fetching last messages:", error);
-    }
-  };
+  const { HOST_URL } = config;
 
   const fetchOnlineFriends = async () => {
     try {
-      const response = await axios.get(
+      const response = await axios.get<[OnlineFriends]>(
         `${HOST_URL}/api/chat/api/users/`,
         {
           headers: { Authorization: `Bearer ${token}` },
@@ -83,10 +58,10 @@ const FriendsList: React.FC<SelectedUser> = ({ onClick }) => {
       );
       const onlineUsersList = response.data;
       setOnlineFriends(
-        onlineUsersList.map((user: any, index: number) => ({
+        onlineUsersList.map((user: OnlineFriends, index: number) => ({
           id: index.toString(),
-          name: user.username,
-          avatar: user.profile_image.replace("http://","https://"),
+          username: user.username,
+          profile_image: user.profile_image.replace("http://","https://"),
         }))
       );
     } catch (error) {
@@ -94,32 +69,9 @@ const FriendsList: React.FC<SelectedUser> = ({ onClick }) => {
     }
   };
   
-
-
-useEffect(() => {
-    const fetchOnlineFriends = async () => {
-      try {
-        const response = await axios.get<[OnlineFriends]>(
-          `${HOST_URL}/api/chat/api/users/`,
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        );
-        const onlineUsersList = response.data;
-        setOnlineFriends(
-          onlineUsersList.map((user: OnlineFriends, index: number) => ({
-            id: index.toString(),
-            username: user.username,
-            profile_image: user.profile_image.replace("http://","https://"),
-          }))
-        );
-      } catch (error) {
-        console.error("Error fetching online friends:", error);
-      }
-    };
-    fetchOnlineFriends()
+  useEffect(() => {
+    fetchOnlineFriends();
   }, [messages, token]);
-
 
   useEffect(() => {
     const fetchLastMessages = async () => {

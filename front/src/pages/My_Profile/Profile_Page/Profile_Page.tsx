@@ -1,5 +1,4 @@
 import { useNavigate } from "react-router-dom";
-import Button_Play from "/Button_Play.svg";
 import "./Profile_Page.css";
 import Info_Player from "./Info_Player";
 import Acheiev_Profile from "./Acheiev_Profile";

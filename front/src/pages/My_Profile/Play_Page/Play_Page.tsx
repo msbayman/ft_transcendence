@@ -178,14 +178,14 @@ const Play_Page: React.FC = () => {
     fetchPlayerData();
   }, []);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setPlayerData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-    setPlayerData({ ...player_data, [name]: value });
-  };
+  // const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   const { name, value } = e.target;
+  //   setPlayerData((prev) => ({
+  //     ...prev,
+  //     [name]: value,
+  //   }));
+  //   setPlayerData({ ...player_data, [name]: value });
+  // };
 
   const handleNextClick = () => {
     switch (value) {

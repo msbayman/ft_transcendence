@@ -12,7 +12,7 @@ interface GameRemotProps {
 function Game_Remot( { id , selectedIds }:GameRemotProps ) {
 	const mydata = usePlayer();
 	const [socket, setSocket] = useState<WebSocket | null>(null);
-	  const { HOST_URL, WS_HOST_URL } = config;
+	  const { WS_HOST_URL } = config;
 	const [gameState, setGameState] = useState({
 		paddles: {up: 180, down: 180},
 		ball: { x: 250, y: 365, dx: 5, dy: 5 },

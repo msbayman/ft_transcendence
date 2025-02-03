@@ -10,8 +10,7 @@ const Online_Friends_Overview = () => {
   const navigate = useNavigate();
   const { HOST_URL } = config;
 
-  const to_message = () => {
-    navigate("/Friends");
+
   const loggedplayer = usePlayer()
   const to_message = (username:string) => {
     navigate(`/Friends?user=${username}`);
@@ -27,10 +26,6 @@ const Online_Friends_Overview = () => {
     }
   };
   
-  // const to_play = () => {
-  //   navigate("/Play");
-  // };
-
   return (
     <div className="all_content_Online">
       <div className="Title_Onlin">
@@ -78,6 +73,6 @@ const Online_Friends_Overview = () => {
     </div>
   );
 };
-}
+
 
 export default Online_Friends_Overview;

@@ -34,7 +34,7 @@ function Game_Loby() {
   const [startGame, setStartGame] = useState(false);
   const location = useLocation();
   const { selectedIds } = location.state || {};
-  const { HOST_URL, WS_HOST_URL } = config;
+  const {  WS_HOST_URL } = config;
 
   useEffect(() => {
     const matchmakingSocket = new WebSocket(
@@ -82,7 +82,7 @@ function Game_Loby() {
     <div className="flex justify-center items-center h-screen w-screen bg-[url('/background.png')] bg-cover bg-center bg-no-repeat">
       <Player_Profil mydata={mydata.playerData || undefined} />
       <img src="/public/vs_img.svg" alt="vs tag" />
-      <Player_Profil mydata={null || undefined} />
+      <Player_Profil mydata={undefined} />
     </div>
   );
 }
