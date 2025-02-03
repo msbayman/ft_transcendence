@@ -156,7 +156,9 @@ const { HOST_URL } = config;
           </Alert>
         )}
       </Box>
+      <div className="text-white font-alexandria font-medium">Warning Check : If doesn't work log again or wait your email !</div>
     </div>
+
   );
 };
 

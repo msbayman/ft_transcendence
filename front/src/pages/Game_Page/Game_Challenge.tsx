@@ -51,7 +51,7 @@ function Game_challeng() {
         return (
             <div className="flex justify-center items-center h-screen w-screen bg-[url('/background.png')] bg-cover bg-center bg-no-repeat">
                 <Player_Profil mydata={mydata.playerData} />
-                <img src="/public/vs_img.svg" alt="vs tag" />
+                <img src="/vs_img.svg" alt="vs tag" />
                 <Player_Profil mydata={matchData.player1.username === mydata.playerData?.username ? matchData.player2 : matchData.player1 } />
             </div>
         );
@@ -60,7 +60,7 @@ function Game_challeng() {
     return (
         <div className="flex justify-center items-center h-screen w-screen bg-[url('/background.png')] bg-cover bg-center bg-no-repeat">
             <Player_Profil mydata={mydata.playerData} />
-            <img src="/public/vs_img.svg" alt="vs tag" />
+            <img src="/vs_img.svg" alt="vs tag" />
             <Player_Profil mydata={null} />
         </div>
     );
