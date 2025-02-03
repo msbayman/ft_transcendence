@@ -1,8 +1,5 @@
 import { useState, useEffect, useContext } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-// import name from "../../assets/name_hold_game.svg";
-// import logo from "../../../public/logo_game.svg";
-// import Game_Tourn from "./Game_Torn";
 import { TournContext } from './TournContext';
 
 function Game_Tourn() {

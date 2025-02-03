@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 function Game_Local() {
   const [paddleLeftPosition, setPaddleLeftPosition] = useState(135);
@@ -10,7 +10,6 @@ function Game_Local() {
   const [isPaused, setIsPaused] = useState(false);
   const location = useLocation();
   const { selectedIds } = location.state || {};
-  const navigate = useNavigate();
 
   const SLIDEBOARDS = [
 		{
@@ -179,7 +178,6 @@ useEffect(() => {
 }, [ballDirection, paddleLeftPosition, paddleRightPosition, isPaused, Ballscore.l, Ballscore.r]);
 
 function togglePause() {
-  console.log(selectedIds.board);
   setIsPaused((prev) => !prev);
 }
 
@@ -192,7 +190,7 @@ const resetBall = () => {
 		  <div className="relative flex justify-center top-[90px] ">
 			{/* Table Images */}
 			<img src="/public/table.svg" alt="table background " className="absolute"/>
-			<img src={SLIDEBOARDS[selectedIds.board].mapPath} alt={SLIDEBOARDS[selectedIds.board].mapName}  className={isPaused || Ballscore.l == 5 || Ballscore.r == 5 ? "absolute mx-auto top-[120px] blur-sm" : "absolute mx-auto top-[120px]"} />
+			<img src={SLIDEBOARDS[selectedIds?.board ?? 0].mapPath} alt={SLIDEBOARDS[selectedIds?.board ?? 0].mapPath}  className={isPaused || Ballscore.l == 5 || Ballscore.r == 5 ? "absolute mx-auto top-[120px] blur-sm" : "absolute mx-auto top-[120px]"} />
 
 			{/* Game Elements */}
 			<div className="absolute">
@@ -210,13 +208,13 @@ const resetBall = () => {
 				{/* Left Paddle */}
 				<div
 				  className={isPaused || Ballscore.l == 5 || Ballscore.r == 5  ? "absolute w-[140px] h-[10px] top-[20px] transition-left duration-100 rounded-lg ease-linear blur-sm" : "absolute w-[140px] h-[10px] top-[20px] transition-left duration-100 rounded-lg ease-linear"}
-				  style={{ left: paddleLeftPosition, backgroundColor: SLIDECUES[selectedIds.paddel].mapPath }}
+				  style={{ left: paddleLeftPosition, backgroundColor: SLIDECUES[selectedIds?.paddel ?? 0].mapPath }}
 				></div>
 
 				{/* Right Paddle */}
 				<div
 				  className={isPaused || Ballscore.l == 5 || Ballscore.r == 5 ? "absolute w-[140px] h-[10px] transition-left bottom-[20px] duration-100 rounded-lg ease-linear blur-sm" : "absolute w-[140px] h-[10px] transition-left bottom-[20px] duration-100 rounded-lg ease-linear"}
-				  style={{ left: paddleRightPosition, backgroundColor: SLIDECUES[selectedIds.paddel].mapPath }}
+				  style={{ left: paddleRightPosition, backgroundColor: SLIDECUES[selectedIds?.paddel ?? 0].mapPath }}
 				></div>
 	  
 				{/* Ball */}
@@ -225,7 +223,7 @@ const resetBall = () => {
 				  style={{
 					top: ballPosition.top,
 					left: ballPosition.left,
-          backgroundColor: SLIDEBALLS[selectedIds.ball].mapPath
+          backgroundColor: SLIDEBALLS[selectedIds?.ball ?? 0].mapPath
 				  }}
 				></div>
 			  </div>
@@ -246,14 +244,14 @@ const resetBall = () => {
 			/>
 			</div>
           <div className="absolute flex justify-between items-center top-[30px]">
-            <div className="relative bg-[url('/public/name_hold_game.svg')] h-[70px] w-[250px] bg-cover bg-center transform scale-x-[-1] flex justify-center items-center">
+            <div className="relative bg-[url('/name_hold_game.svg')] h-[70px] w-[250px] bg-cover bg-center transform scale-x-[-1] flex justify-center items-center">
                 <p className="absolute text-white text-4xl transform scale-x-[-1] font-luckiest right-[25px] ">player1</p>
                 <p className="absolute text-black text-2xl transform scale-x-[-1] font-luckiest left-[9px] bottom-[10px] ">NoN</p>
             </div>
             <div className="flex justify-items-center">
                 <img src="/public/logo_game.svg" alt="logo"/>
             </div>
-            <div className="relative bg-[url('/public/name_hold_game.svg')] h-[70px] w-[250px] bg-cover bg-center flex justify-center items-center">
+            <div className="relative bg-[url('/name_hold_game.svg')] h-[70px] w-[250px] bg-cover bg-center flex justify-center items-center">
         		<p className="absolute text-white text-4xl font-luckiest right-[25px] ">player2</p>
             	<p className="absolute text-black text-2xl font-luckiest left-[9px] bottom-[10px] ">NoN</p>
             </div>

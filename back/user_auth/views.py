@@ -85,7 +85,7 @@ def update_player(request):
         serializer = PlayerSerializer()
         validated_username = serializer.validate_username(new_username)
 
-        with transaction.atomic(): # Use a transaction to ensure data consistency in the database 
+        with transaction.atomic(): # Use a transaction to ensure data consistency in the database # TODO : try to remove this line 
             if Player.objects.filter(username=validated_username).exists():
                 return Response(
                     {'error': 'This username is already taken.'},

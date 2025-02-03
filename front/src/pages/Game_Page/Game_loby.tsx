@@ -5,14 +5,29 @@ import Game_Remot from "./Game_Remot";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 
+
+interface MatchPlayer {
+  username: string;
+  profile_image: string;
+  status: string;
+  level: number;
+}
+
+interface MatchData {
+  match_id: string;
+  player1: MatchPlayer;
+  player2: MatchPlayer;
+}
+
+interface PlayerData {
+  username: string;
+  profile_image: string;
+  status: string;
+  level: number;
+}
+
 function Game_Loby() {
   const mydata = usePlayer();
-  interface MatchData {
-    match_id: string;
-    player1: { username: string };
-    player2: { username: string };
-  }
-
   const [matchData, setMatchData] = useState<MatchData | null>(null);
   const token = Cookies.get("access_token");
   const [startGame, setStartGame] = useState(false);
@@ -48,27 +63,24 @@ function Game_Loby() {
     return <Game_Remot id={matchData.match_id} selectedIds={selectedIds}  />;
   }
   if (matchData) {
+    const opponent: PlayerData = matchData.player1.username === mydata.playerData?.username 
+            ? matchData.player2 
+            : matchData.player1;
     return (
       <div className="flex justify-center items-center h-screen w-screen bg-[url('/background.png')] bg-cover bg-center bg-no-repeat">
-        <Player_Profil mydata={mydata.playerData} />
+        <Player_Profil mydata={mydata.playerData || undefined} />
         <img src="/public/vs_img.svg" alt="vs tag" />
 
-        <Player_Profil
-          mydata={
-            matchData.player1.username === mydata.playerData?.username
-            ? matchData.player2
-            : matchData.player1
-          }
-        />
+        < Player_Profil mydata={opponent} />
       </div>
     );
   }
 
   return (
     <div className="flex justify-center items-center h-screen w-screen bg-[url('/background.png')] bg-cover bg-center bg-no-repeat">
-      <Player_Profil mydata={mydata.playerData} />
+      <Player_Profil mydata={mydata.playerData || undefined} />
       <img src="/public/vs_img.svg" alt="vs tag" />
-      <Player_Profil mydata={null} />
+      <Player_Profil mydata={null || undefined} />
     </div>
   );
 }
