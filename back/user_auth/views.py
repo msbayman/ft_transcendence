@@ -47,7 +47,7 @@ def display_users(request):
     return Response(serializer.data)
 
 @api_view(['POST'])
-@permission_classes([IsAuthenticated])
+
 def delete_player(request):
     username = request.data.get('username')
     if not username:

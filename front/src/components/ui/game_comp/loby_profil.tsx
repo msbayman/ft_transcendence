@@ -13,7 +13,7 @@ interface PlayerProfileProps {
 function Player_Profil({  mydata } : PlayerProfileProps) {
     return (
         <div className="relative h-[500px] w-[500px] flex justify-center">
-            <img className="absolute rounded-[100%] w-[90%]" src={mydata ? mydata.profile_image : "/public/test_profile.svg"} alt="profil img" />
+            <img className="absolute rounded-[100%] w-[90%]" src={mydata ? mydata.profile_image : "/test_profile.svg"} alt="profil img" />
             <img
                 className="absolute bottom-[-50px] left-[145px]"
                 src="/lvl_holder.svg"

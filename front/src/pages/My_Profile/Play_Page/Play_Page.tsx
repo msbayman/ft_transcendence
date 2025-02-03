@@ -27,7 +27,7 @@ const OPTIONS: EmblaOptionsType = { loop: true };
 
 const SLIDEIMAPS = [
   { mapPath: "1v1.png", id: 0, mapName: "1v1" },
-  { mapPath: "/public/local_custom.svg", id: 1, mapName: "local" },
+  { mapPath: "/local_custom.svg", id: 1, mapName: "local" },
   { mapPath: "Tourn.png", id: 2, mapName: "Tournement" },
 ];
 

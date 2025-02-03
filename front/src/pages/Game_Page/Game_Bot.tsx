@@ -181,14 +181,14 @@ useEffect(() => {
 			/>
 			</div>
         <div className="absolute flex justify-between items-center top-[30px]">
-            <div className="relative bg-[url('/public/name_hold_game.svg')] h-[70px] w-[250px] bg-cover bg-center transform scale-x-[-1] flex justify-center items-center">
+            <div className="relative bg-[url('/name_hold_game.svg')] h-[70px] w-[250px] bg-cover bg-center transform scale-x-[-1] flex justify-center items-center">
                 <p className="absolute text-white text-4xl transform scale-x-[-1] font-luckiest right-[70px] ">YOU</p>
                 <p className="absolute text-black text-2xl transform scale-x-[-1] font-luckiest left-[9px] bottom-[10px] ">NoN</p>
             </div>
             <div className="flex justify-items-center">
                 <img src={logo} alt="logo"/>
             </div>  
-            <div className="relative bg-[url('/public/name_hold_game.svg')] h-[70px] w-[250px] bg-cover bg-center flex justify-center items-center">
+            <div className="relative bg-[url('/name_hold_game.svg')] h-[70px] w-[250px] bg-cover bg-center flex justify-center items-center">
         		<p className="absolute text-white text-4xl font-luckiest right-[70px] ">BOT</p>
             	<p className="absolute text-black text-2xl font-luckiest left-[9px] bottom-[10px] ">NoN</p>
             </div>

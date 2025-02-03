@@ -1,6 +1,17 @@
-FROM node:18
+# FROM node:18
 
+# WORKDIR /app
+# COPY . /app
+
+# CMD ["sh", "-c", "npm install && npm run build"]
+
+FROM node:18-alpine
 WORKDIR /app
-COPY . /app
+COPY . .
+RUN npm ci 
+# RUN npm run build
 
-CMD ["sh", "-c", "npm install && npm run build"]
+# RUN npm install -g serve
+# EXPOSE 5173
+RUN chmod +x ./script.sh
+CMD ["sh", "./script.sh"]

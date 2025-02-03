@@ -19,7 +19,7 @@ function Game_Tourn() {
 
     const SLIDEBOARDS = [
       {
-        mapPath: "/public/table_blue.svg",
+        mapPath: "/table_blue.svg",
         id: 0,
         mapName: "BlueBoard-Board",
       },
@@ -29,7 +29,7 @@ function Game_Tourn() {
         mapName: "GreenBoard-Board",
       },
       {
-        mapPath: "/public/BrownBoard.svg",
+        mapPath: "/BrownBoard.svg",
         id: 2,
         mapName: "brownBoard",
       },
@@ -281,7 +281,7 @@ const resetBall = () => {
 			{/* Button Positioned Under Table */}
 			<div className="absolute top-[1070px] z-20">
 			<img
-			  src={isPaused ? "/public/puse.svg" : "/public/rus.svg"}
+			  src={isPaused ? "/puse.svg" : "/rus.svg"}
 			  alt={isPaused ? "Resume" : "Pause"}
 			  onClick={togglePause}
 			  className="mt-4 cursor-pointer w-[50px] h-[50px]"

@@ -24,7 +24,7 @@ function Game_Remot( { id , selectedIds }:GameRemotProps ) {
 
 	  const SLIDEBOARDS = [
 		{
-		  mapPath: "/public/table_blue.svg",
+		  mapPath: "/table_blue.svg",
 		  id: 0,
 		  mapName: "BlueBoard-Board",
 		},
@@ -34,7 +34,7 @@ function Game_Remot( { id , selectedIds }:GameRemotProps ) {
 		  mapName: "GreenBoard-Board",
 		},
 		{
-		  mapPath: "/public/BrownBoard.svg",
+		  mapPath: "/BrownBoard.svg",
 		  id: 2,
 		  mapName: "brownBoard",
 		},
