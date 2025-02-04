@@ -88,7 +88,7 @@ const Play_Page: React.FC = () => {
   const [tourninput2, settourninput2] = useState("");
   const [tourninput3, settourninput3] = useState("");
   const [tourninput4, settourninput4] = useState("");
-  const { selectedId, setSelectedId } = useContext(TournContext);
+  const { setSelectedId } = useContext(TournContext);
   const { HOST_URL } = config;
   const { tournamentState, setTournamentState } = useContext(TournContext);
   const [selectedIds, setSelectedIds] = useState<SelectedIds>({

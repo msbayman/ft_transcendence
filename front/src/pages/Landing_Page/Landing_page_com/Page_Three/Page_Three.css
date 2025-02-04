@@ -3,7 +3,7 @@
   margin: 0;
 }
 .main_p3 {
-  background: url("./Home_page/bg_3.jpeg");
+  background: url("/Home_page/bg_3.jpeg");
   background-size: cover;
   height: 100vh;
   display: flex;

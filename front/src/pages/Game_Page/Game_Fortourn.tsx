@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { TournContext } from './TournContext';
 
 function Game_Tourn() {
@@ -288,13 +288,13 @@ const resetBall = () => {
 			/>
 			</div>
           <div className="absolute flex justify-between items-center top-[30px]">
-            <div className="relative bg-[url('/name_hlder_game.svg')] h-[70px] w-[250px] bg-cover bg-center transform scale-x-[-1] flex justify-center items-center">
+            <div className="relative bg-[url('/name_hold_game.svg')] h-[70px] w-[250px] bg-cover bg-center transform scale-x-[-1] flex justify-center items-center">
                 <p className="absolute text-white text-4xl transform scale-x-[-1] font-luckiest">{lplayers}</p>
             </div>
             <div className="flex justify-items-center">
                 <img src="/logo_game.svg" alt="logo"/>
             </div>
-            <div className="relative bg-[url('/name_hlder_game.svg')] h-[70px] w-[250px] bg-cover bg-center flex justify-center items-center">
+            <div className="relative bg-[url('/name_hold_game.svg')] h-[70px] w-[250px] bg-cover bg-center flex justify-center items-center">
         		<p className="absolute text-white text-4xl font-luckiest ">{rplayers}</p>
             </div>
           </div>
