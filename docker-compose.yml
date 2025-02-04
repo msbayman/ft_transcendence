@@ -37,12 +37,12 @@ services:
     env_file:
       - .env
     volumes:
-      - react_build:/app/dist  # Ensure dist folder is built here
+      - react_build:/app/dist 
     depends_on:
       - backend
     networks:
       - elk
-    # restart: always
+
 
   db:
     image: postgres:17
@@ -80,7 +80,7 @@ services:
       - frontend
     volumes:
       - media:/usr/share/nginx/media
-      - react_build:/usr/share/nginx/html  # Mount the dist folder to Nginx
+      - react_build:/usr/share/nginx/html  
     networks:
       - elk
     restart: always
@@ -94,5 +94,5 @@ volumes:
     driver: local
   media:
     driver: local
-  react_build:  # Volume for frontend build output
+  react_build:  
     driver: local

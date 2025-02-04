@@ -4,6 +4,7 @@ import lead from "./Leaderboard.module.css";
 // import { usePlayer } from "../PlayerContext";
 import axios from "axios";
 import { config } from "../../../config";
+import Cookies from "js-cookie";
 
 const Leaderboard = () => {
   interface data_Player {
@@ -17,17 +18,21 @@ const Leaderboard = () => {
   const onclick = () => {
     navigate("/Leaderboard");
   };
-
+  const token = Cookies.get("access_token");
   const [listPlayers, setListPlayers] = useState<data_Player[]>([]);
 
   useEffect(() => {
     axios
-      .get(`${HOST_URL}/api/user_auth/leaderboard`)
+      .get(`${HOST_URL}/api/user_auth/leaderboard`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+      )
       .then((response) => {
         setListPlayers(response.data);
       })
       .catch((error) => console.error("Error fetching leaderboard:", error));
-  }, []);
+  }, [token]);
 
   const the_list = useMemo(() => {
     return listPlayers.slice(0, 10);

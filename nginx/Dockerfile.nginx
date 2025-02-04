@@ -2,19 +2,15 @@ FROM nginx:latest
 
 ARG VITE_HOST_URL
 
-# Create SSL certificates (for development purposes; replace with actual certs in production)
+
 RUN mkdir -p /etc/ssl/private && \
     openssl req -newkey rsa:4096 -x509 -sha256 -days 365 -nodes \
     -out /etc/ssl/certs/transandence.crt \
     -keyout /etc/ssl/private/transandence.key \
     -subj "/C=MA/L=KH/O=1337/OU=student/CN=${VITE_HOST_URL}"
 
-# Copy the Nginx configuration file into the container
+
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-# Expose ports 80 and 443 for HTTP/HTTPS
-EXPOSE 80
-EXPOSE 443
 
-# Start Nginx in the foreground
 CMD ["nginx", "-g", "daemon off;"]

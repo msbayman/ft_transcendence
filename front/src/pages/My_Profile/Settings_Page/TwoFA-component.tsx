@@ -160,7 +160,6 @@ function TFA({
     const otpString = otp.join("");
     if (otpString.length !== 6) {
       setError("Invalid OTP code");
-      setChecked(false);
       setTimeout(() => setError(null), 3000);
       return;
     }
@@ -188,7 +187,7 @@ function TFA({
       );
       if (response.status === 200) {
         toast.success("Verification successful!");
-        setChecked((prev) => (prev === true ? false : true));
+        setChecked((prev) => (!prev));
         setTimeout(() => setError(null), 3000);
         handleClose();
       }
@@ -319,9 +318,10 @@ function TFA({
 }
 
 function TwoFA_Component() {
-  const data = usePlayer();
-  const [checked, setChecked] = useState<boolean>(false);
+  const data = usePlayer(); 
+  const [checked, setChecked] = useState<boolean>(data.playerData?.active_2fa ?? false);
   const [isInitialized, setIsInitialized] = useState<boolean>(false);
+  const { HOST_URL } = config;
 
   useEffect(() => {
     const fetchAndSetInitialState = async () => {
@@ -333,7 +333,7 @@ function TwoFA_Component() {
         }
 
         const response = await axios.get(
-          "${HOST_URL}/api/user_auth/get2FAStatus",
+          `${HOST_URL}/api/user_auth/get2FAStatus`,
           {
             headers: {
               Authorization: `Bearer ${token}`,

@@ -92,7 +92,7 @@ function Profile_side() {
             <img
               src={
                 !t
-                  ? data_player.playerData?.profile_image
+                  ? data_player.playerData?.profile_image.replace("http://", "https://")
                   : file
                   ? URL.createObjectURL(file)
                   : undefined

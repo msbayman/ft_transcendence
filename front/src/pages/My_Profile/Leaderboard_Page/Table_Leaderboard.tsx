@@ -51,7 +51,10 @@ const Table_Leaderboard = () => {
 
   useEffect(() => {
     axios
-      .get(`${HOST_URL}/api/user_auth/leaderboard`)
+      .get(`${HOST_URL}/api/user_auth/leaderboard`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      })
       .then((response) => {
         Setlist_users(response.data);
       })

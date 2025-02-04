@@ -37,7 +37,7 @@ def exchange_code_for_token_42(code: str) -> dict:
     
     try:
         response = requests.post(settings.OAUTH_42_TOKEN_URL, data=data, headers=headers)
-        response.raise_for_status()  # Raise an exception for bad status codes
+        response.raise_for_status()  
         credentials = response.json()
         
         access_token = credentials.get('access_token')
@@ -46,13 +46,12 @@ def exchange_code_for_token_42(code: str) -> dict:
                 'Authorization': f'Bearer {access_token}'
             }
             user_response = requests.get(settings.OAUTH_42_USER_INFO_URL, headers=headers)
-            user_response.raise_for_status()  # Raise an exception for bad status codes
+            user_response.raise_for_status()  
             return user_response.json()
         else:
             return {"error": "Failed to obtain access token"}
             
     except requests.exceptions.RequestException as e:
-        print(f"Error during token exchange: {str(e)}")  # Debug log
         return {"error": f"Failed to exchange code: {str(e)}"}
 
 @api_view(['GET'])
@@ -64,7 +63,6 @@ def login_redirect(request: DRFRequest):
         if "error" in user_info:
             return redirect(f"{settings.HOST_URL}/login?oauth_err=Failed to retrieve user info: {user_info['error']}")
         
-        # Extract the Django HttpRequest object
         django_request = request._request
         return handle_oauth_user_42(django_request, user_info)
     else:
@@ -123,12 +121,12 @@ def handle_oauth_user_42(request: HttpRequest, user_info: dict) -> HttpResponse:
             redirect_url = f"{settings.HOST_URL}/login?oauth_err={error_message}&{error_details}"
             return redirect(redirect_url)
 
-    # Check if 2FA is enabled
+ 
     if user.active_2fa:
         otp_code = generate_otp()
-        print(f"Generated OTP for user {user.username}: {otp_code}")  # Keep for debugging
+        print(f"Generated OTP for user {user.username}: {otp_code}") 
         send_otp_via_email(user.email, otp_code)
-        print(f"OTP sent to {user.email}")  # Keep for debugging
+        print(f"OTP sent to {user.email}") 
 
         user.otp_code = otp_code
         user.created_at = timezone.now()

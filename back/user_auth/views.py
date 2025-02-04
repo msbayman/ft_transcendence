@@ -188,18 +188,13 @@ def changePassword(request):
                 'error': 'New password must be different from current password'
             }, status=status.HTTP_400_BAD_REQUEST)
 
-        # Change password in transaction
-        with transaction.atomic():
-            player.set_password(new_password)
-            player.save()
+        player.set_password(new_password)
+        player.save()
 
-            # Log successful password change
-            logger.info(f"Password successfully changed for user: {username}")
-
-            return Response({
-                'success': True,
-                'message': 'Password changed successfully'
-            }, status=status.HTTP_200_OK)
+        return Response({
+            'success': True,
+            'message': 'Password changed successfully'
+        }, status=status.HTTP_200_OK)
 
     except Exception as e:
         # Log the error
@@ -374,7 +369,7 @@ class VerifyOTPSettings(APIView):
         if player.otp_code == otp:
             player.active_2fa = not state
             player.otp_code = 0
-            player.save()
+            player.save(update_fields=['active_2fa'])
             return Response({"message": "OTP verified successfully"}, status=status.HTTP_200_OK)
         else:
             return Response({"detail": "Invalid OTP."}, status=status.HTTP_400_BAD_REQUEST)
@@ -405,8 +400,8 @@ class UserDetailView(APIView):
     
     def get(self, request):
         users = request.user
-        users.is_online = True
-        users.save();
+        # users.is_online = True
+        users.save()
         serializer = PlayerSerializer(users , context = {"request": request})
         return Response( serializer.data )
 
@@ -419,7 +414,8 @@ def list_users(request):
     return Response(serializer.data)
 
 @api_view(['GET'])
-@permission_classes([AllowAny])
+@permission_classes([IsAuthenticated])
+@authentication_classes([JWTAuthentication])
 def leaderboard(request):
     players = Player.objects.all().exclude(username='admin').order_by('-points')
     serializer = PlayerSerializer(players, many=True)
