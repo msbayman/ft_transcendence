@@ -88,7 +88,8 @@ const Play_Page: React.FC = () => {
   const [tourninput2, settourninput2] = useState("");
   const [tourninput3, settourninput3] = useState("");
   const [tourninput4, settourninput4] = useState("");
-    const { HOST_URL } = config;
+  const { selectedId, setSelectedId } = useContext(TournContext);
+  const { HOST_URL } = config;
   const { tournamentState, setTournamentState } = useContext(TournContext);
   const [selectedIds, setSelectedIds] = useState<SelectedIds>({
     mode: null,
@@ -292,7 +293,16 @@ const Play_Page: React.FC = () => {
     if (SLIDEIMAPS[selectedIds.mode!]?.mapName === "local")
       navigate("/local_game", { state: { selectedIds } });
     if (SLIDEIMAPS[selectedIds.mode!]?.mapName === "Tournement")
-      navigate("/tourn", { state: { selectedIds } });
+      {
+        setSelectedId((prev) => ({
+          ...prev,
+          mod: null,
+          board: selectedIds.board,
+          paddel: selectedIds.paddel,
+          ball: selectedIds.ball,
+        }));
+        navigate("/tourn");
+      }
   };
 
   return (

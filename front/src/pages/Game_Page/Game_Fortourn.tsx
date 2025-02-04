@@ -14,8 +14,7 @@ function Game_Tourn() {
   const [rplayers, setrPlayers] = useState("");
   const { tournamentState, setTournamentState } = useContext(TournContext);
   const navigate = useNavigate();
-  const location = useLocation();
-  const { selectedIds } = location.state || {};
+  const { selectedId } = useContext(TournContext);
 
     const SLIDEBOARDS = [
       {
@@ -70,8 +69,6 @@ function Game_Tourn() {
   };
 
   useEffect(() => {
-    if (!tournamentState?.p1 || !tournamentState?.p2 || !tournamentState?.p3 || !tournamentState?.p4)
-      navigate("/Overview");
     if (!tournamentState?.semi1)
     {
       setlPlayers(tournamentState?.p1);
@@ -130,10 +127,7 @@ function Game_Tourn() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isPaused]);
 
-useEffect(() => {
-  const interval = setInterval(async () => {
-    if (isPaused) return;
-
+  useEffect( () => {
     if (Ballscore.l === 3 || Ballscore.r === 3) {
       if (!tournamentState.semi1) {
         const winner = Ballscore.l === 3 ? tournamentState?.p1 : tournamentState?.p2;
@@ -148,14 +142,17 @@ useEffect(() => {
         setTournamentState({ ...tournamentState, final: winner, finish: true });
         setIswin(winner);    
       }
-      navigate('/Overview')
-      await handleSleep();
-      // clearInterval(interval);
-      // if (tournamentState.finish)
-      // else
-        // navigate("/tourn");
+      handleSleep();
+      navigate("/tourn");
       return;
     }
+  }, [Ballscore])
+
+useEffect(() => {
+  const interval = setInterval(async () => {
+    if (isPaused) return;
+
+
 
     setBallPosition((prev) => {
       let newTop = prev.top + ballDirection.y;
@@ -166,7 +163,7 @@ useEffect(() => {
         setBallDirection({ x: -ballDirection.x, y: ballDirection.y });
       }
 
-      const paddleWidth = 155;
+      const paddleWidth = 152;
 
       // Ball collision with top paddle
       if (
@@ -231,8 +228,8 @@ const resetBall = () => {
 			{/* Table Images */}
 			<img src="/table.svg" alt="table background " className="absolute"/>
 			<img 
-          src={selectedIds?.board !== undefined ? SLIDEBOARDS[selectedIds.board]?.mapPath : SLIDEBOARDS[0].mapPath}
-          alt={selectedIds?.board !== undefined ? SLIDEBOARDS[selectedIds.board]?.mapName : SLIDEBOARDS[0].mapName}
+          src={selectedId.board ? SLIDEBOARDS[selectedId.board].mapPath : SLIDEBOARDS[0].mapPath}
+          alt={selectedId.board ? SLIDEBOARDS[selectedId.board].mapName : SLIDEBOARDS[0].mapName}
        className={isPaused || Ballscore.l == 3 || Ballscore.r == 3 ? "absolute mx-auto top-[120px] blur-sm" : "absolute mx-auto top-[120px]"} />
 
 			{/* Game Elements */}
@@ -252,7 +249,7 @@ const resetBall = () => {
 				<div
 				  className={isPaused || Ballscore.l == 3 || Ballscore.r == 3  ? "absolute w-[140px] h-[10px] bg-[#0026EB] top-[20px] transition-left duration-100 rounded-lg ease-linear blur-sm" : "absolute w-[140px] h-[10px] bg-[#0026EB] top-[20px] transition-left duration-100 rounded-lg ease-linear"}
 				  style={{ left: paddleLeftPosition ,
-            backgroundColor: !selectedIds ? SLIDECUES[0].mapPath : SLIDECUES[selectedIds.paddel].mapPath 
+            backgroundColor: !selectedId.paddel ? SLIDECUES[0].mapPath : SLIDECUES[selectedId.paddel].mapPath 
           }}
 				></div>
 
@@ -260,7 +257,7 @@ const resetBall = () => {
 				<div
 				  className={isPaused || Ballscore.l == 3 || Ballscore.r == 3 ? "absolute w-[140px] h-[10px] bg-[#FFE500] transition-left bottom-[20px] duration-100 rounded-lg ease-linear blur-sm" : "absolute w-[140px] h-[10px] bg-[#FFE500] transition-left bottom-[20px] duration-100 rounded-lg ease-linear"}
 				  style={{ left: paddleRightPosition ,
-            backgroundColor: !selectedIds ? SLIDECUES[0].mapPath : SLIDECUES[selectedIds.paddel].mapPath 
+            backgroundColor: !selectedId.paddel ? SLIDECUES[0].mapPath : SLIDECUES[selectedId.paddel].mapPath 
           }}
 				></div>
 	  
@@ -270,7 +267,7 @@ const resetBall = () => {
 				  style={{
 					top: ballPosition.top,
 					left: ballPosition.left,
-          backgroundColor: !selectedIds ? SLIDEBALLS[0].mapPath : SLIDEBALLS[selectedIds.ball].mapPath
+          backgroundColor: !selectedId.ball ? SLIDEBALLS[0].mapPath : SLIDEBALLS[selectedId.ball].mapPath
 				  }}
 				></div>
 			  </div>
@@ -292,15 +289,13 @@ const resetBall = () => {
 			</div>
           <div className="absolute flex justify-between items-center top-[30px]">
             <div className="relative bg-[url('/name_hlder_game.svg')] h-[70px] w-[250px] bg-cover bg-center transform scale-x-[-1] flex justify-center items-center">
-                <p className="absolute text-white text-4xl transform scale-x-[-1] font-luckiest right-[25px] ">{lplayers}</p>
-                <p className="absolute text-black text-2xl transform scale-x-[-1] font-luckiest left-[9px] bottom-[10px] ">NoN</p>
+                <p className="absolute text-white text-4xl transform scale-x-[-1] font-luckiest">{lplayers}</p>
             </div>
             <div className="flex justify-items-center">
                 <img src="/logo_game.svg" alt="logo"/>
             </div>
             <div className="relative bg-[url('/name_hlder_game.svg')] h-[70px] w-[250px] bg-cover bg-center flex justify-center items-center">
-        		<p className="absolute text-white text-4xl font-luckiest right-[25px] ">{rplayers}</p>
-            	<p className="absolute text-black text-2xl font-luckiest left-[9px] bottom-[10px] ">NoN</p>
+        		<p className="absolute text-white text-4xl font-luckiest ">{rplayers}</p>
             </div>
           </div>
 		  </div>

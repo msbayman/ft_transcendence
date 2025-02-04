@@ -1,36 +1,22 @@
 import { useContext, useState, useEffect } from 'react';
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { TournContext } from './TournContext';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const Tournaments = () => {
 	const { tournamentState, setTournamentState } = useContext(TournContext);
+	const { selectedId } = useContext(TournContext);
   	const navigate = useNavigate();
   	const [time, setTime] = useState(5);
-	const location = useLocation();
-	const { selectedIds } = location.state || {};
 
-  	useEffect(() => {
-		if (time == 3)
-			toast.success("Game gonna start in 3 seconds", {
-				position: "top-right",
-				autoClose: 3000,
-				hideProgressBar: false,
-				closeOnClick: true,
-				pauseOnHover: true,
-				draggable: true,});
-		if (time <= 0 && !tournamentState.final)
-			goTogame();
-		const timer = setInterval(() => {
-			setTime((prevTime:any) => prevTime - 1);
-		}, 1000);
-		return () => clearInterval(timer);
-	}, [time]);
-
+	const handleSleep = async () => {
+		await new Promise((resolve) => setTimeout(resolve, 3000));
+	  };
 	useEffect(() => {
-		if (tournamentState.final && !tournamentState.finish) {
+		if (tournamentState.finish && time <= 0) {
 			setTournamentState({
+				finish: false,
 				final: "",
 				semi1: "",
 				semi2: "",
@@ -39,13 +25,38 @@ const Tournaments = () => {
 				p3: "def-3",
 				p4: "def-4",
 			});
+			handleSleep();
+			goToOver();
+			return;
 		}
-	}, [tournamentState.final]);
+		if (time === 4 && !tournamentState.finish) {
+			toast.success("Game gonna start in 3 seconds", {
+				position: "top-right",
+				autoClose: 3000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+			});
+		}
+		if (time <= 0 && !tournamentState.finish) {
+			goTogame();
+		}
+	
+		const timer = setInterval(() => {
+			setTime((prevTime: number) => prevTime - 1);
+		}, 1000);
+	
+		return () => clearInterval(timer);
+	}, [time]);
 
 	const goTogame = () => {
-		// navigate("/tourn_game", {state: {selectedIds} });
-		console.log("try to navigate =>>>>>>>>>>>>>")
-	  };
+		navigate("/tourn_game", { state: {selectedId} });
+	};
+	
+	const goToOver = () => {
+		navigate("/overview");
+	};
 
   return (
 	<div className="flex w-screen h-screen justify-center items-center bg-[url('/background.png')] bg-cover bg-center pb-[50px]">
@@ -83,7 +94,7 @@ const Tournaments = () => {
 			  <div className=" font-alexandria font-thin text-[25px] pb-7">
 				{" "}
 				0 Points
-			  </div>
+			  </div>  
 			</div>
 		  </div>
 		  {/* -------------------------------------------------->>> part2 - 2 qualif_1 ------------------------------------------------------------------*/}
