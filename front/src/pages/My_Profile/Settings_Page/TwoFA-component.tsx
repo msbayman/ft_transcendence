@@ -173,7 +173,7 @@ function TFA({
         throw new Error("No access token found.");
       }
       const response = await axios.post(
-        "${HOST_URL}/api/user_auth/VerifyOTPSettings",
+        `${HOST_URL}/api/user_auth/VerifyOTPSettings`,
         {
           username: data.playerData?.username,
           otp: otpString,

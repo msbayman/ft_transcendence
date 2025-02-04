@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 function Game_Local() {
   const [paddleLeftPosition, setPaddleLeftPosition] = useState(135);
@@ -9,6 +9,7 @@ function Game_Local() {
   const [ballDirection, setBallDirection] = useState({ x: 3, y: 3 });
   const [isPaused, setIsPaused] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
   const { selectedIds } = location.state || {};
 
   const SLIDEBOARDS = [
@@ -114,7 +115,9 @@ useEffect(() => {
     if (Ballscore.l === 5 || Ballscore.r === 5) {
       clearInterval(interval);
       handleSleep();
-      // navigate("/Overview");
+      navigate("/Overview");
+      console.log("gooo.../n")
+      return;
       return ;
     }
 

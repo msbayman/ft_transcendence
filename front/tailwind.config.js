@@ -19,7 +19,7 @@ export default {
         'xlg': '1440px',
       },
       backgroundImage: {
-        'custom-bg': "url('src/assets/bg_gaame.svg')",
+        // 'custom-bg': "url('src/assets/bg_gaame.svg')",
       },
     },
   },
