@@ -42,7 +42,7 @@ services:
       - backend
     networks:
       - elk
-    restart: always
+    # restart: always
 
   db:
     image: postgres:17
