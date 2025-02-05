@@ -12,6 +12,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         self.user = self.scope['user']
         if not self.user.is_authenticated:
+            await self.close()
             return
         self.user_obj = await self.get_user_obj(self.user.username)
         self.user1_id = self.user.id

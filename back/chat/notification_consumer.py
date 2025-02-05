@@ -11,6 +11,7 @@ class NotifConsumer(AsyncJsonWebsocketConsumer):
     async def connect(self):
         self.user = self.scope["user"]
         if not self.user.is_authenticated:
+            await self.close()
             return
         await self.accept()
         self.online_players.append(self.user.username)
@@ -184,7 +185,7 @@ class NotifConsumer(AsyncJsonWebsocketConsumer):
     @sync_to_async
     def get_user_online_status(self, user):
         return user.is_online
-# ------------------------------------------------------------------------------ #  
+# ------------------------------------------------------------------------------ #
 
     @sync_to_async
     def get_friends(self):
