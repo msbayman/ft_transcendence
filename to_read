@@ -31,3 +31,8 @@ TO DO:
 2025-02-03 04:04:46 src/pages/My_Profile/Profile_Page/Profile_Page.tsx(2,1): error TS6133: 'Button_Play' is declared but its value is never read.
 2025-02-03 04:04:46 src/pages/My_Profile/Profile_Page/States_Profile.tsx(93,17): error TS2353: Object literal may only specify known properties, and 'categoryGapRatio' does not exist in type 'MakeOptional<AxisConfig<keyof AxisScaleConfig, any, ChartsXAxisProps>, "id">'.
 2025-02-03 04:04:46 src/pages/Signup_Page/Signup_Page.tsx(101,9): error TS6133: 'handleOAuthLogin' is declared but its value is never read.
+
+
+https://e2r3p12/api/listfriends/accept-friend-request/msbmsb/ accepte non existen friend req
+
+send frined request in two direction

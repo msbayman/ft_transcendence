@@ -40,24 +40,22 @@ class SendFriendRequest(APIView):
 class AcceptFriendRequest(APIView):
     permission_classes = [IsAuthenticated] 
     def post(self, request, username):
-        receiver = request.user  # The user accepting the request
+        receiver = request.user
         try:
-            sender = Player.objects.get(username=username)  # The user who sent the request
+            sender = Player.objects.get(username=username)
         except Player.DoesNotExist:
             return Response({"error": "User not found"}, status=status.HTTP_404_NOT_FOUND)
 
         if receiver == sender:
             return Response({"error": "User is You"}, status=status.HTTP_400_BAD_REQUEST)
-
-        # Find the pending friend request
+        
         try:
+            # friend_request = Friend_request.objects.get(my_user=sender, other_user=receiver, states='pending')
             friend_request = Friend_request.objects.filter( models.Q(my_user=sender, other_user=receiver, states='pending') | models.Q(my_user=receiver, other_user=sender, states='pending') ).first()
+            if not friend_request:
+                return Response({"error": "No pending friend request found"}, status=status.HTTP_404_NOT_FOUND)
         except Friend_request.DoesNotExist:
-            return Response({"error": "Already sent !!!"}, status=status.HTTP_400_BAD_REQUEST)
-        try:
-            friend_request = Friend_request.objects.filter( models.Q(my_user=sender, other_user=receiver, states='accepted') | models.Q(my_user=receiver, other_user=sender, states='accepted') ).first()
-        except Friend_request.DoesExist:
-            return Response({"error": "Already friends !!!"}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"error": "No pending friend request found"}, status=status.HTTP_404_NOT_FOUND)
 
         friend_request.states = 'accepted'
         friend_request.save()

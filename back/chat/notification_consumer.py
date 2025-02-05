@@ -58,7 +58,9 @@ class NotifConsumer(AsyncJsonWebsocketConsumer):
         if not self.challenge_receiver:
             await self.send_json({"type": "error", "message": "User not found"})
             return False
-        
+        if username == self.user.username:
+            await self.send_json({"type": "error", "message": "you can't send this action to your self"})
+            return False
         if not  self.challenge_receiver.is_online:
             await self.send_json({"type": "error", "message": "User is offline"})
             return False
