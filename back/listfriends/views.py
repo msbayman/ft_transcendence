@@ -26,6 +26,8 @@ class SendFriendRequest(APIView):
         if receiver == sender:
             return Response({"error": "User is You"}, status=status.HTTP_400_BAD_REQUEST)
 
+        if Friend_request.objects.filter(my_user=sender, other_user=receiver, states='pending').exists():
+            return Response({"error": "Friend request was not accepted yet"}, status=status.HTTP_400_BAD_REQUEST)
         if Friend_request.objects.filter(my_user=sender, other_user=receiver, states='accepted').exists():
             return Response({"error": "Friend request already sent"}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -50,8 +52,8 @@ class AcceptFriendRequest(APIView):
             return Response({"error": "User is You"}, status=status.HTTP_400_BAD_REQUEST)
         
         try:
-            # friend_request = Friend_request.objects.get(my_user=sender, other_user=receiver, states='pending')
-            friend_request = Friend_request.objects.filter( models.Q(my_user=sender, other_user=receiver, states='pending') | models.Q(my_user=receiver, other_user=sender, states='pending') ).first()
+            friend_request = Friend_request.objects.get(my_user=sender, other_user=receiver, states='pending')
+            # friend_request = Friend_request.objects.filter( models.Q(my_user=sender, other_user=receiver, states='pending') | models.Q(my_user=receiver, other_user=sender, states='pending') ).first()
             if not friend_request:
                 return Response({"error": "No pending friend request found"}, status=status.HTTP_404_NOT_FOUND)
         except Friend_request.DoesNotExist:
