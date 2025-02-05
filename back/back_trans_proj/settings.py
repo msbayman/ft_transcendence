@@ -94,10 +94,12 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'back_trans_proj.urls'
 
+
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',  
-        'NAME': 'postgres_db',  
+        'NAME': os.getenv('DB_NAME'),
         'USER': os.getenv('DB_USER'),  
         'PASSWORD': os.getenv('DB_PASSWORD'),  
         'HOST': 'db',  
@@ -151,7 +153,16 @@ CHANNEL_LAYERS = {
         },
     },
 }
+
 APPEND_SLASH = True
 MEDIA_URL = '/media/'
 MEDIA_ROOT = '/app/media'  
 CORS_ALLOW_ALL_ORIGINS = True
+
+
+
+
+
+
+
+

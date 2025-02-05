@@ -16,7 +16,6 @@ services:
       - DB_USER=${DB_USER}
       - DB_PASSWORD=${DB_PASSWORD}
       - DB_HOST=${DB_HOST}
-      - REDIS_PORT=${REDIS_PORT}
     command: >
           /bin/sh -c "pip install --upgrade pip &&
           pip install -r /app/requirements.txt &&
@@ -96,3 +95,16 @@ volumes:
     driver: local
   react_build:  
     driver: local
+
+
+
+
+
+
+
+
+
+
+
+
+
