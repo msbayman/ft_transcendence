@@ -129,7 +129,7 @@ useEffect(() => {
         setBallDirection({ x: -ballDirection.x, y: ballDirection.y });
       }
 
-      const paddleWidth = 155;
+      const paddleWidth = 150;
 
       // Ball collision with top paddle
       if (

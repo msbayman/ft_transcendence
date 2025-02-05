@@ -231,7 +231,7 @@ class GameConsumer(AsyncWebsocketConsumer):
         if ball_x <= 0 or ball_x >= 490:
             game_state["ball"]["dx"] = -dx
 
-        paddle_width = 155
+        paddle_width = 150
 
         # Ball collision (top paddle)
         if (
