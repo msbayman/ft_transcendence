@@ -35,7 +35,7 @@ const SignupSchema = z
     full_name: fullNameSchema,
     username: userNameSchema,
     email: z.string().email({ message: "Invalid email" }),
-    password: z.string().min(6, { message: "Must be 6-40 characters" }).max(30),
+    password: z.string().min(6, { message: "Must be 6-40 characters" }).max(40),
     re_password: z
       .string()
       .min(6, { message: "Must be 6-40 characters" })

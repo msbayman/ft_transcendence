@@ -40,19 +40,13 @@ class NotifConsumer(AsyncJsonWebsocketConsumer):
             return
 # ------------------------------------------------------------------------------ #
     async def disconnect(self, close_code):
-        print("before hasattr")
         if hasattr(self, 'user') and self.user.is_authenticated:
-            print("after hasattr1")  
             if self.user.username in self.online_players:
                 self.online_players.remove(self.user.username)
-                print("after hasattr2")
-            print("self.online_players:   ",self.online_players)
             if self.user.username not in self.online_players:
-                print("after hasattr3")
                 await self.update_status(False)
                 await self.notify_friends_status(False)
                 await self.remove_user_from_online_list()
-                print("after hasattr4")
 # actions
 # ------------------------------------------------------------------------------ #
     async def check_data(self, data):
@@ -192,7 +186,6 @@ class NotifConsumer(AsyncJsonWebsocketConsumer):
 
     @sync_to_async
     def get_friends(self):
-        # print(list(self.user.list_users_friends.all()))  
         return list(self.user.list_users_friends.all())
     
 # ------------------------------------------------------------------------------ #  

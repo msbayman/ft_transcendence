@@ -55,7 +55,6 @@ function Overview() {
         try {
           const data = JSON.parse(event.data);
           if (data.type === "challenge_accepted") {
-            console.log("data.receiver: ", data.receiver, " data.sender: ", data.sender)
             navigate('/Game_challeng', { state: { challenged: data.receiver, challenger:data.sender} });
           }
           if (data.type === "challenge_notification") {

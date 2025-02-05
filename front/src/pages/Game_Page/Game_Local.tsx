@@ -116,7 +116,6 @@ useEffect(() => {
       clearInterval(interval);
       handleSleep();
       navigate("/Overview");
-      console.log("gooo.../n")
       return;
       return ;
     }

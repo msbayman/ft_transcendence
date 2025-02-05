@@ -5,13 +5,15 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { data_of_player } from "./interface";
 import { config } from "../../../../config";
+import Cookies from "js-cookie";
 
 interface data_interface {
   other_data: data_of_player | null;
 }
 
 export const States_Profile = ({ other_data }: data_interface) => {
-   const { HOST_URL } = config;
+  const token = Cookies.get("access_token");
+  const { HOST_URL } = config;
   const [winData, setWinData] = useState([0, 0, 0, 0, 0]); // Wins for last 5 days
   const [lossData, setLossData] = useState([0, 0, 0, 0, 0]); // Losses for last 5 days
   const getLast5Days = () => {
@@ -29,7 +31,12 @@ export const States_Profile = ({ other_data }: data_interface) => {
     const fetchMatchHistory = async () => {
       try {
         const response = await axios.get(
-          `${HOST_URL}/api/game/last_5_days/${other_data?.username}/`
+          `${HOST_URL}/api/game/last_5_days/${other_data?.username}/`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
         );
         const matches = response.data;
         // Initialize win and loss counts for the last 5 days

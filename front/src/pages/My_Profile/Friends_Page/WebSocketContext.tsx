@@ -27,14 +27,10 @@ export const WebSocketProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     const token = Cookies.get("access_token");
     const wsUrl = `${url}?token=${token}`;
     const ws = new WebSocket(wsUrl);
-    ws.onopen = () => {
-      console.log("chat ws connected");
-    };
 
     ws.onmessage = (event) => {
       try {
         const data = JSON.parse(event.data);
-        console.log("data type:", data)
         if (data.type === 'error') {
           setBlockedMessage(data.message);
           setErrorPopUp(true);
@@ -59,12 +55,12 @@ export const WebSocketProvider: React.FC<{ children: React.ReactNode }> = ({ chi
           });
         }
       } catch (error) {
-        console.error("Error parsing WebSocket message:", error);
+        console.error("Error parsing chat WebSocket message:", error);
       }
     };
 
     ws.onerror = (error) => {
-      console.error("WebSocket Error:", error);
+      console.error("chat WebSocket Error:", error);
       ws.close();
     };
 
@@ -73,7 +69,6 @@ export const WebSocketProvider: React.FC<{ children: React.ReactNode }> = ({ chi
 
   const disconnect = useCallback(() => {
     if (websocketRef.current) {
-      console.log("chat WebSocket Disconnected");
       websocketRef.current.close();
     }
   }, []);

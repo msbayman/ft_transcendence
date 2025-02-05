@@ -17,7 +17,7 @@ from datetime import timedelta
 
 class UserMatchHistoryView(ListAPIView):
     serializer_class = MatchHistorySerializer
-    permission_classes = []
+    permission_classes = [IsAuthenticated]
     # authentication_classes = [JWTAuthentication]
 
     def get_queryset(self):
@@ -37,7 +37,7 @@ def get_username_for_players(request):
 
 class Last_5_Days(ListAPIView):
     serializer_class = MatchHistorySerializer
-    permission_classes = []
+    permission_classes = [IsAuthenticated]
     def get_queryset(self):
         five_days_ago = timezone.now() - timedelta(days=5)
         username = self.kwargs.get('username')

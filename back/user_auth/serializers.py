@@ -52,11 +52,13 @@ class PlayerSerializer(serializers.ModelSerializer):
             return value
         else:
             raise serializers.ValidationError("Username length must be between 4 and 14 characters.")
-
+#  if 6 > len(value) or  len(value) > 40:
+#             raise serializers.ValidationError("Password length must be between 6 and 30 characters.")
+#         return value
 
     def validate_password(self, value):
         # Password validation: 2-40 characters
-        if not (6 <= len(value) <= 40):
+        if 6 > len(value) or  len(value) > 40:
             raise serializers.ValidationError("Password length must be between 6 and 30 characters.")
         return value
 

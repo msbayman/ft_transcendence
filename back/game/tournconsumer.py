@@ -19,14 +19,12 @@ class TournConsumer(AsyncWebsocketConsumer):
         self.players.append(self.user)
         self.connected_users[self.user] = self
 
-        print(f"Current players: {self.players}")
         await self.accept()
         await self.check_start_tourn()
 
     async def check_start_tourn(self):
-        print("---------len of player array :", len(self.players))
         if len(self.players) >= 4:
-            print("===> the tourn should start")
+
             await self.create_tourn()
 
     async def create_tourn(self):

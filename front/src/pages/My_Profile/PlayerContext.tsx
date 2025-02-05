@@ -71,7 +71,6 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({
   const fetchPlayerData = useCallback(async () => {
     const token = Cookies.get('access_token');
     if (!token) {
-        console.log('No access token found or user not authenticated');
         return;
     }
 
@@ -115,7 +114,6 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({
     wsRef.current = newWs;
 
     newWs.onopen = () => {
-      console.log('Notification WebSocket connected');
       setWs(newWs);
     };
 
@@ -151,11 +149,10 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({
     };
 
     newWs.onerror = (error) => {
-      console.error("WebSocket error:", error);
+      console.error("notif WebSocket error:", error);
     };
 
-    newWs.onclose = (event) => {
-      console.log("Notification WebSocket disconnected", event);
+    newWs.onclose = () => {
       wsRef.current = null;
       setWs(null);
       setTimeout(() => {setWs(null)}, 5000)
@@ -164,7 +161,6 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const closeWsConnection = useCallback(() => {
     if (wsRef.current?.readyState === WebSocket.OPEN) {
-      console.log("Notification WebSocket disconnected")
       wsRef.current.close();
     }
     wsRef.current = null;

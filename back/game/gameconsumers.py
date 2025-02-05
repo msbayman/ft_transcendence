@@ -7,9 +7,6 @@ from .models import Match
 from user_auth.models import Player
 import math
 from asgiref.sync import sync_to_async
-import logging
-
-logger = logging.getLogger(__name__)
 
 class GameConsumer(AsyncWebsocketConsumer):
     rooms = {}
@@ -65,18 +62,13 @@ class GameConsumer(AsyncWebsocketConsumer):
                 return
 
             if self.match.player1 == self.user.username:
-                logger.error(f"player {self.user.username} appah2") 
-                logger.error(f"player {self.user.username} appah3")
                 if room['players']['up'] is None:
                     room['players']['up'] = self.user
                     game_state["side"]["up"] = room['players']['up'].username
-                    logger.error(f"player {self.user.username} appah4")
             elif self.match.player2 == self.user.username:
-                logger.error(f"player {self.user.username} appah5")
                 if room['players']['down'] is None:
                     room['players']['down'] = self.user
                     game_state["side"]["down"] = room['players']['down'].username
-                    logger.error(f"player {self.user.username} appah6")
 
             # -------------------------
             if self.match.status == 2:
@@ -84,15 +76,10 @@ class GameConsumer(AsyncWebsocketConsumer):
                 return
             
         except Exception as e:
-            print(f"Error retrieving match: {e}")
             await self.close()
             return
-        logger.error(f"player {self.user.username} set_ply1")
 
-        logger.error(f"player down is ----> {room['players']['down']}")
-        logger.error(f"player up is ----> {room['players']['up']}")
         if room['players']['up'] and room['players']['down']:
-            logger.error(f"game start ----> {self.user.username}")
             self.game_task = asyncio.create_task(self.game_loop())
 
     async def is_part_of_the_game(self, name, id):
@@ -131,20 +118,7 @@ class GameConsumer(AsyncWebsocketConsumer):
         except Exception as e:
             print(f"Error saving match score: {e}")
 
-    @database_sync_to_async
-    def set_ply(self, match):
-        logger.error(f"-----> match.player1: {match.player1}")
-        try:
-            logger.error(f"-----> match.player1: {match}")
-            
-            logger.error(f"player {self.user.username} appah7")
-            return True
-        except Match.DoesNotExist:
-            print(f"Match with ID {self.room_name} not found")
-        except Exception as e:
-            print(f"Error saving match score: {e}")
-        return False
-        
+
     @database_sync_to_async
     def save_user(self):
         self.user.save()
@@ -182,7 +156,6 @@ class GameConsumer(AsyncWebsocketConsumer):
     
 #--------------------------------------------------------------------------------------
     async def disconnect(self, close_code):
-        logger.error(f"player {self.user.username} disconnected")
 
         if self.user.username in self.act_ply:
             del self.act_ply[self.user.username]
@@ -192,10 +165,8 @@ class GameConsumer(AsyncWebsocketConsumer):
 
         room = self.rooms[self.room_name]
         game_state = room["game_state"]
-        # ply_update = room["players"]
 
         if not game_state["winner"]:
-            # logger.error(f"they not have a winner")
             if room['players']['up'] == self.user:
                 game_state["winner"] = room['players']['down'].username if room['players']['down'] else None
                 game_state["score"]["p2"] = 3
@@ -206,16 +177,8 @@ class GameConsumer(AsyncWebsocketConsumer):
                 game_state["score"]["p2"] = 0
             await self.update_match_score(game_state["score"]["p1"], game_state["score"]["p2"])
 
-            # await self.update_user_after_game(game_state["winner"], game_state["score"]["p2"])
-            # await self.broadcast_end_game(game_state)
-        # else:
-        # logger.error(f"they have a winner") 
         await self.update_user_after_game(game_state["winner"], game_state["score"]["p2"])
         await self.broadcast_end_game(game_state)
-
-
-
-        # await self.update_user_after_game(game_state["winner"], game_state["score"]["p2"])
         await self.channel_layer.group_discard(self.room_group_name, self.channel_name)
 
         if not any(room['players'].values()):

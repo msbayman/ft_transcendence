@@ -35,7 +35,6 @@ const Action_Friends = ({ username }: { username: string | undefined }) => {
           }
         );
         if (response.ok) {
-          // console.log("Friend request sent successfully");
         } else {
           console.error("Failed to send friend request");
         }
@@ -177,11 +176,11 @@ const Action_Friends = ({ username }: { username: string | undefined }) => {
       );
   };
 
-  // console.log(Data?.states + ' ---- ' + Data?.my_user + ' ---------- ' + Data?.other_user)
+
 
   const sendFriendRequest = async (username: string | undefined) => {
     try {
-      const response = await fetch(
+      await fetch(
         `${HOST_URL}/api/listfriends/send-friend-request/${username}/`,
         {
           method: "POST",
@@ -191,12 +190,6 @@ const Action_Friends = ({ username }: { username: string | undefined }) => {
           },
         }
       );
-
-      if (response.ok) {
-        // console.log("Friend request sent successfully");
-      } else {
-        console.error("Failed to send friend request");
-      }
     } catch (error) {
       console.error("Error:", error);
     }
@@ -204,7 +197,7 @@ const Action_Friends = ({ username }: { username: string | undefined }) => {
 
   const deniedFriendRequest = async (username: string | undefined) => {
     try {
-      const response = await fetch(
+      await fetch(
         `${HOST_URL}/api/listfriends/decline-friend-requests/${username}/`,
         {
           method: "POST",
@@ -214,12 +207,6 @@ const Action_Friends = ({ username }: { username: string | undefined }) => {
           },
         }
       );
-
-      if (response.ok) {
-        console.log("Friend denied sent successfully");
-      } else {
-        console.error("Failed to send friend request");
-      }
     } catch (error) {
       console.error("Error:", error);
     }
@@ -240,7 +227,6 @@ const Action_Friends = ({ username }: { username: string | undefined }) => {
 
       if (response.ok) {
         console.log("Friend request accepted successfully");
-        mine.ws?.onmessage;
       } else {
         console.error("Failed to accept friend request");
       }

@@ -83,7 +83,6 @@ function TFA({
       const token = Cookies.get("access_token");
 
       if (!token) {
-        console.log("No access token found.");
         throw new Error("No access token found.");
       }
 
@@ -116,7 +115,6 @@ function TFA({
       const token = Cookies.get("access_token");
 
       if (!token) {
-        console.log("No access token found.");
         throw new Error("No access token found.");
       }
 
@@ -168,7 +166,6 @@ function TFA({
       const token = Cookies.get("access_token");
 
       if (!token) {
-        console.log("No access token found.");
         throw new Error("No access token found.");
       }
       const response = await axios.post(
@@ -328,7 +325,6 @@ function TwoFA_Component() {
       try {
         const token = Cookies.get("access_token");
         if (!token) {
-          console.log("No access token found.");
           return;
         }
 
@@ -348,7 +344,6 @@ function TwoFA_Component() {
         }
       } catch (error) {
         console.error("Failed to fetch 2FA status:", error);
-        // Fallback to context data if API fails
         setChecked(data.playerData?.active_2fa ?? false);
         setIsInitialized(true);
       }

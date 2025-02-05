@@ -76,7 +76,6 @@ function Game_Remot( { id , selectedIds }:GameRemotProps ) {
 		const ws = new WebSocket(`${WS_HOST_URL}/ws/game/${id}/?token=${token}`);
 
 		ws.onopen = () => {
-			console.log("Connected to WebSocket");
 			setSocket(ws);
 		};
 

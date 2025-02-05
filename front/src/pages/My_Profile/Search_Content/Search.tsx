@@ -35,7 +35,6 @@ const { HOST_URL } = config;
             }
           );
           if (response.status === 200) {
-            console.log("Data transfer OK");
             setSearchResults(response.data);
           }
         } catch (error) {

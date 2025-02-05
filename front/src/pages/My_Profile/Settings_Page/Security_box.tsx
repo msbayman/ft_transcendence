@@ -41,6 +41,11 @@ function Security_box({}: SecurityBoxProps) {
         return;
       }
 
+      // if (playerData.newPassword && playerData.newPassword?.length < 6)
+      //   {
+      //   toast.error("too short");
+      //   return;
+      // }
       if (!playerData.oldPassword || !playerData.newPassword) {
         if (!playerData.oldPassword) {
           toast.error("Old password is required.");

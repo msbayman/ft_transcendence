@@ -61,7 +61,6 @@ def delete_player(request):
     except Player.DoesNotExist:
         return Response({'error': 'Player not found'}, status=status.HTTP_404_NOT_FOUND)
     except Exception as e:
-        logger.error(f"Error deleting player {username}: {e}")
         return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -71,6 +70,12 @@ def update_player(request):
     old_username = username = request.user.username
     new_username = request.data.get('username')
 
+
+    if not new_username or new_username == '':
+        return Response(
+                {'error': 'no username'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
     
     if not new_username or len(new_username) < 4 or len(new_username) > 40 or new_username == 'admin':
         if len(new_username) < 4:
@@ -140,14 +145,22 @@ def changePassword(request):
         new_password = request.data.get('newPassword')
         old_password = request.data.get('oldPassword')
 
-        # Validate input data
+        # Validate input data  
         if not all([username, new_password, old_password]):
             return Response({
                 'error': 'Username, old password, and new password are required.'
             }, status=status.HTTP_400_BAD_REQUEST)
 
-        # Log password change attempt (without sensitive data)
-        logger.info(f"Password change attempt for user: {username}")
+        if not new_password.strip():  # Check for empty or all spaces
+            return Response({
+                'error': 'Password cannot be empty or just spaces.'
+            }, status=status.HTTP_400_BAD_REQUEST)
+
+        if len(new_password) < 6:
+            return Response({
+                'error': 'Password must be at least 6 characters long.'
+            }, status=status.HTTP_400_BAD_REQUEST)
+
 
         # Get the player instance
         try:
@@ -197,8 +210,6 @@ def changePassword(request):
         }, status=status.HTTP_200_OK)
 
     except Exception as e:
-        # Log the error
-        logger.error(f"Password change error for user {username}: {str(e)}")
         return Response({
             'error': 'An error occurred while updating the password'
         }, status=status.HTTP_400_BAD_REQUEST)
@@ -293,7 +304,6 @@ class VerifyOTP(APIView):
             username = request.data.get('username')
             otp = request.data.get('otp')
 
-            # print("=====>>> this is otp ", otp )
 
             if not username or not otp:
                 return Response({"detail": "Username and OTP are required."}, status=status.HTTP_400_BAD_REQUEST)
@@ -406,12 +416,12 @@ class UserDetailView(APIView):
         return Response( serializer.data )
 
 
-@api_view(['GET'])
-@permission_classes([AllowAny])
-def list_users(request):
-    players = Player.objects.all()
-    serializer = PlayerSerializer(players, many=True)
-    return Response(serializer.data)
+# @api_view(['GET'])
+# @permission_classes([AllowAny])
+# def list_users(request):
+#     players = Player.objects.all()
+#     serializer = PlayerSerializer(players, many=True)
+#     return Response(serializer.data)
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
@@ -447,7 +457,6 @@ class LogoutAPIView(APIView):
         except Player.DoesNotExist:
             return Response({"detail": "User not found."}, status=status.HTTP_404_NOT_FOUND)
         except Exception as e:
-            logger.error(f"Error during logout: {e}")
             return Response({"detail": "An error occurred during logout."}, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -488,9 +497,7 @@ def upload_profile_image(request):
             File(img_temp), 
             save=True
         )
-        
-        logger.info(f"Profile image uploaded for player {username}")
-        
+
         return Response({
             'message': 'Profile image uploaded successfully',
             'image_url': player.profile_image.url
@@ -499,7 +506,6 @@ def upload_profile_image(request):
     except Player.DoesNotExist:
         return Response({'error': 'Player not found'}, status=404)
     except Exception as e:
-        logger.error(f"Error uploading profile image: {str(e)}")
         return Response({'error': 'Error uploading image'}, status=HTTP_400_BAD_REQUEST)
 
 

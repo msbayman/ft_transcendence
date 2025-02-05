@@ -28,7 +28,6 @@ import { usePlayer } from '../PlayerContext';
     const acceptChallenge = (id?: string, sender?: string) => {
       if (loggedInPlayer.ws)
         loggedInPlayer.ws.send(JSON.stringify({ type: "accept_challenge", sender: sender }));
-      console.log("notif redirect:", " sender: ",sender, " challenger: ",loggedInPlayer.playerData?.username)
     navigate('/Game_challeng', { state: { challenged: sender, challenger:loggedInPlayer.playerData?.username} });
     onClear(id);
     };

@@ -3,9 +3,7 @@ from channels.generic.websocket import AsyncWebsocketConsumer
 from django.db import transaction
 from channels.db import database_sync_to_async
 from .models import Match
-import logging
 
-logger = logging.getLogger(__name__)
 
 
 class ChalleConsumer(AsyncWebsocketConsumer):
@@ -16,44 +14,32 @@ class ChalleConsumer(AsyncWebsocketConsumer):
         self.user = self.scope["user"]
         self.ply = self.scope["url_route"]["kwargs"]["id"].split("+")
         
-        logger.error(f"players: {self.players}")  
-        logger.error("test -1") 
         if not self.user.is_authenticated:
             await self.close()
             return
         await self.accept()
         
-        logger.error("test 00") 
         if not self.user.username in self.ply:
-            logger.error("test 0") 
             await self.close()
             return 
         
         if self.user in self.players:
-            logger.error("test 2") #
             await self.close()
             return
         if self.user in self.connected_users:
-            logger.error("test 3") 
             await self.close()
             return
 
-        logger.error("test 4") 
         self.players.append(self.user)
         self.connected_users[self.user] = self
 
         await self.creat_match()
 
     async def disconnect(self, close_code):
-        logger.error("alo 1") 
         if self.user in self.players:
-            logger.error("alo 2") 
             self.players.remove(self.user)
-            logger.error("alo 3") 
         if self.user in self.connected_users:
-            logger.error("alo 4") 
             del self.connected_users[self.user]
-            logger.error("alo 5") 
 
     async def creat_match(self):
         if len(self.players) >= 2:

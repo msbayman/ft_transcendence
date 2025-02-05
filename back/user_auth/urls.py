@@ -4,7 +4,7 @@ from .import otp_view
 urlpatterns = [
      # path("", views.index, name="index"),
      path('display_users', views.display_users, name='display_users'),
-     path('list_users', views.list_users, name='list_users'),
+     # path('list_users', views.list_users, name='list_users'),
      path('add_player', views.add_player, name='add_player'),
      # path('delete_player', views.delete_player, name='delete_player'),
      path('update_player', views.update_player, name='update_player'),

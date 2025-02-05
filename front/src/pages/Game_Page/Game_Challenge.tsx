@@ -50,13 +50,8 @@ function Game_challeng() {
             `${WS_HOST_URL}/ws/challenge/${name_socket}/?token=${token}`
         );
 
-        matchmakingSocket.onopen = () => {
-            console.log("Connected to matchmaking");
-        };
-
         matchmakingSocket.onmessage = (event) => {
             const data = JSON.parse(event.data) as MatchData;
-            console.log("------ match found ------")
             setMatchData(data);
         }
     }, [token]);

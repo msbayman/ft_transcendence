@@ -22,10 +22,12 @@ function Password_component({ setPlayerData, setChanged }: PasswordComponentProp
     
     setChanged(value !== "");
 
+    // console.log(e.target);
     setPlayerData((prev: any) => ({
       ...prev,
       [name]: value,
     }));
+
   };
 
   interface PasswordVisibility {

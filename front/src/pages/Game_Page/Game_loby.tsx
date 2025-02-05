@@ -41,15 +41,12 @@ function Game_Loby() {
       `${WS_HOST_URL}/ws/matchmaking/?token=${token}`
     );
 
-    matchmakingSocket.onopen = () => {
-      console.log("Connected to matchmaking");
-    };
 
     matchmakingSocket.onmessage = (event) => {
       const data = JSON.parse(event.data);
       setMatchData(data);
     };
-  }, [token]);
+  }, [token, WS_HOST_URL]);
 
   useEffect(() => {
     if (matchData) {

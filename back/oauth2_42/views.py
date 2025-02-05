@@ -124,9 +124,7 @@ def handle_oauth_user_42(request: HttpRequest, user_info: dict) -> HttpResponse:
  
     if user.active_2fa:
         otp_code = generate_otp()
-        print(f"Generated OTP for user {user.username}: {otp_code}") 
         send_otp_via_email(user.email, otp_code)
-        print(f"OTP sent to {user.email}") 
 
         user.otp_code = otp_code
         user.created_at = timezone.now()

@@ -46,18 +46,22 @@ class AcceptFriendRequest(APIView):
         except Player.DoesNotExist:
             return Response({"error": "User not found"}, status=status.HTTP_404_NOT_FOUND)
 
+        if receiver == sender:
+            return Response({"error": "User is You"}, status=status.HTTP_400_BAD_REQUEST)
+
         # Find the pending friend request
         try:
-            friend_request = Friend_request.objects.get(my_user=sender, other_user=receiver, states='pending')
+            friend_request = Friend_request.objects.filter( models.Q(my_user=sender, other_user=receiver, states='pending') | models.Q(my_user=receiver, other_user=sender, states='pending') ).first()
         except Friend_request.DoesNotExist:
-            return Response({"error": "No pending friend request found"}, status=status.HTTP_404_NOT_FOUND)
+            return Response({"error": "Already sent !!!"}, status=status.HTTP_400_BAD_REQUEST)
+        try:
+            friend_request = Friend_request.objects.filter( models.Q(my_user=sender, other_user=receiver, states='accepted') | models.Q(my_user=receiver, other_user=sender, states='accepted') ).first()
+        except Friend_request.DoesExist:
+            return Response({"error": "Already friends !!!"}, status=status.HTTP_400_BAD_REQUEST)
 
-        # Update the friend request status to 'accepted'
-        # Note: accept only when its pending
         friend_request.states = 'accepted'
         friend_request.save()
 
-        # Add each user to the other's friends list
         self.notify_users(receiver, sender)
         receiver.list_users_friends.add(sender)
         sender.list_users_friends.add(receiver)
