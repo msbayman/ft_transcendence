@@ -1,0 +1,56 @@
+.main_div_sid_land {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100%;
+  position: fixed;
+  background-color: #300488;
+  top: 0;
+  z-index: 8;
+  right: 0;
+  animation: example 1s forwards; /* Animation for appearing */
+}
+
+.main_div_sid_land.hide {
+  animation: example-reverse 1s forwards; /* Reverse animation for disappearing */
+}
+
+.sid_land_list {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 2rem;
+}
+
+.sb_item {
+  padding-bottom: 0.2rem;
+  width: 100%;
+  padding: 0.5rem;
+}
+
+@keyframes example {
+  from {
+    right: -100vw;
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+    right: 0;
+  }
+}
+
+@keyframes example-reverse {
+  from {
+    right: 0;
+    opacity: 1;
+  }
+  to {
+    right: -100vw;
+    opacity: 0;
+  }
+}

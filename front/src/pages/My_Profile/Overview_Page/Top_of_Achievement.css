@@ -1,0 +1,120 @@
+.all_content_acheiv {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    height: 85%;
+    border-radius: 60px;
+    background: #3A0CA3;
+}
+
+.part_1_achv {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 100%;
+    min-height: 165px;
+    padding: 10px 20px;
+    gap: 20px;
+}
+
+.every_achiev {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    width: 130px;
+    gap: 10px;
+    color: aliceblue;
+    text-align: center;
+    text-shadow: 1px 1px 20px black;
+    font-family: "Alexandria", sans-serif; 
+    font-size: 14px;   
+}
+
+.if_no {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+    color: aliceblue;
+}
+.if_noo {
+    width: 30px;
+
+}
+.every_image {
+    height: 100px;
+}
+.every_image_c {
+    width: 100px;
+    height: 100px;
+}
+
+.acheiv {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* align-items: center; */
+    margin-top: 15px;
+    flex-grow: 1;
+    width: 22px;
+    border-radius: 10%;
+    gap: 15px;
+}
+
+.Title_Acheiv {
+    /* padding-bottom: 20px; */
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    font-family: "Alexandria", sans-serif;
+    flex-grow: .5;
+    height: 10%;
+    font-size: 14px;
+    font-weight: 400;
+    font-style: bold;
+    font-optical-sizing: auto;
+    color: whitesmoke;
+    line-height: normal;
+    text-align: center;
+}
+
+.icone_Acheiv{
+    height: 10%;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+}
+
+.Achiev_Title {
+    position: relative;
+}
+
+
+.No_One {
+    padding-top: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: large;
+    gap: 15px;
+}
+
+.Titre_Acheivement {
+    font-family: "Alexandria", sans-serif;
+    position: absolute;
+    text-align: center;
+    transform: translate(-50%, -50%);
+    top: 45%;
+    left: 50%;
+    font-size:26px;
+    font-weight: 300;
+    color: aliceblue;
+    letter-spacing: 1.5px;
+    line-height: normal;
+}

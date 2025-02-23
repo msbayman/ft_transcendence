@@ -1,0 +1,110 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./back
+      dockerfile: Dockerfile.backend
+    container_name: backend
+    env_file:
+      - .env
+    volumes:
+      - ./back:/app
+      - media:/app/media
+    environment:
+      - DB_NAME=${DB_NAME}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_HOST=${DB_HOST}
+    command: >
+          /bin/sh -c "pip install --upgrade pip &&
+          pip install -r /app/requirements.txt &&
+          python manage.py makemigrations &&
+          python manage.py migrate &&
+          python manage.py runserver 0.0.0.0:8000"
+    depends_on:
+      - db
+    networks:
+      - elk
+    restart: always
+
+  frontend:
+    build:
+      context: ./front
+      dockerfile: Dockerfile.frontend
+    container_name: frontend
+    env_file:
+      - .env
+    volumes:
+      - react_build:/app/dist 
+    depends_on:
+      - backend
+    networks:
+      - elk
+
+
+  db:
+    image: postgres:17
+    container_name: postgres_db
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - elk
+    restart: always
+
+  redis:
+    image: redis:7
+    container_name: redis
+    env_file:
+      - .env
+    networks:
+      - elk
+    restart: always
+
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile.nginx
+      args:
+         - VITE_HOST_URL=${VITE_HOST_URL}
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - backend
+      - frontend
+    volumes:
+      - media:/usr/share/nginx/media
+      - react_build:/usr/share/nginx/html  
+    networks:
+      - elk
+    restart: always
+
+networks:
+  elk:
+    name: elk
+
+volumes:
+  pgdata:
+    driver: local
+  media:
+    driver: local
+  react_build:  
+    driver: local
+
+
+
+
+
+
+
+
+
+
+
+
+

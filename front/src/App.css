@@ -1,0 +1,20 @@
+*{
+  padding: 0;
+  margin: 0;
+  scroll-behavior: smooth;
+  background-color: none;
+  box-shadow: none;
+  color: white;
+  
+}
+
+body{
+    width:100svw;
+    height:100svh;
+    overflow-x: hidden;
+}
+/* .maxfocus-highlighted
+{
+ background-color: none;
+ box-shadow: none;
+} */

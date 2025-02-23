@@ -1,0 +1,21 @@
+.bd_otp
+{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100vw;
+    height: 100vh;
+    background-color: #300488;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.form_otp
+{
+    color: black;
+}
+#otp_code
+{
+    border: solid 2px;
+}
+

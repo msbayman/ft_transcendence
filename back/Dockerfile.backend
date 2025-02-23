@@ -1,0 +1,10 @@
+FROM python:3.9
+
+WORKDIR /app
+COPY . /app
+RUN apt-get update && apt-get install -y \
+    postgresql-client \
+    libpq-dev 
+
+RUN chmod +x script_back.sh
+CMD ["python", "manage.py", "runserver"]

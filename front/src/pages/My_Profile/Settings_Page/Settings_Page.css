@@ -1,0 +1,423 @@
+@import url('https://fonts.googleapis.com/css2?family=Alexandria:wght@100..900&display=swap');
+
+.wrapper {
+  width: 100%;
+  max-width: 1550px;
+  height: 97%;
+  margin: 20px;
+  background-color: #3a0ca3;
+  border-radius: 30px;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column; 
+}
+
+.wrapper .Set {
+  font-family: "Alexandria", sans-serif;
+  font-size: 60px;
+  font-weight: 700;
+  text-align: justify;
+  margin: 30px;
+  padding-left: 20px;
+}
+
+.options {
+  font-family: "Alexandria", sans-serif;
+  display: flex;
+  font-size: 30px;
+  font-weight: normal;
+  justify-content: center;
+  margin-inline: auto;
+  width: 390px;
+  margin-bottom: 10px;
+  position: relative;
+}
+
+.abs {
+  left: 0;
+  border-radius:  30px;
+  position: absolute;
+  background-color: #8151ee;
+  height: 100%;
+  width: 50%;
+  transition: transform .5s ease;
+}
+
+.abs.active {
+  transform: translateX(100%);
+}
+
+.content {
+  background-color: transparent;
+  height: 70%;
+  width: 105%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* transition: all;
+  animation-duration: 500ms; */
+}
+
+.save-cancel {
+  font-family: "Alexandria", sans-serif;
+  font-size: 30px;
+  font-weight: normal;
+  gap: 10px;
+  width: 70%;
+  position: relative;
+  top: 6rem;
+  /* display: flex;
+  justify-content: flex-end; */
+}
+
+.child-btn
+{
+  display: flex;
+  justify-content: end;
+  align-items: flex-end;
+}
+
+.prfl {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  padding: 2px 2px 2px 2px;
+  flex: 1;
+  border-radius: 64px;
+}
+.sec {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  padding: 2px 2px 2px 2px;
+  flex: 1;
+  border-radius: 64px;
+}
+
+.btn {
+  display: flex;
+  justify-content: center;
+  margin: 10px;
+  width: 210px;
+  height: 49px;
+  font-size: 24px;
+  border-radius: 64px;
+}
+
+.btn.save {
+  /* font-family: "Manjari", serif; */
+  font-weight: 230;
+  background-color: white;
+  color: #3a0ca3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn.cancel {
+  /* font-family: "Manjari", serif; */
+  font-weight: 200;
+  background-color: #3a0ca3;
+  border: 2px solid white;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.text-container {
+  font-family: "Alexandria", sans-serif;
+  font-size: 35px;
+  font-weight: 700;
+  text-align: justify;
+  margin-top: 30px;
+}
+
+
+.TwoFA {
+  position: relative;
+  font-family: "Alexandria", sans-serif;
+  font-size: 20px;
+  border: 2px solid #8051EE;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+  text-align: center;
+  align-items: center;
+  top: 2rem;
+  height: 30%;
+  min-height: 25%;
+  width: 89%;
+  border-radius: 7px;
+}
+
+
+.description
+{
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.check-TFA {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  font-weight: 240;
+  font-size: larger;
+}
+
+.from-box.security {
+  height: 100%;
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-items: center;
+
+}
+
+.inpt input {
+  width: 60%;
+  border-radius: 6px;
+  background-color: #3a0ca3;
+  border: 1px solid #8051EE;
+  padding: 20px 55px 20px 20px;
+  font-size: 20px;
+  font-weight: 200;
+  color: #b59bf3;
+}
+
+.inpt input:focus { 
+  font-weight: 600;
+}
+
+.inpt label {
+  
+  font-family: "Alexandria", sans-serif;
+  font-size: 1.5rem;
+  font-weight: 400;
+  color: #fff;
+}
+
+.inpt {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  color: black;
+
+}
+
+.font-size {
+  font-family: "Alexandria", sans-serif;
+  font-size: 36px;
+  font-weight: 600;
+}
+
+.spn {
+  font-family: "Alexandria", sans-serif;
+  display: flex;
+  position: relative;
+  justify-content: center;
+  left: 9%;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+
+
+
+.pswd {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: left;
+  align-items: center;
+  right: 250px;
+
+}
+
+
+.icon {
+  position: relative;
+  right: 3rem;
+  font-size: 1.5rem;
+  color: #fff;
+  cursor: pointer;
+}
+
+.from-box.profile {
+  height: 100%;
+  width: 70%;
+  display: flex;
+  flex-direction: column;
+}
+
+
+.params {
+  font-family: "Alexandria", sans-serif;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  font-size: 23px;
+  color: white;
+  gap: 0.5rem;
+}
+
+.username {
+  display: flex;
+  justify-content: center;
+}
+
+.eml {
+  display: flex;
+  justify-content: center;
+}
+
+.params input {
+  width: 100%;
+  height: 3.5rem;
+  border-radius: 9px;
+  background-color: #3a0ca3;
+  border: 1px solid white;
+  text-indent:2rem;
+  padding-right: 2rem;
+  font-size: 20px;
+  font-weight:250;
+  color: #FFFFFF;
+}
+
+.params span {
+  font-family: "Alexandria", sans-serif;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 11px;
+  flex-direction: row;
+}
+
+.params label {
+  padding: 0;
+  width: 300px;
+  text-align: start;
+
+}
+
+.prf-pic {
+  /* padding: 3rem 0rem 6rem 0rem; */
+  display: flex;
+  flex-direction: column;
+  gap: 10em;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.cover-pic {
+  position: relative;
+  border-radius: 31px;
+  background-size: 100% 88rem;
+  background-repeat: no-repeat;
+  background-position-y: 60%;
+  background-image: url("/pingpong.svg");
+  width: 100%;
+  box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.335);
+  height: 18rem;
+}
+
+
+.profile-pic {
+  position: absolute;
+  display: flex;
+  top: 20rem;
+  justify-content: center;
+  align-items: center;
+  background-color: #3a0ca3;
+  width: 14.9rem;
+  height: 15rem;
+  right: 10%;
+  max-inline-size: 250px; 
+  max-block-size: 240px;  
+  border-radius: 50%;
+  /* box-shadow: 0 0 10px black; */
+  margin-top: -160px;
+  margin-right: 4%;
+}
+
+.Photo {
+  border-radius: 50%;
+  width: 85%;
+  height: 13rem;
+  background-size: cover;
+  opacity: 1;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.51);
+  position: relative;
+}
+.change-profile {
+  position: absolute;
+  left: 1rem;
+  bottom: 1rem;
+  border-radius: 50%;
+  height: 13rem;
+  width: 13rem;
+  gap: 10px;
+  background-color: rgba(34, 42, 51, 0.45);
+  font-weight: 400;
+  text-transform: uppercase;
+  text-align: center;
+  font-size: 17px;
+  color: #fff;
+  opacity: 0;
+  transition: background 0.2s, opacity 0.2s;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+input[type="file"] {
+  visibility: hidden;
+}
+
+.profile-pic:hover .change-profile {
+  opacity: 1;
+  display: flex;
+}
+
+.change-cover {
+  border-radius: 31px 31px 0 0;
+  display: flex;
+  justify-content:center;
+  gap: 10px;
+  align-items: center;
+  text-align: center;
+  background-color: rgba(37, 46, 56, .5);
+  font-weight: 400;
+  height: 40px;
+  text-transform: uppercase;
+  font-size: 19px;
+  color: #fff;
+  opacity: 0;
+  transition: background .2s, opacity .2s;
+  cursor: pointer;
+}
+
+.cover-pic:hover .change-cover {
+  opacity: 1;
+}
+
+.bannerANDprofile {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  top: 2rem;
+
+}

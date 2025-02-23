@@ -1,0 +1,48 @@
+#l_p_1 {
+  color: white;
+}
+
+.text_philo {
+  margin: 1rem;
+  font-family: "Chau Philomene One", "Times New Roman", Times, serif;
+  font-size: 4rem;
+}
+
+.text_philo p {
+  margin: 0;
+  line-height: 1.2; 
+}
+
+#table_mage {
+  width: 50%;
+  max-width: fit-content;
+}
+
+#btn_playnow {
+  margin-top: 1rem;
+  transition: background-color 0.5s linear, color 0.5s linear;
+}
+#btn_playnow:hover {
+  background-color: white;
+  color: #400947;
+  transition: background-color 500ms linear, color 500ms linear;
+}
+
+@media (max-width: 768px) {
+  .text_philo {
+    font-size: 3rem;
+  }
+}
+
+@media (max-width: 320px) {
+  .text_philo {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 425px) {
+  #wive {
+    max-height: 10rem;
+    overflow: auto;
+  }
+}

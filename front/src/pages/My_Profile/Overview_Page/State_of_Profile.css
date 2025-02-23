@@ -1,0 +1,116 @@
+.all_content_state {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex-grow: 1;
+    padding: 20px;
+    height: 240px;
+    border-radius: 60px;
+    background: rgba(255, 255, 255, 0.40);
+    backdrop-filter: blur(10px);
+    gap: 40px;
+}
+.part_1_state {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding-right:20px ;
+}
+
+.Photo_Profile {
+    position: relative;
+    width: 150px;
+    height: 80px;
+}
+
+.image {
+    position: absolute;
+    margin-top: -50px;
+}
+
+.Photo_border {
+    position: absolute;
+    width: 130%;
+    margin-top: -70px;
+    margin-left: -15px;
+}
+
+.Photo_P {
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+}
+.Name_and_online-state {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+.Name {
+    font-family: "Alexandria", sans-serif;
+    font-size: xx-large;
+    margin-top: -10px;
+}
+
+.state {
+    font-family: "Alexandria", sans-serif;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: green;
+}
+
+.Online-state {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 7px;
+    font-size:larger;
+    color: green;
+    margin-top: -5px;
+
+}
+
+.part_2_state {
+    display: flex;
+    /* align-self: flex-end; */
+    /* flex-wrap: wrap; */
+    /* width: 160px; */
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    gap: 20px;
+}
+.win_state,.lose_state,.achievement_state,.exp_state {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    height: 13dvw;
+    width: 13dvw;
+    max-height: 85px;
+    max-width: 85px;
+}
+
+.hover-container {
+    position: relative;
+  }
+  .hover-text {
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #000;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 3px;
+    white-space: nowrap;
+    transition: visibility 0.2s, opacity 0.2s;
+  }
+  
+  .hover-container:hover .hover-text {
+    visibility: visible;
+    opacity: 1;
+  }
+  

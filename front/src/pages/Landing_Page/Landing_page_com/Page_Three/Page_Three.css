@@ -1,0 +1,138 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+.main_p3 {
+  background: url("/Home_page/bg_3.jpeg");
+  background-size: cover;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+.first_empty {
+  flex: 1.5;
+}
+.main_box_p3 {
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  flex: 4;
+  color: aliceblue;
+  text-shadow: 0 0 10px black;
+}
+.empty_footer {
+  flex: 1;
+}
+
+.faq_box {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 2rem;
+  width: fit-content;
+  border-radius: 2rem;
+  border: solid white 2px;
+  flex: 3;
+}
+.text_box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 3rem;
+  flex: 1;
+  font-family: "manjari", "Courier New", Courier, monospace;
+  font-size: 32px;
+}
+.btn_box {
+  display: flex;
+  align-items: center;
+
+  justify-content: center;
+  flex: 1;
+}
+#str {
+  display: flex;
+
+  text-align: center;
+  font-size: 48px;
+  background-color: #300488;
+  border-radius: 2rem;
+  padding: 0 15px;
+  color: white;
+  /* font-family: "manjari", "Courier New", Courier, monospace; */
+}
+.FAQ_dev {
+  padding-left: 3px;
+  padding-right: 3px;
+  top: -32px;
+  background-color: #6101ef;
+  position: absolute;
+  font-size: 3rem;
+  font-family: "manjari", "Courier New", Courier, monospace;
+}
+
+.questions_style {
+  margin-top: 1rem;
+  font-family: "manjari", "Courier New", Courier, monospace;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.answer_style {
+  margin-top: 1rem;
+  font-family: "manjari", "Courier New", Courier, monospace;
+  font-size: 16px;
+}
+
+@media screen and (max-width: 1024px) {
+  #str {
+    font-size: 30px;
+  }
+  .answer_style {
+    margin-top: 1rem;
+    font-size: 12px;
+  }
+  .questions_style {
+    margin-top: 1rem;
+    font-size: 16px;
+  }
+  .FAQ_dev {
+    top: -32px;
+    font-size: 2rem;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  #str {
+    font-size: 20px;
+  }
+  .answer_style {
+    margin-top: 0.5rem;
+    font-size: 10px;
+  }
+  .questions_style {
+    margin-top: 0.5rem;
+    font-size: 13px;
+  }
+  .FAQ_dev {
+    top: -20px;
+    font-size: 2rem;
+  }
+
+
+  .faq_box {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 1rem;
+    width: fit-content;
+    height: fit-content;
+  }
+  .text_box {
+    font-size: 20px;
+  }
+
+}

@@ -1,0 +1,110 @@
+.all_content_recent {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    min-width: 480px;
+    min-height: 880px;
+    flex-direction: column;
+    align-items: center;
+    color: aliceblue;
+    gap: 20px;
+}
+
+.rece_title {
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+}
+
+.Title_Recent, .subTitle_Recent {
+    font-family: "Luckiest Guy" ,cursive;
+}
+
+.Title_Recent {
+    font-size: 40px;
+}
+
+.content_Recent {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #3a0ca3;
+    border-radius: 20px;
+    overflow-y: scroll;
+}
+
+.table_dd {
+    width: 100%;
+    height: 97%;
+    display: flex;
+    flex-direction: column;
+    border-radius: 20px;
+    overflow-y: scroll;
+    -ms-overflow-style: none;
+}
+
+.inside_the_match_history {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.state_of_match {
+    padding: 15px 0;
+    font-family: "Luckiest Guy" ,cursive;
+    font-size: xx-large;
+}
+
+.who_played {
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+    justify-content: space-between;
+    width: 88%;
+    font-size: x-large;
+
+}
+
+.bar_sepe{
+    width: 90%;
+    padding-top: 20px;
+}
+
+.bar_sepe1{
+    padding-top: 20px;
+}
+
+.red_color {
+    color: red;
+}
+
+.green_color {
+    color :#04D100;
+}
+
+.hover-container1 {
+    position: relative;
+  }
+  .hover-text {
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #00000096;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 20px;
+    white-space: nowrap;
+    transition: visibility 0.2s, opacity 0.2s;
+  }
+  
+  .hover-container1:hover .hover-text {
+    visibility: visible;
+    opacity: 1;
+  }

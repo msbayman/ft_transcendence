@@ -1,0 +1,151 @@
+.main_signup {
+  color: white;
+  background-color: #3f37c9;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  flex: 1;
+  position: fixed;
+  overflow-y: scroll;
+}
+
+.signup_left {
+  text-align: center;
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  border-right: solid 2px white;
+}
+.title_signup {
+  text-align: left;
+  display: flex;
+  font-size: 4vw;
+  flex: 2;
+  justify-content: center;
+  align-items: center;
+}
+.img_signup_ping {
+  display: flex;
+  justify-content: center;
+  align-items: start;
+  flex: 3;
+}
+
+/* ///////////////////////////////////////////// */
+
+.rightContainer {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  margin: 5rem;
+}
+
+.signup_right {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  /* border: solid 2px white; */
+  border-radius: 2rem;
+  padding: 5rem 3rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.right_cont {
+  min-width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.signup_form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  /* flex: 4; */
+}
+.err_field
+{ 
+  color: rgb(156, 50, 50);
+}
+#logo_signup {
+  margin-bottom: 30px;
+  width: 15rem;
+}
+.auth {
+  margin-bottom: 20px;
+}
+
+#or {
+  padding: 10px;
+  background-color: #3f37c9;
+  position: absolute;
+  top: -25px;
+}
+
+.input_fld {
+  margin-bottom: 15px;
+  margin-right: 30%;
+}
+
+.dotted-line {
+  padding: 20px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  width: 140%;
+  border-top: 2px dotted #ccc;
+  margin-top: 30px;
+}
+
+#btn_signup {
+  background-color: white;
+  font-family: "Kanit", Times, serif;
+  color: #0f4164;
+  padding: 4px 10px;
+  font-size: 20px;
+  margin-top: 20px;
+}
+
+.no_acc {
+  color: #24bd7d;
+  font-weight: 500;
+}
+.no_acc_or_log {
+    margin-top: 30px;
+  width: 80%;
+  display: flex;
+  flex: 1;
+  margin-bottom: 20px;
+  justify-content: space-between;
+}
+
+@media screen and (max-width: 768px) {
+  .signup_left {
+    display: none;
+  }
+}
+@media screen and (max-width: 425px) {
+  .signup_right {
+    padding: 0;
+  }
+  .rightContainer
+  {
+    margin: 0;
+  }
+  .right_cont
+  {
+    min-width: 200px;
+  }
+  #logo_signup
+  {
+    margin-bottom: 20px;
+  }
+  .dotted-line
+  {
+    width: 100%;
+  }
+}

@@ -1,0 +1,82 @@
+#l_p_2 {
+  height: 100vh;
+  width: 100vw;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-image: url("/Home_page/page_2_background.svg");
+}
+
+.l_p_2_top {
+  display: flex;
+  flex: 1;
+  width: 100vw;
+
+  justify-content: space-around;
+}
+
+.cards_landing_page {
+  width: 25%;
+  max-width: 30rem;
+}
+
+#challenges {
+  max-width: 35rem;
+  width: 30%;
+  src: url("/Home_page/cards/infos_card.svg");
+}
+
+.l_p_2_buttom {
+  flex: 1;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
+#info_card {
+  margin-top: 10%;
+  width: 1071px;
+}
+
+@media (min-width: 1440px) {
+  .l_p_2_top {
+    justify-content: space-evenly;
+  }
+}
+
+@media (max-width: 425px) {
+  .l_p_2_top {
+    flex: 0;
+    flex-direction: column;
+    align-items: center;
+  }
+  .cards_landing_page {
+    margin: 2%;
+  }
+}
+
+@media (max-width: 1024px) {
+  #info_card {
+    width: 610px;
+  }
+}
+
+#info_card_v {
+  display: none;
+}
+
+@media (max-width: 425px) {
+  #info_card {
+    display: none;
+  }
+  #info_card_v {
+    display: block;
+  }
+
+  .l_p_2_buttom {
+    align-items: end;
+  }
+}

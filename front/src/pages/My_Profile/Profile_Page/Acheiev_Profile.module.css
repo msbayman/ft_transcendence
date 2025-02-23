@@ -1,0 +1,103 @@
+.all_Ache {
+    display: flex;
+    height: 100%;
+    min-height: 20px;
+    /* width: 100%; */
+    /* gap: 10px; */
+    /* min-width: 520px; */
+    /* min-height: 250px; */
+    flex-direction: column;
+}
+
+.Title_Ach{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: aliceblue;
+    font-family: "Luckiest Guy", cursive;
+    font-size: larger;
+}
+.T1_Ach {
+    font-size: 50px;
+}
+.T2_Ach {
+    margin-top: -10px;
+}
+
+.Content_Ach {
+    background-color: #3a0ca3;
+    /* height: 100%;
+    width: 100%; */
+    /* min-height: 250px; */
+    height: 100%;
+    
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    padding-top: 20px;
+    gap: 10px;
+    overflow-y: scroll;
+}
+.inside_content_ach {
+    width: 95%;
+    padding-bottom: 70px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    /* align-items: start; */
+    overflow-y: scroll;
+    /* padding-right: 20px;
+    padding-left: 20px; */
+    gap: 20px;
+}
+.inside_ache {
+    position: relative;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    /* width: 130px; */
+    width: 140px;
+    height: 150px;
+}
+
+.false {
+    /* height: 100%; */
+    width: 100%;
+    filter: brightness(0.2);
+}
+
+.true {
+    /* height: 100%; */
+    width: 100%;
+}
+
+.hover_container2 {
+    position: relative;
+    display: inline-flex;
+  }
+
+  .hover_text1 {
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    width: 150px;
+    text-align: center;
+    transform: translateX(-50%);
+    background-color: #00000096;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 20px;
+    white-space: wrap;
+    transition: visibility 0.2s, opacity 0.2s;
+    z-index: 10;
+  }
+  
+  .hover_container2:hover .hover_text1 {
+    visibility: visible;
+    opacity: 1;
+  }

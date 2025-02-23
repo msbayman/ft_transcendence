@@ -1,0 +1,383 @@
+#root {
+  background-color: #5d12cd;
+  height: 100dvh;
+}
+
+.all {
+  /* background-image: url(/Navbar/Back_left_Side.png); */
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  position: relative;
+  overflow-y: hidden;
+}
+
+.nav_color1.Overview {
+  background-color: #320890;
+}
+
+.nav_color1.Profile {
+  background-color: #320890;
+}
+
+.nav_color1.Play {
+  background-color: #320890;
+}
+
+.nav_color1.Friends {
+  background-color: #320890;
+}
+
+.nav_color1.Shop {
+  background-color: #320890;
+}
+
+.selected1 {
+  position: absolute;
+  background-color: white;
+  width: 4px;
+  height: 45px;
+  right: 0;
+}
+
+.selected {
+  position: absolute;
+  background-color: white;
+  width: 4px;
+  height: 77px;
+  right: 0;
+}
+
+.left_side {
+  overflow-y: auto;
+  height: 100vh;
+  width: auto;
+  display: flex;
+  justify-content: center;
+  flex-grow: 1;
+  /* max-width: calc(100% - 100px); */
+  padding: 15px;
+  box-sizing: border-box;
+}
+
+.left_side_update {
+  -ms-overflow-style: none;
+  overflow-x: hidden;
+  overflow-y: auto;
+  height: 100vh;
+  width: auto;
+  display: flex;
+  justify-content: center;
+  flex-grow: 1;
+  /* max-width: calc(100% - 22px); */
+  padding: 5px;
+  box-sizing: border-box;
+}
+
+*::-webkit-scrollbar {
+  width: 6px; /* Set the scrollbar width */
+  display: none;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: #ffffff;
+  border-radius: 6px;
+}
+
+/* Scrollbar Thumb on Hover */
+*::-webkit-scrollbar-thumb:hover {
+  background: #929292;
+}
+
+@media (min-width: 1000px) {
+  .right_navbar {
+    min-height: 100vh;
+    font-family: "Alexandria", sans-serif;
+    background-color: #3a0ca3;
+    color: white;
+    min-width: 300px;
+    height: 100vh;
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: start;
+    box-sizing: border-box;
+    /* transition: all 0.3s ease-out; */
+  }
+
+  .the_logo {
+    padding: 30px 0 20px 0;
+    display: flex;
+    justify-content: center;
+    margin-bottom: auto;
+  }
+  .cercle {
+    display: none;
+  }
+  .navbar_item1.Overview {
+    padding-left: 50px;
+  }
+  .navbar_item1.Profile {
+    padding-left: 50px;
+  }
+  .navbar_item1.Play {
+    padding-left: 50px;
+  }
+  .navbar_item1.Friends {
+    padding-left: 50px;
+  }
+  .navbar_item1.Shop {
+    padding-left: 50px;
+  }
+
+  .bar_search {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #200b50;
+    border-radius: 10px;
+    /* padding: 20px; */
+    height: 55px;
+    margin: 15px;
+    margin-bottom: 20px;
+  }
+
+  .imgg {
+    margin-right: 13px;
+    width: 35px;
+  }
+
+  .content_navbar_item1 {
+    flex: 1;
+    overflow-y: auto;
+  }
+
+  .navbar_item1 {
+    padding: 20px 0;
+    position: relative;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    padding-left: 30px;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.3s ease-out;
+  }
+
+  .cercle {
+    display: none;
+  }
+  .cercle_hide {
+    display: none;
+  }
+
+  .selected_hide {
+    display: none;
+  }
+
+  .hr_cont {
+    display: flex;
+    justify-content: center;
+  }
+  .brr {
+    width: 75%;
+    margin: 15px;
+    border: 1px solid white;
+  }
+  .notif {
+    position: absolute;
+    /* width: calc(100vw - 100px); */
+    width: calc(100vw - 300px);
+    height: 100%;
+    /* left: 300px; hna ayman was here*/
+    left: 300px;
+    backdrop-filter: blur(10px);
+    z-index: 2;
+  }
+
+  .Notifications {
+    width: 300px;
+  }
+  .navbar_item2 {
+    position: relative;
+    padding: 10px 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding-left: 40px;
+    margin-top: auto;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .Logout {
+    padding-bottom: 25px;
+  }
+
+  .navbar_item1:hover,
+  .navbar_item2:hover {
+    background-color: #320890;
+  }
+}
+
+@media (max-width: 1000px) {
+  .right_navbar {
+    font-family: "Alexandria", sans-serif;
+    background-color: #3a0ca3;
+    color: white;
+    min-width: 70px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-sizing: border-box;
+    transition: all 0.3s ease-out;
+  }
+  .bar_search {
+    display: none;
+  }
+
+  .cercle_hide {
+    position: absolute;
+    display: flex;
+    z-index: 1;
+    justify-content: center;
+    align-items: center;
+    margin-top: 100px;
+    background-color: #3a0ca3;
+    width: 40px;
+    height: 50px;
+    border-radius: 50px;
+    transition: all 0.3s ease-in;
+  }
+  .cercle {
+    position: absolute;
+    display: flex;
+    z-index: 1;
+    justify-content: center;
+    align-items: center;
+    margin-left: 45px;
+    margin-top: 78px;
+    background-color: #3a0ca3;
+    width: 40px;
+    height: 50px;
+    border-radius: 50px;
+    transition: all 0.3s ease-out;
+  }
+  .Open_Navbar {
+    position: relative;
+    width: 22px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease-in;
+  }
+  .Open_Navbar_hide {
+    display: none;
+  }
+
+  .Nav_right_hide {
+    background-color: #3a0ca3;
+    height: 100vh;
+    width: 22px;
+    transition: all 0.3s ease-in;
+  }
+
+  .the_logo {
+    padding: 30px 0 40px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: auto;
+  }
+  .imgg {
+    width: 25px;
+  }
+  .imgg1 {
+    width: 60px;
+    margin-right: 5px;
+  }
+
+  .search_content {
+    padding: 20px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .content_navbar_item1 {
+    flex: 1;
+    overflow-y: auto;
+  }
+  .navbar_item1_h {
+    display: none;
+  }
+
+  .navbar_item1 {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 60px;
+    /* padding-left: 30px; */
+  }
+
+  .selected {
+    position: absolute;
+    background-color: white;
+    width: 4px;
+    height: 60px;
+    right: 0;
+  }
+
+  .hr_cont {
+    display: flex;
+    justify-content: center;
+  }
+
+  .brr {
+    width: 75%;
+    margin: 15px;
+    border: 1px solid white;
+  }
+
+  .navbar_item2 {
+    position: relative;
+    padding: 10px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .small_width {
+    width: 10px;
+  }
+  .Notifications {
+    width: 70px;
+  }
+
+  .Hide > * {
+    display: none;
+  }
+
+  /* .selected1 {
+    position: absolute;
+    background-color: white;
+    width: 4px;
+    height: 35px;
+    right: 0;
+  } */
+
+  .Logout {
+    padding-bottom: 25px;
+  }
+
+  .navbar_item1:hover,
+  .navbar_item2:hover {
+    background-color: #2e0985;
+  }
+  .hidden_name {
+    display: none;
+  }
+}

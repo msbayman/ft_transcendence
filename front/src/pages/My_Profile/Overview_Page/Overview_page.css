@@ -1,0 +1,375 @@
+@media (min-width:1595px) {
+    
+    .Overview_Page {
+        display: flex;
+        flex-direction: row;
+        /* position: relative; */
+        /* height: 100vh; */
+        flex-grow: 1;
+        justify-content: center;
+        padding-bottom: 20px;
+    }
+    
+    .Part_1 {
+        display: flex;
+        /* position: relative; */
+        justify-content: center;
+        flex-grow: 2;
+        max-width: 1000px;
+        /* height: 100vh; */
+        min-height: 940px;
+    }
+
+    .Ps_Profile {
+        width: 60px;
+        /* height: 60px; */
+        background-position: center;
+    }
+    
+    .part_welcome {
+        display: flex;
+        justify-content: center;
+        align-items: start;
+        position: relative;
+        /* margin: 0 23px; */
+    }
+    
+    .Welcome_Back {
+        left: 40px;
+        top: 20px;
+        position: absolute;
+        text-align: center;
+        color: aliceblue;
+        font-size: 35px;
+        letter-spacing: 5px;
+        font-weight: 400;
+        background-color: #3A0CA3;
+        width: 400px;
+        box-shadow: 0 0 22px .5px rgb(0, 0, 0, 20);
+        border-radius: 40px;
+    }
+    
+    .Background_Profile {
+        /* background-image: url(../Images/Back1.png); */
+        background-size: cover;
+        background-position:top;
+        background-repeat: no-repeat;
+        display: inline-flex;
+        flex-direction: row-reverse;
+        justify-content: space-around;
+        align-items: flex-end;
+        flex-grow: 1;
+        border-radius: 65px;
+        box-shadow: 0 0 10px 0 rgba(24, 21, 21, 0.718);
+    }
+    
+    .States_Profile {
+        display: flex;
+        flex-grow: 1.5;
+        max-width: 550px;
+        height: 250px;
+        margin: 15px;
+        border-radius: 20px;
+    }
+    
+    .Top_Achievement {
+        display: flex;
+        flex-grow: 1;
+        /* min-width: 4030px; */
+        width: 400px;
+        height: 250px;
+        margin: 15px;
+        border-radius: 20px;
+    }
+    
+    .Part_2 {
+        display: flex;
+        flex-direction: column;
+        justify-content: start;
+        align-items: start;
+        flex-grow: 1;
+        max-width: 600px;
+        min-width: 450px;
+        gap: 20px;
+        padding: 0 20px;
+        /* height: 100vh; */
+        min-height: 750px;
+        /* min-height: 1250px; */
+    }
+    .Leaderboard {
+        display: flex;
+        justify-content: start;
+        /* height: 800px; */
+        height: 50dvh;
+        min-height: 500px;
+        background-color: #3A0CA3;
+        width: 100%;
+        border-radius: 50px;
+        box-shadow: 0 0 10px 0 rgba(24, 21, 21, 0.718);
+    }
+    .Online_Friends{
+        display: flex;
+        justify-content: start;
+        /* align-items: center; */
+        flex-grow: 2;
+        min-height: 300px;
+        height: 30dvh;
+        background-color: #3A0CA3;
+        width: 100%;
+        border-radius: 50px;
+        box-shadow: 0 0 10px 0 rgba(24, 21, 21, 0.718);
+        
+    }
+    .Play_Button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        width: 100%;
+    }
+    .play {
+        height: 130px;
+        cursor: pointer;
+    }
+    .Top_Achievement_mobile {
+        display: none;
+    }
+}
+@media (min-width:1143px) and (max-width:1595px) {
+     
+    .Overview_Page {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        justify-content: start;
+        height: 100vh;
+        align-items: center;
+    }
+
+    
+    .Part_1 {
+        display: flex;
+        justify-content: center;
+        flex-grow: 1;
+        max-width: 900px;
+        min-height: 800px;
+        width: 100%;
+    }
+
+    .part_welcome {
+        display: flex;
+        justify-content: center;
+        align-items: start;
+        position: relative;
+    }
+    
+    .Welcome_Back {
+        left: 40px;
+        top: 20px;
+        position: absolute;
+        text-align: center;
+        color: aliceblue;
+        font-size: 35px;
+        letter-spacing: 5px;
+        font-weight: 400;
+        background-color: #3A0CA3;
+        width: 400px;
+        box-shadow: 0 0 22px .5px rgb(0, 0, 0, 20);
+        border-radius: 40px;
+    }
+
+    .Background_Profile {
+        background-size: cover;
+        background-position:top;
+        background-repeat: no-repeat;
+        display: inline-flex;
+        flex-direction: row-reverse;
+        justify-content: space-around;
+        align-items: flex-end;
+        flex-grow: 1;
+        border-radius: 60px;
+    }
+    
+    .States_Profile {
+        justify-content: center;
+        display: flex;
+        max-width: 550px;
+        height: 250px;
+        margin: 15px;
+        border-radius: 20px;
+    }
+    
+    .Top_Achievement {
+        display: flex;
+        flex-grow: 1;
+        height: 250px;
+        margin: 15px;
+        border-radius: 20px;
+    }
+    
+    .Part_2 {
+        display: flex;
+        flex-direction: column;
+        justify-content: start;
+        max-width: 900px;
+        width: 100%;
+        padding: 20px 0;
+        gap: 20px;
+    }
+
+    .Leaderboard {
+        display: flex;
+        justify-content: start;
+        height: 600px;
+        min-height: 400px;
+        background-color: #3A0CA3;
+        width: 100%;
+        border-radius: 50px;
+        box-shadow: 0 0 10px 0 rgba(24, 21, 21, 0.718);
+    }
+    
+    .Online_Friends{
+        display: flex;
+        justify-content: start;
+        flex-grow: 2;
+        min-height: 300px;
+        height: 30dvh;
+        background-color: #3A0CA3;
+        width: 100%;
+        border-radius: 50px;
+        box-shadow: 0 0 10px 0 rgba(24, 21, 21, 0.718);
+    }
+
+    .Play_Button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        width: 100%;
+        border-radius: 50px;
+    }
+    .play {
+        height: 130px;
+    }
+    .Top_Achievement_mobile {
+        display: none;
+    }
+}
+
+@media (max-width:1143px) {
+    .Overview_Page{
+        display: flex;
+        /* padding-bottom: 300px; */
+        flex-direction: column;
+        min-height: 100vh;
+        flex-grow: 1;
+        width: 9%;
+        justify-content: start;
+        align-items: center;
+        gap: 15px;
+
+    }
+    .Part_1 {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        flex-grow: 2;
+        width: 100%;
+        min-height: 600px;
+    }
+    .part_welcome {
+        display: flex;
+        justify-content: center;
+        align-items: start;
+        position: relative;
+    }
+    
+    .Welcome_Back {
+        min-width: 30px;
+        top: 18px;
+        position: absolute;
+        text-align: center;
+        color: aliceblue;
+        font-size: clamp(22px, 3vw, 35px);
+        letter-spacing: 5px;
+        font-weight: 400;
+        background-color: #3A0CA3;
+        min-width: 250px;
+        width: 34dvw;
+        max-width: 400px;
+        box-shadow: 0 0 22px .5px rgb(0, 0, 0, 20);
+        border-radius: 40px;
+    }
+    .Background_Profile {
+        display: flex;
+        background-size: cover;
+        background-position:top;
+        background-repeat: no-repeat;
+        justify-content: center;
+        align-items: end;
+        flex-grow: 1;
+        width: 100%;
+        border-radius: 55px;
+    }
+    
+    .States_Profile {
+        display: flex;
+        justify-content: center;
+        height: 200px;
+        width: 97%;
+        margin-bottom: 55px;
+        border-radius: 20px;
+    }
+    
+    .Top_Achievement{ 
+        display: none;
+    }
+    .Top_Achievement_mobile {
+        display: flex;
+        width: 100%;
+        max-width: 500px;
+        min-width: 260px;
+        border-radius: 30px;
+    }
+    .Part_2 {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        /* flex-grow: 1.5; */
+        width: 100%;
+        gap: 20px;
+    }
+    
+    .Leaderboard {
+        display: flex;
+        justify-content: start;
+        background-color: #3A0CA3;
+        height: 550px;
+        width: 100%;
+        border-radius: 30px;
+    }
+    
+    .Online_Friends {
+        display: flex;
+        width: 100%;
+        height: 300px;
+        min-height: 300px;
+        border-radius: 30px;
+        background-color: #3A0CA3;
+    }
+    
+    .Play_Button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        /* min-height: 100px; */
+        /* width: 400px; */
+        border-radius: 30px;
+    }
+    .play {
+        /* height: 130px; */
+        width: 100%;
+    }
+
+}

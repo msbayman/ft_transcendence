@@ -1,0 +1,100 @@
+.all_content_Online {
+    display: flex;
+    flex-direction: column ;
+    justify-content: start;
+    /* align-items: start; */
+    width: 100%;
+    color: aliceblue;
+    padding: 15px;
+    gap: 15px;
+}
+
+.Title_Onlin{
+    display: flex;
+    position: relative;
+    min-height: 36px;
+    left: 25px;
+    border-radius: 30px;
+}
+
+.the_title {
+    position: absolute;
+    text-align: center;
+    font-size: x-large;
+    font-weight: 600;
+    left: 15px;
+}
+
+.Inside_Onlin_Friends {
+    padding-left: 4px;
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    height: 100%;
+    /* gap: 5px; */
+}
+.list_online_user {
+    display: flex;
+    flex-direction: column;
+    width: 97%;
+    gap: 20px;
+    padding-left: 20px;
+}
+
+.Every_User {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 30px;
+}
+.Ps_Profile {
+    width: 60px;
+    border-radius: 50%;
+    flex-grow: 1;
+}
+.inside_photo {
+    display: flex;
+    flex-direction: row;
+}
+
+.User_name {
+    font-size: larger;
+    flex-grow: 5;
+    font-weight: 600;
+}
+
+.click {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 30%;
+    gap: 10px;
+}
+.img_siz {
+    width: 30px;
+}
+
+.hove_contain{
+    position: relative;
+}
+
+.hove {
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #ffffff16;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 3px;
+    white-space: nowrap;
+    transition: visibility 0.2s, opacity 0.2s;
+}
+
+.hove_contain:hover .hove {
+    visibility: visible;
+    opacity: 1;
+}

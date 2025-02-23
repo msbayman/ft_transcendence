@@ -1,0 +1,17 @@
+FROM node:18
+
+WORKDIR /app
+COPY package.json package-lock.json ./
+RUN npm install
+
+# Copy all source files
+COPY . .
+
+# Build the production frontend
+# RUN npm run build  # Build the project for production
+
+# Expose port 5173 for local dev purposes (not needed for production)
+# EXPOSE 5173
+
+# Set the default command to serve the built frontend (this will be handled by Nginx)
+CMD ["npm", "run", "build"]  # Serve the production build using Nginx or some other static server in production
