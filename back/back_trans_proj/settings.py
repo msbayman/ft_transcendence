@@ -12,7 +12,7 @@ load_dotenv()
 OAUTH_42_CLIENT_ID = os.getenv('OAUTH_42_CLIENT_ID')
 OAUTH_42_CLIENT_SECRET = os.getenv('OAUTH_42_CLIENT_SECRET')
 VITE_HOST_URL = os.getenv('VITE_HOST_URL')
-OAUTH_42_REDIRECT_URI = f"https://{VITE_HOST_URL}/api/42/login_redirect"
+OAUTH_42_REDIRECT_URI = f"http://localhost:5173/api/42/login_redirect"
 
 OAUTH_42_AUTHORIZATION_URL = 'https://api.intra.42.fr/oauth/authorize'
 OAUTH_42_TOKEN_URL = 'https://api.intra.42.fr/oauth/token'

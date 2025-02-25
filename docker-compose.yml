@@ -11,6 +11,8 @@ services:
     volumes:
       - ./back:/app
       - media:/app/media
+    ports:
+      - "8000:8000"
     environment:
       - DB_NAME=${DB_NAME}
       - DB_USER=${DB_USER}
@@ -28,19 +30,21 @@ services:
       - elk
     restart: always
 
-  frontend:
-    build:
-      context: ./front
-      dockerfile: Dockerfile.frontend
-    container_name: frontend
-    env_file:
-      - .env
-    volumes:
-      - react_build:/app/dist 
-    depends_on:
-      - backend
-    networks:
-      - elk
+  # frontend:
+  #   build:
+  #     context: ./front
+  #     dockerfile: Dockerfile.frontend
+  #   container_name: frontend
+  #   env_file:
+  #     - .env
+  #   ports:
+  #     - "5173:5173"
+  #   # volumes:
+  #   #   - react_build:/app/dist 
+  #   depends_on:
+  #     - backend
+  #   networks:
+  #     - elk
 
 
   db:
@@ -65,24 +69,24 @@ services:
       - elk
     restart: always
 
-  nginx:
-    build:
-      context: ./nginx
-      dockerfile: Dockerfile.nginx
-      args:
-         - VITE_HOST_URL=${VITE_HOST_URL}
-    ports:
-      - "80:80"
-      - "443:443"
-    depends_on:
-      - backend
-      - frontend
-    volumes:
-      - media:/usr/share/nginx/media
-      # - react_build:/usr/share/nginx/html  
-    networks:
-      - elk
-    restart: always
+  # nginx:
+  #   build:
+  #     context: ./nginx
+  #     dockerfile: Dockerfile.nginx
+  #     args:
+  #        - VITE_HOST_URL=${VITE_HOST_URL}
+  #   ports:
+  #     - "80:80"
+  #     - "443:443"
+  #   depends_on:
+  #     - backend
+  #     - frontend
+  #   volumes:
+  #     - media:/usr/share/nginx/media
+  #     # - react_build:/usr/share/nginx/html  
+  #   networks:
+  #     - elk
+    # restart: always
 
 networks:
   elk:

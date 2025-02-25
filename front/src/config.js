@@ -1,4 +1,4 @@
 export const config = {
-  HOST_URL: String(`https://${window.location.host}`),
-  WS_HOST_URL: String(`wss://${window.location.host}`),
+  HOST_URL: String(`http://localhost:8000`),
+  WS_HOST_URL: String(`ws://localhost:8000`),
 };
