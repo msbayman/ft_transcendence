@@ -79,7 +79,7 @@ services:
       - frontend
     volumes:
       - media:/usr/share/nginx/media
-      - react_build:/usr/share/nginx/html  
+      # - react_build:/usr/share/nginx/html  
     networks:
       - elk
     restart: always

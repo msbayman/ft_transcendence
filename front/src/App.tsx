@@ -23,6 +23,7 @@ import Tournaments from "./pages/Game_Page/Tournaments";
 import { TournProvider } from "./pages/Game_Page/TournContext";
 import { Toaster } from 'react-hot-toast';
 import { config } from "./config";
+import Rps_game from "./pages/Rps_game/Rps_game";
 // import Game_challeng from "./pages/Game_Page/Game_Challenge";
 import Game_challeng from "./pages/Game_Page/Game_Challenge";
 // import NotFound from "./NotFound";
@@ -112,6 +113,7 @@ function AppContent() {
           <Route path="/tourn_game" element={<Game_Tourn />} />
           <Route path="/tourn" element={<Tournaments />} />
           <Route path="/Game_challeng" element={<Game_challeng />} />
+          <Route path="/Rps_game" element={<Rps_game />} />
         </Routes>
         <Toaster />
       </main>
