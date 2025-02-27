@@ -32,10 +32,10 @@ function Rps_game() {
 
   const handleUserChoice = (choice: string) => {
     if (isPlaying) return; // Prevent multiple clicks while animation is playing
-    
+
     setIsPlaying(true);
     setUserChoice(choice);
-    
+
     // Reset previous result and computer choice
     setResult('');
     setComputerChoice('');
@@ -51,12 +51,12 @@ function Rps_game() {
 
   return (
     <div className="bg-[url(background.svg)] bg-cover bg-center h-screen w-full flex justify-center items-center">
-      <div className="z-50 flex justify-start items-center">
-        <h2 
+      <div className="absolute z-50 flex justify-center items-start top-96 w-[31rem]">
+        <h2
           className={
-            result ? 
-            "text-white absolute font-luckiest text-6xl rounded-md" : 
-            "hidden"
+            result ?
+              "text-white absolute font-luckiest text-6xl rounded-md" :
+              "hidden"
           }
         >
           {result === "win" && "YOU WIN - CONGRATULATIONS"}
@@ -105,17 +105,17 @@ function Rps_game() {
       </div>
 
       <div className="absolute">
-        <div className="flex flex-row">
+        <div className={(isPlaying && result !== "draw") ? "flex flex-row" : "flex flex-row"}>
           {computerChoice && (
-            <img 
-              src={`Tools/L-${computerChoice.charAt(0).toUpperCase() + computerChoice.slice(1)}.svg`} 
-              alt={computerChoice.toUpperCase()} 
+            <img
+              src={`Tools/L-${computerChoice.charAt(0).toUpperCase() + computerChoice.slice(1)}.svg`}
+              alt={computerChoice.toUpperCase()}
             />
           )}
           {userChoice && (
-            <img 
-              src={`Tools/R-${userChoice.charAt(0).toUpperCase() + userChoice.slice(1)}.svg`} 
-              alt={userChoice.toUpperCase()} 
+            <img
+              src={`Tools/R-${userChoice.charAt(0).toUpperCase() + userChoice.slice(1)}.svg`}
+              alt={userChoice.toUpperCase()}
             />
           )}
         </div>
