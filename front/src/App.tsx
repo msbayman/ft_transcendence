@@ -26,6 +26,7 @@ import { config } from "./config";
 import Rps_game from "./pages/Rps_game/Rps_game";
 // import Game_challeng from "./pages/Game_Page/Game_Challenge";
 import Game_challeng from "./pages/Game_Page/Game_Challenge";
+import Game_Loby_Rsp from "./pages/Rps_game/Match_making";
 // import NotFound from "./NotFound";
 
 
@@ -114,6 +115,7 @@ function AppContent() {
           <Route path="/tourn" element={<Tournaments />} />
           <Route path="/Game_challeng" element={<Game_challeng />} />
           <Route path="/Rps_game" element={<Rps_game />} />
+          <Route path="/Game_Loby_Rsp" element={<Game_Loby_Rsp />} />
         </Routes>
         <Toaster />
       </main>
