@@ -3,7 +3,7 @@ import EmblaCarousel from "./EmblaCarousel/EmblaCarousel";
 import { EmblaOptionsType } from "embla-carousel";
 import Options from "./Options";
 import { useState, useEffect, useContext } from "react";
-import { useNavigate } from "react-router-dom"; // Import if using react-router
+import { useNavigate } from "react-router-dom";
 import { NextButton } from "./Buttons";
 import classes from "./style.module.css";
 import Cookies from "js-cookie";
@@ -29,6 +29,7 @@ const SLIDEIMAPS = [
   { mapPath: "1v1.png", id: 0, mapName: "1v1" },
   { mapPath: "/local_custom.svg", id: 1, mapName: "local" },
   { mapPath: "Tourn.png", id: 2, mapName: "Tournement" },
+  { mapPath: "RPS-Game.png", id: 3, mapName: "RPS" },
 ];
 
 const SLIDECUES = [
@@ -179,16 +180,13 @@ const Play_Page: React.FC = () => {
     fetchPlayerData();
   }, []);
 
-  // const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   const { name, value } = e.target;
-  //   setPlayerData((prev) => ({
-  //     ...prev,
-  //     [name]: value,
-  //   }));
-  //   setPlayerData({ ...player_data, [name]: value });
-  // };
-
   const handleNextClick = () => {
+
+    if (selectedIds.mode === 3) {
+      setValue("Finish");
+      return;
+    }
+
     switch (value) {
       case "Modes":
         setValue("Boards");
@@ -232,11 +230,6 @@ const Play_Page: React.FC = () => {
     }
   }, []);
 
-  // useEffect(() => {
-  //   if (currentSlideIndex !== 0) {
-  //       setCurrentSlideIndex(0);
-  //   }
-  // } , []);
   const handleSelect = () => {
     switch (value) {
       case "Modes":
@@ -245,7 +238,7 @@ const Play_Page: React.FC = () => {
           mode: currentSlideIndex,
           selectedStatus: {
             ...prev.selectedStatus,
-            mode: [currentSlideIndex], // Only keep the currentSlideIndex
+            mode: [currentSlideIndex],
           },
         }));
         break;
@@ -255,7 +248,7 @@ const Play_Page: React.FC = () => {
           board: currentSlideIndex,
           selectedStatus: {
             ...prev.selectedStatus,
-            board: [currentSlideIndex], // Only keep the currentSlideIndex
+            board: [currentSlideIndex],
           },
         }));
         break;
@@ -265,7 +258,7 @@ const Play_Page: React.FC = () => {
           paddel: currentSlideIndex,
           selectedStatus: {
             ...prev.selectedStatus,
-            paddel: [currentSlideIndex], // Only keep the currentSlideIndex
+            paddel: [currentSlideIndex],
           },
         }));
         break;
@@ -275,7 +268,7 @@ const Play_Page: React.FC = () => {
           ball: currentSlideIndex,
           selectedStatus: {
             ...prev.selectedStatus,
-            ball: [currentSlideIndex], // Only keep the currentSlideIndex
+            ball: [currentSlideIndex],
           },
         }));
         break;
@@ -287,22 +280,22 @@ const Play_Page: React.FC = () => {
   };
 
   const handlePlayClick = () => {
-    // Navigate to play page with selected skins
+    if (SLIDEIMAPS[selectedIds.mode!]?.mapName === "RPS")
+      navigate("/rps_game");
     if (SLIDEIMAPS[selectedIds.mode!]?.mapName === "1v1")
-      navigate("/remote_game", { state: {selectedIds} });
+      navigate("/remote_game", { state: { selectedIds } });
     if (SLIDEIMAPS[selectedIds.mode!]?.mapName === "local")
       navigate("/local_game", { state: { selectedIds } });
-    if (SLIDEIMAPS[selectedIds.mode!]?.mapName === "Tournement")
-      {
-        setSelectedId((prev) => ({
-          ...prev,
-          mod: null,
-          board: selectedIds.board,
-          paddel: selectedIds.paddel,
-          ball: selectedIds.ball,
-        }));
-        navigate("/tourn");
-      }
+    if (SLIDEIMAPS[selectedIds.mode!]?.mapName === "Tournement") {
+      setSelectedId((prev) => ({
+        ...prev,
+        mod: null,
+        board: selectedIds.board,
+        paddel: selectedIds.paddel,
+        ball: selectedIds.ball,
+      }));
+      navigate("/tourn");
+    }
   };
 
   return (
@@ -461,8 +454,7 @@ const Play_Page: React.FC = () => {
                     />
                   )}
                 </div>
-
-                <div className="grid grid-cols-3 place-content-center w-full gap-10 h-[14rem]">
+                {selectedIds.mode !== 3 && (<div className="grid grid-cols-3 place-content-center w-full gap-10 h-[14rem]">
                   <img
                     src={SLIDECUES[selectedIds.paddel!]?.mapPath}
                     alt={SLIDEBOARDS[selectedIds.paddel!]?.mapName}
@@ -480,7 +472,7 @@ const Play_Page: React.FC = () => {
                     alt={SLIDEBALLS[selectedIds.ball!]?.mapName}
                     className="relative w-full h-[18rem] object-contain right-2"
                   />
-                </div>
+                </div>)}
                 <div className="flex w-full h-full justify-center items-center text-center gap-4">
                   <img
                     className="relative top-2"
@@ -513,16 +505,15 @@ const Play_Page: React.FC = () => {
                   onClick={
                     isOneOfSlidesSelected()
                       ? () => {
-                          setCurrentSlideIndex(0);
-                          handleNextClick();
-                        }
+                        setCurrentSlideIndex(0);
+                        handleNextClick();
+                      }
                       : undefined
                   }
-                  className={`rounded-full border text-[#3A0CA3] bg-white hover:bg-[#3A0CA3] hover:text-white transition-all duration-400 group ${
-                    isOneOfSlidesSelected()
-                      ? ""
-                      : "opacity-50 cursor-not-allowed"
-                  }`}
+                  className={`rounded-full border text-[#3A0CA3] bg-white hover:bg-[#3A0CA3] hover:text-white transition-all duration-400 group ${isOneOfSlidesSelected()
+                    ? ""
+                    : "opacity-50 cursor-not-allowed"
+                    }`}
                 >
                   <NextButton />
                   <span className="hidden opacity-0 absolute transform  bg-black text-white px-2.5 py-1 rounded whitespace-nowrap transition-opacity duration-200 group-hover:block group-hover:opacity-100">

@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom"
 
 function Rps_game() {
   const [userChoice, setUserChoice] = useState('');
-  const [score, setScore] = useState(0);
+  // const [score, setScore] = useState(0);
   const [computerChoice, setComputerChoice] = useState('');
   const [result, setResult] = useState('');
   const [isPlaying, setIsPlaying] = useState(false);
@@ -30,11 +30,11 @@ function Rps_game() {
       (userChoice === 'scissor' && computerChoice === 'paper')
     ) {
       setResult('win');
-      setScore(prevScore => prevScore + 1);
+      // setScore(prevScore => prevScore + 1);
       setWinner(true);
     } else {
       setResult('lose');
-      setScore(prevScore => prevScore - 1);
+      // setScore(prevScore => prevScore - 1);
       setWinner(true);
     }
   };
