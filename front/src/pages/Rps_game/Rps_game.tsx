@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-
+import { config } from "../../config";
 import { useNavigate } from "react-router-dom"
 
 interface GameRemotProps {
@@ -15,6 +15,8 @@ function Rps_game(id:GameRemotProps) {
   const [showUserWaiting, setShowUserWaiting] = useState(false);
   const [showComputerWaiting, setShowComputerWaiting] = useState(false);
   const [winner, setWinner] = useState(false);
+  const { WS_HOST_URL } = config;
+  const [socket, setSocket] = useState<WebSocket | null>(null);
 
   const generateComputerChoice = (currentUserChoice: string) => {
     const choices = ['rock', 'paper', 'scissor'];
@@ -23,6 +25,14 @@ function Rps_game(id:GameRemotProps) {
     checkResult(currentUserChoice, randomChoice);
 
   };
+
+  useEffect(() => {
+    const token = Cookies.get("access_token");
+		const ws = new WebSocket(`${WS_HOST_URL}/ws/rsp/${0}/?token=${token}`);
+    ws.onopen = () => {
+			setSocket(ws);
+		};
+  })
 
   const checkResult = (userChoice: string, computerChoice: string) => {
     if (userChoice === computerChoice) {
@@ -46,6 +56,7 @@ function Rps_game(id:GameRemotProps) {
     if (isPlaying) return;
 
     setIsPlaying(true);
+    socket?.send(JSON.stringify({ "choise": choice}));
     setUserChoice(choice);
     setResult('');
     setComputerChoice('');
