@@ -83,7 +83,6 @@ function Rps_game(id:GameRemotProps) {
 
   return (
     <div className="bg-[url(background.svg)] bg-cover bg-center h-screen w-full flex justify-center items-center">
-      <h2>{id}</h2>
       <div className="z-50 flex justify-start items-center">
         <h2
           className={
