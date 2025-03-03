@@ -60,7 +60,7 @@ function Game_Loby_Rsp() {
   }, [matchData]);
 
   if (startGame && matchData) {
-    return <Rps_game></Rps_game>;
+    return <Rps_game id={matchData.match_id} />;
   }
   if (matchData) {
     const opponent: PlayerData = matchData.player1.username === mydata.playerData?.username 
