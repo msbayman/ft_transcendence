@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { config } from "../../config";
 import { useNavigate } from "react-router-dom"
+import Cookies from "js-cookie";
 
 interface GameRemotProps {
 	id: string;
