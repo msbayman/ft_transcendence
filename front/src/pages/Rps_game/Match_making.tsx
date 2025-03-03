@@ -39,7 +39,7 @@ function Game_Loby_Rsp() {
 
   useEffect(() => {
     const matchmakingSocket = new WebSocket(
-      `${WS_HOST_URL}/ws/matchmaking/?token=${token}`
+      `${WS_HOST_URL}/ws/matchmaking_sg/?token=${token}`
     );
 
 

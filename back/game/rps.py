@@ -6,9 +6,9 @@ import asyncio
 from .models import Match
 from user_auth.models import Player
 import math
+from asgiref.sync import sync_to_async
 
-
-class Rsp(AsyncWebsocketConsumer):
+class Rps(AsyncWebsocketConsumer):
     rooms = {}
     act_ply = {}
 
@@ -34,10 +34,8 @@ class Rsp(AsyncWebsocketConsumer):
         if self.room_name not in self.rooms:
             self.rooms[self.room_name] = {
                 'game_state': {
-                    'ball': {'x': 250, 'y': 365, 'dx': 5, 'dy': 5},
-                    'paddles': {'up': 180, 'down': 180},
-                    'score': {'p1': 0, 'p2': 0},
-                    'side': {'up': None, 'down': None},
+                    'up_choise':None,
+                    'down_choise':None,
                     'winner' : None,
                 },
                 'players': {
@@ -189,95 +187,14 @@ class Rsp(AsyncWebsocketConsumer):
         room = self.rooms[self.room_name]
         data = json.loads(text_data)
 
-        if "paddle" in data:
-            paddle = data["paddle"]
-
-        if self.user == room['players']['up']:
-            if paddle == "upP":
-                room["game_state"]["paddles"]["up"] = max(
-                    5, min(365, room["game_state"]["paddles"]["up"] - 20)
-                )
-            elif paddle == "upD":
-                room["game_state"]["paddles"]["up"] = max(
-                    5, min(365, room["game_state"]["paddles"]["up"] + 20)
-                )
-        elif self.user == room['players']['down']:
-            if paddle == "upP":
-                room["game_state"]["paddles"]["down"] = max(
-                    5, min(365, room["game_state"]["paddles"]["down"] - 20)
-                )
-            elif paddle == "upD":
-                room["game_state"]["paddles"]["down"] = max(
-                    5, min(365, room["game_state"]["paddles"]["down"] + 20)
-                )
-            elif paddle == "reset":
-                room["game_state"]["paddles"]["down"] = 150
-                room["game_state"]["paddles"]["up"] = 150
-                await self.reset_ball() 
+        if room['players']['up'] == self.user.username:
+            room['game_state']['up_choise'] = data['choise']
+        if room['players']['down'] == self.user.username:
+            room['game_state']['down_choise'] = data['choise']
+            
         await self.broadcast_game_state()
 
-    async def ball_moves(self):
-        room = self.rooms[self.room_name]
-        game_state = room["game_state"]
-        game_state["ball"]["x"] += game_state["ball"]["dx"]
-        game_state["ball"]["y"] += game_state["ball"]["dy"]
 
-        ball_x = game_state["ball"]["x"]
-        ball_y = game_state["ball"]["y"]
-        dx = game_state["ball"]["dx"]
-        dy = game_state["ball"]["dy"]
-
-        # walls collision
-        if ball_x <= 0 or ball_x >= 490:
-            game_state["ball"]["dx"] = -dx
-
-        paddle_width = 150
-
-        # Ball collision (top paddle)
-        if (
-            ball_y <= 27 and
-            ball_x >= game_state["paddles"]["up"] and
-            ball_x <= game_state["paddles"]["up"] + paddle_width
-        ):
-            impact_point = (ball_x - game_state["paddles"]["up"]) / paddle_width - 0.5
-            game_state["ball"]["dx"] += impact_point * 4
-            game_state["ball"]["dy"] = abs(dy)
-
-        # Ball collision (bott paddle)
-        if (
-            ball_y >= 700 and
-            ball_x >= game_state["paddles"]["down"] and
-            ball_x <= game_state["paddles"]["down"] + paddle_width
-        ):
-            impact_point = (ball_x - game_state["paddles"]["down"]) / paddle_width - 0.5
-            game_state["ball"]["dx"] += impact_point * 4
-            game_state["ball"]["dy"] = -abs(dy)
-
-        # top player scores
-        if ball_y < 0:
-            game_state["score"]["p2"] += 1
-            await self.reset_ball()
-            if game_state["score"]["p2"] == 3:
-                game_state["winner"] = room["players"]["down"].username
-            await self.update_match_score(game_state["score"]["p1"], game_state["score"]["p2"])
-
-        # bott player scores
-        if ball_y > 725:
-            game_state["score"]["p1"] += 1
-            await self.reset_ball()
-            if game_state["score"]["p1"] == 3:
-                game_state["winner"] = room["players"]["up"].username
-            await self.update_match_score(game_state["score"]["p1"], game_state["score"]["p2"])
-
-    async def reset_ball(self):
-        room = self.rooms[self.room_name]
-        room["game_state"]["ball"] = {
-            "x": 250,
-            "y": 365,
-            "dx": 5,
-            "dy": 5,
-        }
-        await self.broadcast_game_state()
 
     async def broadcast_game_state(self):
         room = self.rooms[self.room_name]
@@ -306,18 +223,14 @@ class Rsp(AsyncWebsocketConsumer):
         game_state = event["game_state"]
         await self.send(text_data=json.dumps(game_state))
 
+    async def check_player_choise(self):
+        while True:
+            if self.room[self.room_name]['game_state']['up_choise'] and self.room[self.room_name]['game_state']['down_choise']:
+                break;
+
     async def game_loop(self):
         while True:
             room = self.rooms[self.room_name]
-            if room["game_state"]["score"]["p1"] == 3:
-                await self.broadcast_end_game(room["game_state"])
-                break
-            if room["game_state"]["score"]["p2"] == 3:
-                await self.broadcast_end_game(room["game_state"])
-                break
-            if room['players']['up'] == None or room['players']['down'] == None:
-                await self.broadcast_end_game(room["game_state"])
-                break
-            await self.ball_moves()
+            await check_player_choise()
             await self.broadcast_game_state()
             await asyncio.sleep(0.03)
