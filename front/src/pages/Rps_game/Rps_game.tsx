@@ -25,7 +25,8 @@ function Rps_game() {
 
   useEffect(() => {
     const token = Cookies.get("access_token");
-		const ws = new WebSocket(`${WS_HOST_URL}/ws/rsp/${0}/?token=${token}`);
+    const id = 1
+		const ws = new WebSocket(`${WS_HOST_URL}/ws/rsp/${id}/?token=${token}`);
     ws.onopen = () => {
 			setSocket(ws);
 		};

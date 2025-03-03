@@ -6,7 +6,6 @@ import asyncio
 from .models import Match
 from user_auth.models import Player
 import math
-from asgiref.sync import sync_to_async
 
 class Rps(AsyncWebsocketConsumer):
     rooms = {}
@@ -186,11 +185,18 @@ class Rps(AsyncWebsocketConsumer):
     async def receive(self, text_data):
         room = self.rooms[self.room_name]
         data = json.loads(text_data)
-
-        if room['players']['up'] == self.user.username:
-            room['game_state']['up_choise'] = data['choise']
-        if room['players']['down'] == self.user.username:
-            room['game_state']['down_choise'] = data['choise']
+        valid_types = {'rock', 'paper', 'scissor'}
+        try:
+            if data['choise'] not in valid_types:
+                await self.send_json({"type": "error", "message": "Invalid type"})
+                return
+            if room['players']['up'] == self.user.username:
+                room['game_state']['up_choise'] = data['choise']
+            if room['players']['down'] == self.user.username:
+                room['game_state']['down_choise'] = data['choise']
+        except json.JSONDecodeError:
+            await self.send_json({"type": "error", "message": "Invalid JSON format"})
+            return
             
         await self.broadcast_game_state()
 
@@ -228,9 +234,27 @@ class Rps(AsyncWebsocketConsumer):
             if self.room[self.room_name]['game_state']['up_choise'] and self.room[self.room_name]['game_state']['down_choise']:
                 break;
 
+
+    async def game_logic(self):
+        win_conditions = {
+        ('rock', 'scissors'),
+        ('scissors', 'paper'),
+        ('paper', 'rock') }
+        player_up_choise = self.room['game_state']['up_choise']
+        player_down_choise = self.room['game_state']['down_choise']
+        
+        if player_up_choise == player_down_choise:
+            self.room['game_state']['winner'] = self.room['players']['up']
+        if (player_up_choise, player_down_choise) in win_conditions:
+            self.room['game_state']['winner'] = self.room['players']['up']
+        else:
+            self.room['game_state']['winner'] = self.room['players']['down']
+
+
     async def game_loop(self):
         while True:
             room = self.rooms[self.room_name]
-            await check_player_choise()
-            await self.broadcast_game_state()
+            await self.check_player_choise()
+            await self.game_logic()
+            await self.broadcast_game_end()
             await asyncio.sleep(0.03)
