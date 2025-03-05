@@ -33,9 +33,10 @@ class Rps(AsyncWebsocketConsumer):
         if self.room_name not in self.rooms:
             self.rooms[self.room_name] = {
                 'game_state': {
-                    'up_choise':None,
-                    'down_choise':None,
-                    'winner' : None,
+                    'up_choise': None,
+                    'down_choise': None,
+                    'score': {'p1': 0, 'p2': 0},
+                    'winner': None,
                 },
                 'players': {
                     'up': None,
@@ -61,11 +62,9 @@ class Rps(AsyncWebsocketConsumer):
             if self.match.player1 == self.user.username:
                 if room['players']['up'] is None:
                     room['players']['up'] = self.user
-                    game_state["side"]["up"] = room['players']['up'].username
             elif self.match.player2 == self.user.username:
                 if room['players']['down'] is None:
                     room['players']['down'] = self.user
-                    game_state["side"]["down"] = room['players']['down'].username
 
             # -------------------------
             if self.match.status == 2:
@@ -79,16 +78,17 @@ class Rps(AsyncWebsocketConsumer):
         if room['players']['up'] and room['players']['down']:
             self.game_task = asyncio.create_task(self.game_loop())
 
-    async def is_part_of_the_game(self, name, id):
+    async def is_part_of_the_game(self, user, id):
         try:
-            game:Match = Match.objects.get(id=id)
-            if game.player1 != name and game.player2 != name:
-                return 1
+            game = Match.objects.get(id=id)
+            # Fix: Return True if user is part of the game
+            if game.player1 == user.username or game.player2 == user.username:
+                return True
         except Match.DoesNotExist:
-            print(f"Match with ID {self.room_name} not found")
+            print(f"Match with ID {id} not found")
         except Exception as e:
-            print(f"Error saving match score: {e}")
-        return 0
+            print(f"Error checking game participation: {e}")
+        return False
              
     @database_sync_to_async
     def get_the_game_by_id(self, match_id):
@@ -104,29 +104,27 @@ class Rps(AsyncWebsocketConsumer):
     @database_sync_to_async
     def save_match_score(self, score1, score2):
         try:
-            match:Match = Match.objects.get(id=self.room_name)
+            match = Match.objects.get(id=self.room_name)
             match.player1_score = score1
             match.player2_score = score2
             if match.player1_score == 3 or match.player2_score == 3:
                 match.status = 2
             match.save()
         except Match.DoesNotExist:
-            print(f"Match with ID {self.room_name}  not found")
+            print(f"Match with ID {self.room_name} not found")
         except Exception as e:
             print(f"Error saving match score: {e}")
-
 
     @database_sync_to_async
     def save_user(self):
         self.user.save()
 
-    async def update_user_after_game(self, winnner, score):
-        if self.user.username == winnner:
-    
+    async def update_user_after_game(self, winner, score):
+        if self.user.username == winner:
             self.user.total_games += 1
             self.user.win_games += 1
             self.user.points += 300
-            self.user.level = math.floor( self.user.points / 1000 ) + 1
+            self.user.level = math.floor(self.user.points / 1000) + 1
     
             if self.user.win_games == 1:
                 self.user.win_1_game = True
@@ -147,13 +145,12 @@ class Rps(AsyncWebsocketConsumer):
         else:
             self.user.total_games += 1
             self.user.lose_games += 1
-            self.user.level = math.floor( self.user.points / 1000 ) + 1
+            self.user.level = math.floor(self.user.points / 1000) + 1
                 
         await self.save_user()
     
 #--------------------------------------------------------------------------------------
     async def disconnect(self, close_code):
-
         if self.user.username in self.act_ply:
             del self.act_ply[self.user.username]
 
@@ -186,21 +183,22 @@ class Rps(AsyncWebsocketConsumer):
         room = self.rooms[self.room_name]
         data = json.loads(text_data)
         valid_types = {'rock', 'paper', 'scissor'}
+        print(data)
         try:
             if data['choise'] not in valid_types:
-                await self.send_json({"type": "error", "message": "Invalid type"})
+                await self.send(text_data=json.dumps({"type": "error", "message": "Invalid type"}))
                 return
-            if room['players']['up'] == self.user.username:
+                
+            if room['players']['up'] == self.user:
                 room['game_state']['up_choise'] = data['choise']
-            if room['players']['down'] == self.user.username:
+            if room['players']['down'] == self.user:
                 room['game_state']['down_choise'] = data['choise']
+                
         except json.JSONDecodeError:
-            await self.send_json({"type": "error", "message": "Invalid JSON format"})
+            await self.send(text_data=json.dumps({"type": "error", "message": "Invalid JSON format"}))
             return
             
         await self.broadcast_game_state()
-
-
 
     async def broadcast_game_state(self):
         room = self.rooms[self.room_name]
@@ -213,12 +211,11 @@ class Rps(AsyncWebsocketConsumer):
         )
 
     async def broadcast_end_game(self, game_state):
-        room = self.rooms[self.room_name]
         await self.channel_layer.group_send(
             self.room_group_name,
             {
                 "type": "game_end",
-                "game_state": room["game_state"],
+                "game_state": game_state,
             },
         )
     
@@ -231,30 +228,49 @@ class Rps(AsyncWebsocketConsumer):
 
     async def check_player_choise(self):
         while True:
-            if self.room[self.room_name]['game_state']['up_choise'] and self.room[self.room_name]['game_state']['down_choise']:
-                break;
-
+            room = self.rooms[self.room_name]
+            if room['game_state']['up_choise'] and room['game_state']['down_choise']:
+                break
+            await asyncio.sleep(0.1)
 
     async def game_logic(self):
         win_conditions = {
-        ('rock', 'scissors'),
-        ('scissors', 'paper'),
-        ('paper', 'rock') }
-        player_up_choise = self.room['game_state']['up_choise']
-        player_down_choise = self.room['game_state']['down_choise']
+            ('rock', 'scissor'),
+            ('scissor', 'paper'),
+            ('paper', 'rock')
+        }
+        
+        room = self.rooms[self.room_name]
+        player_up_choise = room['game_state']['up_choise']
+        player_down_choise = room['game_state']['down_choise']
         
         if player_up_choise == player_down_choise:
-            self.room['game_state']['winner'] = self.room['players']['up']
-        if (player_up_choise, player_down_choise) in win_conditions:
-            self.room['game_state']['winner'] = self.room['players']['up']
+            # It's a tie, no winner should be set or handle tie logic
+            pass
+        elif (player_up_choise, player_down_choise) in win_conditions:
+            room['game_state']['winner'] = room['players']['up'].username
+            room['game_state']['score']['p1'] += 1
         else:
-            self.room['game_state']['winner'] = self.room['players']['down']
-
+            room['game_state']['winner'] = room['players']['down'].username
+            room['game_state']['score']['p2'] += 1
+            
+        room['game_state']['up_choise'] = None
+        room['game_state']['down_choise'] = None
 
     async def game_loop(self):
-        while True:
-            room = self.rooms[self.room_name]
-            await self.check_player_choise()
-            await self.game_logic()
-            await self.broadcast_game_end()
-            await asyncio.sleep(0.03)
+        try:
+            while True:
+                room = self.rooms[self.room_name]
+                await self.check_player_choise()
+                await self.game_logic()
+                
+                # Check if game has ended (someone reached 3 points)
+                if room['game_state']['score']['p1'] >= 3 or room['game_state']['score']['p2'] >= 3:
+                    await self.update_match_score(room['game_state']['score']['p1'], room['game_state']['score']['p2'])
+                    await self.broadcast_end_game(room['game_state'])
+                    break
+                
+                await self.broadcast_game_state()
+                await asyncio.sleep(0.03)
+        except Exception as e:
+            print(f"Error in game loop: {e}")

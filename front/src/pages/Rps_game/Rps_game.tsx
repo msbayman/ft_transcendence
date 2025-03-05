@@ -3,77 +3,134 @@ import { config } from "../../config";
 import { useNavigate } from "react-router-dom"
 import Cookies from "js-cookie";
 
-interface GameRemotProps {
-	id: string;
+interface GamePropsInterface {
+  id: string;
 }
 
-function Rps_game(id:GameRemotProps) {
+function Rps_game({ id }: GamePropsInterface) {
   const [userChoice, setUserChoice] = useState('');
-  // const [score, setScore] = useState(0);
-  const [computerChoice, setComputerChoice] = useState('');
+  const [opponentChoice, setOpponentChoice] = useState('');
   const [result, setResult] = useState('');
   const [isPlaying, setIsPlaying] = useState(false);
-  const [showUserWaiting, setShowUserWaiting] = useState(false);
-  const [showComputerWaiting, setShowComputerWaiting] = useState(false);
-  const [winner, setWinner] = useState(false);
+  const [waitingForOpponent, setWaitingForOpponent] = useState(false);
+  const [gameOver, setGameOver] = useState(false);
+  const [score, setScore] = useState({ p1: 0, p2: 0 });
   const { WS_HOST_URL } = config;
   const [socket, setSocket] = useState<WebSocket | null>(null);
+  const navigate = useNavigate();
 
-  const generateComputerChoice = (currentUserChoice: string) => {
-    const choices = ['rock', 'paper', 'scissor'];
-    const randomChoice = choices[Math.floor(Math.random() * 3)];
-    setComputerChoice(randomChoice);
-    checkResult(currentUserChoice, randomChoice);
-
-  };
-
+  // Initialize WebSocket connection
   useEffect(() => {
     const token = Cookies.get("access_token");
-    const id = 1
-		const ws = new WebSocket(`${WS_HOST_URL}/ws/rsp/${id}/?token=${token}`);
-    ws.onopen = () => {
-			setSocket(ws);
-		};
-  })
+    if (!token) {
+      navigate('/login'); // Redirect to login if no token
+      return;
+    }
 
-  const checkResult = (userChoice: string, computerChoice: string) => {
-    if (userChoice === computerChoice) {
-      setResult('draw');
-    } else if (
-      (userChoice === 'rock' && computerChoice === 'scissor') ||
-      (userChoice === 'paper' && computerChoice === 'rock') ||
-      (userChoice === 'scissor' && computerChoice === 'paper')
-    ) {
-      setResult('win');
-      // setScore(prevScore => prevScore + 1);
-      setWinner(true);
-    } else {
-      setResult('lose');
-      // setScore(prevScore => prevScore - 1);
-      setWinner(true);
+    const ws = new WebSocket(`${WS_HOST_URL}/ws/rsp/${id}/?token=${token}`);
+    
+    ws.onopen = () => {
+      console.log("WebSocket connection established");
+      setSocket(ws);
+    };
+
+    ws.onerror = (error) => {
+      console.error("WebSocket error:", error);
+    };
+
+    ws.onclose = () => {
+      console.log("WebSocket connection closed");
+    };
+
+    // Clean up on component unmount
+    return () => {
+      if (ws && ws.readyState === WebSocket.OPEN) {
+        ws.close();
+      }
+    };
+  }, [WS_HOST_URL, id, navigate]);
+
+  // Handle WebSocket messages
+  useEffect(() => {
+    if (!socket) return;
+
+    socket.onmessage = (event) => {
+      try {
+        const data = JSON.parse(event.data);
+        console.log("Received data:", data);
+
+        // Handle different message types
+        if (data.type === "error") {
+          console.error("Error:", data.message);
+          return;
+        }
+
+        if (data.type === "game_end") {
+          handleGameEnd(data.game_state);
+          navigate('/Overview')
+          return;
+        }
+
+        // Regular game state update
+        handleGameState(data);
+      } catch (error) {
+        console.error("Error parsing WebSocket data:", error);
+      }
+    };
+  }, [socket]);
+
+  // Handle game state updates
+  const handleGameState = (gameState: any) => {
+    // Update scores if available
+    if (gameState.score) {
+      setScore(gameState.score);
+    }
+
+    // Check for round result based on choices
+    if (gameState.up_choise && gameState.down_choise) {
+      setOpponentChoice(gameState.down_choise); // Assuming player is always 'up'
+      setWaitingForOpponent(false);
+      
+      // Determine round result
+      if (gameState.winner) {
+        const isPlayerWinner = gameState.winner === Cookies.get("username");
+        setResult(isPlayerWinner ? "win" : "lose");
+      } else if (gameState.up_choise === gameState.down_choise) {
+        setResult("draw");
+      }
+      
+      setIsPlaying(false);
     }
   };
 
-  const handleUserChoice = (choice: string) => {
-    if (isPlaying) return;
-
-    setIsPlaying(true);
-    socket?.send(JSON.stringify({ "choise": choice}));
-    setUserChoice(choice);
-    setResult('');
-    setComputerChoice('');
-
-    // Show computer "thinking" animation
-    setShowComputerWaiting(true);
-
-    // Simulate computer thinking time
+  // Handle game end
+  const handleGameEnd = (gameState: any) => {
+    setGameOver(true);
+    setScore(gameState.score);
+    
+    const isPlayerWinner = gameState.winner === Cookies.get("username");
+    setResult(isPlayerWinner ? "win" : "lose");
+    
+    // Redirect after game end
     setTimeout(() => {
-      setShowComputerWaiting(false);
-      generateComputerChoice(choice);
-      setIsPlaying(false);
-    }, 2000);
+      navigate("/Overview");
+    }, 3000);
   };
 
+  // Send player's choice to the server
+  const handleUserChoice = (choice: string) => {
+    if (isPlaying || !socket || socket.readyState !== WebSocket.OPEN) return;
+
+    setIsPlaying(true);
+    setWaitingForOpponent(true);
+    setUserChoice(choice);
+    setResult('');
+    
+    // Send choice to server
+    socket.send(JSON.stringify({ "choise": choice }));
+  };
+
+  // Waiting animation component
   const WaitingDots = () => (
     <div className="flex flex-row gap-3">
       <div className="w-4 h-4 rounded-full bg-white animate-bounce"></div>
@@ -85,17 +142,17 @@ function Rps_game(id:GameRemotProps) {
 
   const choice1 = 'z-0 transition-all duration-200 hover:scale-125 cursor-pointer';
 
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (winner)
-      setTimeout(() => {
-        navigate("/Overview");
-      }, 2000);
-  }, [winner]);
-
   return (
     <div className="bg-[url(background.svg)] bg-cover bg-center h-screen w-full flex justify-center items-center">
+      {/* Score display */}
+      <div className="absolute top-8 left-0 right-0 flex justify-center">
+        <div className="bg-black bg-opacity-70 text-white px-6 py-3 rounded-lg flex gap-8">
+          <div>You: {score.p1}</div>
+          <div>Opponent: {score.p2}</div>
+        </div>
+      </div>
+
+      {/* Result message */}
       <div className="z-50 flex justify-start items-center">
         <h2
           className={
@@ -106,7 +163,7 @@ function Rps_game(id:GameRemotProps) {
         >
           {result === "win" && "YOU WIN"}
           {result === "lose" && "YOU LOSE"}
-          {result === "draw" && "AGAIN"}
+          {result === "draw" && "DRAW"}
         </h2>
       </div>
 
@@ -119,16 +176,14 @@ function Rps_game(id:GameRemotProps) {
           <img src="bg-picture.svg" alt="background" />
         </div>
 
+        {/* Player's choices */}
         <div className="flex items-end justify-center gap-[4rem] relative left-5 top-[15rem]">
           <div className="relative">
             <img
               className={`${choice1} ${isPlaying ? 'pointer-events-none opacity-50' : ''}`}
               src="RPS/Rock.svg"
               alt="ROCK"
-              onClick={() => {
-                setWinner(false);
-                handleUserChoice("rock")
-              }}
+              onClick={() => handleUserChoice("rock")}
             />
           </div>
 
@@ -137,10 +192,7 @@ function Rps_game(id:GameRemotProps) {
               className={`${choice1} ${isPlaying ? 'pointer-events-none opacity-50' : ''}`}
               src="RPS/Paper.svg"
               alt="PAPER"
-              onClick={() => {
-                setWinner(false);
-                handleUserChoice("paper")
-              }}
+              onClick={() => handleUserChoice("paper")}
             />
           </div>
 
@@ -149,26 +201,24 @@ function Rps_game(id:GameRemotProps) {
               className={`${choice1} ${isPlaying ? 'pointer-events-none opacity-50' : ''}`}
               src="RPS/Scissors.svg"
               alt="SCISSORS"
-              onClick={() => {
-                setWinner(false);
-                handleUserChoice("scissor")
-              }}
+              onClick={() => handleUserChoice("scissor")}
             />
           </div>
         </div>
       </div>
 
-      <div className={!winner ? "absolute" : "absolute blur-md"}>
-        <div className="flex flex-row items-center justify-evenly">
-          {/* Computer side */}
+      {/* Game display area */}
+      <div className={!gameOver ? "absolute" : "absolute blur-md"}>
+        <div className="flex flex-row items-center justify-evenly gap-16">
+          {/* Opponent side */}
           <div className="flex flex-col items-center gap-4">
-            {showComputerWaiting ? (
+            {waitingForOpponent ? (
               <WaitingDots />
             ) : (
-              computerChoice && (
+              opponentChoice && (
                 <img
-                  src={`Tools/L-${computerChoice.charAt(0).toUpperCase() + computerChoice.slice(1)}.svg`}
-                  alt={computerChoice.toUpperCase()}
+                  src={`Tools/L-${opponentChoice.charAt(0).toUpperCase() + opponentChoice.slice(1)}.svg`}
+                  alt={opponentChoice.toUpperCase()}
                 />
               )
             )}
@@ -176,15 +226,11 @@ function Rps_game(id:GameRemotProps) {
 
           {/* User side */}
           <div className="flex flex-col items-center gap-4">
-            {showUserWaiting ? (
-              <WaitingDots />
-            ) : (
-              userChoice && (
-                <img
-                  src={`Tools/R-${userChoice.charAt(0).toUpperCase() + userChoice.slice(1)}.svg`}
-                  alt={userChoice.toUpperCase()}
-                />
-              )
+            {userChoice && (
+              <img
+                src={`Tools/R-${userChoice.charAt(0).toUpperCase() + userChoice.slice(1)}.svg`}
+                alt={userChoice.toUpperCase()}
+              />
             )}
           </div>
         </div>
