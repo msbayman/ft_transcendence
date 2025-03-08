@@ -163,7 +163,7 @@ function Rps_game({ id }: GamePropsInterface) {
     }
 
     setTimeout(() => {
-      // navigate("/Overview");
+      navigate("/Overview");
     }, 3000);
   };
 
@@ -220,15 +220,21 @@ function Rps_game({ id }: GamePropsInterface) {
 
       {/* Result message */}
       <div className="z-50 flex justify-start items-center">
-        <h2
-          className={
-            game_state.winner ?
-              "text-white absolute top-96 font-luckiest text-6xl rounded-md" :
-              "hidden"
-          } // TODO : this is not working
-        >
-          {game_state.winner == PlayerInstance.playerData?.username ? "You win!" : "You lose!"}
-        </h2>
+        {result === "draw" ?
+          <h2 className="text-white absolute top-96 font-luckiest text-6xl rounded-md"// TODO : this is not working
+          >
+            Tie !!
+          </h2> :
+          <h2
+            className={
+              game_state.winner ?
+                "text-white absolute top-96 font-luckiest text-6xl rounded-md" :
+                "hidden"
+            } // TODO : this is not working
+          >
+            {game_state.winner == PlayerInstance.playerData?.username ? "You win!" : "You lose!"}
+          </h2>
+        }
       </div>
 
       <div className="flex justify-center items-center">
