@@ -27,7 +27,7 @@ function Rps_game({ id }: GamePropsInterface) {
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [waitingForOpponent, setWaitingForOpponent] = useState<boolean>(false);
   const [gameOver, setGameOver] = useState<boolean>(false);
-  const [score, setScore] = useState<{ p1: number; p2: number }>({ p1: 0, p2: 0 });
+
   const { WS_HOST_URL } = config;
   const [socket, setSocket] = useState<WebSocket | null>(null);
   const navigate = useNavigate();
@@ -127,13 +127,6 @@ function Rps_game({ id }: GamePropsInterface) {
     // Extract the actual game state from the message
     const actualGameState = gameState.game_state || gameState;
 
-
-
-    // Update scores if available
-    if (actualGameState.score) {
-      setScore(actualGameState.score);
-    }
-
     // Check for round result based on choices
     if (actualGameState.right_choice && actualGameState.left_choice) {
 
@@ -152,7 +145,7 @@ function Rps_game({ id }: GamePropsInterface) {
   const handleGameEnd = (gameState: GameState) => {
 
     setGameOver(true);
-    setScore(gameState.score);
+
     if (gameState.draw) {
       setResult("draw")
     }
@@ -210,14 +203,6 @@ function Rps_game({ id }: GamePropsInterface) {
 
   return (
     <div className="bg-[url(background.svg)] bg-cover bg-center h-screen w-full flex justify-center items-center">
-      {/* Score display */}
-      <div className="absolute top-8 left-0 right-0 flex justify-center">
-        <div className="bg-black bg-opacity-70 text-white px-6 py-3 rounded-lg flex gap-8">
-          <div>{game_state?.right_player}: {game_state?.score.p1}</div>
-          <div>{game_state?.left_player}: {game_state?.score.p2}</div>
-        </div>
-      </div>
-
       {/* Result message */}
       <div className="z-50 flex justify-start items-center">
         {result === "draw" ?
@@ -261,6 +246,32 @@ function Rps_game({ id }: GamePropsInterface) {
               />
             </div>
           ))}
+        </div>
+      </div>
+
+      <div className="absolute text-6xl top-[1010px] text-white z-10 font-luckiest">
+        {game_state.score.p1} - {game_state.score.p2}
+      </div>
+
+      <div className="absolute flex justify-center top-[250px] w-full px-4 gap-16">
+        <div className="relative bg-[url('/name_hold_game.svg')] h-[70px] w-[250px] bg-cover bg-center transform scale-x-[-1] flex justify-center items-center">
+          <p className="absolute text-white text-4xl transform scale-x-[-1] font-luckiest right-[25px]">
+            {game_state?.right_player}
+          </p>
+          <p className="absolute text-black text-2xl transform scale-x-[-1] font-luckiest left-[9px] bottom-[10px]">
+            NoN
+          </p>
+        </div>
+        <div className="flex justify-items-center">
+          <img src="/logo_game.svg" alt="logo" />
+        </div>
+        <div className="relative bg-[url('/name_hold_game.svg')] h-[70px] w-[250px] bg-cover bg-center flex justify-center items-center">
+          <p className="absolute text-white text-4xl font-luckiest right-[25px]">
+            {game_state?.left_player}
+          </p>
+          <p className="absolute text-black text-2xl font-luckiest left-[9px] bottom-[10px]">
+            NoN
+          </p>
         </div>
       </div>
 
