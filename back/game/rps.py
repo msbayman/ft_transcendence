@@ -74,9 +74,12 @@ class Rps(AsyncWebsocketConsumer):
                 if self.match.player1 == self.user.username:
                     if room['players']['right'] is None:
                         room['players']['right'] = self.user
+                        room['game_state']['right_player'] = self.user.username
+
                 elif self.match.player2 == self.user.username:
                     if room['players']['left'] is None:
                         room['players']['left'] = self.user
+                        room['game_state']['left_player'] = self.user.username
 
                 # Check if game is already completed
                 if self.match.status == 2:
@@ -90,6 +93,7 @@ class Rps(AsyncWebsocketConsumer):
 
             # Start game loop if both players are present
             if room['players']['right'] and room['players']['left']:
+                await self.broadcast_game_state(room['game_state'])
                 self.game_task = asyncio.create_task(self.game_loop())
 
         except Exception as e:
@@ -230,10 +234,9 @@ class Rps(AsyncWebsocketConsumer):
             # Set player choice based on position
             if room['players']['right'] == self.user:
                 room['game_state']['right_choice'] = data['choice']
-                room['game_state']['right_player'] = self.user.username
+                
             if room['players']['left'] == self.user:
                 room['game_state']['left_choice'] = data['choice']
-                room['game_state']['left_player'] = self.user.username
                 
             # Broadcast game state if both players have made a choice
             
@@ -329,6 +332,8 @@ class Rps(AsyncWebsocketConsumer):
                 # Check if game has ended (someone reached 3 points)
                 if room['game_state']['score']['p1'] >= 3 or room['game_state']['score']['p2'] >= 3:
                     await self.update_match_score(room['game_state']['score']['p1'], room['game_state']['score']['p2'])
+                    room['game_state']['winner'] = room['players']['right'].username if room['game_state']['score']['p1'] > room['game_state']['score']['p2'] else room['players']['left'].username
+
                     await self.broadcast_end_game(room['game_state'])
                     break
                 # elif room['game_state']['draw']:
