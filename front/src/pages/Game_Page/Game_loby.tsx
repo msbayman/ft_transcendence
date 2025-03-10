@@ -34,7 +34,7 @@ function Game_Loby() {
   const [startGame, setStartGame] = useState(false);
   const location = useLocation();
   const { selectedIds } = location.state || {};
-  const { WS_HOST_URL } = config;
+  const {  WS_HOST_URL } = config;
 
   useEffect(() => {
     const matchmakingSocket = new WebSocket(

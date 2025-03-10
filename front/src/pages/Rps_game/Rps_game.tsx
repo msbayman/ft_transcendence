@@ -59,33 +59,20 @@ function Rps_game({ id }: GamePropsInterface) {
 
 
     ws.onopen = () => {
-      console.log("WebSocket connection established");
       setSocket(ws);
     };
 
-    ws.onerror = (error) => {
-      console.error("WebSocket error:", error);
-      // Optionally show an error notification to the user
-      alert("Connection error. Please try again.");
-      navigate('/Overview');
-    };
-
     ws.onmessage = (event) => {
-      try {
         const data = JSON.parse(event.data);
-        // const gameState: GameState = data.game_state;
-        console.log("Received data-", data.type, " :", data);
 
         // if (PlayerInstance.playerData?.username === data.game_state.left_player)
         // if (data.)
 
         // Handle different message types
         if (data.type === "error") {
-          console.error("Server Error:", data.message);
           alert(data.message || "An error occurred");
           return;
         }
-        console.log("Received data-----> :", data.game_state);
         setGameState(() => ({
           right_choice: data.game_state.right_choice,
           left_choice: data.game_state.left_choice,
@@ -103,24 +90,13 @@ function Rps_game({ id }: GamePropsInterface) {
 
         // Regular game state update
         handleGameState(data);
-      } catch (error) {
-        console.error("Error parsing WebSocket data:", error);
-      }
     }
-
-    // Clean up on component unmount
-
-
     return () => {
       if (ws && ws.readyState === WebSocket.OPEN) {
         ws.close();
       }
     };
   }, []);
-
-  useEffect(() => {
-    console.log("ana zamel youssef --->  ", game_state.winner);
-  }, [game_state])
 
   // Handle game state updates
   const handleGameState = (gameState: any) => {
@@ -168,7 +144,6 @@ function Rps_game({ id }: GamePropsInterface) {
 
     const validChoices = ['rock', 'paper', 'scissor'];
     if (!validChoices.includes(choice)) {
-      console.error("Invalid choice");
       return;
     }
 
@@ -202,7 +177,7 @@ function Rps_game({ id }: GamePropsInterface) {
 
 
   return (
-    <div className="bg-[url(background.svg)] bg-cover bg-center h-screen w-full flex justify-center items-center">
+    <div className="bg-[url(/background.svg)] bg-cover bg-center h-screen w-full flex justify-center items-center">
       {/* Result message */}
       <div className="z-50 flex justify-start items-center">
         {result === "draw" ?
@@ -232,7 +207,7 @@ function Rps_game({ id }: GamePropsInterface) {
         </div>
 
         {/* Player's choices */}
-        <div className="flex items-end justify-center gap-[4rem] relative left-5 top-[15rem]">
+        <div className="flex items-end justify-center gap-[4rem] relative left-5 top-[15.5rem]">
           {['rock', 'paper', 'scissor'].map((choice) => (
             <div
               key={choice}
@@ -249,24 +224,23 @@ function Rps_game({ id }: GamePropsInterface) {
         </div>
       </div>
 
-      <div className="absolute text-6xl top-[1010px] text-white z-10 font-luckiest">
+      <div className="absolute text-6xl top-[1045px] text-white z-10 font-luckiest">
         {game_state.score.p1} - {game_state.score.p2}
       </div>
 
-      <div className="absolute flex justify-center top-[250px] w-full px-4 gap-16">
+      <div className="absolute flex justify-center top-[270px] w-full px-4 gap-16">
         <div className="relative bg-[url('/name_hold_game.svg')] h-[70px] w-[250px] bg-cover bg-center transform scale-x-[-1] flex justify-center items-center">
-          <p className="absolute text-white text-4xl transform scale-x-[-1] font-luckiest right-[25px]">
+          <p className="absolute text-white text-2xl transform scale-x-[-1] font-luckiest right-[25px]">
             {game_state?.right_player}
           </p>
           <p className="absolute text-black text-2xl transform scale-x-[-1] font-luckiest left-[9px] bottom-[10px]">
             NoN
           </p>
         </div>
-        <div className="flex justify-items-center">
-          <img src="/logo_game.svg" alt="logo" />
+        <div className="w-[100px]">
         </div>
         <div className="relative bg-[url('/name_hold_game.svg')] h-[70px] w-[250px] bg-cover bg-center flex justify-center items-center">
-          <p className="absolute text-white text-4xl font-luckiest right-[25px]">
+          <p className="absolute text-white text-2xl font-luckiest right-[25px]">
             {game_state?.left_player}
           </p>
           <p className="absolute text-black text-2xl font-luckiest left-[9px] bottom-[10px]">

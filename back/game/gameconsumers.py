@@ -60,7 +60,6 @@ class GameConsumer(AsyncWebsocketConsumer):
             if not self.match:
                 await self.close()
                 return
-
             if self.match.player1 == self.user.username:
                 if room['players']['up'] is None:
                     room['players']['up'] = self.user

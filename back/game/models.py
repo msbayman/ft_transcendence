@@ -7,7 +7,7 @@ from django.db import models
 # }
 
 class Match(models.Model):
-    type = models.BooleanField(default=False)
+    game_type = models.BooleanField(default=False)
     player1 = models.CharField(max_length=100)
     player2 = models.CharField(max_length=100)
     player1_score = models.PositiveIntegerField(default=0)

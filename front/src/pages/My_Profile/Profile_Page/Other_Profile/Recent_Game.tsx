@@ -12,6 +12,7 @@ export const Recent_Game = ({ other_data }: data_interface) => {
   const token = Cookies.get("access_token");
   const { HOST_URL } = config;
   interface Match {
+    game_type:boolean;
     player1: string;
     player2: string;
     player1_score: number;
@@ -80,6 +81,9 @@ export const Recent_Game = ({ other_data }: data_interface) => {
     return "state_of_match";
   };
 
+  const type_of_game = (game_type:boolean):string => {
+    return (game_type === false ? "Ping Pong" : "RPS")
+  }
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleDateString("en-US", {
@@ -117,6 +121,7 @@ export const Recent_Game = ({ other_data }: data_interface) => {
                     field.player1,
                     field.player2
                   )}
+                  <div className="text-white font-alexandria text-lg pb-[18px]">{type_of_game(field.game_type)}</div>
                   <div className="text-white font-alexandria text-lg pb-[18px]">
                     {formatDate(field.date)}
                   </div>

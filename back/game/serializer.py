@@ -18,6 +18,7 @@ class MatchHistorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Match
         fields = [
+            'game_type',
             'player1',
             'player2',
             'player1_score',

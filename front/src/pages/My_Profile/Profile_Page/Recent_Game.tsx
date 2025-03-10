@@ -7,6 +7,7 @@ export const Recent_Game = () => {
   const token = Cookies.get("access_token");
 
   interface Match {
+    game_type: boolean;
     player1: string;
     player2: string;
     player1_score: number;
@@ -57,6 +58,9 @@ export const Recent_Game = () => {
       return player2_score > player1_score ? "WIN" : "LOSE";
     }
   };
+  const type_of_game = (game_type:boolean):string => {
+    return (game_type === false ? "Ping Pong" : "RPS")
+  }
   const win_or_lose = (
     player1_score: number,
     player2_score: number,
@@ -98,25 +102,10 @@ export const Recent_Game = () => {
           {historyGame.length > 0 ? (
             historyGame.map((field, index) => (
               <div key={index} className="inside_the_match_history">
-                <div
-                  className={`${win_or_lose(
-                    field.player1_score,
-                    field.player2_score,
-                    username,
-                    field.player1,
-                    field.player2
-                  )} pt-[30px] pr-[30px] pl-[30px] text-center flex flex-row w-[100%] gap-3 justify-between items-center`}
-                >
-                  {win_or_lose_state(
-                    field.player1_score,
-                    field.player2_score,
-                    username,
-                    field.player1,
-                    field.player2
-                  )}
-                  <div className="text-white font-alexandria text-lg pb-[18px]">
-                    {formatDate(field.date)}
-                  </div>
+                <div className={`${win_or_lose( field.player1_score, field.player2_score, username, field.player1, field.player2 )} pt-[30px] pr-[30px] pl-[30px] text-center flex flex-row w-[100%] gap-3 justify-between items-center`}>
+                  {win_or_lose_state(field.player1_score,field.player2_score,username,field.player1,field.player2)}
+                  <div className="text-white font-alexandria text-lg pb-[18px]">{type_of_game(field.game_type)}</div>
+                  <div className="text-white font-alexandria text-lg pb-[18px]">{formatDate(field.date)}</div>
                 </div>
                 <div className="who_played" key={index}>
                   <div style={{ width: "150px", fontWeight: "600" }}>

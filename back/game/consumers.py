@@ -69,7 +69,7 @@ class ChalleConsumer(AsyncWebsocketConsumer):
     @database_sync_to_async
     def get_player_data(self, player):
         return {
-            "username": player.full_name,
+            "username": player.username,
             "email": player.email,
             "profile_image": player.profile_image.url if player.profile_image else None,
             "points": player.points,
@@ -201,10 +201,11 @@ class SgMatchMakingConsumer(AsyncWebsocketConsumer):
             match_tb = await self.create_match_in_db(ply1, ply2)
             await self.start_game(ply1, ply2, match_tb)
 
+
     @database_sync_to_async
     def create_match_in_db(self, player1, player2):
         with transaction.atomic():
-            return Match.objects.create(player1=player1, player2=player2)
+            return Match.objects.create(game_type=True, player1=player1, player2=player2)
 
     async def start_game(self, player1, player2, match):
         p1 = await self.get_player_data(player1)

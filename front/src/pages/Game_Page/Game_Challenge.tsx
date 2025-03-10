@@ -76,24 +76,25 @@ function Game_challeng() {
 
     if (matchData) {
         const opponent: PlayerData = matchData.player1.username === mydata.playerData?.username 
-            ? matchData.player2 
-            : matchData.player1;
+                ? matchData.player2 
+                : matchData.player1;
         return (
-            <div className="flex justify-center items-center h-screen w-screen bg-[url('/background.png')] bg-cover bg-center bg-no-repeat">
-                <Player_Profil mydata={mydata.playerData || undefined} />
-                <img src="/vs_img.svg" alt="vs tag" />
-                <Player_Profil mydata={opponent} />
-            </div>
-        );
-    }
-
-    return (
-        <div className="flex justify-center items-center h-screen w-screen bg-[url('/background.png')] bg-cover bg-center bg-no-repeat">
+          <div className="flex justify-center items-center h-screen w-screen bg-[url('/background.png')] bg-cover bg-center bg-no-repeat">
             <Player_Profil mydata={mydata.playerData || undefined} />
             <img src="/vs_img.svg" alt="vs tag" />
-            <Player_Profil mydata={undefined} />
+    
+            < Player_Profil mydata={opponent} />
+          </div>
+        );
+      }
+    
+      return (
+        <div className="flex justify-center items-center h-screen w-screen bg-[url('/background.png')] bg-cover bg-center bg-no-repeat">
+          <Player_Profil mydata={mydata.playerData || undefined} />
+          <img src="/vs_img.svg" alt="vs tag" />
+          <Player_Profil mydata={undefined} />
         </div>
-    );
+      );
 }
 
 

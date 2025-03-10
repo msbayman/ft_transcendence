@@ -130,6 +130,7 @@ class Rps(AsyncWebsocketConsumer):
                 match = Match.objects.select_for_update().get(id=self.room_name)
                 match.player1_score = score1
                 match.player2_score = score2
+                # match.game_type = True
                 if match.player1_score == 3 or match.player2_score == 3:
                     match.status = 2
                 match.save()
